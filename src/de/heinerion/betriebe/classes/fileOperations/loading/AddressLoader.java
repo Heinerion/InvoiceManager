@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.classes.fileOperations.loading;
 
+import de.heinerion.betriebe.models.Address;
+
 import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import de.heinerion.betriebe.models.Address;
 
 public final class AddressLoader extends AbstractTextFileLoader<Address> {
   private static final String APARTMENT = "Apartment";
@@ -30,18 +30,20 @@ public final class AddressLoader extends AbstractTextFileLoader<Address> {
    */
   @Override
   protected Pattern getPattern() {
-    final Pattern addressFileName = Pattern.compile(".*\\.address$");
-    return addressFileName;
+    return Pattern.compile(".*\\.address$");
   }
 
   @Override
   protected Address parse(Map<String, String> attributes) {
-    final Address result = new Address(attributes.get(RECIPIENT),
-        attributes.get(COMPANY), attributes.get(DISTRICT),
-        attributes.get(STREET), attributes.get(NUMBER),
-        attributes.get(APARTMENT), attributes.get(POSTALCODE),
-        attributes.get(LOCATION));
+    String recipient = attributes.get(RECIPIENT);
+    String company = attributes.get(COMPANY);
+    String district = attributes.get(DISTRICT);
+    String street = attributes.get(STREET);
+    String number = attributes.get(NUMBER);
+    String apartment = attributes.get(APARTMENT);
+    String postalCode = attributes.get(POSTALCODE);
+    String location = attributes.get(LOCATION);
 
-    return result;
+    return new Address(recipient, company, district, street, number, apartment, postalCode, location);
   }
 }

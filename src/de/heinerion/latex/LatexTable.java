@@ -1,11 +1,11 @@
 package de.heinerion.latex;
 
+import de.heinerion.betriebe.classes.fileOperations.Syntax;
+import de.heinerion.betriebe.data.Constants;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import de.heinerion.betriebe.classes.fileOperations.Syntax;
-import de.heinerion.betriebe.data.Constants;
 
 public final class LatexTable extends AbstractLatexContent {
   private static final String TABULAR = "tabular";
@@ -184,8 +184,7 @@ public final class LatexTable extends AbstractLatexContent {
     elements.add(indent(this.content));
     elements.add(Syntax.end(TABULAR));
 
-    final String result = String.join(Constants.NEWLINE, elements);
-    return result;
+    return String.join(Constants.NEWLINE, elements);
   }
 
   private class Header {

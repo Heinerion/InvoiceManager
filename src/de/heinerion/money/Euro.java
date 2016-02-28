@@ -26,8 +26,7 @@ public final class Euro extends AbstractMoney {
 
   public static Euro parse(String text) {
     final double theValue = parseValue(text);
-    final Euro result = new Euro(theValue);
-    return result;
+    return new Euro(theValue);
   }
 
   @Override

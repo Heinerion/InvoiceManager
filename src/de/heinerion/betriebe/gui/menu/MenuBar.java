@@ -1,10 +1,9 @@
 package de.heinerion.betriebe.gui.menu;
 
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Session;
+
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public final class MenuBar extends JMenuBar {
@@ -37,7 +36,6 @@ public final class MenuBar extends JMenuBar {
   }
 
   private RechnungFrame getFrame() {
-    final RechnungFrame result = Session.getActiveFrame();
-    return result;
+    return Session.getActiveFrame();
   }
 }

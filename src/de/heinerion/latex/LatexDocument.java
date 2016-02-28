@@ -1,13 +1,9 @@
 package de.heinerion.latex;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import de.heinerion.betriebe.classes.fileOperations.Syntax;
 import de.heinerion.betriebe.data.Constants;
+
+import java.util.*;
 
 public class LatexDocument {
   private static final String BEGIN = "\\begin{document}";
@@ -90,8 +86,7 @@ public class LatexDocument {
 
     final String tokenlist = String.join(DELIM, token);
 
-    final String result = "\\hypersetup" + Syntax.embrace(tokenlist);
-    return result;
+    return "\\hypersetup" + Syntax.embrace(tokenlist);
   }
 
   private String buildPackages() {
@@ -100,8 +95,7 @@ public class LatexDocument {
       declarations.add(aPackage.toString());
     }
 
-    final String packages = String.join(this.delimiter, declarations);
-    return packages;
+    return String.join(this.delimiter, declarations);
   }
 
   /** Wird unmittelbar nach dem Inhalt ausgegeben */
@@ -190,7 +184,6 @@ public class LatexDocument {
     components.add(this.buildPostContent());
     components.add(END);
 
-    final String finalContent = String.join(this.delimiter, components);
-    return finalContent;
+    return String.join(this.delimiter, components);
   }
 }

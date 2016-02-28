@@ -1,8 +1,8 @@
 package de.heinerion.money;
 
-import java.text.DecimalFormat;
-
 import de.heinerion.betriebe.tools.ParsingTools;
+
+import java.text.DecimalFormat;
 
 public abstract class AbstractMoney implements Money, Comparable<Money> {
   private static DecimalFormat df = new DecimalFormat(",##0.00");
@@ -40,8 +40,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
   }
 
   protected static final double parseValue(String input) {
-    final double newValue = ParsingTools.parseDouble(input);
-    return newValue;
+    return ParsingTools.parseDouble(input);
   }
 
   @Override

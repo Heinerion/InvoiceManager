@@ -1,12 +1,12 @@
 package de.heinerion.betriebe.classes.fileOperations.loading;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public final class LoadingManager implements LoadListener, LoadListenable {
   // TODO Priorität: Dokumente laden (alte Rechnungen)
@@ -36,7 +36,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     }
 
     if (this.loaders.get(clazz) == null) {
-      this.loaders.put(clazz, new ArrayList<Loader<? extends Loadable>>());
+      this.loaders.put(clazz, new ArrayList<>());
     }
 
     final List<Loader<? extends Loadable>> loadersForClass = this.loaders
@@ -58,8 +58,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   }
 
   public List<Loadable> getResults(Class<? extends Loadable> clazz) {
-    final List<Loadable> result = this.results.get(clazz);
-    return result;
+    return this.results.get(clazz);
   }
 
   public void init() {

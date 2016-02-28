@@ -1,14 +1,13 @@
 package de.heinerion.betriebe.classes.fileOperations.loading;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.regex.Pattern;
-
+import de.heinerion.betriebe.classes.data.RechnungData;
+import de.heinerion.betriebe.tools.ParsingTools;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
-import de.heinerion.betriebe.classes.data.RechnungData;
-import de.heinerion.betriebe.tools.ParsingTools;
+import java.io.File;
+import java.io.IOException;
+import java.util.regex.Pattern;
 
 public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
 
@@ -23,8 +22,7 @@ public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
 
   @Override
   protected Pattern getPattern() {
-    final Pattern pdfFileName = Pattern.compile(".*\\.pdf$");
-    return pdfFileName;
+    return Pattern.compile(".*\\.pdf$");
   }
 
   @Override

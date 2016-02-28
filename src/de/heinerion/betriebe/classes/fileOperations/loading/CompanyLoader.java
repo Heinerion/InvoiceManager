@@ -49,32 +49,56 @@ public final class CompanyLoader extends AbstractTextFileLoader<Company> {
    */
   @Override
   protected Pattern getPattern() {
-    final Pattern addressFileName = Pattern.compile(".*\\.company$");
-    return addressFileName;
+    return Pattern.compile(".*\\.company$");
   }
 
   @Override
   protected Loadable parse(Map<String, String> attributes) {
-    // TODO String rausziehen?
+    final Address address = getAddress(attributes);
+    final double valueAddedTax = getValueAddedTax(attributes);
+    final double wagesPerHour = getWagesPerHour(attributes);
+    final Account bankAccount = getAccount(attributes);
 
-    final Address address = new Address(attributes.get(ADDRESS + DOT
-        + RECIPIENT), attributes.get(ADDRESS + DOT + COMPANY),
-        attributes.get(ADDRESS + DOT + DISTRICT), attributes.get(ADDRESS + DOT
-            + STREET), attributes.get(ADDRESS + DOT + NUMBER),
-            attributes.get(ADDRESS + DOT + APARTMENT), attributes.get(ADDRESS + DOT
-                + POSTALCODE), attributes.get(ADDRESS + DOT + LOCATION));
-    final double valueAddedTax = Double.parseDouble(attributes
+    final String descriptiveName = attributes.get(DESCRIPTIVE_NAME);
+    final String officialName = attributes.get(OFFICIAL_NAME);
+    final String signer = attributes.get(SIGNER);
+    final String phoneNumber = attributes.get(PHONE_NUMBER);
+    final String taxNumber = attributes.get(TAX_NUMBER);
+
+    return new Company(descriptiveName, officialName, address, signer, phoneNumber, taxNumber, valueAddedTax,
+        wagesPerHour, bankAccount);
+  }
+
+  private Address getAddress(Map<String, String> attributes) {
+    String recipient = getAddressPart(attributes, RECIPIENT);
+    String company = getAddressPart(attributes, COMPANY);
+    String district = getAddressPart(attributes, DISTRICT);
+    String street = getAddressPart(attributes, STREET);
+    String number = getAddressPart(attributes, NUMBER);
+    String apartment = getAddressPart(attributes, APARTMENT);
+    String postalCode = getAddressPart(attributes, POSTALCODE);
+    String location = getAddressPart(attributes, LOCATION);
+
+    return new Address(recipient, company, district, street, number, apartment, postalCode, location);
+  }
+
+  private String getAddressPart(Map<String, String> attributes, String part) {
+    return attributes.get(ADDRESS + DOT + part);
+  }
+
+  private double getValueAddedTax(Map<String, String> attributes) {
+    return Double.parseDouble(attributes
         .get(VALUE_ADDED_TAX));
-    final double wagesPerHour = Double.parseDouble(attributes
-        .get(WAGES_PER_HOUR));
-    final Account bankAccount = new Account(
-        attributes.get(ACCOUNT + DOT + NAME), attributes.get(ACCOUNT + DOT
-            + BIC), attributes.get(ACCOUNT + DOT + IBAN));
-    final Company result = new Company(attributes.get(DESCRIPTIVE_NAME),
-        attributes.get(OFFICIAL_NAME), address, attributes.get(SIGNER),
-        attributes.get(PHONE_NUMBER), attributes.get(TAX_NUMBER),
-        valueAddedTax, wagesPerHour, bankAccount);
+  }
 
-    return result;
+  private double getWagesPerHour(Map<String, String> attributes) {
+    return Double.parseDouble(attributes
+        .get(WAGES_PER_HOUR));
+  }
+
+  private Account getAccount(Map<String, String> attributes) {
+    return new Account(
+        attributes.get(ACCOUNT + DOT + NAME), attributes.get(ACCOUNT + DOT
+        + BIC), attributes.get(ACCOUNT + DOT + IBAN));
   }
 }

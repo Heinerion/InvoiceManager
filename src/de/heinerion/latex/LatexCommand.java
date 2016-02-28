@@ -31,7 +31,6 @@ public final class LatexCommand {
     final String argName = Syntax.embrace(name);
     final String argValue = Syntax.embrace(value);
 
-    final String result = command + argName + argValue;
-    return result;
+    return command + argName + argValue;
   }
 }

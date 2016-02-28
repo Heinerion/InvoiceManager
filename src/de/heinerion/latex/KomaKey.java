@@ -6,5 +6,5 @@ public enum KomaKey {
   @Override
   public String toString() {
     return this.name().toLowerCase();
-  };
+  }
 }

@@ -58,9 +58,6 @@ public abstract class AbstractLoader<T> implements Loader<T> {
     this.listFiles();
   }
 
-  /**
-   * @return
-   */
   private void listFiles() {
     if (this.loadDirectory.isDirectory()) {
       final File[] fileArray = this.loadDirectory.listFiles((File file) -> this

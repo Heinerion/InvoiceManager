@@ -22,7 +22,6 @@ public final class HyperCommand {
     final String argName = key;
     final String argValue = "{" + value + "}";
 
-    final String result = argName + "=" + argValue;
-    return result;
+    return argName + "=" + argValue;
   }
 }

@@ -61,8 +61,7 @@ public final class LatexGenerator {
     formatter.formatAddress(address);
     final List<String> out = formatter.getOutput();
 
-    final String addressAsText = String.join(Syntax.NEWLINE, out);
-    return addressAsText;
+    return String.join(Syntax.NEWLINE, out);
   }
 
   private static void generateTableContent(LatexTable table, Invoice invoice) {

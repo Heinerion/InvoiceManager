@@ -1,9 +1,9 @@
 package de.heinerion.latex;
 
+import de.heinerion.betriebe.classes.fileOperations.Syntax;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import de.heinerion.betriebe.classes.fileOperations.Syntax;
 
 public final class LatexScrLetter extends LatexDocument {
   private static final String LETTER = "letter";
@@ -32,17 +32,15 @@ public final class LatexScrLetter extends LatexDocument {
 
   @Override
   protected String buildPreContent() {
-    final String text = String.join(getDelimiter(), "\\begin{" + LETTER
+    return String.join(getDelimiter(), "\\begin{" + LETTER
         + Syntax.NEXT_GROUP + recipient + Syntax.END, "",
         "\\opening{}\\vspace{-25pt}");
-    return text;
   }
 
   @Override
   protected String buildPostContent() {
-    final String endText = String.join(getDelimiter(), "\\vfill",
+    return String.join(getDelimiter(), "\\vfill",
         "\\closing{}", "", Syntax.end(LETTER));
-    return endText;
   }
 
   @Override
@@ -53,7 +51,6 @@ public final class LatexScrLetter extends LatexDocument {
       vars.add(komaVar.toString());
     }
 
-    final String result = String.join("\n", vars);
-    return result;
+    return String.join("\n", vars);
   }
 }

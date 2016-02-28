@@ -4,20 +4,15 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionListener;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
+import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.tools.DimensionTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
-import de.heinerion.betriebe.tools.DimensionTool;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author heiner
@@ -92,9 +87,6 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
     }
   }
 
-  /**
-   * @param row
-   */
   private void deleteRow(int row) {
     String inhalte = "";
     for (int col = 0; col < this.tabelle.getColumnCount(); col++) {
