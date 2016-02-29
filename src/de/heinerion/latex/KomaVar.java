@@ -1,6 +1,6 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.classes.fileOperations.Syntax;
+import de.heinerion.betriebe.classes.file_operations.Syntax;
 
 public final class KomaVar {
   private static final String COMMAND = "\\setkomavar";

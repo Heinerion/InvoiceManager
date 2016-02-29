@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations;
+package de.heinerion.betriebe.classes.file_operations;
 
 import java.time.LocalDate;
 import java.time.Month;

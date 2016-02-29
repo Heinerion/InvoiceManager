@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations.io;
+package de.heinerion.betriebe.classes.file_operations.io;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

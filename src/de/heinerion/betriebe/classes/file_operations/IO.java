@@ -1,14 +1,15 @@
-package de.heinerion.betriebe.classes.fileOperations;
+package de.heinerion.betriebe.classes.file_operations;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.classes.data.TexVorlage;
-import de.heinerion.betriebe.classes.fileOperations.io.FileHandler;
-import de.heinerion.betriebe.classes.fileOperations.loading.*;
+import de.heinerion.betriebe.classes.file_operations.io.FileHandler;
+import de.heinerion.betriebe.classes.file_operations.loading.*;
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Pfade;
 import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
@@ -23,20 +24,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class IO implements LoadListener {
-  private static Logger logger = LogManager.getLogger(IO.class);
+  private static final Logger logger = LogManager.getLogger(IO.class);
 
   private static TextFileLoader loader = new TextFileLoader();
 
-  private static LoadingManager loadingManager;
+  private static final LoadingManager loadingManager = new LoadingManager();
   private static ProgressIndicator progress;
-  private static IO me = new IO();
 
   private String lastMessage;
 
   private IO() {
-    me = this;
-    loadingManager = new LoadingManager();
-    loadingManager.addListener(me);
+    loadingManager.addListener(this);
 
     final File companyFile = new File(PathTools.getPath(Company.class));
     final Loader<Company> companyLoader = new CompanyLoader(companyFile);
@@ -77,7 +75,9 @@ public final class IO implements LoadListener {
       }
     }
 
-    logger.info(anzahl + " Vorlagen geladen");
+    if (logger.isInfoEnabled()) {
+      logger.info(anzahl + " Vorlagen geladen");
+    }
 
     for (final TexVorlage template : vorlagen) {
       DataBase.addTexTemplate(null, template);
@@ -95,8 +95,7 @@ public final class IO implements LoadListener {
   /**
    * Lädt Vorlage von der Festplatte
    *
-   * @param company
-   *          Der Betrieb
+   * @param company Der Betrieb
    * @return Die Betriebsgebundene Vorlagenliste
    */
   private static List<Vorlage> ladeVorlagen(Company company) {
@@ -116,17 +115,15 @@ public final class IO implements LoadListener {
     try {
       loader.saveAddresses(addresses, Utilities.SYSTEM.getPath());
     } catch (final IOException e) {
-      throw new RuntimeException(e);
+      HeinerionException.rethrow(e);
     }
   }
 
   /**
    * Speichert übergebene Liste
    *
-   * @param liste
-   *          Die zu speichernde Liste
-   * @param pfad
-   *          Das Speicherziel
+   * @param liste Die zu speichernde Liste
+   * @param pfad  Das Speicherziel
    */
   private static void speichereListe(List<?> liste, String pfad) {
     FileHandler.writeObject(liste, pfad);
@@ -136,10 +133,8 @@ public final class IO implements LoadListener {
    * Schreibt die Vorlagen f&uuml;r Dienstleistungen betriebsabh&auml;ngig auf
    * die Festplatte
    *
-   * @param vorlagen
-   *          Rechnungsvorlagen
-   * @param company
-   *          Gibt den betroffenen Betrieb an
+   * @param vorlagen Rechnungsvorlagen
+   * @param company  Gibt den betroffenen Betrieb an
    * @see #speichereListe(List, String)
    */
   public static void speichereVorlagen(List<Vorlage> vorlagen, Company company) {

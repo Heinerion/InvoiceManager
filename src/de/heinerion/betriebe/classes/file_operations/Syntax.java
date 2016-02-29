@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations;
+package de.heinerion.betriebe.classes.file_operations;
 
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.tools.FormatTools;

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations;
+package de.heinerion.betriebe.classes.file_operations;
 
 import java.util.ArrayList;
 import java.util.List;

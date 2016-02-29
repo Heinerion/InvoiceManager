@@ -2,7 +2,7 @@
  * MainOperations.java
  * heiner 27.03.2012
  */
-package de.heinerion.betriebe.classes.fileOperations;
+package de.heinerion.betriebe.classes.file_operations;
 
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Constants;

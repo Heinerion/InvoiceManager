@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations.loading;
+package de.heinerion.betriebe.classes.file_operations.loading;
 
 public interface LoadListenable {
   void addListener(LoadListener listener);

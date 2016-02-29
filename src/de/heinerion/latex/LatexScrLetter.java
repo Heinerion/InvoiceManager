@@ -1,6 +1,6 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.classes.fileOperations.Syntax;
+import de.heinerion.betriebe.classes.file_operations.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -4,9 +4,9 @@
  */
 package de.heinerion.betriebe;
 
-import de.heinerion.betriebe.classes.fileOperations.IO;
-import de.heinerion.betriebe.classes.fileOperations.loading.JProgressBarIndicator;
-import de.heinerion.betriebe.classes.fileOperations.loading.ProgressIndicator;
+import de.heinerion.betriebe.classes.file_operations.IO;
+import de.heinerion.betriebe.classes.file_operations.loading.JProgressBarIndicator;
+import de.heinerion.betriebe.classes.file_operations.loading.ProgressIndicator;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.tools.gui.LookAndFeel;

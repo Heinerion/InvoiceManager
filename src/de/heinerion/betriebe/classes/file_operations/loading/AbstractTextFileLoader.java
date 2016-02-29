@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileOperations.loading;
+package de.heinerion.betriebe.classes.file_operations.loading;
 
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.loader.Reader;

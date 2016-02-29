@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.heinerion.betriebe.classes.fileOperations.MainOperations;
+import de.heinerion.betriebe.classes.file_operations.MainOperations;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;

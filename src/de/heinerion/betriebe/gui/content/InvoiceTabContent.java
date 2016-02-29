@@ -20,7 +20,7 @@ import javax.swing.table.TableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.heinerion.betriebe.classes.fileOperations.IO;
+import de.heinerion.betriebe.classes.file_operations.IO;
 import de.heinerion.betriebe.classes.texting.DropListable;
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.Constants;

@@ -3,7 +3,7 @@ package de.heinerion.betriebe.models;
 import java.io.File;
 import java.text.Collator;
 
-import de.heinerion.betriebe.classes.fileOperations.loading.Loadable;
+import de.heinerion.betriebe.classes.file_operations.loading.Loadable;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.models.interfaces.Addressable;
