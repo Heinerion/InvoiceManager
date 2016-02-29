@@ -7,7 +7,6 @@ import de.heinerion.money.Money;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class TaschenrechnerPanel extends BGPanel {
@@ -81,27 +80,32 @@ public class TaschenrechnerPanel extends BGPanel {
   }
 
   private void setupInteractions() {
-    btnPlus.addActionListener(this::addVat);
-    btnMinus.addActionListener(this::subVat);
+    btnPlus.addActionListener(e -> addVat());
+    btnMinus.addActionListener(e -> subVat());
   }
 
-  private void addVat(ActionEvent e) {
-    final Money[] values = calculate(fldBetrag.getText(), true);
-
-    setFieldValues(values);
+  private void addVat() {
+    startCalculation(true);
   }
 
-  private void subVat(ActionEvent e) {
-    final Money[] values = calculate(fldBetrag.getText(), false);
+  private void startCalculation(boolean addVat) {
+    String amount = fldBetrag.getText();
+    if (!isEmpty(amount)) {
+      final Money[] values = calculate(fldBetrag.getText(), addVat);
 
-    setFieldValues(values);
+      setFieldValues(values);
+    }
+  }
+
+  private void subVat() {
+    startCalculation(false);
+  }
+
+  private boolean isEmpty(String text) {
+    return text == null || text.isEmpty() || "".equals(text.trim());
   }
 
   private Money[] calculate(String text, boolean addTaxes) {
-    if (isEmpty(text)) {
-      return null;
-    }
-
     Euro amount = Euro.parse(text);
 
     final double taxes = Session.getActiveCompany().getValueAddedTax() / PERCENT;
@@ -121,10 +125,6 @@ public class TaschenrechnerPanel extends BGPanel {
     }
 
     return new Money[]{net, vat, gross};
-  }
-
-  private boolean isEmpty(String text) {
-    return text == null || text.isEmpty() || "".equals(text.trim());
   }
 
   private void setFieldValues(Money[] values) {
