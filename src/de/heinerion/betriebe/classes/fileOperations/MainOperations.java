@@ -4,29 +4,26 @@
  */
 package de.heinerion.betriebe.classes.fileOperations;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.DateTools;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * @author heiner
  */
 public final class MainOperations {
-  private static Logger logger = LogManager.getLogger(MainOperations.class);
+  private static final Logger logger = LogManager.getLogger(MainOperations.class);
 
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
@@ -45,8 +42,7 @@ public final class MainOperations {
    * <li>löscht Hilfsdateien
    * </ul>
    *
-   * @param letter
-   *          Das Dokument das erstellt werden soll
+   * @param letter Das Dokument das erstellt werden soll
    */
   public static void createDocument(Conveyable letter) {
     SwingUtilities.invokeLater(() -> {
@@ -66,11 +62,9 @@ public final class MainOperations {
    * Verschiebt die Quelldatei (.tex) und die Ergebnisdatei (.pdf).
    * <p>
    * Der Zeilordner der jeweiligen Datei wird aus dem Conveyable abgeleitet.
-   * 
-   * @param conveyable
-   *          Das ursprüngliche Dokument
-   * @param tex
-   *          Die Tex-Datei
+   *
+   * @param conveyable Das ursprüngliche Dokument
+   * @param tex        Die Tex-Datei
    */
   private static void moveOutputFiles(Conveyable conveyable, final File tex) {
     final String title = generateTitle(conveyable);
@@ -86,7 +80,7 @@ public final class MainOperations {
         texDestination.getAbsoluteFile().getParentFile().mkdirs();
         texDestination.createNewFile();
       } catch (final IOException e) {
-        e.printStackTrace();
+        logger.error("Could not create destination '" + texDestination.getAbsolutePath() + "'", e);
       }
     }
 
@@ -155,7 +149,7 @@ public final class MainOperations {
         + Constants.QUOTE;
     logger.info("Befehl '{} {}'", program, arguments);
 
-    final String[] befehl = { program, arguments, };
+    final String[] befehl = {program, arguments,};
     final ProcessBuilder pb = new ProcessBuilder(befehl);
 
     // IO des Prozesses auf System.out legen
@@ -183,7 +177,7 @@ public final class MainOperations {
     // Dateiendung abschneiden (inklusive .)
     final String kernName = pfad.substring(0, pfad.length() - TEX.length());
 
-    final String[] endings = { "aux", "log", "out", };
+    final String[] endings = {"aux", "log", "out",};
     for (String ending : endings) {
       final File tempfile = new File(kernName + "." + ending);
 
@@ -199,7 +193,7 @@ public final class MainOperations {
   }
 
   private static void showExceptionDialog(final Exception exception,
-      String message) {
+                                          String message) {
     JOptionPane.showMessageDialog(RechnungFrame.getInstance(), message,
         Constants.ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
     if (Utilities.isDebugMode()) {

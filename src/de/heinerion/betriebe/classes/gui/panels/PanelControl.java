@@ -1,21 +1,23 @@
 package de.heinerion.betriebe.classes.gui.panels;
 
-import java.util.List;
-
-import javax.swing.ImageIcon;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.Address;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import java.util.List;
 
 public final class PanelControl {
-  private static Logger logger = LogManager.getLogger(PanelControl.class);
+  private static final Logger logger = LogManager.getLogger(PanelControl.class);
+
+  private static final String DEFAULT_APARTMENT = null;
+  private static final String DEFAULT_COMPANY = null;
+  private static final String DEFAULT_DISTRICT = null;
 
   private PanelControl() {
   }
@@ -23,16 +25,13 @@ public final class PanelControl {
   /**
    * Parst aus einem \n separiertem String eine Adresse
    *
-   * @param address
-   *          Der String mit der Adresse, in einer Form, wie auf Briefen
-   *          angegeben
+   * @param address Der String mit der Adresse, in einer Form, wie auf Briefen
+   *                angegeben
    * @return die geparste Address
    */
   public static Address parseAddress(String address) {
     int token;
-    final String apartment = null;
-    final String company = null;
-    final String district = null;
+
     String location = null;
     String number = null;
     String postalCode = null;
@@ -64,7 +63,7 @@ public final class PanelControl {
       postalCode = locationToken[0].trim();
     }
 
-    return new Address(recipient, company, district, street, number, apartment,
+    return new Address(recipient, DEFAULT_COMPANY, DEFAULT_DISTRICT, street, number, DEFAULT_APARTMENT,
         postalCode, location);
   }
 

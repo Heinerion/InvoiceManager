@@ -1,20 +1,19 @@
 package de.heinerion.betriebe.classes.fileOperations.loading;
 
+import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.loader.Reader;
+import de.heinerion.betriebe.loader.TextFileReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import de.heinerion.betriebe.loader.Reader;
-import de.heinerion.betriebe.loader.TextFileReader;
-
 public abstract class AbstractTextFileLoader<T> extends AbstractLoader<T> {
-  private static Logger logger = LogManager
-      .getLogger(AbstractTextFileLoader.class);
+  private static final Logger logger = LogManager.getLogger(AbstractTextFileLoader.class);
 
   private final Reader reader = new TextFileReader();
 
@@ -45,7 +44,7 @@ public abstract class AbstractTextFileLoader<T> extends AbstractLoader<T> {
     try {
       this.readAttributesFromFile(path.getCanonicalPath(), attributes);
     } catch (final IOException e) {
-      throw new RuntimeException(e);
+      HeinerionException.rethrow(e);
     }
 
     return attributes;
@@ -57,7 +56,7 @@ public abstract class AbstractTextFileLoader<T> extends AbstractLoader<T> {
    * @throws IOException
    */
   private void readAttributesFromFile(String path,
-      Map<String, String> attributes) throws IOException {
+                                      Map<String, String> attributes) throws IOException {
     this.reader.prepareFile(path);
 
     Map<String, String> current;

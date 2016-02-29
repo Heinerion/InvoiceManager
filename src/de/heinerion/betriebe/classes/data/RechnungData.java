@@ -1,11 +1,5 @@
 package de.heinerion.betriebe.classes.data;
 
-import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
-
 import de.heinerion.betriebe.classes.fileOperations.loading.Loadable;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
@@ -13,7 +7,14 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.tools.DateTools;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
+
 public final class RechnungData implements Loadable {
+  private static final String DIVIDER = "\t";
   // 14 := dd.mm.yyyy.pdf
   private static final int DATE_LENGTH = 14;
   private static Map<Company, Map<String, Address>> globalAddressCache = new HashMap<>();
@@ -134,9 +135,9 @@ public final class RechnungData implements Loadable {
 
   @Override
   public String toString() {
-    final String trenner = "\t";
-    return this.invoiceNumber + trenner + this.recipient + trenner
-        + this.dateString + trenner + this.company + "\n->" + trenner
+
+    return this.invoiceNumber + DIVIDER + this.recipient + DIVIDER
+        + this.dateString + DIVIDER + this.company + "\n->" + DIVIDER
         + this.pdf.getPath();
   }
 }

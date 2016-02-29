@@ -1,118 +1,137 @@
 package de.heinerion.betriebe.classes.gui;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.tools.DimensionTool;
 import de.heinerion.money.Euro;
 import de.heinerion.money.Money;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
 @SuppressWarnings("serial")
 public class TaschenrechnerPanel extends BGPanel {
   private static final int PERCENT = 100;
 
+  private static final String VAT = "MWST";
+  public static final String NET = "Netto";
+  public static final String GROSS = "Brutto";
+
+  private JTextField fldBetrag;
+  private JTextField fldNet;
+  private JTextField fldVat;
+  private JTextField fldGross;
+
+  private JButton btnPlus;
+  private JButton btnMinus;
+
   public TaschenrechnerPanel() {
     super(BGPanel.LINKS, BGPanel.OBEN, BGPanel.UNTEN, BGPanel.RECHTS);
-    // | Betrag |
-    // [+ MWST] [- MWST (Grundpreis)]
-    // + MWST → Betrag + Betrag*0,107 MWST = Betrag * 1,107
-    // - MWST → Betrag - Betrag/1,107 * 0,107 = Betrag/1,107
-    final JTextField fldBetrag = new JTextField();
-    final JTextField fldNetto;
-    final JTextField fldMWST;
-    final JTextField fldBrutto;
 
-    final JButton btnPlus;
-    final JButton btnMinus;
+    initLayout();
+    createWidgets();
+    addWidgets();
+    setupInteractions();
+  }
 
-    this.setLayout(new BorderLayout());
-    this.setPreferredSize(DimensionTool.CALCULATOR);
-    this.setOpaque(false);
+  private void initLayout() {
+    setLayout(new BorderLayout());
+    setPreferredSize(DimensionTool.CALCULATOR);
+    setOpaque(false);
+  }
 
-    btnPlus = new JButton("+ MWST");
-    btnMinus = new JButton("- MWST");
-    fldNetto = new JTextField();
-    fldMWST = new JTextField();
-    fldBrutto = new JTextField();
+  private void createWidgets() {
+    fldBetrag = new JTextField();
+    btnPlus = new JButton("+ " + VAT);
+    btnMinus = new JButton("- " + VAT);
+    fldNet = new JTextField();
+    fldVat = new JTextField();
+    fldGross = new JTextField();
 
-    fldNetto.setEditable(false);
-    fldMWST.setEditable(false);
-    fldBrutto.setEditable(false);
+    fldNet.setEditable(false);
+    fldVat.setEditable(false);
+    fldGross.setEditable(false);
 
     fldBetrag.setHorizontalAlignment(SwingConstants.RIGHT);
-    fldNetto.setHorizontalAlignment(SwingConstants.RIGHT);
-    fldMWST.setHorizontalAlignment(SwingConstants.RIGHT);
-    fldBrutto.setHorizontalAlignment(SwingConstants.RIGHT);
+    fldNet.setHorizontalAlignment(SwingConstants.RIGHT);
+    fldVat.setHorizontalAlignment(SwingConstants.RIGHT);
+    fldGross.setHorizontalAlignment(SwingConstants.RIGHT);
+  }
 
-    this.add(fldBetrag, BorderLayout.PAGE_START);
-    this.add(new JPanel() {
-      // Ergebnisse
-      private static final long serialVersionUID = 7L;
-      {
-        this.setLayout(new GridLayout(0, 2));
-        this.setOpaque(false);
-        this.add(btnPlus);
-        this.add(btnMinus);
-        this.add(new JLabel("Netto"));
-        this.add(fldNetto);
-        this.add(new JLabel("MWST"));
-        this.add(fldMWST);
-        this.add(new JLabel("Brutto"));
-        this.add(fldBrutto);
-      }
-    }, BorderLayout.CENTER);
+  private void addWidgets() {
+    add(fldBetrag, BorderLayout.PAGE_START);
+    add(createCalculatorBody(), BorderLayout.CENTER);
+  }
 
-    btnPlus.addActionListener(e -> {
-      final Money[] values = this.calculate(fldBetrag.getText(), true);
+  private JPanel createCalculatorBody() {
+    JPanel innerPanel = new JPanel();
 
-      if (values != null) {
-        fldNetto.setText(values[0] + "");
-        fldMWST.setText(values[1] + "");
-        fldBrutto.setText(values[2] + "");
-      }
-    });
-    btnMinus.addActionListener(e -> {
-      final Money[] values = this.calculate(fldBetrag.getText(), false);
+    innerPanel.setLayout(new GridLayout(0, 2));
+    innerPanel.setOpaque(false);
+    innerPanel.add(btnPlus);
+    innerPanel.add(btnMinus);
+    innerPanel.add(new JLabel(NET));
+    innerPanel.add(fldNet);
+    innerPanel.add(new JLabel(VAT));
+    innerPanel.add(fldVat);
+    innerPanel.add(new JLabel(GROSS));
+    innerPanel.add(fldGross);
 
-      if (values != null) {
-        fldNetto.setText(values[0] + "");
-        fldMWST.setText(values[1] + "");
-        fldBrutto.setText(values[2] + "");
-      }
-    });
+    return innerPanel;
+  }
+
+  private void setupInteractions() {
+    btnPlus.addActionListener(this::addVat);
+    btnMinus.addActionListener(this::subVat);
+  }
+
+  private void addVat(ActionEvent e) {
+    final Money[] values = calculate(fldBetrag.getText(), true);
+
+    setFieldValues(values);
+  }
+
+  private void subVat(ActionEvent e) {
+    final Money[] values = calculate(fldBetrag.getText(), false);
+
+    setFieldValues(values);
   }
 
   private Money[] calculate(String text, boolean addTaxes) {
-    Euro betrag;
-    Euro netto;
-    Euro mwst;
-    Euro brutto;
-
-    if ("".equals(text)) {
+    if (isEmpty(text)) {
       return null;
     }
 
-    betrag = Euro.parse(text);
+    Euro amount = Euro.parse(text);
 
     final double taxes = Session.getActiveCompany().getValueAddedTax() / PERCENT;
 
+    Euro net;
+    Euro vat;
+    Euro gross;
+
     if (addTaxes) {
-      netto = betrag;
-      mwst = netto.times(taxes);
-      brutto = netto.add(mwst);
+      net = amount;
+      vat = net.times(taxes);
+      gross = net.add(vat);
     } else {
-      brutto = betrag;
-      netto = brutto.divideBy(1 + taxes);
-      mwst = brutto.sub(netto);
+      gross = amount;
+      net = gross.divideBy(1 + taxes);
+      vat = gross.sub(net);
     }
 
-    return new Money[] { netto, mwst, brutto };
+    return new Money[]{net, vat, gross};
+  }
+
+  private boolean isEmpty(String text) {
+    return text == null || text.isEmpty() || "".equals(text.trim());
+  }
+
+  private void setFieldValues(Money[] values) {
+    if (values != null) {
+      fldNet.setText(values[0] + "");
+      fldVat.setText(values[1] + "");
+      fldGross.setText(values[2] + "");
+    }
   }
 }

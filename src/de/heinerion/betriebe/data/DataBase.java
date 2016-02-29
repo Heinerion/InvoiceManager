@@ -101,16 +101,32 @@ public final class DataBase {
 
   private static ListEntry<Address> getAddressEntry(Company company,
                                                     String recipient) {
-    for (final ListEntry<Address> addressEntry : addresses) {
-      if (addressEntry.getCompany() == null
-          || addressEntry.getCompany().equals(company)) {
-        if (addressEntry.getEntry().getRecipient().equals(recipient)) {
-          return addressEntry;
-        }
+    ListEntry<Address> result = null;
+
+    for (ListEntry<Address> address : addresses) {
+      if (hasFittingCompany(address, company) && hasThisRecipient(address, recipient)) {
+        result = address;
+        break;
       }
     }
 
-    return null;
+    return result;
+  }
+
+  private static boolean hasFittingCompany(ListEntry<Address> addressEntry, Company company) {
+    return hasNoCompany(addressEntry) || hasThisCompany(addressEntry, company);
+  }
+
+  private static boolean hasNoCompany(ListEntry<Address> addressEntry) {
+    return addressEntry.getCompany() == null;
+  }
+
+  private static boolean hasThisCompany(ListEntry<Address> addressEntry, Company company) {
+    return addressEntry.getCompany().equals(company);
+  }
+
+  private static boolean hasThisRecipient(ListEntry<Address> addressEntry, String recipient) {
+    return addressEntry.getEntry().getRecipient().equals(recipient);
   }
 
   public static List<Address> getAddresses() {

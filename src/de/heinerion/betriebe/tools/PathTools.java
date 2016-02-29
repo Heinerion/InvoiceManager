@@ -1,12 +1,13 @@
 package de.heinerion.betriebe.tools;
 
+import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.models.interfaces.Storable;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import de.heinerion.betriebe.enums.Utilities;
-import de.heinerion.betriebe.models.interfaces.Storable;
 
 public final class PathTools {
 
@@ -16,15 +17,15 @@ public final class PathTools {
 
   @SuppressWarnings("serial")
   private static final Map<String, Map<String, String>> FILE_INFOS = Collections
-  .unmodifiableMap(new HashMap<String, Map<String, String>>() {
-    {
-      this.put("Address", createEntries("Addresses", "address"));
-      this.put("Client", createEntries("Clients", "client"));
-      this.put("Company", createEntries("Companies", "company"));
-      this.put("Invoice", createEntries("Invoices", "invoice"));
-      this.put("Letter", createEntries("Letters", "letter"));
-    }
-  });
+      .unmodifiableMap(new HashMap<String, Map<String, String>>() {
+        {
+          this.put("Address", createEntries("Addresses", "address"));
+          this.put("Client", createEntries("Clients", "client"));
+          this.put("Company", createEntries("Companies", "company"));
+          this.put("Invoice", createEntries("Invoices", "invoice"));
+          this.put("Letter", createEntries("Letters", "letter"));
+        }
+      });
 
   private PathTools() {
   }
@@ -32,14 +33,12 @@ public final class PathTools {
   /**
    * Generiert Mapeinträge
    *
-   * @param folder
-   *          Ordnername
-   * @param fileEnding
-   *          Dateiendung
+   * @param folder     Ordnername
+   * @param fileEnding Dateiendung
    * @return Eine Map mit den korrekten Einträgen
    */
   private static Map<String, String> createEntries(String folder,
-      String fileEnding) {
+                                                   String fileEnding) {
     final Map<String, String> ret = new HashMap<>();
     ret.put(FOLDER, folder);
     ret.put(FILE_ENDING, fileEnding);
@@ -69,10 +68,10 @@ public final class PathTools {
   private static String get(Class<?> clazz, String key) {
     final Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
 
-    if (details != null) {
-      return details.get(key);
+    if (details == null) {
+      throw new HeinerionException();
     } else {
-      throw new RuntimeException();
+      return details.get(key);
     }
   }
 
@@ -81,7 +80,7 @@ public final class PathTools {
       return Utilities.SYSTEM.getPath() + File.separator
           + determineFolderName(clazz);
     } else {
-      throw new RuntimeException();
+      throw new HeinerionException();
     }
   }
 

@@ -1,13 +1,12 @@
 package de.heinerion.betriebe.gui.content;
 
-import java.util.List;
-
-import javax.swing.table.AbstractTableModel;
-
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
 import de.heinerion.betriebe.tools.ParsingTools;
+
+import javax.swing.table.AbstractTableModel;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public final class InvoiceTableModel extends AbstractTableModel {
@@ -31,9 +30,11 @@ public final class InvoiceTableModel extends AbstractTableModel {
   @Override
   public Class<?> getColumnClass(int columnIndex) {
     Class<?> result = String.class;
+
     if (columnIndex == COUNT || columnIndex == PPU) {
       result = Double.class;
     }
+
     return result;
   }
 
@@ -42,20 +43,20 @@ public final class InvoiceTableModel extends AbstractTableModel {
     final String result;
 
     switch (columnIndex) {
-    case NAME:
-      result = "Artikel";
-      break;
-    case UNIT:
-      result = "Einheit";
-      break;
-    case PPU:
-      result = "Einzelpreis";
-      break;
-    case COUNT:
-      result = "Anzahl";
-      break;
-    default:
-      result = columnIndex + "";
+      case NAME:
+        result = "Artikel";
+        break;
+      case UNIT:
+        result = "Einheit";
+        break;
+      case PPU:
+        result = "Einzelpreis";
+        break;
+      case COUNT:
+        result = "Anzahl";
+        break;
+      default:
+        result = columnIndex + "";
     }
 
     return result;
@@ -74,60 +75,75 @@ public final class InvoiceTableModel extends AbstractTableModel {
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
-    final Object result;
-
-    final Item item = (rowIndex < contents.size()) ? contents.get(rowIndex)
-        : null;
-    if (item == null) {
+    if (isValidIndex(rowIndex)) {
+      return getPropertyValue(rowIndex, columnIndex);
+    } else {
       return null;
     }
+  }
+
+  private Object getPropertyValue(int rowIndex, int columnIndex) {
+    Object result;
+    Item item = contents.get(rowIndex);
 
     switch (columnIndex) {
-    case NAME:
-      result = item.getName();
-      break;
-    case UNIT:
-      result = item.getUnit();
-      break;
-    case PPU:
-      result = item.getPricePerUnit();
-      break;
-    case COUNT:
-      result = item.getQuantity();
-      break;
-    default:
-      result = null;
+      case NAME:
+        result = item.getName();
+        break;
+      case UNIT:
+        result = item.getUnit();
+        break;
+      case PPU:
+        result = item.getPricePerUnit();
+        break;
+      case COUNT:
+        result = item.getQuantity();
+        break;
+      default:
+        result = null;
+        break;
     }
 
     return result;
   }
 
+  private boolean isValidIndex(int rowIndex) {
+    return rowIndex < contents.size();
+  }
+
   @Override
   public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-    Item item = (rowIndex < contents.size()) ? contents.get(rowIndex) : null;
-    if (item == null) {
-      item = new Item(new Product(null, null, 0));
-      contents.add(item);
-    }
+    Item item = getItem(rowIndex);
 
     switch (columnIndex) {
-    case NAME:
-      item.setName((String) aValue);
-      break;
-    case UNIT:
-      item.setUnit((String) aValue);
-      break;
-    case PPU:
-      item.setPricePerUnit(parseDouble(aValue));
-      break;
-    case COUNT:
-      item.setQuantity(parseDouble(aValue));
-      break;
-    default:
-      break;
+      case NAME:
+        item.setName((String) aValue);
+        break;
+      case UNIT:
+        item.setUnit((String) aValue);
+        break;
+      case PPU:
+        item.setPricePerUnit(parseDouble(aValue));
+        break;
+      case COUNT:
+        item.setQuantity(parseDouble(aValue));
+        break;
+      default:
+        break;
     }
 
     fireTableCellUpdated(rowIndex, columnIndex);
+  }
+
+  private Item getItem(int rowIndex) {
+    Item item;
+    if (isValidIndex(rowIndex)) {
+      item = contents.get(rowIndex);
+    } else {
+      item = new Item(new Product(null, null, 0));
+      contents.add(item);
+    }
+    return item;
   }
 
   private double parseDouble(Object aValue) {
@@ -141,10 +157,10 @@ public final class InvoiceTableModel extends AbstractTableModel {
   }
 
   public Vorlage createVorlage() {
-    final Vorlage result = new Vorlage();
+    Vorlage result = new Vorlage();
 
     result.setName(contents.get(0).getName());
-    final String[][] contentTable = new String[contents.size()][getColumnCount()];
+    String[][] contentTable = new String[contents.size()][getColumnCount()];
     for (int i = 0; i < contents.size(); i++) {
       final Item item = contents.get(i);
       contentTable[i][NAME] = item.getName();

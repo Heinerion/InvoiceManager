@@ -10,7 +10,7 @@ import java.util.Map;
 
 public final class LoadingManager implements LoadListener, LoadListenable {
   // TODO Priorität: Dokumente laden (alte Rechnungen)
-  private static Logger logger = LogManager.getLogger(LoadingManager.class);
+  private static final Logger logger = LogManager.getLogger(LoadingManager.class);
   private final Map<Class<? extends Loadable>, List<Loader<? extends Loadable>>> loaders;
   private final Map<Class<? extends Loadable>, List<Loadable>> results;
   private final List<Class<? extends Loadable>> loadOrder;
@@ -30,7 +30,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   }
 
   public void addLoader(Class<? extends Loadable> clazz,
-      Loader<? extends Loadable> loader) {
+                        Loader<? extends Loadable> loader) {
     if (!this.loadOrder.contains(clazz)) {
       this.loadOrder.add(clazz);
     }
