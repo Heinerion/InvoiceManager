@@ -5,8 +5,8 @@
 package de.heinerion.betriebe.classes.file_operations;
 
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
-import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.DateTools;
@@ -19,10 +19,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static de.heinerion.betriebe.data.Constants.*;
+
 /**
  * @author heiner
  */
-public final class MainOperations {
+public class MainOperations {
   private static final Logger logger = LogManager.getLogger(MainOperations.class);
 
   private static final String TEX = ".tex";
@@ -46,7 +48,7 @@ public final class MainOperations {
    */
   public static void createDocument(Conveyable letter) {
     SwingUtilities.invokeLater(() -> {
-      final File tex = writeTexFile(letter);
+      File tex = writeTexFile(letter);
 
       pdfLatex(tex);
 
@@ -66,26 +68,28 @@ public final class MainOperations {
    * @param conveyable Das ursprüngliche Dokument
    * @param tex        Die Tex-Datei
    */
-  private static void moveOutputFiles(Conveyable conveyable, final File tex) {
-    final String title = generateTitle(conveyable);
-    final File parentFolder = generatePath(conveyable);
+  private static void moveOutputFiles(Conveyable conveyable, File tex) {
+    String title = generateTitle(conveyable);
+    File parentFolder = generatePath(conveyable);
 
-    final String temp = parentFolder + File.separator + title + TEX;
-    final String texPath = temp.replace(Utilities.applicationHome(),
+    String temp = parentFolder + File.separator + title + TEX;
+    String texPath = temp.replace(Utilities.applicationHome(),
         Utilities.SYSTEM.toString() + File.separator);
-    final File texDestination = new File(texPath);
+    File texDestination = new File(texPath);
 
     if (!texDestination.exists()) {
       try {
         texDestination.getAbsoluteFile().getParentFile().mkdirs();
         texDestination.createNewFile();
-      } catch (final IOException e) {
-        logger.error("Could not create destination '" + texDestination.getAbsolutePath() + "'", e);
+      } catch (IOException e) {
+        if (logger.isErrorEnabled()) {
+          logger.error("Could not create destination '" + texDestination.getAbsolutePath() + "'", e);
+        }
       }
     }
 
-    final File output = new File(title + PDF);
-    final File destination = new File(parentFolder, title + PDF);
+    File output = new File(title + PDF);
+    File destination = new File(parentFolder, title + PDF);
 
     tex.renameTo(texDestination);
     output.renameTo(destination);
@@ -98,90 +102,97 @@ public final class MainOperations {
   }
 
   private static File writeTexFile(Conveyable conveyable) {
-    final File tex = new File(generateTitle(conveyable) + TEX);
+    File tex = new File(generateTitle(conveyable) + TEX);
     try {
-      final BufferedWriter out = new BufferedWriter(new FileWriter(tex));
+      BufferedWriter out = new BufferedWriter(new FileWriter(tex));
       out.write(LatexGenerator.generateLatexSource(conveyable));
 
       out.flush();
       out.close();
-    } catch (final IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
     return tex;
   }
 
   private static File generatePath(Conveyable conveyable) {
-    File ordner;
+    File folder;
 
     if (conveyable instanceof Invoice) {
-      ordner = conveyable.getCompany().getPfad();
+      folder = conveyable.getCompany().getPfad();
     } else {
-      ordner = new File(Utilities.BRIEF.getPath());
+      folder = new File(Utilities.BRIEF.getPath());
     }
 
-    if (!ordner.exists()) {
-      ordner.mkdirs();
+    if (!folder.exists()) {
+      folder.mkdirs();
     }
-    return ordner;
+    return folder;
   }
 
   private static String generateTitle(Conveyable letter) {
-    final String start;
+    String start;
     if (letter instanceof Invoice) {
-      final int invoiceNumber = letter.getCompany().getInvoiceNumber();
+      int invoiceNumber = letter.getCompany().getInvoiceNumber();
       start = invoiceNumber + "";
     } else {
       start = letter.getSubject() + " --";
     }
 
-    final String receiver = letter.getReceiver().getRecipient();
-    final String date = DateTools.format(letter.getDate());
+    String receiver = letter.getReceiver().getRecipient();
+    String date = DateTools.format(letter.getDate());
 
-    return String.join(Constants.SPACE, start, receiver,
+    return String.join(SPACE, start, receiver,
         date);
   }
 
   private static void pdfLatex(File tex) {
     // pdflatex
-    final String program = "pdflatex";
-    final String arguments = Constants.QUOTE + tex.getAbsolutePath()
-        + Constants.QUOTE;
-    logger.info("Befehl '{} {}'", program, arguments);
+    String program = "pdflatex";
+    String arguments = QUOTE + tex.getAbsolutePath()
+        + QUOTE;
+    if (logger.isInfoEnabled()) {
+      logger.info("Befehl '{} {}'", program, arguments);
+    }
 
-    final String[] befehl = {program, arguments,};
-    final ProcessBuilder pb = new ProcessBuilder(befehl);
+    String[] befehl = {program, arguments,};
+    ProcessBuilder pb = new ProcessBuilder(befehl);
 
     // IO des Prozesses auf System.out legen
     pb.inheritIO();
 
     try {
-      final Process p = pb.start();
+      Process p = pb.start();
 
       // Auf Prozess warten
       p.waitFor();
-    } catch (final IOException e) {
-      logger.error(Constants.ERROR_PDFLATEX, e);
+    } catch (IOException e) {
+      if (logger.isErrorEnabled()) {
+        logger.error(ERROR_PDFLATEX, e);
+      }
       // TODO Fehlerbehandlung über Session, diesen Abschnitt dafür verwenden
-      final String message = "pdflatex konnte nicht ausgeführt werden.\n"
+      String message = "pdflatex konnte nicht ausgeführt werden.\n"
           + "Ist das Programm installiert?";
       showExceptionDialog(e, message);
-    } catch (final InterruptedException e) {
-      e.printStackTrace();
+    } catch (InterruptedException e) {
+      if (logger.isErrorEnabled()) {
+        logger.error(e);
+      }
+      HeinerionException.rethrow(e);
     }
   }
 
   private static void deleteTempFiles(File tex) {
-    final String pfad = tex.getAbsolutePath();
+    String pfad = tex.getAbsolutePath();
 
     // Dateiendung abschneiden (inklusive .)
-    final String kernName = pfad.substring(0, pfad.length() - TEX.length());
+    String kernName = pfad.substring(0, pfad.length() - TEX.length());
 
-    final String[] endings = {"aux", "log", "out",};
+    String[] endings = {"aux", "log", "out",};
     for (String ending : endings) {
-      final File tempfile = new File(kernName + "." + ending);
+      File tempfile = new File(kernName + "." + ending);
 
-      final boolean isDeleted = tempfile.delete();
+      boolean isDeleted = tempfile.delete();
       if (logger.isDebugEnabled() && isDeleted) {
         logger.debug("{}.{} gelöscht", kernName, ending);
       }
@@ -192,19 +203,19 @@ public final class MainOperations {
     }
   }
 
-  private static void showExceptionDialog(final Exception exception,
+  private static void showExceptionDialog(Exception exception,
                                           String message) {
     JOptionPane.showMessageDialog(RechnungFrame.getInstance(), message,
-        Constants.ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
+        ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
     if (Utilities.isDebugMode()) {
       String out = "";
-      for (final StackTraceElement ste : exception.getStackTrace()) {
+      for (StackTraceElement ste : exception.getStackTrace()) {
         out += ste.getMethodName() + " : " + ste.getFileName() + " ("
             + ste.getLineNumber() + ")\n";
       }
       JOptionPane.showMessageDialog(RechnungFrame.getInstance(),
           exception.getLocalizedMessage() + "\n" + out,
-          Constants.ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
+          ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
     }
   }
 }
