@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/bc76c81caa21442ba6560ac0cb7c1385)](https://www.codacy.com/app/phe0nix/InvoiceManager)
+
 # InvoiceManager
 Fairly old project of mine to create invoices (per pdflatex)
 
