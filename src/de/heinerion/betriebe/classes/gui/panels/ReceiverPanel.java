@@ -51,13 +51,15 @@ public final class ReceiverPanel extends JPanel {
         RenderingHints.VALUE_ANTIALIAS_ON);
 
     g2.setPaint(Color.gray);
-    final int x = 0;
-    final int breite = 10;
-    final int y = 0;
+    
+    int x = 0;
+    int width = 10;
+    int y = 0;
+    
     final Color bright = this.getBackground().darker();
     final Color dark = this.getBackground();
     // TODO Hintergrund malen
-    final GradientPaint whiteToBack = new GradientPaint(x, y, bright, breite,
+    final GradientPaint whiteToBack = new GradientPaint(x, y, bright, width,
         y, dark);
     g2.setPaint(whiteToBack);
     // Tabbereich
