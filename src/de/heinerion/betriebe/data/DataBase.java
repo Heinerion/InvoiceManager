@@ -18,10 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 public final class DataBase {
-  private static Logger logger = LogManager.getLogger(DataBase.class);
+  private static final Logger logger = LogManager.getLogger(DataBase.class);
 
   private static List<ListEntry<Address>> addresses = new ArrayList<>();
-  private static List<ListEntry<Company>> companies = new ArrayList<>();
 
   private static List<ListEntry<Vorlage>> templates = new ArrayList<>();
 
@@ -169,16 +168,6 @@ public final class DataBase {
     return result;
   }
 
-  public static Vorlage getTemplate(Company company, String name) {
-    final ListEntry<Vorlage> result = getTemplateEntry(company, name);
-
-    if (result != null) {
-      return result.getEntry();
-    } else {
-      return null;
-    }
-  }
-
   private static ListEntry<Vorlage> getTemplateEntry(Company company,
                                                      String templateName) {
     for (final ListEntry<Vorlage> templateEntry : templates) {
@@ -195,16 +184,6 @@ public final class DataBase {
 
   public static List<Vorlage> getTemplates(Company company) {
     return getEntries(templates, company);
-  }
-
-  public static TexVorlage getTexTemplate(Company company, String name) {
-    final ListEntry<TexVorlage> result = getTexTemplateEntry(company, name);
-
-    if (result != null) {
-      return result.getEntry();
-    } else {
-      return null;
-    }
   }
 
   public static void addLoadable(Loadable loadable) {
@@ -229,10 +208,6 @@ public final class DataBase {
     }
 
     return null;
-  }
-
-  public static List<TexVorlage> getTexTemplates(Company company) {
-    return getEntries(texTemplates, company);
   }
 
   public static void removeAllInvoices() {
