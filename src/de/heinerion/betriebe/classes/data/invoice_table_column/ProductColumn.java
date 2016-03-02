@@ -4,8 +4,6 @@ import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
 
 public final class ProductColumn implements ColumnState {
-  public ProductColumn() {
-  }
 
   @Override
   public Class<?> getColumnClass() {

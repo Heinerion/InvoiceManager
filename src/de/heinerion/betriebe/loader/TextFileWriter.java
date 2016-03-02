@@ -12,9 +12,6 @@ public final class TextFileWriter implements Writer {
   private java.io.Writer writer = null;
   private boolean isOpen = false;
 
-  public TextFileWriter() {
-  }
-
   @Override
   public void closeFile() throws IOException {
     if (this.isOpen) {

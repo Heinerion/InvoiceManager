@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.formatter;
 
-import java.time.LocalDate;
-
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Invoice;
@@ -9,11 +7,10 @@ import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 
+import java.time.LocalDate;
+
 public class PlainFormatter extends AbstractFormatter {
   private static final String BRACE_CL = ")";
-
-  public PlainFormatter() {
-  }
 
   @Override
   public final void formatAddress(Address address) {

@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public final class StringsTest {
-  public StringsTest() {
-
-  }
 
   @Test
   public void testIsEmptyString() {
