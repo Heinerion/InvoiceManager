@@ -1,27 +1,25 @@
-package de.heinerion.betriebe.classes.data.InvoiceTableColumn;
-
-import java.time.LocalDate;
+package de.heinerion.betriebe.classes.data.invoice_table_column;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
 
-public final class DateColumn implements ColumnState {
-  public DateColumn() {
+public final class NumberColumn implements ColumnState {
+  public NumberColumn() {
   }
 
   @Override
   public Class<?> getColumnClass() {
-    return LocalDate.class;
+    return Integer.class;
   }
 
   @Override
   public String getName() {
-    return Constants.TABLE_DATE;
+    return Constants.TABLE_NUMBER;
   }
 
   @Override
   public Object getValue(RechnungData data) {
-    return data.getDate();
+    return data.getInvoiceNumber();
   }
 
   @Override

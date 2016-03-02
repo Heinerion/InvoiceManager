@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
-import de.heinerion.betriebe.classes.gui.tableModels.AddressModel;
+import de.heinerion.betriebe.classes.gui.table_models.AddressModel;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 

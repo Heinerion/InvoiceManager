@@ -1,31 +1,30 @@
-package de.heinerion.betriebe.classes.data.InvoiceTableColumn;
+package de.heinerion.betriebe.classes.data.invoice_table_column;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.models.Address;
 
-public final class ProductColumn implements ColumnState {
-  public ProductColumn() {
+public final class ReceiverColumn implements ColumnState {
+  public ReceiverColumn() {
   }
 
   @Override
   public Class<?> getColumnClass() {
-    return String.class;
+    return Address.class;
   }
 
   @Override
   public String getName() {
-    return Constants.TABLE_PRODUCT;
+    return Constants.TABLE_RECEIVER;
   }
 
   @Override
   public Object getValue(RechnungData data) {
-    return data.getItem();
+    return data.getRecipient();
   }
 
   @Override
   public void setValue(RechnungData data, Object value) {
-    if (value instanceof String) {
-      data.setItem((String) value);
-    }
+    // Nicht setzbar
   }
 }

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui.tableModels;
+package de.heinerion.betriebe.classes.gui.table_models;
 
 import java.util.List;
 

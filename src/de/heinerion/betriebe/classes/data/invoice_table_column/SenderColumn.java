@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.data.InvoiceTableColumn;
+package de.heinerion.betriebe.classes.data.invoice_table_column;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;

@@ -8,13 +8,13 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.AmountColumn;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.ColumnState;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.DateColumn;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.NumberColumn;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.ProductColumn;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.ReceiverColumn;
-import de.heinerion.betriebe.classes.data.InvoiceTableColumn.SenderColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.AmountColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.ColumnState;
+import de.heinerion.betriebe.classes.data.invoice_table_column.DateColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.NumberColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.ProductColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.ReceiverColumn;
+import de.heinerion.betriebe.classes.data.invoice_table_column.SenderColumn;
 import de.heinerion.betriebe.models.Company;
 
 public final class RechnungsListe implements TableModel {

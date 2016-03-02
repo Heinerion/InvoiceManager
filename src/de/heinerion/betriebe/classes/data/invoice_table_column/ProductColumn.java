@@ -1,29 +1,31 @@
-package de.heinerion.betriebe.classes.data.InvoiceTableColumn;
+package de.heinerion.betriebe.classes.data.invoice_table_column;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
 
-public final class NumberColumn implements ColumnState {
-  public NumberColumn() {
+public final class ProductColumn implements ColumnState {
+  public ProductColumn() {
   }
 
   @Override
   public Class<?> getColumnClass() {
-    return Integer.class;
+    return String.class;
   }
 
   @Override
   public String getName() {
-    return Constants.TABLE_NUMBER;
+    return Constants.TABLE_PRODUCT;
   }
 
   @Override
   public Object getValue(RechnungData data) {
-    return data.getInvoiceNumber();
+    return data.getItem();
   }
 
   @Override
   public void setValue(RechnungData data, Object value) {
-    // Nicht setzbar
+    if (value instanceof String) {
+      data.setItem((String) value);
+    }
   }
 }
