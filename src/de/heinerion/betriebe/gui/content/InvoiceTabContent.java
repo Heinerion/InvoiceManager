@@ -1,25 +1,5 @@
 package de.heinerion.betriebe.gui.content;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.TableModel;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.heinerion.betriebe.classes.file_operations.IO;
 import de.heinerion.betriebe.classes.texting.DropListable;
 import de.heinerion.betriebe.classes.texting.Vorlage;
@@ -35,6 +15,15 @@ import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.FormatTools;
 import de.heinerion.betriebe.tools.ParsingTools;
 import de.heinerion.betriebe.tools.strings.Strings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public final class InvoiceTabContent extends AbstractTabContent implements
@@ -45,18 +34,17 @@ public final class InvoiceTabContent extends AbstractTabContent implements
   private static final int COL_PRICE = 2;
   private static final int COL_COUNT = 3;
 
-  private static Logger logger = LogManager.getLogger(InvoiceTabContent.class);
+  private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
 
   // TODO Reihen und Spalten dynamisch
-  private final int reihen = 7;
-  private final int spalten = 4;
+  private final static int ROWS = 7;
+  private final static int COLS = 4;
 
-  // private final String[][] inhaltPos = new String[this.reihen][this.spalten];
-  private final List<Item> inhaltPos = new ArrayList<>();
-  private List<Vorlage> vorlagen = new ArrayList<>();
+  private final List<Item> contentPositions = new ArrayList<>();
+  private List<Vorlage> templates = new ArrayList<>();
 
-  private JTable tabPositionen;
-  private final JComboBox<Vorlage> boxVorlagen = new JComboBox<>();
+  private JTable tabPositions;
+  private final JComboBox<Vorlage> templateBox = new JComboBox<>();
   private JLabel currentTotalNet = new JLabel();
   private JLabel currentTotalGross = new JLabel();
 
@@ -64,9 +52,9 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     super(Constants.INVOICE);
     Session.addConveyableListener(this);
 
-    final TableModel model = new InvoiceTableModel(inhaltPos);
+    final TableModel model = new InvoiceTableModel(contentPositions);
     model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
-    tabPositionen = new JTable(model);
+    tabPositions = new JTable(model);
 
     final JButton btnVorlagenSave = new JButton(
         (Icon) UIManager.get("FileChooser.floppyDriveIcon"));
@@ -79,12 +67,12 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     lblVorlagen.setFont(lblVorlagen.getFont().deriveFont(Font.BOLD));
 
     pnlVorlagen.add(lblVorlagen, BorderLayout.LINE_START);
-    pnlVorlagen.add(boxVorlagen, BorderLayout.CENTER);
+    pnlVorlagen.add(templateBox, BorderLayout.CENTER);
     pnlVorlagen.add(btnVorlagenSave, BorderLayout.LINE_END);
 
     setLayout(new BorderLayout());
     add(pnlVorlagen, BorderLayout.PAGE_START);
-    add(new JScrollPane(this.tabPositionen), BorderLayout.CENTER);
+    add(new JScrollPane(this.tabPositions), BorderLayout.CENTER);
 
     final JPanel pnlSum = new JPanel(new GridLayout(1, 0));
     pnlSum.setOpaque(false);
@@ -100,14 +88,11 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
     add(pnlFooter, BorderLayout.PAGE_END);
 
-    this.boxVorlagen.addActionListener(e -> updateSelection());
+    this.templateBox.addActionListener(e -> updateSelection());
   }
 
-  /**
-   * 
-   */
   private void updateSelection() {
-    final int pos = this.boxVorlagen.getSelectedIndex();
+    final int pos = this.templateBox.getSelectedIndex();
     if (pos >= 0) {
       // Überschreibe Tabelleninhalt mit Vorlage
       String[][] tabelle;
@@ -118,9 +103,6 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     }
   }
 
-  /**
-   * @param tabelle
-   */
   private void fillTable(String[][] tabelle) {
     String[] zeile;
     for (int row = 0; row < tabelle.length; row++) {
@@ -128,11 +110,11 @@ public final class InvoiceTabContent extends AbstractTabContent implements
       for (int col = 0; col < zeile.length; col++) {
         // Für jede Zeile der Spalte die Zellen kopieren
         final String content = tabelle[row][col];
-        final Class<?> colClass = tabPositionen.getColumnClass(col);
+        final Class<?> colClass = tabPositions.getColumnClass(col);
         if (String.class.equals(colClass)) {
-          tabPositionen.setValueAt(content, row, col);
+          tabPositions.setValueAt(content, row, col);
         } else if (Double.class.equals(colClass)) {
-          tabPositionen.setValueAt(ParsingTools.parseDouble(content), row, col);
+          tabPositions.setValueAt(ParsingTools.parseDouble(content), row, col);
         }
       }
     }
@@ -140,19 +122,16 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   @Override
   protected void clear() {
-    for (int i = 0; i < this.reihen; i++) {
-      for (int j = 0; j < this.spalten; j++) {
+    for (int i = 0; i < ROWS; i++) {
+      for (int j = 0; j < COLS; j++) {
         // Alle Zellen überschreiben
-        this.tabPositionen.setValueAt("", i, j);
+        this.tabPositions.setValueAt("", i, j);
       }
     }
   }
 
-  /**
-   * 
-   */
   private void saveTemplate() {
-    final Item item = inhaltPos.get(0);
+    final Item item = contentPositions.get(0);
     if (item != null && item.getName() != null && !"".equals(item.getName())) {
       final List<Vorlage> activeVorlagen = DataBase.getTemplates(Session
           .getActiveCompany());
@@ -160,7 +139,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
       final String name = item.getName();
       // Wenn bereits Daten vorhanden: Index, sonst -1
       final int index = this.index(name, activeVorlagen);
-      final Vorlage vorlage = createVorlage(inhaltPos);
+      final Vorlage vorlage = createVorlage();
       if (index == -1) {
         // Daten erstellen
         activeVorlagen.add(vorlage);
@@ -170,16 +149,16 @@ public final class InvoiceTabContent extends AbstractTabContent implements
       }
       Collections.sort(activeVorlagen);
       IO.speichereVorlagen(activeVorlagen, Session.getActiveCompany());
-      // TODO hässliche, langsame Lösung, erfordert noch repaint
+      // TODO hässliche, langsame Lösung, erfordert repaint
       IO.ladeVorlagen();
       refresh();
     }
   }
 
-  private Vorlage createVorlage(List<Item> list) {
+  private Vorlage createVorlage() {
     Vorlage result = null;
-    if (tabPositionen.getModel() instanceof InvoiceTableModel) {
-      final TableModel tableModel = tabPositionen.getModel();
+    if (tabPositions.getModel() instanceof InvoiceTableModel) {
+      final TableModel tableModel = tabPositions.getModel();
       final InvoiceTableModel model = (InvoiceTableModel) tableModel;
       result = model.createVorlage();
     }
@@ -190,12 +169,12 @@ public final class InvoiceTabContent extends AbstractTabContent implements
   public void refresh() {
     final List<Vorlage> activeVorlagen = DataBase.getTemplates(Session
         .getActiveCompany());
-    if (!activeVorlagen.equals(vorlagen)) {
-      this.boxVorlagen.removeAllItems();
+    if (!activeVorlagen.equals(templates)) {
+      this.templateBox.removeAllItems();
       for (final Vorlage vorlage : activeVorlagen) {
-        this.boxVorlagen.addItem(vorlage);
+        this.templateBox.addItem(vorlage);
       }
-      vorlagen = activeVorlagen;
+      templates = activeVorlagen;
     }
     Session.setActiveConveyable(getContent());
   }
@@ -204,19 +183,17 @@ public final class InvoiceTabContent extends AbstractTabContent implements
    * Bestimmt den Index der gesuchten Eintrags in der gegebenen Liste TODO
    * index(String, ArrayList) in DropListeable schieben
    *
-   * @param name
-   *          Der Name des Eintrags
-   * @param liste
-   *          Die zu durchsuchende Liste
+   * @param name Der Name des Eintrags
+   * @param list Die zu durchsuchende Liste
    * @return Den Index des Eintrags oder -1, wenn nicht vorhanden
    */
-  private <T extends DropListable> int index(String name, List<T> liste) {
-    for (final T vorlage : liste) {
+  private <T extends DropListable> int index(String name, List<T> list) {
+    for (final T vorlage : list) {
       if (vorlage.getName().equals(name)) {
         if (logger.isDebugEnabled()) {
           logger.debug("{} = {}", vorlage.getName(), name);
         }
-        return liste.indexOf(vorlage);
+        return list.indexOf(vorlage);
       }
     }
     // Wenn die Methode bis hier kommt, gibt es keine Übereinstimmung
@@ -253,7 +230,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   private String stringAt(int row, int col) {
     String result = null;
-    final Object value = tabPositionen.getValueAt(row, col);
+    final Object value = tabPositions.getValueAt(row, col);
     if (value instanceof String) {
       result = (String) value;
     }
@@ -262,7 +239,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   private Double doubleAt(int row, int col) {
     Double result = null;
-    final Object value = tabPositionen.getValueAt(row, col);
+    final Object value = tabPositions.getValueAt(row, col);
     if (value instanceof Double) {
       result = (Double) value;
     }
