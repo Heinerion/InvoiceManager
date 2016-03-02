@@ -2,9 +2,12 @@ package de.heinerion.betriebe.classes.texting;
 
 import java.io.Serializable;
 import java.text.Collator;
+import java.util.Arrays;
 
 public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable {
-  /** Generierte ID */
+  /**
+   * Generierte ID
+   */
   private static final long serialVersionUID = 5654884407643922708L;
   private String name;
   private String[][] inhalt;
@@ -15,7 +18,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
 
   public Vorlage(String aName, String[][] content) {
     this.name = aName;
-    this.inhalt = content;
+    this.inhalt = Arrays.copyOf(content, content.length);
   }
 
   @Override
@@ -24,7 +27,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
   }
 
   public final String[][] getInhalt() {
-    return this.inhalt;
+    return Arrays.copyOf(inhalt, inhalt.length);
   }
 
   @Override
@@ -33,7 +36,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
   }
 
   public final void setInhalt(String[][] content) {
-    this.inhalt = content;
+    this.inhalt = Arrays.copyOf(content, content.length);
   }
 
   @Override
