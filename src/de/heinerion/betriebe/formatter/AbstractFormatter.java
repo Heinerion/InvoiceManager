@@ -38,7 +38,7 @@ public abstract class AbstractFormatter implements Formatter {
     }
   }
 
-  final void out(String message) {
+  protected final void out(String message) {
     this.output.add(message);
   }
 }

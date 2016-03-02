@@ -1,7 +1,10 @@
 package de.heinerion.betriebe.classes.file_operations.loading;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.tools.ParsingTools;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
@@ -10,6 +13,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
+  private static final Logger logger = LogManager.getLogger(RechnungDataLoader.class);
 
   public RechnungDataLoader(File aLoadDirectory) {
     super(aLoadDirectory);
@@ -27,20 +31,21 @@ public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
 
   @Override
   public Loadable loopAction(final File file) {
-    final RechnungData data = new RechnungData(file);
-    try {
-      final PDDocument pdf = PDDocument.load(file);
-      final PDDocumentInformation info = pdf.getDocumentInformation();
+    RechnungData data = new RechnungData(file);
+    try (PDDocument pdf = PDDocument.load(file)) {
+      PDDocumentInformation info = pdf.getDocumentInformation();
       // Ausgelesene Informationen in den Datensatz speichern
       data.setCompany(info.getAuthor());
       data.setItem(info.getSubject());
-      final String keywords = info.getKeywords();
+      String keywords = info.getKeywords();
       if (keywords != null && !"".equals(keywords)) {
         data.setAmount(ParsingTools.parseDouble(keywords));
       }
-      pdf.close();
-    } catch (final IOException e) {
-      e.printStackTrace();
+    } catch (IOException e) {
+      if (logger.isErrorEnabled()) {
+        logger.error(e);
+      }
+      HeinerionException.rethrow(e);
     }
 
     return data;

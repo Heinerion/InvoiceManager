@@ -1,17 +1,10 @@
 package de.heinerion.betriebe.classes.gui;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RadialGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
 import de.heinerion.betriebe.tools.math.Mathe;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class BGPanel extends JPanel {
   // Primzahlen => Produkt immer eindeutig
@@ -24,20 +17,20 @@ public class BGPanel extends JPanel {
 
   private static final long serialVersionUID = 1L;
 
-  private final boolean oben;
-  private final boolean unten;
-  private final boolean rechts;
-  private final boolean links;
+  private boolean oben;
+  private boolean unten;
+  private boolean rechts;
+  private boolean links;
 
-  private final int widthOben;
-  private final int widthLinks;
-  private final int widthUnten;
-  private final int widthRechts;
+  private int widthOben;
+  private int widthLinks;
+  private int widthUnten;
+  private int widthRechts;
 
-  private final Color rand;
-  private final Color zentrum;
-  private final Color[] farben;
-  private final float[] fraktionen = new float[] { 0f, 1f };
+  private Color rand;
+  private Color zentrum;
+  private Color[] farben;
+  private float[] fraktionen = new float[]{0f, 1f};
 
   private RadialGradientPaint ol;
   private RadialGradientPaint or;
@@ -50,100 +43,77 @@ public class BGPanel extends JPanel {
   private GradientPaint gpOben;
   private GradientPaint gpUnten;
 
-  public BGPanel(int... seiten) {
-    final int direction = Mathe.produkt(seiten);
-    this.oben = direction % OBEN == 0;
-    this.unten = direction % UNTEN == 0;
-    this.links = direction % LINKS == 0;
-    this.rechts = direction % RECHTS == 0;
+  public BGPanel(int... sides) {
+    int direction = Mathe.produkt(sides);
+    oben = direction % OBEN == 0;
+    unten = direction % UNTEN == 0;
+    links = direction % LINKS == 0;
+    rechts = direction % RECHTS == 0;
 
-    this.widthOben = (this.oben) ? WIDTH : 0;
-    this.widthLinks = (this.links) ? WIDTH : 0;
-    this.widthUnten = (this.unten) ? WIDTH : 0;
-    this.widthRechts = (this.rechts) ? WIDTH : 0;
+    widthOben = (oben) ? WIDTH : 0;
+    widthLinks = (links) ? WIDTH : 0;
+    widthUnten = (unten) ? WIDTH : 0;
+    widthRechts = (rechts) ? WIDTH : 0;
 
-    this.setBorder(BorderFactory.createEmptyBorder(this.widthOben,
-        this.widthLinks, this.widthUnten, this.widthRechts));
+    setBorder(BorderFactory.createEmptyBorder(widthOben, widthLinks, widthUnten, widthRechts));
 
-    this.rand = (new JPanel()).getBackground();
-    this.zentrum = Color.WHITE;
-    this.farben = new Color[] { this.zentrum, this.rand };
+    rand = (new JPanel()).getBackground();
+    zentrum = Color.WHITE;
+    farben = new Color[]{zentrum, rand};
   }
 
-  /**
-   * @param g2
-   * @param x
-   * @param y
-   */
-  private void drawAreas(final Graphics2D g2, final int x, final int y) {
-    g2.setPaint(this.links ? this.gpLinks : this.gpWeiss);
-    g2.fill(new Rectangle2D.Double(x, this.widthOben, this.getWidth() / 2, this
-        .getHeight() - this.widthUnten - this.widthOben));
+  private void drawAreas(Graphics2D g2, int x, int y) {
+    g2.setPaint(links ? gpLinks : gpWeiss);
+    g2.fill(new Rectangle2D.Double(x, widthOben, getWidth() / 2, getHeight() - widthUnten - widthOben));
 
-    g2.setPaint(this.rechts ? this.gpRechts : this.gpWeiss);
-    g2.fill(new Rectangle2D.Double(this.getWidth() / 2, this.widthOben, this
-        .getWidth(), this.getHeight() - this.widthUnten - this.widthOben));
+    g2.setPaint(rechts ? gpRechts : gpWeiss);
+    g2.fill(new Rectangle2D.Double(getWidth() / 2, widthOben, getWidth(), getHeight() - widthUnten - widthOben));
 
-    g2.setPaint(this.oben ? this.gpOben : this.gpWeiss);
-    g2.fill(new Rectangle2D.Double(this.widthLinks, y, this.getWidth()
-        - this.widthRechts - this.widthLinks, this.getHeight() / 2));
+    g2.setPaint(oben ? gpOben : gpWeiss);
+    g2.fill(new Rectangle2D.Double(widthLinks, y, getWidth() - widthRechts - widthLinks, getHeight() / 2));
 
-    g2.setPaint(this.unten ? this.gpUnten : this.gpWeiss);
-    g2.fill(new Rectangle2D.Double(this.widthLinks, this.getHeight() / 2, this
-        .getWidth() - this.widthRechts - this.widthLinks, this.getHeight()));
+    g2.setPaint(unten ? gpUnten : gpWeiss);
+    g2.fill(new Rectangle2D.Double(widthLinks, getHeight() / 2, getWidth() - widthRechts - widthLinks, getHeight()));
   }
 
-  /**
-   * @param g2
-   * @param x
-   * @param y
-   */
-  private void drawCorners(final Graphics2D g2, final int x, final int y) {
-    if (this.oben && this.links) {
-      g2.setPaint(this.ol);
+  private void drawCorners(Graphics2D g2, int x, int y) {
+    if (oben && links) {
+      g2.setPaint(ol);
       g2.fillRect(x, y, WIDTH, WIDTH);
     }
-    if (this.oben && this.rechts) {
-      g2.setPaint(this.or);
-      g2.fillRect(this.getWidth() - WIDTH, y, WIDTH, WIDTH);
+    if (oben && rechts) {
+      g2.setPaint(or);
+      g2.fillRect(getWidth() - WIDTH, y, WIDTH, WIDTH);
     }
-    if (this.unten && this.links) {
-      g2.setPaint(this.ul);
-      g2.fillRect(x, this.getHeight() - WIDTH, WIDTH, WIDTH);
+    if (unten && links) {
+      g2.setPaint(ul);
+      g2.fillRect(x, getHeight() - WIDTH, WIDTH, WIDTH);
     }
-    if (this.unten && this.rechts) {
-      g2.setPaint(this.ur);
-      g2.fillRect(this.getWidth() - WIDTH, this.getHeight() - WIDTH, WIDTH,
-          WIDTH);
+    if (unten && rechts) {
+      g2.setPaint(ur);
+      g2.fillRect(getWidth() - WIDTH, getHeight() - WIDTH, WIDTH, WIDTH);
     }
   }
 
   private void initColors(int activeWidth, int activeHeight) {
-    this.ol = new RadialGradientPaint(WIDTH, WIDTH, WIDTH, this.fraktionen,
-        this.farben);
-    this.or = new RadialGradientPaint(activeWidth, WIDTH, WIDTH,
-        this.fraktionen, this.farben);
-    this.ul = new RadialGradientPaint(WIDTH, activeHeight, WIDTH,
-        this.fraktionen, this.farben);
-    this.ur = new RadialGradientPaint(activeWidth, activeHeight, WIDTH,
-        this.fraktionen, this.farben);
+    ol = new RadialGradientPaint(WIDTH, WIDTH, WIDTH, fraktionen, farben);
+    or = new RadialGradientPaint(activeWidth, WIDTH, WIDTH, fraktionen, farben);
+    ul = new RadialGradientPaint(WIDTH, activeHeight, WIDTH, fraktionen, farben);
+    ur = new RadialGradientPaint(activeWidth, activeHeight, WIDTH, fraktionen, farben);
   }
 
   private void initPaint(int activeWidth, int activeHeight, int x, int y) {
-    this.gpWeiss = new GradientPaint(x, y, this.zentrum, WIDTH, y, this.zentrum);
-    this.gpLinks = new GradientPaint(x, y, this.rand, WIDTH, y, this.zentrum);
-    this.gpRechts = new GradientPaint(activeWidth, y, this.zentrum,
-        this.getWidth(), y, this.rand);
-    this.gpOben = new GradientPaint(x, y, this.rand, x, WIDTH, this.zentrum);
-    this.gpUnten = new GradientPaint(x, activeHeight, this.zentrum, x,
-        this.getHeight(), this.rand);
+    gpWeiss = new GradientPaint(x, y, zentrum, WIDTH, y, zentrum);
+    gpLinks = new GradientPaint(x, y, rand, WIDTH, y, zentrum);
+    gpRechts = new GradientPaint(activeWidth, y, zentrum, getWidth(), y, rand);
+    gpOben = new GradientPaint(x, y, rand, x, WIDTH, zentrum);
+    gpUnten = new GradientPaint(x, activeHeight, zentrum, x, getHeight(), rand);
   }
 
   @Override
-  public final void paintComponent(Graphics g) {
-    final Graphics2D g2 = (Graphics2D) g;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        RenderingHints.VALUE_ANTIALIAS_ON);
+  public void paintComponent(Graphics g) {
+    Graphics2D g2 = (Graphics2D) g;
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     // Panel:
     //
@@ -159,16 +129,16 @@ public class BGPanel extends JPanel {
     // beide: Diagonal IF beide nicht: nichts IF eine ja eine nein: wie die
     // aktive
 
-    final int x = 0;
-    final int y = 0;
+    int x = 0;
+    int y = 0;
 
-    final int activeWidth = this.getWidth() - WIDTH;
-    final int activeHeight = this.getHeight() - WIDTH;
+    int activeWidth = getWidth() - WIDTH;
+    int activeHeight = getHeight() - WIDTH;
 
-    this.initColors(activeWidth, activeHeight);
-    this.initPaint(activeWidth, activeHeight, x, y);
+    initColors(activeWidth, activeHeight);
+    initPaint(activeWidth, activeHeight, x, y);
 
-    this.drawCorners(g2, x, y);
-    this.drawAreas(g2, x, y);
+    drawCorners(g2, x, y);
+    drawAreas(g2, x, y);
   }
 }

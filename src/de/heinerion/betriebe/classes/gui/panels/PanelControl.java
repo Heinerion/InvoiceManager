@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.util.List;
 
-public final class PanelControl {
+import static de.heinerion.betriebe.data.Constants.NEWLINE;
+
+public class PanelControl {
   private static final Logger logger = LogManager.getLogger(PanelControl.class);
 
   private static final String DEFAULT_APARTMENT = null;
@@ -39,13 +41,13 @@ public final class PanelControl {
     String street = null;
 
     if (address != null) {
-      recipient = address.split(Constants.NEWLINE)[0];
+      recipient = address.split(NEWLINE)[0];
 
-      final String[] stringToken = address.split("\\n");
+      String[] stringToken = address.split("\\n");
       token = stringToken.length;
 
-      final String streetAndNumber = stringToken[token - 2].trim();
-      final String[] numberToken = streetAndNumber.split(Constants.SPACE);
+      String streetAndNumber = stringToken[token - 2].trim();
+      String[] numberToken = streetAndNumber.split(Constants.SPACE);
       String streetTemp = "";
       for (int i = 0; i < numberToken.length - 1; i++) {
         streetTemp += numberToken[i].trim() + Constants.SPACE;
@@ -53,8 +55,8 @@ public final class PanelControl {
       street = streetTemp.trim();
       number = numberToken[numberToken.length - 1].trim();
 
-      final String codeAndLocation = stringToken[token - 1].trim();
-      final String[] locationToken = codeAndLocation.split(Constants.SPACE);
+      String codeAndLocation = stringToken[token - 1].trim();
+      String[] locationToken = codeAndLocation.split(Constants.SPACE);
       String locationTemp = "";
       for (int i = 1; i < locationToken.length; i++) {
         locationTemp += locationToken[i].trim() + Constants.SPACE;
@@ -67,54 +69,46 @@ public final class PanelControl {
         postalCode, location);
   }
 
-  /**
-   *
-   */
   public static void saveAddress(String address) {
     if (logger.isDebugEnabled()) {
       logger.debug("save...");
     }
-    if (address != null && !"".equals(address)) {
+    if (notEmpty(address)) {
       DataBase.addAdresse(parseAddress(address));
     }
   }
 
-  /**
-   *
-   */
+  private static boolean notEmpty(String address) {
+    return address != null && !"".equals(address.trim());
+  }
+
   public static String useGivenAddress(Address address) {
-    final String result;
+    String result = null;
 
     if (address != null) {
-      final Formatter formatter = new PlainFormatter();
+      Formatter formatter = new PlainFormatter();
       formatter.formatAddress(address);
-      final List<String> out = formatter.getOutput();
+      List<String> out = formatter.getOutput();
       String addressAsText = "";
-      for (final String line : out) {
-        addressAsText += line + Constants.NEWLINE;
+      for (String line : out) {
+        addressAsText += line + NEWLINE;
       }
       result = addressAsText;
-    } else {
-      result = null;
     }
 
     return result;
   }
 
-  /**
-   * @return
-   */
   public static ImageIcon loadImage(String path) {
     ImageIcon image = null;
 
     // Benutze den Classloader um Bilder einzubinden
-    final java.net.URL imageURL = RechnungFrame.class.getClassLoader()
+    java.net.URL imageURL = RechnungFrame.class.getClassLoader()
         .getResource(path);
     if (imageURL != null) {
       image = new ImageIcon(imageURL);
-    } else {
-      image = null;
     }
+
     return image;
   }
 }
