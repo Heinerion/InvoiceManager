@@ -5,6 +5,10 @@ public class HeinerionException extends RuntimeException {
     super();
   }
 
+  public HeinerionException(String message) {
+    super(message);
+  }
+
   public HeinerionException(Throwable t) {
     super(t);
   }
