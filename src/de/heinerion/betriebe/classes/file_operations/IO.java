@@ -33,21 +33,34 @@ public final class IO implements LoadListener {
 
   private String lastMessage;
 
+  private static IO me = new IO();
+
   private IO() {
+    if (logger.isDebugEnabled()) {
+      logger.debug("setup Loaders");
+    }
     loadingManager.addListener(this);
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("add CompanyLoader");
+    }
     final File companyFile = new File(PathTools.getPath(Company.class));
     final Loader<Company> companyLoader = new CompanyLoader(companyFile);
     loadingManager.addLoader(Company.class, companyLoader);
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("add AddressLoader");
+    }
     final File file = new File(PathTools.getPath(Address.class));
     final Loader<Address> addressLoader = new AddressLoader(file);
     loadingManager.addLoader(Address.class, addressLoader);
 
     // TODO here we don't know even one company
     for (final Company company : Session.getAvailableCompanies()) {
-      loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(
-          company.getPfad()));
+      if (logger.isDebugEnabled()) {
+        logger.debug("add invoice loader for {}", company.getDescriptiveName());
+      }
+      loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(company.getPfad()));
     }
   }
 
@@ -139,6 +152,12 @@ public final class IO implements LoadListener {
    */
   public static void speichereVorlagen(List<Vorlage> vorlagen, Company company) {
     speichereListe(vorlagen, getTemplatePath(company));
+  }
+
+  // TODO an der Effizienz arbeiten...
+  public static void updateTemplates(List<Vorlage> vorlagen) {
+    speichereVorlagen(vorlagen, Session.getActiveCompany());
+    ladeVorlagen();
   }
 
   public static void load() {

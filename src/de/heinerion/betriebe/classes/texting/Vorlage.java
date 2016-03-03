@@ -18,7 +18,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
 
   public Vorlage(String aName, String[][] content) {
     this.name = aName;
-    this.inhalt = Arrays.copyOf(content, content.length);
+    this.inhalt = content;
   }
 
   @Override
@@ -27,7 +27,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
   }
 
   public final String[][] getInhalt() {
-    return Arrays.copyOf(inhalt, inhalt.length);
+    return inhalt;
   }
 
   @Override
