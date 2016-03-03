@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.gui.content;
 
-import javax.swing.JButton;
-
 import de.heinerion.betriebe.classes.gui.BGPanel;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public abstract class AbstractTabContent extends BGPanel implements TabContent {
@@ -29,7 +29,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
     return content;
   }
 
-  public final JButton getDelete() {
+  public final JButton getDeleteBtn() {
     return delete;
   }
 

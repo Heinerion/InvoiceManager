@@ -6,6 +6,7 @@ import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
@@ -24,6 +25,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static java.awt.BorderLayout.*;
 
 @SuppressWarnings("serial")
 public final class InvoiceTabContent extends AbstractTabContent implements
@@ -52,71 +55,162 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     super(Constants.INVOICE);
     Session.addConveyableListener(this);
 
-    final TableModel model = new InvoiceTableModel(contentPositions);
-    model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
-    tabPositions = new JTable(model);
-
-    final JButton btnVorlagenSave = new JButton(
-        (Icon) UIManager.get("FileChooser.floppyDriveIcon"));
-    btnVorlagenSave.addActionListener(e -> saveTemplate());
-
-    final JPanel pnlVorlagen = new JPanel(new BorderLayout());
-    pnlVorlagen.setOpaque(false);
-
-    final JLabel lblVorlagen = new JLabel("Vorlagen");
-    lblVorlagen.setFont(lblVorlagen.getFont().deriveFont(Font.BOLD));
-
-    pnlVorlagen.add(lblVorlagen, BorderLayout.LINE_START);
-    pnlVorlagen.add(templateBox, BorderLayout.CENTER);
-    pnlVorlagen.add(btnVorlagenSave, BorderLayout.LINE_END);
+    initTabPositions();
 
     setLayout(new BorderLayout());
-    add(pnlVorlagen, BorderLayout.PAGE_START);
-    add(new JScrollPane(this.tabPositions), BorderLayout.CENTER);
 
-    final JPanel pnlSum = new JPanel(new GridLayout(1, 0));
-    pnlSum.setOpaque(false);
-    pnlSum.add(new JLabel("Vor Steuern"));
-    pnlSum.add(currentTotalNet);
-    pnlSum.add(new JLabel("Nach Steuern"));
-    pnlSum.add(currentTotalGross);
+    add(createTemplatePnl(), PAGE_START);
+    add(createTablePnl(), CENTER);
+    add(createFooterPnl(), PAGE_END);
 
-    final JPanel pnlFooter = new JPanel(new GridLayout(0, 1));
+    setUpInteractions();
+  }
+
+  private void initTabPositions() {
+    TableModel model = new InvoiceTableModel(contentPositions);
+    model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
+    tabPositions = new JTable(model);
+  }
+
+  private JPanel createTemplatePnl() {
+    JPanel templatePnl = new JPanel(new BorderLayout());
+
+    templatePnl.setOpaque(false);
+    templatePnl.add(createTemplateLbl(), LINE_START);
+    templatePnl.add(templateBox, CENTER);
+    templatePnl.add(createTemplateSaveBtn(), LINE_END);
+
+    return templatePnl;
+  }
+
+  private JLabel createTemplateLbl() {
+    JLabel templateLbl = new JLabel("Vorlagen");
+    templateLbl.setFont(templateLbl.getFont().deriveFont(Font.BOLD));
+    return templateLbl;
+  }
+
+  private JButton createTemplateSaveBtn() {
+    JButton saveTemplateBtn = new JButton(
+        (Icon) UIManager.get("FileChooser.floppyDriveIcon"));
+
+    saveTemplateBtn.addActionListener(e -> saveTemplate());
+
+    return saveTemplateBtn;
+  }
+
+  private void saveTemplate() {
+    Item item = contentPositions.get(0);
+    if (isNotEmpty(item)) {
+      addToTemplates(item);
+    }
+  }
+
+  private boolean isNotEmpty(Item item) {
+    return !(item == null || item.getName() == null || "".equals(item.getName().trim()));
+  }
+
+  private void addToTemplates(Item item) {
+    List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    Vorlage template = createTemplate();
+
+    int index = index(item.getName(), activeTemplates);
+    if (index == -1) {
+      activeTemplates.add(template);
+    } else {
+      activeTemplates.set(index, template);
+    }
+
+    Collections.sort(activeTemplates);
+    IO.updateTemplates(activeTemplates);
+    refresh();
+  }
+
+  private Vorlage createTemplate() {
+    Vorlage result = null;
+
+    if (tabPositions.getModel() instanceof InvoiceTableModel) {
+      TableModel tableModel = tabPositions.getModel();
+      InvoiceTableModel model = (InvoiceTableModel) tableModel;
+      result = model.createVorlage();
+    }
+
+    return result;
+  }
+
+  @Override
+  public void refresh() {
+    List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    if (!activeTemplates.equals(templates)) {
+      templateBox.removeAllItems();
+      for (Vorlage template : activeTemplates) {
+        templateBox.addItem(template);
+      }
+      templates = activeTemplates;
+    }
+    Session.setActiveConveyable(getContent());
+  }
+
+  private JScrollPane createTablePnl() {
+    return new JScrollPane(tabPositions);
+  }
+
+  private JPanel createFooterPnl() {
+    JPanel pnlFooter = new JPanel(new GridLayout(0, 1));
+
     pnlFooter.setOpaque(false);
-    pnlFooter.add(pnlSum, BorderLayout.PAGE_END);
-    pnlFooter.add(getDelete());
+    pnlFooter.add(createSumPanel(), PAGE_END);
+    pnlFooter.add(getDeleteBtn());
 
-    add(pnlFooter, BorderLayout.PAGE_END);
+    return pnlFooter;
+  }
 
-    this.templateBox.addActionListener(e -> updateSelection());
+  private JPanel createSumPanel() {
+    JPanel sumPnl = new JPanel(new GridLayout(1, 0));
+
+    sumPnl.setOpaque(false);
+    sumPnl.add(new JLabel("Vor Steuern"));
+    sumPnl.add(currentTotalNet);
+    sumPnl.add(new JLabel("Nach Steuern"));
+    sumPnl.add(currentTotalGross);
+
+    return sumPnl;
+  }
+
+  private void setUpInteractions() {
+    templateBox.addActionListener(e -> updateSelection());
   }
 
   private void updateSelection() {
-    final int pos = this.templateBox.getSelectedIndex();
+    int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // Überschreibe Tabelleninhalt mit Vorlage
-      String[][] tabelle;
-      final List<Vorlage> activeVorlagen = DataBase.getTemplates(Session
-          .getActiveCompany());
-      tabelle = activeVorlagen.get(pos).getInhalt();
-      fillTable(tabelle);
+      String[][] table;
+      List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+      table = activeTemplates.get(pos).getInhalt();
+      fillTable(table);
     }
   }
 
   private void fillTable(String[][] tabelle) {
-    String[] zeile;
     for (int row = 0; row < tabelle.length; row++) {
-      zeile = tabelle[row];
-      for (int col = 0; col < zeile.length; col++) {
-        // Für jede Zeile der Spalte die Zellen kopieren
-        final String content = tabelle[row][col];
-        final Class<?> colClass = tabPositions.getColumnClass(col);
-        if (String.class.equals(colClass)) {
-          tabPositions.setValueAt(content, row, col);
-        } else if (Double.class.equals(colClass)) {
-          tabPositions.setValueAt(ParsingTools.parseDouble(content), row, col);
-        }
-      }
+      fillRow(tabelle[row], row);
+    }
+  }
+
+  private void fillRow(String[] rowContents, int row) {
+    for (int col = 0; col < rowContents.length; col++) {
+      fillCell(row, col, rowContents[col]);
+    }
+  }
+
+  private void fillCell(int row, int col, String content) {
+    Class<?> colClass = tabPositions.getColumnClass(col);
+    if (String.class.equals(colClass)) {
+      tabPositions.setValueAt(content, row, col);
+    } else if (Double.class.equals(colClass)) {
+      tabPositions.setValueAt(ParsingTools.parseDouble(content), row, col);
+    } else {
+      throw new HeinerionException("Invalid column class " + colClass.getSimpleName());
     }
   }
 
@@ -125,58 +219,9 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     for (int i = 0; i < ROWS; i++) {
       for (int j = 0; j < COLS; j++) {
         // Alle Zellen überschreiben
-        this.tabPositions.setValueAt("", i, j);
+        tabPositions.setValueAt("", i, j);
       }
     }
-  }
-
-  private void saveTemplate() {
-    final Item item = contentPositions.get(0);
-    if (item != null && item.getName() != null && !"".equals(item.getName())) {
-      final List<Vorlage> activeVorlagen = DataBase.getTemplates(Session
-          .getActiveCompany());
-      // Erste Zelle ist Name
-      final String name = item.getName();
-      // Wenn bereits Daten vorhanden: Index, sonst -1
-      final int index = this.index(name, activeVorlagen);
-      final Vorlage vorlage = createVorlage();
-      if (index == -1) {
-        // Daten erstellen
-        activeVorlagen.add(vorlage);
-      } else {
-        // Daten aktualisieren
-        activeVorlagen.set(index, vorlage);
-      }
-      Collections.sort(activeVorlagen);
-      IO.speichereVorlagen(activeVorlagen, Session.getActiveCompany());
-      // TODO hässliche, langsame Lösung, erfordert repaint
-      IO.ladeVorlagen();
-      refresh();
-    }
-  }
-
-  private Vorlage createVorlage() {
-    Vorlage result = null;
-    if (tabPositions.getModel() instanceof InvoiceTableModel) {
-      final TableModel tableModel = tabPositions.getModel();
-      final InvoiceTableModel model = (InvoiceTableModel) tableModel;
-      result = model.createVorlage();
-    }
-    return result;
-  }
-
-  @Override
-  public void refresh() {
-    final List<Vorlage> activeVorlagen = DataBase.getTemplates(Session
-        .getActiveCompany());
-    if (!activeVorlagen.equals(templates)) {
-      this.templateBox.removeAllItems();
-      for (final Vorlage vorlage : activeVorlagen) {
-        this.templateBox.addItem(vorlage);
-      }
-      templates = activeVorlagen;
-    }
-    Session.setActiveConveyable(getContent());
   }
 
   /**
@@ -188,7 +233,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
    * @return Den Index des Eintrags oder -1, wenn nicht vorhanden
    */
   private <T extends DropListable> int index(String name, List<T> list) {
-    for (final T vorlage : list) {
+    for (T vorlage : list) {
       if (vorlage.getName().equals(name)) {
         if (logger.isDebugEnabled()) {
           logger.debug("{} = {}", vorlage.getName(), name);
@@ -202,17 +247,17 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   @Override
   protected Conveyable getConveyable() {
-    final Company company = Session.getActiveCompany();
-    final Address receiver = Session.getActiveAddress();
+    Company company = Session.getActiveCompany();
+    Address receiver = Session.getActiveAddress();
 
-    final Invoice invoice = new Invoice(Session.getDate(), company, receiver);
+    Invoice invoice = new Invoice(Session.getDate(), company, receiver);
 
     // TODO warum +1?
     for (int row = 0; row < Constants.INVOICE_LINECOUNT + 1; row++) {
-      final String name = stringAt(row, COL_NAME);
-      final String unit = stringAt(row, COL_UNIT);
-      final Double price = doubleAt(row, COL_PRICE);
-      final Double count = doubleAt(row, COL_COUNT);
+      String name = stringAt(row, COL_NAME);
+      String unit = stringAt(row, COL_UNIT);
+      Double price = doubleAt(row, COL_PRICE);
+      Double count = doubleAt(row, COL_COUNT);
 
       if (Strings.isEmpty(unit)) {
         if (!Strings.isEmpty(name)) {
@@ -230,7 +275,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   private String stringAt(int row, int col) {
     String result = null;
-    final Object value = tabPositions.getValueAt(row, col);
+    Object value = tabPositions.getValueAt(row, col);
     if (value instanceof String) {
       result = (String) value;
     }
@@ -239,7 +284,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   private Double doubleAt(int row, int col) {
     Double result = null;
-    final Object value = tabPositions.getValueAt(row, col);
+    Object value = tabPositions.getValueAt(row, col);
     if (value instanceof Double) {
       result = (Double) value;
     }
@@ -249,7 +294,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
   @Override
   public void notifyConveyable() {
     if (Session.getActiveConveyable() instanceof Invoice) {
-      final Invoice invoice = (Invoice) Session.getActiveConveyable();
+      Invoice invoice = (Invoice) Session.getActiveConveyable();
       currentTotalGross.setText(FormatTools.formatLocaleDecimal(invoice
           .getGross()));
       currentTotalNet

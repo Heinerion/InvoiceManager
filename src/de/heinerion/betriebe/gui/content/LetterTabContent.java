@@ -1,15 +1,5 @@
 package de.heinerion.betriebe.gui.content;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
@@ -17,6 +7,9 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.strings.Strings;
+
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public final class LetterTabContent extends AbstractTabContent {
@@ -50,7 +43,7 @@ public final class LetterTabContent extends AbstractTabContent {
     setLayout(new BorderLayout());
     add(pnlBetreff, BorderLayout.PAGE_START);
     add(new JScrollPane(this.areaBrief), BorderLayout.CENTER);
-    add(getDelete(), BorderLayout.PAGE_END);
+    add(getDeleteBtn(), BorderLayout.PAGE_END);
   }
 
   @Override
