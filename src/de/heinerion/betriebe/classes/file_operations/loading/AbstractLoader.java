@@ -59,11 +59,17 @@ public abstract class AbstractLoader<T> implements Loader<T> {
   }
 
   private void listFiles() {
+    if (logger.isDebugEnabled()) {
+      logger.debug("Verzeichnis {}", loadDirectory.getAbsolutePath());
+    }
     if (loadDirectory.isDirectory()) {
       File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
       if (null != fileArray) {
         files = Arrays.asList(fileArray);
       }
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("{} Dateien gefunden", getFileNumber());
     }
   }
 
@@ -94,7 +100,7 @@ public abstract class AbstractLoader<T> implements Loader<T> {
       String filename = file.getCanonicalPath();
       Matcher matcher = fileNamePattern.matcher(filename);
       if (logger.isDebugEnabled()) {
-        logger.debug("{}::{}", filename, matcher.matches());
+        logger.debug("Datei: {}, gültig für diesen Typ: {}", filename, matcher.matches());
       }
       result = matcher.matches();
     } catch (IOException e) {

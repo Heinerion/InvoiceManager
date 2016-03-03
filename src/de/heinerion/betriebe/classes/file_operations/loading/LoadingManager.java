@@ -31,29 +31,39 @@ public final class LoadingManager implements LoadListener, LoadListenable {
 
   public void addLoader(Class<? extends Loadable> clazz,
                         Loader<? extends Loadable> loader) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("add " + clazz.getSimpleName());
+    }
     if (!this.loadOrder.contains(clazz)) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("add {} to loadOrder", clazz.getSimpleName());
+      }
       this.loadOrder.add(clazz);
     }
 
     if (this.loaders.get(clazz) == null) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("add empty loaderList for {}", clazz.getSimpleName());
+      }
       this.loaders.put(clazz, new ArrayList<>());
     }
 
-    final List<Loader<? extends Loadable>> loadersForClass = this.loaders
-        .get(clazz);
+    if (logger.isDebugEnabled()) {
+      logger.debug("add {} to loaderList for {}", loader.getDescriptiveName(), clazz.getSimpleName());
+    }
+    List<Loader<? extends Loadable>> loadersForClass = loaders.get(clazz);
     loadersForClass.add(loader);
     loader.addListener(this);
 
-    final int numberOfLoaders = loadersForClass.size();
+    int numberOfLoaders = loadersForClass.size();
 
-    logger.info("Loader '{}' für '{}' registriert ({} gesamt)", loader
-        .getClass().getSimpleName(), clazz.getSimpleName(), numberOfLoaders);
+    if (logger.isInfoEnabled()) {
+      logger.info("Loader '{}' für '{}' registriert ({} gesamt)", loader
+          .getClass().getSimpleName(), clazz.getSimpleName(), numberOfLoaders);
+    }
   }
 
   public int getFileNumber() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("{} Dateien zu laden", this.fileNumber);
-    }
     return this.fileNumber;
   }
 

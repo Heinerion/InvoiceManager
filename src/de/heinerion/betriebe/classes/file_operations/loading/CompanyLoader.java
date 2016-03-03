@@ -3,12 +3,16 @@ package de.heinerion.betriebe.classes.file_operations.loading;
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public final class CompanyLoader extends AbstractTextFileLoader<Company> {
+  private static final Logger logger = LogManager.getLogger(CompanyLoader.class);
+
   private static final String ADDRESS = "Address";
   private static final String ACCOUNT = "Account";
 
@@ -54,6 +58,9 @@ public final class CompanyLoader extends AbstractTextFileLoader<Company> {
 
   @Override
   protected Loadable parse(Map<String, String> attributes) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("lade {}", attributes.get(DESCRIPTIVE_NAME));
+    }
     final Address address = getAddress(attributes);
     final double valueAddedTax = getValueAddedTax(attributes);
     final double wagesPerHour = getWagesPerHour(attributes);

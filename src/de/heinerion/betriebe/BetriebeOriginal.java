@@ -27,10 +27,14 @@ final class BetriebeOriginal {
   public static void main(String... args) {
     setDebugMode(args);
 
-    logger.info("Setting up application.");
+    if (logger.isInfoEnabled()) {
+      logger.info("Setting up application.");
+    }
     setup();
 
-    logger.info("Entering application.");
+    if (logger.isInfoEnabled()) {
+      logger.info("Entering application.");
+    }
     start();
   }
 
@@ -40,7 +44,7 @@ final class BetriebeOriginal {
         Utilities.setDebugMode(true);
       }
     }
-    if (!Utilities.isDebugMode()) {
+    if (logger.isWarnEnabled() && !Utilities.isDebugMode()) {
       logger.warn("\n\tPRODUCTION MODE");
     }
   }
