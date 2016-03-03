@@ -1,22 +1,18 @@
 package de.heinerion.betriebe.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.heinerion.betriebe.classes.file_operations.MainOperations;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public final class DruckAction implements ActionListener {
-  private static Logger logger = LogManager.getLogger(DruckAction.class);
-
-  public DruckAction() {
-  }
+  private static final Logger logger = LogManager.getLogger(DruckAction.class);
 
   @Override
   public void actionPerformed(ActionEvent arg0) {

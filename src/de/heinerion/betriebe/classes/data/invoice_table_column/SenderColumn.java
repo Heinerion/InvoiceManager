@@ -5,9 +5,6 @@ import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.models.Company;
 
 public final class SenderColumn implements ColumnState {
-  public SenderColumn() {
-  }
-
   @Override
   public Class<?> getColumnClass() {
     return Company.class;

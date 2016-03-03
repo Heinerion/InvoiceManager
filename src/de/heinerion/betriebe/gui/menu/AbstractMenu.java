@@ -1,13 +1,11 @@
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.gui.BusyState;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public abstract class AbstractMenu extends JDialog {
 
@@ -84,9 +82,6 @@ public abstract class AbstractMenu extends JDialog {
   protected abstract void setupInteractions();
 
   class DisposeAdapter extends WindowAdapter {
-    public DisposeAdapter() {
-    }
-
     @Override
     public void windowClosing(WindowEvent e) {
       AbstractMenu.this.dispose();

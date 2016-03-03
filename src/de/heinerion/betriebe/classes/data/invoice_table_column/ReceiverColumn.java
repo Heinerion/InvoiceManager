@@ -5,9 +5,6 @@ import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.models.Address;
 
 public final class ReceiverColumn implements ColumnState {
-  public ReceiverColumn() {
-  }
-
   @Override
   public Class<?> getColumnClass() {
     return Address.class;

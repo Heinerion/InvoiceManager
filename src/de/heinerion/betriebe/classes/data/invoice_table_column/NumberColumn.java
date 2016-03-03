@@ -4,9 +4,6 @@ import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
 
 public final class NumberColumn implements ColumnState {
-  public NumberColumn() {
-  }
-
   @Override
   public Class<?> getColumnClass() {
     return Integer.class;

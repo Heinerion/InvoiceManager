@@ -10,7 +10,6 @@ import javax.swing.*;
 public abstract class AbstractTabContent extends BGPanel implements TabContent {
   private String title;
   private JButton delete;
-  private Conveyable content;
 
   protected AbstractTabContent(String aTitle) {
     super(BGPanel.LINKS, BGPanel.RECHTS);
@@ -25,8 +24,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
 
   @Override
   public final Conveyable getContent() {
-    content = getConveyable();
-    return content;
+    return getConveyable();
   }
 
   public final JButton getDeleteBtn() {

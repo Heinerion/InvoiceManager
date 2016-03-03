@@ -4,9 +4,6 @@ import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
 
 public final class AmountColumn implements ColumnState {
-  public AmountColumn() {
-  }
-
   @Override
   public Class<?> getColumnClass() {
     return Double.class;

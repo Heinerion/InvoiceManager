@@ -7,9 +7,6 @@ public final class PositionCoordinates {
   private int height = 0;
   private int priority = 0;
 
-  public PositionCoordinates() {
-  }
-
   public int getPosX() {
     return posX;
   }

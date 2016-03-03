@@ -1,18 +1,13 @@
 package de.heinerion.betriebe.classes.file_operations;
 
-import java.time.LocalDate;
-import java.time.Month;
-
+import de.heinerion.betriebe.models.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.heinerion.betriebe.models.Account;
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Letter;
+import java.time.LocalDate;
+import java.time.Month;
 
 public class LatexGeneratorTest {
   private static final Month MONTH = Month.JUNE;
@@ -119,9 +114,6 @@ public class LatexGeneratorTest {
 
   private static Letter letter;
   private static Invoice invoice;
-
-  public LatexGeneratorTest() {
-  }
 
   @BeforeClass
   public static final void setUp() {

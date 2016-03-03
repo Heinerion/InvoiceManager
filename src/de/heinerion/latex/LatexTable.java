@@ -146,9 +146,6 @@ public final class LatexTable extends AbstractLatexContent {
     add(filledRow);
   }
 
-  /**
-   * @return
-   */
   private String generateHeader() {
     String tableHead = "";
     tableHead += LINE;
