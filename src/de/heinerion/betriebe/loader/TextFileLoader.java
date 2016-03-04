@@ -39,7 +39,7 @@ public class TextFileLoader {
   private static final String DISTRICT = "District";
   private static final String LOCATION = "Location";
   private static final String NUMBER = "Number";
-  private static final String POSTALCODE = "PostalCode";
+  private static final String POSTCODE = "PostalCode";
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
@@ -61,7 +61,7 @@ public class TextFileLoader {
     attributes.put(specify(ADDRESS, STREET), address.getStreet());
     attributes.put(specify(ADDRESS, NUMBER), address.getNumber());
     attributes.put(specify(ADDRESS, APARTMENT), address.getApartment());
-    attributes.put(specify(ADDRESS, POSTALCODE), address.getPostalCode());
+    attributes.put(specify(ADDRESS, POSTCODE), address.getPostalCode());
     attributes.put(specify(ADDRESS, LOCATION), address.getLocation());
   }
 
@@ -93,7 +93,7 @@ public class TextFileLoader {
     addAttribute(specify(ITEM, number + "", TOTAL), item.getTotal());
   }
 
-  private String generatePath(String rootPath, Storable storable) {
+  private String generatePath(Storable storable) {
     return PathTools.getPath(storable);
   }
 
@@ -104,7 +104,7 @@ public class TextFileLoader {
     attributes.put(STREET, address.getStreet());
     attributes.put(NUMBER, address.getNumber());
     attributes.put(APARTMENT, address.getApartment());
-    attributes.put(POSTALCODE, address.getPostalCode());
+    attributes.put(POSTCODE, address.getPostalCode());
     attributes.put(LOCATION, address.getLocation());
   }
 
@@ -144,19 +144,19 @@ public class TextFileLoader {
     }
   }
 
-  private void saveAddress(Address address, String path) throws IOException {
+  private void saveAddress(Address address) throws IOException {
     attributes = new HashMap<>();
 
     prepareAddress(address);
 
-    writeAttributes(generatePath(path, address));
+    writeAttributes(generatePath(address));
   }
 
-  public void saveAddresses(List<Address> addresses, String path)
+  public void saveAddresses(List<Address> addresses)
       throws IOException {
     for (Address address : addresses) {
       debug("save address " + address.getRecipient());
-      saveAddress(address, path);
+      saveAddress(address);
     }
   }
 
@@ -166,45 +166,45 @@ public class TextFileLoader {
     }
   }
 
-  public void saveCompanies(List<Company> companies, String path)
+  public void saveCompanies(List<Company> companies)
       throws IOException {
     for (Company company : companies) {
       debug("save company " + company.getDescriptiveName());
-      saveCompany(company, path);
+      saveCompany(company);
     }
   }
 
-  private void saveCompany(Company company, String path) throws IOException {
+  private void saveCompany(Company company) throws IOException {
     attributes = new HashMap<>();
     prepareCompany(company);
-    writeAttributes(generatePath(path, company));
+    writeAttributes(generatePath(company));
   }
 
-  private void saveInvoice(Invoice invoice, String path) throws IOException {
+  private void saveInvoice(Invoice invoice) throws IOException {
     attributes = new HashMap<>();
     prepareInvoice(invoice);
-    writeAttributes(generatePath(path, invoice));
+    writeAttributes(generatePath(invoice));
   }
 
-  public void saveInvoices(List<Invoice> invoices, String path)
+  public void saveInvoices(List<Invoice> invoices)
       throws IOException {
     for (Invoice invoice : invoices) {
       debug("save invoice " + invoice.getEntryName());
-      saveInvoice(invoice, path);
+      saveInvoice(invoice);
     }
   }
 
-  private void saveLetter(Letter letter, String path) throws IOException {
+  private void saveLetter(Letter letter) throws IOException {
     attributes = new HashMap<>();
     prepareLetter(letter);
-    writeAttributes(generatePath(path, letter));
+    writeAttributes(generatePath(letter));
   }
 
-  public void saveLetters(List<Letter> letters, String path)
+  public void saveLetters(List<Letter> letters)
       throws IOException {
     for (Letter letter : letters) {
       debug("save letter " + letter.getEntryName());
-      saveLetter(letter, path);
+      saveLetter(letter);
     }
   }
 

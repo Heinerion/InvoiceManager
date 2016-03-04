@@ -8,7 +8,6 @@ import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Pfade;
-import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
@@ -167,7 +166,7 @@ public final class IO implements LoadListener {
     final List<Address> addresses = DataBase.getAddresses();
 
     try {
-      loader.saveAddresses(addresses, Utilities.SYSTEM.getPath());
+      loader.saveAddresses(addresses);
     } catch (final IOException e) {
       handleException(IO.class, e);
     }
