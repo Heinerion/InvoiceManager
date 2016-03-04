@@ -9,6 +9,7 @@ import de.heinerion.betriebe.classes.file_operations.loading.JProgressBarIndicat
 import de.heinerion.betriebe.classes.file_operations.loading.ProgressIndicator;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.tools.gui.LookAndFeel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * @author heiner
  */
 final class BetriebeOriginal {
-  private static Logger logger = LogManager.getLogger(BetriebeOriginal.class);
+  private static final Logger logger = LogManager.getLogger(BetriebeOriginal.class);
 
   private static final long ONE_SECOND = 1000L;
 
@@ -63,19 +64,28 @@ final class BetriebeOriginal {
   }
 
   private static void startDataThread(RechnungFrame rechnungFrame) {
-    new Thread(() -> {
-      final ProgressIndicator progress = new JProgressBarIndicator(
-          rechnungFrame.getProgressBar());
+    new Thread(() -> collectData(rechnungFrame)).start();
+  }
 
-      IO.load(progress);
-      rechnungFrame.refresh();
+  private static void collectData(RechnungFrame rechnungFrame) {
+    ProgressIndicator progress = getProgressBarIndicator(rechnungFrame);
 
-      try {
-        Thread.sleep(ONE_SECOND);
-      } catch (final InterruptedException e) {
-        e.printStackTrace();
-      }
-      progress.setEnabled(false);
-    }).start();
+    IO.load(progress);
+    rechnungFrame.refresh();
+
+    waitASecond();
+    progress.setEnabled(false);
+  }
+
+  private static JProgressBarIndicator getProgressBarIndicator(RechnungFrame rechnungFrame) {
+    return new JProgressBarIndicator(rechnungFrame.getProgressBar());
+  }
+
+  private static void waitASecond() {
+    try {
+      Thread.sleep(ONE_SECOND);
+    } catch (final InterruptedException e) {
+      HeinerionException.handleException(BetriebeOriginal.class, e);
+    }
   }
 }
