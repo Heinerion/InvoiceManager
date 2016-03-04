@@ -45,7 +45,7 @@ public final class LatexTable extends AbstractLatexContent {
   }
 
   public void addEmptyRow() {
-    final int columnsCount = countColumns();
+    int columnsCount = countColumns();
 
     add(Syntax.multicol(1, COL_SEP + LEFT, PHANTOM)
         + Syntax.tab(columnsCount - 1) + Syntax.NEWLINE);
@@ -68,7 +68,7 @@ public final class LatexTable extends AbstractLatexContent {
    *          Spaltenindex, von dem aus unterstrichen wird
    */
   public void addLine(int startColumn) {
-    final int max = countColumns();
+    int max = countColumns();
 
     if (startColumn > 0) {
       addLine(startColumn, max);
@@ -123,11 +123,11 @@ public final class LatexTable extends AbstractLatexContent {
   }
 
   private void fill(boolean fillEnd, String... columns) {
-    final int max = countColumns();
-    final int skip = max - columns.length;
+    int max = countColumns();
+    int skip = max - columns.length;
 
-    final String skippedColumns = Syntax.tab(skip);
-    final String filledColumns = String.join(Syntax.tab(), columns);
+    String skippedColumns = Syntax.tab(skip);
+    String filledColumns = String.join(Syntax.tab(), columns);
 
     if (fillEnd) {
       add(filledColumns + skippedColumns);
@@ -137,11 +137,11 @@ public final class LatexTable extends AbstractLatexContent {
   }
 
   private void fill(String start, String end) {
-    final int max = countColumns() - 1;
-    final int skip = max - 2;
+    int max = countColumns() - 1;
+    int skip = max - 2;
 
-    final String skippedColumns = Syntax.tab(skip);
-    final String filledRow = String.join(Syntax.tab(), start, skippedColumns,
+    String skippedColumns = Syntax.tab(skip);
+    String filledRow = String.join(Syntax.tab(), start, skippedColumns,
         end);
     add(filledRow);
   }
@@ -151,7 +151,7 @@ public final class LatexTable extends AbstractLatexContent {
     tableHead += LINE;
     tableHead += Constants.NEWLINE;
 
-    final String headers = columnHeaders.stream().map(Object::toString)
+    String headers = columnHeaders.stream().map(Object::toString)
         .collect(Collectors.joining(Syntax.tab()));
     tableHead += headers;
 
@@ -171,7 +171,7 @@ public final class LatexTable extends AbstractLatexContent {
 
   @Override
   public String toString() {
-    final List<String> elements = new ArrayList<>();
+    List<String> elements = new ArrayList<>();
     elements.add(Syntax.begin(TABULAR, columnAlignment));
 
     if (columnHeaders.size() > 0) {
