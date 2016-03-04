@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.classes.file_operations.loading;
 
+import de.heinerion.betriebe.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +14,9 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractLoader<T> implements Loader<T> {
   private static final Logger logger = LogManager.getLogger(AbstractLoader.class);
+
+  private static final String VALID = "File: {}, compatible with {}";
+  private static final String INVALID = "File: {}, not compatible with {}";
 
   private List<File> files;
   private final List<LoadListener> listeners;
@@ -41,7 +45,12 @@ public abstract class AbstractLoader<T> implements Loader<T> {
   }
 
   protected final List<File> getFiles() {
-    return files;
+    List<File> result = files;
+    if (result == null) {
+      result = new ArrayList<>();
+    }
+
+    return result;
   }
 
   protected final File getLoadDirectory() {
@@ -53,14 +62,14 @@ public abstract class AbstractLoader<T> implements Loader<T> {
   @Override
   public final void init() {
     if (logger.isDebugEnabled()) {
-      logger.debug("Initialisiere {}", getClass().getSimpleName());
+      logger.debug("initialize {}", getClass().getSimpleName());
     }
     listFiles();
   }
 
   private void listFiles() {
     if (logger.isDebugEnabled()) {
-      logger.debug("Verzeichnis {}", loadDirectory.getAbsolutePath());
+      logger.debug("loadDirectory {}", loadDirectory.getAbsolutePath());
     }
     if (loadDirectory.isDirectory()) {
       File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
@@ -69,26 +78,25 @@ public abstract class AbstractLoader<T> implements Loader<T> {
       }
     }
     if (logger.isDebugEnabled()) {
-      logger.debug("{} Dateien gefunden", getFileNumber());
+      logger.debug("{} documents found", getFileNumber());
     }
   }
 
   @Override
   public final List<Loadable> load() {
     if (logger.isDebugEnabled()) {
-      logger.debug("Lade {}", getDescriptiveName());
+      logger.debug("load {}", getDescriptiveName());
     }
     List<File> fileList = getFiles();
     List<Loadable> resultList = new ArrayList<>();
-    if (fileList != null) {
-      for (File file : fileList) {
-        Loadable item = loopAction(file);
-        resultList.add(item);
-        notifyLoadListeners(getDescriptiveName(), item);
-      }
+
+    for (File file : fileList) {
+      Loadable item = loopAction(file);
+      resultList.add(item);
+      notifyLoadListeners(getDescriptiveName(), item);
     }
 
-    logger.info("{} Dokumente geladen", getFileNumber());
+    logger.info("{} documents loaded", getFileNumber());
     return resultList;
   }
 
@@ -96,17 +104,21 @@ public abstract class AbstractLoader<T> implements Loader<T> {
 
   private boolean matchFiles(File file, Pattern fileNamePattern) {
     boolean result = false;
+
     try {
       String filename = file.getCanonicalPath();
       Matcher matcher = fileNamePattern.matcher(filename);
-      if (logger.isDebugEnabled()) {
-        logger.debug("Datei: {}, gültig für diesen Typ: {}", filename, matcher.matches());
-      }
+
       result = matcher.matches();
-    } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e);
+
+      if (logger.isDebugEnabled() && result) {
+        logger.debug(VALID, filename, getClass().getSimpleName());
       }
+      if (logger.isInfoEnabled() && !result) {
+        logger.info(INVALID, filename, getClass().getSimpleName());
+      }
+    } catch (IOException e) {
+      HeinerionException.handleException(getClass(), e);
     }
 
     return result;
