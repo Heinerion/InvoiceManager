@@ -4,23 +4,15 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-
 import de.heinerion.betriebe.classes.gui.BGPanel;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.tools.DateTools;
+
+import javax.swing.*;
+import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * @author heiner
@@ -40,16 +32,19 @@ public final class RechnungsdatumMenu extends AbstractMenu {
 
   @Override
   protected void addWidgets() {
+    setLayout(new BorderLayout(5, 5));
+    add(header, BorderLayout.PAGE_START);
+    add(createBtnPnl(), BorderLayout.PAGE_END);
+    add(createDatePanel(), BorderLayout.CENTER);
+  }
 
-    this.setLayout(new BorderLayout(5, 5));
-    this.add(this.header, BorderLayout.PAGE_START);
-    this.add(new JPanel(new GridLayout(2, 1)) {
-      {
-        this.add(RechnungsdatumMenu.this.btnHeute);
-        this.add(RechnungsdatumMenu.this.getBtnOk());
-      }
-    }, BorderLayout.PAGE_END);
-    this.add(this.createDatePanel(), BorderLayout.CENTER);
+  private JPanel createBtnPnl() {
+    JPanel btnPnl = new JPanel(new GridLayout(2, 1));
+
+    btnPnl.add(btnHeute);
+    btnPnl.add(getBtnOk());
+
+    return btnPnl;
   }
 
   private JPanel createDatePanel() {
@@ -58,37 +53,37 @@ public final class RechnungsdatumMenu extends AbstractMenu {
     // Reihen 2, Spalten 3
     pnlDatum.setLayout(new GridLayout(2, 3));
 
-    pnlDatum.add(this.lblDD);
-    pnlDatum.add(this.lblMM);
-    pnlDatum.add(this.lblYY);
-    pnlDatum.add(this.fldDD);
-    pnlDatum.add(this.fldMM);
-    pnlDatum.add(this.fldYY);
+    pnlDatum.add(lblDD);
+    pnlDatum.add(lblMM);
+    pnlDatum.add(lblYY);
+    pnlDatum.add(fldDD);
+    pnlDatum.add(fldMM);
+    pnlDatum.add(fldYY);
 
     return pnlDatum;
   }
 
   @Override
   protected void createWidgets() {
-    this.btnHeute = new JButton("Heute");
-    this.lblYY = new JLabel("Jahr");
-    this.lblMM = new JLabel("Monat");
-    this.lblDD = new JLabel("Tag");
+    btnHeute = new JButton("Heute");
+    lblYY = new JLabel("Jahr");
+    lblMM = new JLabel("Monat");
+    lblDD = new JLabel("Tag");
 
     final int[] aktuell = getUrsprung().getRechnungsdatumAsArray();
-    this.fldDD = new JSpinner(new SpinnerNumberModel(aktuell[0], 1, 31, 1));
-    this.fldMM = new JSpinner(new SpinnerNumberModel(aktuell[1], 1, 12, 1));
-    this.fldYY = new JSpinner(new SpinnerNumberModel(aktuell[2], 1990, 2050, 1));
-    this.fldYY.setEditor(new JSpinner.NumberEditor(this.fldYY, "#"));
+    fldDD = new JSpinner(new SpinnerNumberModel(aktuell[0], 1, 31, 1));
+    fldMM = new JSpinner(new SpinnerNumberModel(aktuell[1], 1, 12, 1));
+    fldYY = new JSpinner(new SpinnerNumberModel(aktuell[2], 1990, 2050, 1));
+    fldYY.setEditor(new JSpinner.NumberEditor(fldYY, "#"));
 
-    this.header = new JLabel("Aktuelles Rechnungsdatum", SwingConstants.CENTER);
+    header = new JLabel("Aktuelles Rechnungsdatum", SwingConstants.CENTER);
 
   }
 
   private boolean eingabenKorrekt() {
     try {
-      this.date = DateTools.parse(this.fldDD.getValue() + "."
-          + this.fldMM.getValue() + "." + this.fldYY.getValue());
+      date = DateTools.parse(fldDD.getValue() + "."
+          + fldMM.getValue() + "." + fldYY.getValue());
     } catch (final DateTimeParseException e) {
       return false;
     }
@@ -97,28 +92,28 @@ public final class RechnungsdatumMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    this.setTitle("Rechnungsdatum");
+    setTitle("Rechnungsdatum");
   }
 
   @Override
   protected void setupInteractions() {
     getBtnOk().addActionListener(
         arg0 -> {
-          if (this.eingabenKorrekt()) {
-            Session.setDate(this.date);
+          if (eingabenKorrekt()) {
+            Session.setDate(date);
             getCloser().windowClosing(null);
           } else {
-            JOptionPane.showMessageDialog(this.rootPane,
+            JOptionPane.showMessageDialog(rootPane,
                 "Das eingegebene Datum ist falsch", "Fehler",
                 JOptionPane.INFORMATION_MESSAGE);
           }
         });
 
-    this.btnHeute.addActionListener(e -> {
+    btnHeute.addActionListener(e -> {
       final LocalDate now = LocalDate.now();
-      this.fldDD.setValue(now.getDayOfMonth());
-      this.fldMM.setValue(now.getMonthValue());
-      this.fldYY.setValue(now.getYear());
+      fldDD.setValue(now.getDayOfMonth());
+      fldMM.setValue(now.getMonthValue());
+      fldYY.setValue(now.getYear());
     });
   }
 }
