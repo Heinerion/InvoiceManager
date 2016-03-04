@@ -16,16 +16,19 @@ public final class PathTools {
   private static final String FILE_ENDING = "fileEnding";
 
   @SuppressWarnings("serial")
-  private static final Map<String, Map<String, String>> FILE_INFOS = Collections
-      .unmodifiableMap(new HashMap<String, Map<String, String>>() {
-        {
-          this.put("Address", createEntries("Addresses", "address"));
-          this.put("Client", createEntries("Clients", "client"));
-          this.put("Company", createEntries("Companies", "company"));
-          this.put("Invoice", createEntries("Invoices", "invoice"));
-          this.put("Letter", createEntries("Letters", "letter"));
-        }
-      });
+  private static final Map<String, Map<String, String>> FILE_INFOS = Collections.unmodifiableMap(generateInfoMap());
+
+  private static Map<String, Map<String, String>> generateInfoMap() {
+    Map<String, Map<String, String>> infoMap = new HashMap<>();
+
+    infoMap.put("Address", createEntries("Addresses", "address"));
+    infoMap.put("Client", createEntries("Clients", "client"));
+    infoMap.put("Company", createEntries("Companies", "company"));
+    infoMap.put("Invoice", createEntries("Invoices", "invoice"));
+    infoMap.put("Letter", createEntries("Letters", "letter"));
+
+    return infoMap;
+  }
 
   private PathTools() {
   }
@@ -37,8 +40,7 @@ public final class PathTools {
    * @param fileEnding Dateiendung
    * @return Eine Map mit den korrekten Einträgen
    */
-  private static Map<String, String> createEntries(String folder,
-                                                   String fileEnding) {
+  private static Map<String, String> createEntries(String folder, String fileEnding) {
     final Map<String, String> ret = new HashMap<>();
     ret.put(FOLDER, folder);
     ret.put(FILE_ENDING, fileEnding);
@@ -69,7 +71,7 @@ public final class PathTools {
     final Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
 
     if (details == null) {
-      throw new HeinerionException();
+      throw new HeinerionException(getNoFileInfoMessage(clazz));
     } else {
       return details.get(key);
     }
@@ -77,11 +79,14 @@ public final class PathTools {
 
   public static String getPath(Class<?> clazz) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
-      return Utilities.SYSTEM.getPath() + File.separator
-          + determineFolderName(clazz);
+      return Utilities.SYSTEM.getPath() + File.separator + determineFolderName(clazz);
     } else {
-      throw new HeinerionException();
+      throw new HeinerionException(getNoFileInfoMessage(clazz));
     }
+  }
+
+  private static String getNoFileInfoMessage(Class<?> clazz) {
+    return "no file info has been defined for " + clazz.getSimpleName();
   }
 
   public static String getPath(Storable storable) {
