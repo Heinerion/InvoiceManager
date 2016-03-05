@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.classes.gui.panels;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.formatter.Formatter;
@@ -103,8 +102,7 @@ public class PanelControl {
     ImageIcon image = null;
 
     // Benutze den Classloader um Bilder einzubinden
-    java.net.URL imageURL = RechnungFrame.class.getClassLoader()
-        .getResource(path);
+    java.net.URL imageURL = Thread.currentThread().getContextClassLoader().getResource(path);
     if (imageURL != null) {
       image = new ImageIcon(imageURL);
     }
