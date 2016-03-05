@@ -3,117 +3,83 @@ package de.heinerion.betriebe.classes.gui;
 import de.heinerion.betriebe.tools.math.Mathe;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class BGPanel extends JPanel {
-  // Primzahlen => Produkt immer eindeutig
+  // Prime numbers => product leads to factors
   public static final int OBEN = 2;
   public static final int UNTEN = 3;
   public static final int LINKS = 5;
   public static final int RECHTS = 7;
 
-  private static final int WIDTH = 15;
+  private static final int CORNER_SIZE = 15;
 
   private static final long serialVersionUID = 1L;
 
-  private boolean oben;
-  private boolean unten;
-  private boolean rechts;
-  private boolean links;
+  private boolean drawTop;
+  private boolean drawBottom;
+  private boolean drawRight;
+  private boolean drawLeft;
 
-  private int widthOben;
-  private int widthLinks;
-  private int widthUnten;
-  private int widthRechts;
+  private int widthTop;
+  private int widthLeft;
+  private int widthBottom;
+  private int widthRight;
 
-  private Color rand;
-  private Color zentrum;
-  private Color[] farben;
-  private float[] fraktionen = new float[]{0f, 1f};
+  private Color borderColor;
+  private Color backgroundColor;
+  private Color[] colors;
+  private float[] fractions = new float[]{0f, 1f};
 
-  private RadialGradientPaint ol;
-  private RadialGradientPaint or;
-  private RadialGradientPaint ul;
-  private RadialGradientPaint ur;
+  private RadialGradientPaint topLeftCorner;
+  private RadialGradientPaint topRightCorner;
+  private RadialGradientPaint bottomLeftCorner;
+  private RadialGradientPaint bottomRightCorner;
 
-  private GradientPaint gpWeiss;
-  private GradientPaint gpLinks;
-  private GradientPaint gpRechts;
-  private GradientPaint gpOben;
-  private GradientPaint gpUnten;
+  private GradientPaint backgroundPaint;
+  private GradientPaint leftPaint;
+  private GradientPaint rightPaint;
+  private GradientPaint topPaint;
+  private GradientPaint bottomPaint;
 
   public BGPanel(int... sides) {
+    determineSidesToDraw(sides);
+
+    Border panelBorder = createPanelBorder();
+    setBorder(panelBorder);
+
+    determineColorSettings();
+  }
+
+  private void determineSidesToDraw(int[] sides) {
     int direction = Mathe.produkt(sides);
-    oben = direction % OBEN == 0;
-    unten = direction % UNTEN == 0;
-    links = direction % LINKS == 0;
-    rechts = direction % RECHTS == 0;
-
-    widthOben = (oben) ? WIDTH : 0;
-    widthLinks = (links) ? WIDTH : 0;
-    widthUnten = (unten) ? WIDTH : 0;
-    widthRechts = (rechts) ? WIDTH : 0;
-
-    setBorder(BorderFactory.createEmptyBorder(widthOben, widthLinks, widthUnten, widthRechts));
-
-    rand = (new JPanel()).getBackground();
-    zentrum = Color.WHITE;
-    farben = new Color[]{zentrum, rand};
+    drawTop = direction % OBEN == 0;
+    drawBottom = direction % UNTEN == 0;
+    drawLeft = direction % LINKS == 0;
+    drawRight = direction % RECHTS == 0;
   }
 
-  private void drawAreas(Graphics2D g2, int x, int y) {
-    g2.setPaint(links ? gpLinks : gpWeiss);
-    g2.fill(new Rectangle2D.Double(x, widthOben, getWidth() / 2, getHeight() - widthUnten - widthOben));
+  private Border createPanelBorder() {
+    widthTop = (drawTop) ? CORNER_SIZE : 0;
+    widthLeft = (drawLeft) ? CORNER_SIZE : 0;
+    widthBottom = (drawBottom) ? CORNER_SIZE : 0;
+    widthRight = (drawRight) ? CORNER_SIZE : 0;
 
-    g2.setPaint(rechts ? gpRechts : gpWeiss);
-    g2.fill(new Rectangle2D.Double(getWidth() / 2, widthOben, getWidth(), getHeight() - widthUnten - widthOben));
-
-    g2.setPaint(oben ? gpOben : gpWeiss);
-    g2.fill(new Rectangle2D.Double(widthLinks, y, getWidth() - widthRechts - widthLinks, getHeight() / 2));
-
-    g2.setPaint(unten ? gpUnten : gpWeiss);
-    g2.fill(new Rectangle2D.Double(widthLinks, getHeight() / 2, getWidth() - widthRechts - widthLinks, getHeight()));
+    return BorderFactory.createEmptyBorder(widthTop, widthLeft, widthBottom, widthRight);
   }
 
-  private void drawCorners(Graphics2D g2, int x, int y) {
-    if (oben && links) {
-      g2.setPaint(ol);
-      g2.fillRect(x, y, WIDTH, WIDTH);
-    }
-    if (oben && rechts) {
-      g2.setPaint(or);
-      g2.fillRect(getWidth() - WIDTH, y, WIDTH, WIDTH);
-    }
-    if (unten && links) {
-      g2.setPaint(ul);
-      g2.fillRect(x, getHeight() - WIDTH, WIDTH, WIDTH);
-    }
-    if (unten && rechts) {
-      g2.setPaint(ur);
-      g2.fillRect(getWidth() - WIDTH, getHeight() - WIDTH, WIDTH, WIDTH);
-    }
-  }
-
-  private void initColors(int activeWidth, int activeHeight) {
-    ol = new RadialGradientPaint(WIDTH, WIDTH, WIDTH, fraktionen, farben);
-    or = new RadialGradientPaint(activeWidth, WIDTH, WIDTH, fraktionen, farben);
-    ul = new RadialGradientPaint(WIDTH, activeHeight, WIDTH, fraktionen, farben);
-    ur = new RadialGradientPaint(activeWidth, activeHeight, WIDTH, fraktionen, farben);
-  }
-
-  private void initPaint(int activeWidth, int activeHeight, int x, int y) {
-    gpWeiss = new GradientPaint(x, y, zentrum, WIDTH, y, zentrum);
-    gpLinks = new GradientPaint(x, y, rand, WIDTH, y, zentrum);
-    gpRechts = new GradientPaint(activeWidth, y, zentrum, getWidth(), y, rand);
-    gpOben = new GradientPaint(x, y, rand, x, WIDTH, zentrum);
-    gpUnten = new GradientPaint(x, activeHeight, zentrum, x, getHeight(), rand);
+  private void determineColorSettings() {
+    borderColor = (new JPanel()).getBackground();
+    backgroundColor = Color.WHITE;
+    colors = new Color[]{backgroundColor, borderColor};
   }
 
   @Override
   public void paintComponent(Graphics g) {
-    Graphics2D g2 = (Graphics2D) g;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    Graphics2D drawer = (Graphics2D) g;
+    setupRenderingHints(drawer);
 
     // Panel:
     //
@@ -124,21 +90,124 @@ public class BGPanel extends JPanel {
     // --+------+--
     // []|......|[]
     //
-    // zwischen | und | -> Oben/Unten Fade
-    // zwischen - und - -> Links/Rechts Fade [] : IF Anliegende Seiten
-    // beide: Diagonal IF beide nicht: nichts IF eine ja eine nein: wie die
-    // aktive
+    //  []  -> drawCorners
+    // |..| -> drawAreas
+    //
+    // horizontal Areas fade to the left and right side
+    // vertical Areas fade to the top and bottom side
+    // Corners fade diagonally
 
-    int x = 0;
-    int y = 0;
+    PositionCoordinates position = determineCoordinates();
 
-    int activeWidth = getWidth() - WIDTH;
-    int activeHeight = getHeight() - WIDTH;
+    initColors(position);
+    initPaint(position);
 
-    initColors(activeWidth, activeHeight);
-    initPaint(activeWidth, activeHeight, x, y);
+    drawCorners(drawer, position);
+    drawAreas(drawer, position);
+  }
 
-    drawCorners(g2, x, y);
-    drawAreas(g2, x, y);
+  private void setupRenderingHints(Graphics2D g2) {
+    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+  }
+
+  private PositionCoordinates determineCoordinates() {
+    PositionCoordinates position = new PositionCoordinates();
+    position.setHeight(getHeight() - CORNER_SIZE);
+    position.setWidth(getWidth() - CORNER_SIZE);
+    return position;
+  }
+
+  private void initColors(PositionCoordinates position) {
+    int leftX = CORNER_SIZE;
+    int rightX = position.getWidth();
+    int topY = CORNER_SIZE;
+    int bottomY = position.getHeight();
+
+    topLeftCorner = getRadialGradientPaint(leftX, topY);
+    topRightCorner = getRadialGradientPaint(rightX, topY);
+    bottomLeftCorner = getRadialGradientPaint(leftX, bottomY);
+    bottomRightCorner = getRadialGradientPaint(rightX, bottomY);
+  }
+
+  private RadialGradientPaint getRadialGradientPaint(int posX, int posY) {
+    return new RadialGradientPaint(posX, posY, CORNER_SIZE, fractions, colors);
+  }
+
+  private void initPaint(PositionCoordinates position) {
+    int width = position.getWidth();
+    int height = position.getHeight();
+    int x = position.getPosX();
+    int y = position.getPosY();
+
+    backgroundPaint = new GradientPaint(x, y, backgroundColor, CORNER_SIZE, y, backgroundColor);
+    leftPaint = new GradientPaint(x, y, borderColor, CORNER_SIZE, y, backgroundColor);
+    rightPaint = new GradientPaint(width, y, backgroundColor, getWidth(), y, borderColor);
+    topPaint = new GradientPaint(x, y, borderColor, x, CORNER_SIZE, backgroundColor);
+    bottomPaint = new GradientPaint(x, height, backgroundColor, x, getHeight(), borderColor);
+  }
+
+  private void drawCorners(Graphics2D g2, PositionCoordinates position) {
+    int topY = position.getPosY();
+    int bottomY = position.getHeight();
+
+    int leftX = position.getPosX();
+    int rightX = position.getWidth();
+
+    if (drawTop && drawLeft) {
+      drawCorner(g2, topLeftCorner, leftX, topY);
+    }
+
+    if (drawTop && drawRight) {
+      drawCorner(g2, topRightCorner, rightX, topY);
+    }
+
+    if (drawBottom && drawLeft) {
+      drawCorner(g2, bottomLeftCorner, leftX, bottomY);
+    }
+
+    if (drawBottom && drawRight) {
+      drawCorner(g2, bottomRightCorner, rightX, bottomY);
+    }
+  }
+
+  private void drawCorner(Graphics2D g2, Paint paint, int startX, int startY) {
+    g2.setPaint(paint);
+    g2.fillRect(startX, startY, CORNER_SIZE, CORNER_SIZE);
+  }
+
+  private void drawAreas(Graphics2D g2, PositionCoordinates position) {
+    int x = position.getPosX();
+    int y = position.getPosY();
+
+    int halfWidth = getWidth() / 2;
+    int halfHeight = getHeight() / 2;
+
+    g2.setPaint(drawLeft ? leftPaint : backgroundPaint);
+    g2.fill(createHorizontalArea(x, halfWidth));
+
+    g2.setPaint(drawRight ? rightPaint : backgroundPaint);
+    g2.fill(createHorizontalArea(halfWidth, getWidth()));
+
+    g2.setPaint(drawTop ? topPaint : backgroundPaint);
+    g2.fill(createVerticalArea(y, halfHeight));
+
+    g2.setPaint(drawBottom ? bottomPaint : backgroundPaint);
+    g2.fill(createVerticalArea(halfHeight, getHeight()));
+  }
+
+  private Rectangle2D.Double createHorizontalArea(int xStart, int xEnd) {
+    return new Rectangle2D.Double(xStart, widthTop, xEnd, getEffectiveHeight());
+  }
+
+  private Rectangle2D.Double createVerticalArea(int yStart, int yEnd) {
+    return new Rectangle2D.Double(widthLeft, yStart, getEffectiveWidth(), yEnd);
+  }
+
+  private int getEffectiveHeight() {
+    return getHeight() - widthBottom - widthTop;
+  }
+
+  private int getEffectiveWidth() {
+    return getWidth() - widthRight - widthLeft;
   }
 }
