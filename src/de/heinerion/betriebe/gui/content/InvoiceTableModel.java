@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public final class InvoiceTableModel extends AbstractTableModel {
+public class InvoiceTableModel extends AbstractTableModel {
 
   private static final int NAME = 0;
   private static final int UNIT = 1;
@@ -40,7 +40,7 @@ public final class InvoiceTableModel extends AbstractTableModel {
 
   @Override
   public String getColumnName(int columnIndex) {
-    final String result;
+    String result;
 
     switch (columnIndex) {
       case NAME:
@@ -64,22 +64,25 @@ public final class InvoiceTableModel extends AbstractTableModel {
 
   @Override
   public int getRowCount() {
-    // contents.size();
+    // TODO contents.size()?
     return 7;
   }
 
   @Override
   public int getColumnCount() {
+    // TODO magic number
     return 4;
   }
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
+    Object value = null;
+
     if (isValidIndex(rowIndex)) {
-      return getPropertyValue(rowIndex, columnIndex);
-    } else {
-      return null;
+      value = getPropertyValue(rowIndex, columnIndex);
     }
+
+    return value;
   }
 
   private Object getPropertyValue(int rowIndex, int columnIndex) {
@@ -162,7 +165,7 @@ public final class InvoiceTableModel extends AbstractTableModel {
     result.setName(contents.get(0).getName());
     String[][] contentTable = new String[contents.size()][getColumnCount()];
     for (int i = 0; i < contents.size(); i++) {
-      final Item item = contents.get(i);
+      Item item = contents.get(i);
       contentTable[i][NAME] = item.getName();
       contentTable[i][UNIT] = item.getUnit();
       contentTable[i][PPU] = "" + item.getPricePerUnit();
