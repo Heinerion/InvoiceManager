@@ -233,16 +233,18 @@ public final class InvoiceTabContent extends AbstractTabContent implements
    * @return Den Index des Eintrags oder -1, wenn nicht vorhanden
    */
   private <T extends DropListable> int index(String name, List<T> list) {
+    int index = -1;
+
     for (T vorlage : list) {
       if (vorlage.getName().equals(name)) {
         if (logger.isDebugEnabled()) {
           logger.debug("{} = {}", vorlage.getName(), name);
         }
-        return list.indexOf(vorlage);
+        index = list.indexOf(vorlage);
       }
     }
-    // Wenn die Methode bis hier kommt, gibt es keine Übereinstimmung
-    return -1;
+
+    return index;
   }
 
   @Override
