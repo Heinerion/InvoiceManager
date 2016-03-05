@@ -25,7 +25,7 @@ public class TaschenrechnerPanel extends BGPanel {
   private JButton btnMinus;
 
   public TaschenrechnerPanel() {
-    super(BGPanel.LINKS, BGPanel.OBEN, BGPanel.UNTEN, BGPanel.RECHTS);
+    super(BGPanel.LEFT, BGPanel.TOP, BGPanel.BOTTOM, BGPanel.RIGHT);
 
     initLayout();
     createWidgets();

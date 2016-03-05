@@ -66,8 +66,8 @@ public final class RechnungsnummernMenu extends AbstractMenu {
     this.header = new JLabel("zuletzt ausgestellte Rechnungsnr.",
         SwingConstants.CENTER);
 
-    this.pnlNummern = new BGPanel(BGPanel.LINKS, BGPanel.RECHTS, BGPanel.OBEN,
-        BGPanel.UNTEN);
+    this.pnlNummern = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
+        BGPanel.BOTTOM);
     this.pnlNummern.setLayout(new GridLayout(2, 2));
   }
 

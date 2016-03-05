@@ -12,7 +12,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
   private JButton delete;
 
   protected AbstractTabContent(String aTitle) {
-    super(BGPanel.LINKS, BGPanel.RECHTS);
+    super(BGPanel.LEFT, BGPanel.RIGHT);
 
     this.title = aTitle;
 

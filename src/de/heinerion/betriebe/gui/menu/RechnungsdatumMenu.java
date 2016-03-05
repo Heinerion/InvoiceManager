@@ -48,8 +48,8 @@ public final class RechnungsdatumMenu extends AbstractMenu {
   }
 
   private JPanel createDatePanel() {
-    final BGPanel pnlDatum = new BGPanel(BGPanel.LINKS, BGPanel.RECHTS,
-        BGPanel.OBEN, BGPanel.UNTEN);
+    final BGPanel pnlDatum = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT,
+        BGPanel.TOP, BGPanel.BOTTOM);
     // Reihen 2, Spalten 3
     pnlDatum.setLayout(new GridLayout(2, 3));
 
