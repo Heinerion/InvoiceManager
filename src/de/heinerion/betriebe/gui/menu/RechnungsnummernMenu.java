@@ -4,82 +4,82 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JLabel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
-
 import de.heinerion.betriebe.classes.gui.BGPanel;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class RechnungsnummernMenu extends AbstractMenu {
+public class RechnungsnummernMenu extends AbstractMenu {
   private BGPanel pnlNummern;
 
   private Map<Company, JSpinner> numbers;
 
   private JLabel header;
 
-  /**  */
-  public RechnungsnummernMenu(final RechnungFrame origin) {
+  public RechnungsnummernMenu(RechnungFrame origin) {
     super(origin);
   }
 
   @Override
   protected void addWidgets() {
-    this.numbers = new HashMap<>();
-    for (final Company c : Session.getAvailableCompanies()) {
-      this.pnlNummern.add(new JLabel(c.getDescriptiveName()));
-      final SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
+    numbers = new HashMap<>();
+    for (Company c : Session.getAvailableCompanies()) {
+      pnlNummern.add(new JLabel(c.getDescriptiveName()));
+      SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
           c.getInvoiceNumber(), 0, 500, 1);
-      final JSpinner numberField = new JSpinner(spinnerModel);
-      this.numbers.put(c, numberField);
-      this.pnlNummern.add(numberField);
+      JSpinner numberField = new JSpinner(spinnerModel);
+      numbers.put(c, numberField);
+      pnlNummern.add(numberField);
     }
 
-    this.setLayout(new BorderLayout(5, 5));
-    this.add(this.header, BorderLayout.PAGE_START);
-    this.add(getBtnOk(), BorderLayout.PAGE_END);
-    this.add(this.pnlNummern, BorderLayout.CENTER);
+    setLayout(new BorderLayout(5, 5));
+    add(header, BorderLayout.PAGE_START);
+    add(getBtnOk(), BorderLayout.PAGE_END);
+    add(pnlNummern, BorderLayout.CENTER);
   }
 
   private int calculateRn(String rnString) {
-    if (!"".equals(rnString.trim())) {
-      return Integer.parseInt(rnString);
-    } else {
-      return -1;
+    int invoiceNumber = -1;
+
+    if (isNotEmpty(rnString)) {
+      invoiceNumber = Integer.parseInt(rnString);
     }
+
+    return invoiceNumber;
+  }
+
+  private boolean isNotEmpty(String s) {
+    return s != null && !"".equals(s.trim());
   }
 
   @Override
   protected void createWidgets() {
-    this.header = new JLabel("zuletzt ausgestellte Rechnungsnr.",
+    header = new JLabel("zuletzt ausgestellte Rechnungsnr.",
         SwingConstants.CENTER);
 
-    this.pnlNummern = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
+    pnlNummern = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
         BGPanel.BOTTOM);
-    this.pnlNummern.setLayout(new GridLayout(2, 2));
+    pnlNummern.setLayout(new GridLayout(2, 2));
   }
 
   @Override
   protected void setTitle() {
-    this.setTitle("Rechnungsnummern");
+    setTitle("Rechnungsnummern");
   }
 
   @Override
   protected void setupInteractions() {
     getBtnOk().addActionListener(arg0 -> {
-      for (final Company c : Session.getAvailableCompanies()) {
+      for (Company c : Session.getAvailableCompanies()) {
         c.setInvoiceNumber(calculateRn(numbers.get(c).getValue() + ""));
       }
 
