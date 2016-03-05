@@ -62,10 +62,10 @@ public class BGPanel extends JPanel {
   }
 
   private Border createPanelBorder() {
-    widthTop = (drawTop) ? CORNER_SIZE : 0;
-    widthLeft = (drawLeft) ? CORNER_SIZE : 0;
-    widthBottom = (drawBottom) ? CORNER_SIZE : 0;
-    widthRight = (drawRight) ? CORNER_SIZE : 0;
+    widthTop = drawTop ? CORNER_SIZE : 0;
+    widthLeft = drawLeft ? CORNER_SIZE : 0;
+    widthBottom = drawBottom ? CORNER_SIZE : 0;
+    widthRight = drawRight ? CORNER_SIZE : 0;
 
     return BorderFactory.createEmptyBorder(widthTop, widthLeft, widthBottom, widthRight);
   }
