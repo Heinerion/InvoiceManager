@@ -104,7 +104,7 @@ public final class RechnungFrame extends AbstractBusyFrame implements
    * @see {@link RechnungsListe#getMaxNumber()}
    */
   public void getNumbers() {
-    DataBase.getRechnungen().getMaxNumber();
+    DataBase.getInvoices().getMaxNumber();
   }
 
   public JProgressBar getProgressBar() {

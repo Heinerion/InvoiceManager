@@ -44,7 +44,7 @@ public final class VerwaltungMenu extends AbstractMenu {
 
   @Override
   protected void createWidgets() {
-    this.model = DataBase.getRechnungen();
+    this.model = DataBase.getInvoices();
     this.tblDokumente = new JTable(this.model);
     this.tblDokumente.setAutoCreateRowSorter(true);
     this.tblDokumente.setRowSelectionAllowed(true);

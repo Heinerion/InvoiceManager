@@ -212,7 +212,7 @@ public final class IO implements LoadListener {
     DataBase.removeAllInvoices();
     progress.setMaximum(number);
     loadingManager.load();
-    DataBase.getRechnungen().getMaxNumber();
+    DataBase.getInvoices().getMaxNumber();
 
     IO.ladeVorlagen();
     IO.ladeSpezielle();

@@ -28,13 +28,13 @@ public final class DataBase {
   /**
    * beinhaltet alle Rechnungen TODO wozu RechnungsListe?
    */
-  private static Map<Company, RechnungsListe> rechnungen = new HashMap<>();
+  private static Map<Company, RechnungsListe> invoices = new HashMap<>();
 
   private DataBase() {
   }
 
   public static void addAddress(Company company, Address address) {
-    final ListEntry<Address> oldAddress = getAddressEntry(company, address.getRecipient());
+    ListEntry<Address> oldAddress = getAddressEntry(company, address.getRecipient());
 
     if (oldAddress == null) {
       addresses.add(new ListEntry<>(company, address));
@@ -44,7 +44,7 @@ public final class DataBase {
   }
 
   public static void addTemplate(Company company, Vorlage template) {
-    final ListEntry<Vorlage> oldAddress = getTemplateEntry(company, template.getName());
+    ListEntry<Vorlage> oldAddress = getTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
       templates.add(new ListEntry<>(company, template));
@@ -54,7 +54,7 @@ public final class DataBase {
   }
 
   public static void addTexTemplate(Company company, TexVorlage template) {
-    final ListEntry<TexVorlage> oldAddress = getTexTemplateEntry(company, template.getName());
+    ListEntry<TexVorlage> oldAddress = getTexTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
       texTemplates.add(new ListEntry<>(company, template));
@@ -73,8 +73,8 @@ public final class DataBase {
     IO.saveAddresses();
   }
 
-  public static void addRechnung(RechnungData daten) {
-    final RechnungsListe list = getRechnungen(Session.getActiveCompany());
+  public static void addInvoice(RechnungData daten) {
+    RechnungsListe list = getInvoice(Session.getActiveCompany());
 
     if (isEntryNotInList(daten, list)) {
       list.add(daten);
@@ -134,15 +134,15 @@ public final class DataBase {
   }
 
   public static List<Address> getAddresses(Company company) {
-    final List<Address> ret = getEntries(addresses, company);
+    List<Address> ret = getEntries(addresses, company);
     ret.sort((a, b) -> Collator.getInstance().compare(a.getRecipient(), b.getRecipient()));
     return ret;
   }
 
   private static <T> List<T> getEntries(List<ListEntry<T>> list, Company company) {
-    final List<T> result = new ArrayList<>();
+    List<T> result = new ArrayList<>();
 
-    for (final ListEntry<T> entry : list) {
+    for (ListEntry<T> entry : list) {
       if (entry.getCompany() == null || entry.getCompany().equals(company)) {
         result.add(entry.getEntry());
       }
@@ -151,14 +151,14 @@ public final class DataBase {
     return result;
   }
 
-  public static RechnungsListe getRechnungen() {
-    return getRechnungen(Session.getActiveCompany());
+  public static RechnungsListe getInvoices() {
+    return getInvoice(Session.getActiveCompany());
   }
 
-  public static RechnungsListe getRechnungen(Company company) {
+  public static RechnungsListe getInvoice(Company company) {
     RechnungsListe result = null;
     if (company != null) {
-      result = rechnungen.get(company);
+      result = invoices.get(company);
     }
 
     if (result == null) {
@@ -196,7 +196,7 @@ public final class DataBase {
     if (loadable instanceof Address) {
       addAddress(null, (Address) loadable);
     } else if (loadable instanceof RechnungData) {
-      addRechnung((RechnungData) loadable);
+      addInvoice((RechnungData) loadable);
     } else if (loadable instanceof Company) {
       addCompany((Company) loadable);
     }
@@ -212,31 +212,31 @@ public final class DataBase {
   }
 
   public static void removeAllInvoices() {
-    rechnungen = new HashMap<>();
-    for (final Company c : Session.getAvailableCompanies()) {
-      rechnungen.put(c, new RechnungsListe());
+    invoices = new HashMap<>();
+    for (Company c : Session.getAvailableCompanies()) {
+      invoices.put(c, new RechnungsListe());
     }
   }
 
   private static class ListEntry<T> {
     private T entry;
-    private final Company company;
+    private Company company;
 
     public ListEntry(Company aCompany, T anEntry) {
-      this.entry = anEntry;
-      this.company = aCompany;
+      entry = anEntry;
+      company = aCompany;
     }
 
     public Company getCompany() {
-      return this.company;
+      return company;
     }
 
     public T getEntry() {
-      return this.entry;
+      return entry;
     }
 
     public void setEntry(T anEntry) {
-      this.entry = anEntry;
+      entry = anEntry;
     }
   }
 }
