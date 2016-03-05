@@ -18,7 +18,7 @@ public final class Session {
   // TODO solche Daten per configuration.properties lösen.
   private static final String VERSION = "1.0.0-0";
 
-  private static Logger logger = LogManager.getLogger(Session.class);
+  private static final Logger logger = LogManager.getLogger(Session.class);
 
   private static List<CompanyListener> companyListeners = new ArrayList<>();
 
@@ -89,12 +89,13 @@ public final class Session {
   }
 
   public static Company getCompanyByName(String name) {
+    Company result = null;
     for (final Company c : availableCompanies) {
       if (c.getOfficialName().equals(name)) {
-        return c;
+        result = c;
       }
     }
-    return null;
+    return result;
   }
 
   public static LocalDate getDate() {
@@ -106,17 +107,23 @@ public final class Session {
   }
 
   public static void notifyCompany() {
-    logger.debug("notifyCompany");
+    if (logger.isDebugEnabled()) {
+      logger.debug("notifyCompany");
+    }
     companyListeners.forEach(CompanyListener::notifyCompany);
   }
 
   public static void notifyConveyable() {
-    logger.debug("notifyConveyable");
+    if (logger.isDebugEnabled()) {
+      logger.debug("notifyConveyable");
+    }
     conveyableListeners.forEach(ConveyableListener::notifyConveyable);
   }
 
   private static void notifyDate() {
-    logger.debug("notifyDate");
+    if (logger.isDebugEnabled()) {
+      logger.debug("notifyDate");
+    }
     dateListeners.forEach(DateListener::notifyDate);
   }
 
