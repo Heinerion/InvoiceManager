@@ -110,7 +110,7 @@ public class MainOperations {
       out.flush();
       out.close();
     } catch (IOException e) {
-      e.printStackTrace();
+      HeinerionException.handleException(MainOperations.class, e);
     }
     return tex;
   }
