@@ -1,26 +1,20 @@
 package de.heinerion.betriebe.classes.file_operations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Joiner;
-
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
-import de.heinerion.betriebe.models.Account;
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Item;
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.DateTools;
 import de.heinerion.betriebe.tools.FormatTools;
 import de.heinerion.latex.KomaKey;
 import de.heinerion.latex.LatexScrLetter;
 import de.heinerion.latex.LatexTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class LatexGenerator {
   private static final String INVOICE_NUMBER = "Rechnungs-Nr.";
@@ -75,7 +69,7 @@ public final class LatexGenerator {
     table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Constants.INVOICE_PPU));
     table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Constants.INVOICE_SUM));
 
-    for (final Item item : invoice.getItems()) {
+    for (Item item : invoice.getItems()) {
       table.addLine();
       table.add(itemToLatex(item));
     }
@@ -112,7 +106,7 @@ public final class LatexGenerator {
    * @param isInvoice
    */
   private static void setContent(Conveyable letter,
-      final LatexScrLetter latexLetter, final boolean isInvoice) {
+                                 final LatexScrLetter latexLetter, final boolean isInvoice) {
     if (isInvoice) {
       final LatexTable table = new LatexTable(TABLE_FORMAT);
       generateTableContent(table, (Invoice) letter);
@@ -131,27 +125,26 @@ public final class LatexGenerator {
    * @param isInvoice
    */
   private static void setDate(Conveyable letter,
-      final LatexScrLetter latexLetter, final boolean isInvoice) {
-    final String tab = " & : ";
-    final List<String> fields = new ArrayList<>();
+                              final LatexScrLetter latexLetter, final boolean isInvoice) {
+    String tab = " & : ";
+    List<String> fields = new ArrayList<>();
     fields.add(Syntax.sc("Datum") + tab + DateTools.format(letter.getDate()));
 
     if (isInvoice) {
-      final Company company = letter.getCompany();
+      Company company = letter.getCompany();
       fields.add(Syntax.sc(INVOICE_NUMBER) + tab + company.getInvoiceNumber());
       fields.add(Syntax.sc(TAX_NUMBER) + tab + company.getTaxNumber());
 
-      final Account bankAccount = company.getAccount();
+      Account bankAccount = company.getAccount();
       fields.add(Syntax.sc(BIC) + tab + bankAccount.getBic());
       fields.add(Syntax.sc(IBAN) + tab + bankAccount.getIban());
       fields.add(Syntax.multicol(2, LEFT, bankAccount.getName()));
     }
 
-    final LatexTable dateTable = new LatexTable("ll");
+    LatexTable dateTable = new LatexTable("ll");
     dateTable.setContent(String.join("\\\\" + Syntax.EOL, fields));
 
-    final String dateString = String.join(Syntax.EOL, "\\footnotesize ",
-        dateTable.toString());
+    String dateString = String.join(Syntax.EOL, "\\footnotesize ", dateTable.toString());
 
     latexLetter.setDate(dateString);
   }
@@ -164,8 +157,8 @@ public final class LatexGenerator {
    * @param isInvoice
    */
   private static void addHyperSetupArguments(Conveyable letter,
-      final LatexScrLetter latexLetter, final String subject,
-      final boolean isInvoice) {
+                                             final LatexScrLetter latexLetter, final String subject,
+                                             final boolean isInvoice) {
     final Company company = letter.getCompany();
     final String title = isInvoice ? Utilities.RECHNUNG.getText()
         : Utilities.BRIEF.getText();
@@ -192,7 +185,7 @@ public final class LatexGenerator {
    * @param subject
    */
   private static void addKomaVars(final LatexScrLetter letter,
-      final Company company, final String subject) {
+                                  final Company company, final String subject) {
     letter.addKomaVar(KomaKey.SIGNATURE, SIGNATURE);
     letter.addKomaVar(KomaKey.SUBJECT, subject);
     letter

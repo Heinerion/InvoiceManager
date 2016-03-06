@@ -10,6 +10,7 @@ public class LatexDocument {
   private static final String END = "\\end{document}";
 
   private static final String DELIM = ", ";
+  private static final String NEWLINE = "\n";
 
   private final String documentType;
   private final Map<String, String> docTypeArguments;
@@ -35,11 +36,9 @@ public class LatexDocument {
 
   /**
    * Argumente für das Einrichten des {@code hyperref}-Pakets
-   * 
-   * @param key
-   *          Name des Schlüssels
-   * @param value
-   *          Wert des Arguments
+   *
+   * @param key   Name des Schlüssels
+   * @param value Wert des Arguments
    */
   public final void addHyperSetupArgument(String key, String value) {
     final HyperCommand argument = new HyperCommand(key, value);
@@ -65,7 +64,7 @@ public class LatexDocument {
 
   private String buildDoctype() {
     final List<String> argumentList = new ArrayList<>();
-    for (final String key : this.docTypeArguments.keySet()) {
+    for (String key : this.docTypeArguments.keySet()) {
       argumentList.add(key + "=" + this.docTypeArguments.get(key));
     }
     Collections.sort(argumentList);
@@ -91,26 +90,32 @@ public class LatexDocument {
 
   private String buildPackages() {
     final List<String> declarations = new ArrayList<>();
-    for (final LatexPackage aPackage : this.packageList) {
+    for (LatexPackage aPackage : this.packageList) {
       declarations.add(aPackage.toString());
     }
 
     return String.join(this.delimiter, declarations);
   }
 
-  /** Wird unmittelbar nach dem Inhalt ausgegeben */
+  /**
+   * Wird unmittelbar nach dem Inhalt ausgegeben
+   */
   protected String buildPostContent() {
     // Zum Überschreiben
     return "";
   }
 
-  /** Wird unmittelbar vor dem Inhalt ausgegeben */
+  /**
+   * Wird unmittelbar vor dem Inhalt ausgegeben
+   */
   protected String buildPreContent() {
     // Zum Überschreiben
     return "";
   }
 
-  /** Wird nach Paketen und Befehlen vor dem Dokumentenbegin ausgegeben. */
+  /**
+   * Wird nach Paketen und Befehlen vor dem Dokumentenbegin ausgegeben.
+   */
   protected String buildSpecialVariables() {
     // Zum Überschreiben
     return "";
@@ -121,9 +126,9 @@ public class LatexDocument {
   }
 
   protected final String indent(String text, String indentation) {
-    final String newline = "\n";
-    final String[] lines = text.split(newline);
-    final String result = String.join(newline + indentation, lines);
+    String newline = Constants.NEWLINE;
+    String[] lines = text.split(newline);
+    String result = String.join(newline + indentation, lines);
     return indentation + result;
   }
 

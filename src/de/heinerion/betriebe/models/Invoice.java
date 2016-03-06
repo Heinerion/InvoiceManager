@@ -1,13 +1,13 @@
 package de.heinerion.betriebe.models;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.tools.PathTools;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Invoice implements Conveyable, Storable {
   private static final int PERCENT = 100;
@@ -50,8 +50,8 @@ public final class Invoice implements Conveyable, Storable {
   @Override
   // TODO Classification war wofür?
   public String[] getClassification() {
-    return new String[] { this.company.getDescriptiveName(),
-        PathTools.determineFolderName(this.getClass()), };
+    return new String[]{this.company.getDescriptiveName(),
+        PathTools.determineFolderName(this.getClass()),};
   }
 
   @Override
@@ -110,7 +110,7 @@ public final class Invoice implements Conveyable, Storable {
 
   private void updateValues() {
     this.net = 0;
-    for (final Item item : this.getItems()) {
+    for (Item item : this.getItems()) {
       this.net += item.getTotal();
     }
     this.tax = this.net * this.vat / PERCENT;

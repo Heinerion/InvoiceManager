@@ -17,7 +17,7 @@ public final class CompanyChooserPanel extends SidePanel {
   public void refresh() {
     remove(content);
     content = new JPanel();
-    for (final Company c : Session.getAvailableCompanies()) {
+    for (Company c : Session.getAvailableCompanies()) {
       final JButton btn = new CompanyButton(c);
       content.add(btn);
     }

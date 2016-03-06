@@ -26,7 +26,7 @@ public final class LookAndFeel {
   }
 
   public static void setLookName(String name) {
-    for (final LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
       if (name.equals(info.getName())) {
         setLook(info.getClassName());
         break;

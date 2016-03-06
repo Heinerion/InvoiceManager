@@ -6,7 +6,7 @@ public final class Mathe {
 
   public static int produkt(int[] werte) {
     int produkt = 1;
-    for (final int i : werte) {
+    for (int i : werte) {
       produkt *= i;
     }
     return produkt;

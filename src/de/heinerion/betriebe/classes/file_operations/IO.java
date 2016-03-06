@@ -51,7 +51,7 @@ public final class IO implements LoadListener {
     addLoader(Address.class, AddressLoader.class);
 
     // TODO at this point, we don't know even one company
-    for (final Company company : Session.getAvailableCompanies()) {
+    for (Company company : Session.getAvailableCompanies()) {
       if (logger.isDebugEnabled()) {
         logger.debug("add invoice loader for {}", company.getDescriptiveName());
       }
@@ -128,7 +128,7 @@ public final class IO implements LoadListener {
       logger.info(count + " templates loaded");
     }
 
-    for (final TexVorlage template : templates) {
+    for (TexVorlage template : templates) {
       DataBase.addTexTemplate(null, template);
     }
   }

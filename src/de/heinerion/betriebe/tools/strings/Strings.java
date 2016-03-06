@@ -10,14 +10,13 @@ public final class Strings {
    * Prüft, ob String leer oder nicht vorhanden (null) ist.<br>
    * Verwendet <code>String.isEmpty</code>
    *
-   * @param string
-   *          zu überprüfende Zeichenkette
+   * @param string zu überprüfende Zeichenkette
    * @return <code>true</code> wenn
-   *         <ul>
-   *         <li>"" (length == 0)
-   *         <li>" " (beliebig viele Leerzeichen)
-   *         <li><code>null</code>
-   *         </ul>
+   * <ul>
+   * <li>"" (length == 0)
+   * <li>" " (beliebig viele Leerzeichen)
+   * <li><code>null</code>
+   * </ul>
    * @see java.lang.String#isEmpty()
    */
   public static boolean isEmpty(String string) {
@@ -29,13 +28,12 @@ public final class Strings {
    * "<code>\n</code>" wird zu "<code> \\\\ </code>" (Im Quelltext "
    * <code>\\</code>" )
    *
-   * @param in
-   *          Der Umzuwandelnde Eingabestring
+   * @param in Der Umzuwandelnde Eingabestring
    * @return Der geänderte Ausgabestring
    */
   public static String nToSlash(String in) {
     String out = "";
-    for (final String string : in.split(Constants.NEWLINE)) {
+    for (String string : in.split(Constants.NEWLINE)) {
       if ("".equals(string.trim())) {
         out += string + Constants.NEWLINE;
       } else {

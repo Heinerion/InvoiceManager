@@ -33,7 +33,7 @@ public final class AddressModel extends AbstractTableModel {
   }
 
   private String getColumnNameById(ColumnId columnId) {
-    final String result;
+    String result;
 
     switch (columnId) {
       case APARTMENT:

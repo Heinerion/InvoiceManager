@@ -58,7 +58,7 @@ public final class PathTools {
 
   private static String generatePath(String rootPath, Storable storable) {
     String path = rootPath;
-    for (final String classification : storable.getClassification()) {
+    for (String classification : storable.getClassification()) {
       path += File.separator + classification;
     }
     path += File.separator + storable.getEntryName();

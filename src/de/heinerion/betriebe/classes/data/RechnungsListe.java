@@ -1,21 +1,14 @@
 package de.heinerion.betriebe.classes.data;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import de.heinerion.betriebe.classes.data.invoice_table_column.*;
+import de.heinerion.betriebe.models.Company;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-
-import de.heinerion.betriebe.classes.data.invoice_table_column.AmountColumn;
-import de.heinerion.betriebe.classes.data.invoice_table_column.ColumnState;
-import de.heinerion.betriebe.classes.data.invoice_table_column.DateColumn;
-import de.heinerion.betriebe.classes.data.invoice_table_column.NumberColumn;
-import de.heinerion.betriebe.classes.data.invoice_table_column.ProductColumn;
-import de.heinerion.betriebe.classes.data.invoice_table_column.ReceiverColumn;
-import de.heinerion.betriebe.classes.data.invoice_table_column.SenderColumn;
-import de.heinerion.betriebe.models.Company;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class RechnungsListe implements TableModel {
 
@@ -27,9 +20,9 @@ public final class RechnungsListe implements TableModel {
   public static final int INDEX_AMOUNT = 5;
 
   public static final ColumnState[] STATE = {
-    // Spalten in Reihenfolge des Auftretens
-    new NumberColumn(), new ReceiverColumn(), new ProductColumn(),
-    new DateColumn(), new SenderColumn(), new AmountColumn(), };
+      // Spalten in Reihenfolge des Auftretens
+      new NumberColumn(), new ReceiverColumn(), new ProductColumn(),
+      new DateColumn(), new SenderColumn(), new AmountColumn(),};
 
   private static final int COLUMN_COUNT = STATE.length;
 
@@ -46,8 +39,7 @@ public final class RechnungsListe implements TableModel {
   /**
    * Fügt neue Rechnungsdaten ein
    *
-   * @param data
-   *          Die einzufügenden Daten
+   * @param data Die einzufügenden Daten
    */
   public void add(RechnungData data) {
     this.rechnungszeilen.add(data);
@@ -135,7 +127,7 @@ public final class RechnungsListe implements TableModel {
   }
 
   private void notifyTableListener() {
-    for (final TableModelListener l : this.tableListener) {
+    for (TableModelListener l : this.tableListener) {
       l.tableChanged(new TableModelEvent(this));
     }
   }

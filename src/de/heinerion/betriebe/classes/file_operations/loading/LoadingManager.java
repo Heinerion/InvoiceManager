@@ -74,9 +74,9 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   public void init() {
     this.fileNumber = 0;
 
-    for (final List<Loader<? extends Loadable>> loaderList : this.loaders
+    for (List<Loader<? extends Loadable>> loaderList : this.loaders
         .values()) {
-      for (final Loader<? extends Loadable> loader : loaderList) {
+      for (Loader<? extends Loadable> loader : loaderList) {
         loader.init();
         this.fileNumber += loader.getFileNumber();
       }
@@ -84,7 +84,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   }
 
   public void load() {
-    for (final Class<? extends Loadable> clazz : this.loadOrder) {
+    for (Class<? extends Loadable> clazz : this.loadOrder) {
       this.load(clazz);
     }
   }
@@ -93,12 +93,12 @@ public final class LoadingManager implements LoadListener, LoadListenable {
    * @param clazz
    */
   public void load(Class<? extends Loadable> clazz) {
-    final List<Loader<? extends Loadable>> loaderList = this.loaders.get(clazz);
-    for (final Loader<? extends Loadable> loader : loaderList) {
+    List<Loader<? extends Loadable>> loaderList = this.loaders.get(clazz);
+    for (Loader<? extends Loadable> loader : loaderList) {
       if (loader != null) {
-        final List<Loadable> result = loader.load();
+        List<Loadable> result = loader.load();
 
-        final List<Loadable> oldResults = this.results.get(clazz);
+        List<Loadable> oldResults = this.results.get(clazz);
         if (oldResults == null) {
           this.results.put(clazz, result);
         } else {
@@ -115,7 +115,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
 
   @Override
   public void notifyLoadListeners(String message, Loadable loadable) {
-    for (final LoadListener listener : this.listeners) {
+    for (LoadListener listener : this.listeners) {
       listener.notifyLoading(message, loadable);
     }
   }
