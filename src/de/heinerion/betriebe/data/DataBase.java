@@ -31,6 +31,13 @@ public final class DataBase {
   private static Map<Company, RechnungsListe> invoices = new HashMap<>();
 
   private DataBase() {
+    initLists();
+  }
+
+  private static void initLists() {
+    addresses = new ArrayList<>();
+    templates = new ArrayList<>();
+    texTemplates = new ArrayList<>();
   }
 
   public static void addAddress(Company company, Address address) {
@@ -216,6 +223,10 @@ public final class DataBase {
     for (Company c : Session.getAvailableCompanies()) {
       invoices.put(c, new RechnungsListe());
     }
+  }
+
+  public static void clearAllLists() {
+    initLists();
   }
 
   private static class ListEntry<T> {
