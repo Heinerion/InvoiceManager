@@ -81,13 +81,15 @@ public final class RechnungsdatumMenu extends AbstractMenu {
   }
 
   private boolean eingabenKorrekt() {
+    boolean correct = true;
+
     try {
-      date = DateTools.parse(fldDD.getValue() + "."
-          + fldMM.getValue() + "." + fldYY.getValue());
+      date = DateTools.parse(fldDD.getValue() + "." + fldMM.getValue() + "." + fldYY.getValue());
     } catch (final DateTimeParseException e) {
-      return false;
+      correct = false;
     }
-    return true;
+
+    return correct;
   }
 
   @Override

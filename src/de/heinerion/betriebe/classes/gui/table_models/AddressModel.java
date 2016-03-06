@@ -109,6 +109,7 @@ public final class AddressModel extends AbstractTableModel {
         break;
       default:
         result = columnId.toString();
+        break;
     }
 
     return result;

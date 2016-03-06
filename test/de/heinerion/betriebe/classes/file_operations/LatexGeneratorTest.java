@@ -116,7 +116,7 @@ public class LatexGeneratorTest {
   private static Invoice invoice;
 
   @BeforeClass
-  public static final void setUp() {
+  public static void prepare() {
     senderAddress = new Address("Senderfirma", "Senderstraße", "1", "12345",
         "Senderort");
     final Account anAccount = new Account("Volksbank Raiffeisenbank eG",
@@ -129,7 +129,7 @@ public class LatexGeneratorTest {
   }
 
   @Before
-  public final void setupVars() {
+  public final void setUp() {
     letter = new Letter(date, sender, receiverAddress);
     letter.setSubject("Test");
 
@@ -147,12 +147,12 @@ public class LatexGeneratorTest {
 
   @Test
   public final void generateLatexSourcesTestNonEmptyLetter() {
-    final String content = "Hello new World";
+    String content = "Hello new World";
     letter.addMessageLine(content);
     letter.addMessageLine(content);
     letter.addMessageLine(content);
     letter.addMessageLine(content);
-    final String result = LatexGenerator.generateLatexSource(letter);
+    String result = LatexGenerator.generateLatexSource(letter);
 
     Assert.assertEquals(
         EXPECTATION_LETTER_START

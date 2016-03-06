@@ -4,21 +4,19 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.BorderLayout;
-import java.awt.Desktop;
+import de.heinerion.betriebe.classes.data.RechnungsListe;
+import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.tools.FormatTools;
+
+import javax.swing.*;
+import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.TableColumnModel;
-
-import de.heinerion.betriebe.classes.data.RechnungsListe;
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
-import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.tools.FormatTools;
 
 /**
  * @author heiner
@@ -88,18 +86,15 @@ public final class VerwaltungMenu extends AbstractMenu {
     getBtnOk().addActionListener(arg0 -> getCloser().windowClosing(null));
   }
 
-  /**
-   * @param e
-   */
-  private void handleDocumentClick(MouseEvent e) {
-    if (e.getClickCount() == 2) {
+  private void handleDocumentClick(MouseEvent event) {
+    if (event.getClickCount() == 2) {
       final int selectedRow = tblDokumente.getSelectedRow();
       final int rowIndex = tblDokumente.convertRowIndexToModel(selectedRow);
       final File pdf = model.getPdfAt(rowIndex);
       try {
         Desktop.getDesktop().open(pdf);
-      } catch (final IOException e1) {
-        e1.printStackTrace();
+      } catch (final IOException e) {
+        HeinerionException.handleException(getClass(), e);
       }
     }
   }

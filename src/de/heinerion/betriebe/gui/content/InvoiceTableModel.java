@@ -57,6 +57,7 @@ public class InvoiceTableModel extends AbstractTableModel {
         break;
       default:
         result = columnIndex + "";
+        break;
     }
 
     return result;

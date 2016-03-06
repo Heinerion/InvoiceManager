@@ -19,8 +19,7 @@ import java.awt.event.ActionListener;
  */
 @SuppressWarnings("serial")
 public abstract class AbstractDropListenMenu extends AbstractMenu {
-  private static Logger logger = LogManager
-      .getLogger(AbstractDropListenMenu.class);
+  private static final Logger LOGGER = LogManager.getLogger(AbstractDropListenMenu.class);
 
   /**
    * Tabelleninhalt
@@ -99,8 +98,8 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
       inhalte += this.tabelle.getValueAt(row, col) + " ";
     }
     final String meldung = "Gelöscht: " + inhalte;
-    if (logger.isDebugEnabled()) {
-      logger.debug(meldung);
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug(meldung);
     }
     ((DefaultTableModel) this.tabelle.getModel()).removeRow(row);
   }
