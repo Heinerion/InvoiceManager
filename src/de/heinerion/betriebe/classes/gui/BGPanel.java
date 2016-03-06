@@ -62,12 +62,22 @@ public class BGPanel extends JPanel {
   }
 
   private Border createPanelBorder() {
-    widthTop = drawTop ? CORNER_SIZE : 0;
-    widthLeft = drawLeft ? CORNER_SIZE : 0;
-    widthBottom = drawBottom ? CORNER_SIZE : 0;
-    widthRight = drawRight ? CORNER_SIZE : 0;
+    widthTop = getBorderWidth(drawTop);
+    widthLeft = getBorderWidth(drawLeft);
+    widthBottom = getBorderWidth(drawBottom);
+    widthRight = getBorderWidth(drawRight);
 
     return BorderFactory.createEmptyBorder(widthTop, widthLeft, widthBottom, widthRight);
+  }
+
+  private int getBorderWidth(boolean draw) {
+    int borderWidth = 0;
+
+    if (draw) {
+      borderWidth = CORNER_SIZE;
+    }
+
+    return borderWidth;
   }
 
   private void determineColorSettings() {
@@ -182,17 +192,27 @@ public class BGPanel extends JPanel {
     int halfWidth = getWidth() / 2;
     int halfHeight = getHeight() / 2;
 
-    g2.setPaint(drawLeft ? leftPaint : backgroundPaint);
+    g2.setPaint(getPaint(drawLeft, leftPaint));
     g2.fill(createHorizontalArea(x, halfWidth));
 
-    g2.setPaint(drawRight ? rightPaint : backgroundPaint);
+    g2.setPaint(getPaint(drawRight, rightPaint));
     g2.fill(createHorizontalArea(halfWidth, getWidth()));
 
-    g2.setPaint(drawTop ? topPaint : backgroundPaint);
+    g2.setPaint(getPaint(drawTop, topPaint));
     g2.fill(createVerticalArea(y, halfHeight));
 
-    g2.setPaint(drawBottom ? bottomPaint : backgroundPaint);
+    g2.setPaint(getPaint(drawBottom, bottomPaint));
     g2.fill(createVerticalArea(halfHeight, getHeight()));
+  }
+
+  private GradientPaint getPaint(boolean draw, GradientPaint paint) {
+    GradientPaint resultPaint = backgroundPaint;
+
+    if (draw) {
+      resultPaint = paint;
+    }
+
+    return resultPaint;
   }
 
   private Rectangle2D.Double createHorizontalArea(int xStart, int xEnd) {
