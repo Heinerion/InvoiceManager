@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import de.heinerion.betriebe.classes.file_operations.Syntax;
 
 public final class LatexDemo {
-  private static Logger logger = LogManager.getLogger(LatexDemo.class);
+  private static final Logger LOGGER = LogManager.getLogger(LatexDemo.class);
 
   private LatexDemo() {
 
@@ -29,9 +29,9 @@ public final class LatexDemo {
     letter.addPackage("babel", "ngermanb");
     letter.addPackage("eurosym", "right");
 
-    logger.debug(letter);
+    LOGGER.debug(letter);
     letter.setCompressed(true);
-    logger.debug(letter);
-    logger.debug(preamble);
+    LOGGER.debug(letter);
+    LOGGER.debug(preamble);
   }
 }

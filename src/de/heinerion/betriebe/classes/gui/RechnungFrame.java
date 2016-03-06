@@ -34,7 +34,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public final class RechnungFrame extends AbstractBusyFrame implements
     CompanyListener, DateListener {
-  private static Logger logger = LogManager.getLogger(RechnungFrame.class);
+  private static final Logger LOGGER = LogManager.getLogger(RechnungFrame.class);
   private static RechnungFrame instance = null;
 
   private ReceiverPanel receiverPanel;
@@ -69,7 +69,7 @@ public final class RechnungFrame extends AbstractBusyFrame implements
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        logger.info("Planmäßig heruntergefahren.");
+        LOGGER.info("Planmäßig heruntergefahren.");
         System.exit(0);
       }
     });
