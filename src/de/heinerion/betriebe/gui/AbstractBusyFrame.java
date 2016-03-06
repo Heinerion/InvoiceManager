@@ -1,9 +1,12 @@
 package de.heinerion.betriebe.gui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public abstract class AbstractBusyFrame extends JFrame {
+  private Component glassPanel;
+  private JMenuBar menuBar;
 
   /**
    * Aktiviert die Glasspane und "blockiert" den Frame oder revidiert dieses
@@ -11,7 +14,17 @@ public abstract class AbstractBusyFrame extends JFrame {
    * @param busy Ob der Frame beschäftigt sein soll
    */
   public final void setBusyState(BusyState busy) {
-    getGlassPane().setVisible(busy == BusyState.BUSY);
-    getJMenuBar().setEnabled(busy == BusyState.IDLE);
+    updateComponents();
+    setVisibilities(busy);
+  }
+
+  private void updateComponents() {
+    glassPanel = getGlassPane();
+    menuBar = getJMenuBar();
+  }
+
+  private void setVisibilities(BusyState busy) {
+    glassPanel.setVisible(busy == BusyState.BUSY);
+    menuBar.setEnabled(busy == BusyState.IDLE);
   }
 }
