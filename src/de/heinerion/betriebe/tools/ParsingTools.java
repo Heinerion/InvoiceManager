@@ -1,10 +1,11 @@
 package de.heinerion.betriebe.tools;
 
+import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.tools.strings.Strings;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
-
-import de.heinerion.betriebe.tools.strings.Strings;
 
 public final class ParsingTools {
   private ParsingTools() {
@@ -19,7 +20,7 @@ public final class ParsingTools {
       try {
         result = perseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
-        throw new RuntimeException(exe);
+        HeinerionException.handleException(ParsingTools.class, exe);
       }
     }
 
