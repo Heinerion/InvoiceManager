@@ -10,7 +10,7 @@ import java.util.Map;
 public final class TextFileReader implements Reader {
   private static final String PROPERTY_DIVIDER = ":";
 
-  private java.io.BufferedReader reader = null;
+  private BufferedReader reader = null;
   private boolean isOpen = false;
 
   @Override
@@ -43,5 +43,4 @@ public final class TextFileReader implements Reader {
 
     return ret;
   }
-
 }
