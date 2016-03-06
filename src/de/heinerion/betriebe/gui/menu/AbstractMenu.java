@@ -9,15 +9,25 @@ import java.awt.event.WindowEvent;
 
 public abstract class AbstractMenu extends JDialog {
 
-  /** Generierte UID */
+  /**
+   * Generierte UID
+   */
   private static final long serialVersionUID = 4454109756872082790L;
-  /** Quellfenster */
+  /**
+   * Quellfenster
+   */
   private RechnungFrame ursprung;
-  /** Der Windowadapter, für schließvorgänge zuständig */
+  /**
+   * Der Windowadapter, für schließvorgänge zuständig
+   */
   private DisposeAdapter closer = new DisposeAdapter();
-  /** Bestätigungs-/ Schließknopf */
+  /**
+   * Bestätigungs-/ Schließknopf
+   */
   private JButton btnOk = new JButton("OK");
-  /** Knopf um Einträge zu löschen */
+  /**
+   * Knopf um Einträge zu löschen
+   */
   private JButton btnDelete = new JButton("Löschen");
 
   /**

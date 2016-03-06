@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.gui.panels;
 
-
 @SuppressWarnings("serial")
 public final class AddressPanel extends SidePanel {
   private AddressChooserPanel addressChooser;

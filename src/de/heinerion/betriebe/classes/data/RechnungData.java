@@ -19,20 +19,34 @@ public final class RechnungData implements Loadable {
   private static final int DATE_LENGTH = 14;
   private static Map<Company, Map<String, Address>> globalAddressCache = new HashMap<>();
 
-  /** Die aus der Quelle ermittelte Rechnungsnummer */
+  /**
+   * Die aus der Quelle ermittelte Rechnungsnummer
+   */
   private final int invoiceNumber;
-  /** Das ausgelesene Datum */
+  /**
+   * Das ausgelesene Datum
+   */
   private String dateString;
   private LocalDate date;
-  /** Der ausgelesene Empfänger */
+  /**
+   * Der ausgelesene Empfänger
+   */
   private final Address recipient;
-  /** "Artikel" der verkauft wird */
+  /**
+   * "Artikel" der verkauft wird
+   */
   private String item;
-  /** Der Betrieb von dem aus die Rechnung erstellt wurde */
+  /**
+   * Der Betrieb von dem aus die Rechnung erstellt wurde
+   */
   private Company company;
-  /** Der Rechnungsbetrag */
+  /**
+   * Der Rechnungsbetrag
+   */
   private double amount;
-  /** Pfad zur PDF der Rechnung */
+  /**
+   * Pfad zur PDF der Rechnung
+   */
   private final File pdf;
 
   private Map<String, Address> addressCache;

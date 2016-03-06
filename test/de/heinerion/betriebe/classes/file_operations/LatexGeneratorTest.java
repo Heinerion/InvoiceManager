@@ -40,7 +40,7 @@ public class LatexGeneratorTest {
       + "\t\\begin{tabular}{ll}\n"
       + "\t\\textsc Datum & : "
       + String.join(".", DAY + "", (MONTH.getValue() < DOUBLE_DIGIT ? "0" : "")
-          + MONTH.getValue(), YEAR + "");
+      + MONTH.getValue(), YEAR + "");
   private static final String DATE_END = "\t\\end{tabular}\n" + "}\n";
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";

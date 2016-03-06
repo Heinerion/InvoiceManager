@@ -22,12 +22,18 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
   private static Logger logger = LogManager
       .getLogger(AbstractDropListenMenu.class);
 
-  /** Tabelleninhalt */
+  /**
+   * Tabelleninhalt
+   */
   private String[][] inhalt;
 
-  /** Tabelle mit Inhalt */
+  /**
+   * Tabelle mit Inhalt
+   */
   private JTable tabelle;
-  /** Scrollrahmen */
+  /**
+   * Scrollrahmen
+   */
   private JScrollPane scrollpane;
 
   public AbstractDropListenMenu(final RechnungFrame origin) {
@@ -77,7 +83,7 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
   }
 
   /**
-   * 
+   *
    */
   private void deleteAllRows() {
     for (int i = 0; i < this.tabelle.getRowCount(); i++) {

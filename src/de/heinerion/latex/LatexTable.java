@@ -63,9 +63,8 @@ public final class LatexTable extends AbstractLatexContent {
    * Ende der aktuellen Reihe reicht.
    * <p>
    * Ist der Index negativ, wird vom Ende gezählt.
-   * 
-   * @param startColumn
-   *          Spaltenindex, von dem aus unterstrichen wird
+   *
+   * @param startColumn Spaltenindex, von dem aus unterstrichen wird
    */
   public void addLine(int startColumn) {
     int max = countColumns();
@@ -80,11 +79,9 @@ public final class LatexTable extends AbstractLatexContent {
   /**
    * Fügt eine waagerechte Linie hinzu, die von der angegebenen Startspalte bis
    * zur angegebenen Endspalte der aktuellen Reihe reicht.
-   * 
-   * @param start
-   *          Startspaltenindex
-   * @param end
-   *          Endspaltenindex
+   *
+   * @param start Startspaltenindex
+   * @param end   Endspaltenindex
    */
   public void addLine(int start, int end) {
     add("\\cline{" + start + "-" + end + Syntax.END + Constants.NEWLINE);

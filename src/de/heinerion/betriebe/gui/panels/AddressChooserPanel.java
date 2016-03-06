@@ -1,22 +1,5 @@
 package de.heinerion.betriebe.gui.panels;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-
 import de.heinerion.betriebe.classes.gui.AbstractGridPanel;
 import de.heinerion.betriebe.classes.gui.PositionCoordinates;
 import de.heinerion.betriebe.classes.gui.panels.PanelControl;
@@ -26,6 +9,10 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.tools.DimensionTool;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public final class AddressChooserPanel extends AbstractGridPanel {
@@ -46,7 +33,9 @@ public final class AddressChooserPanel extends AbstractGridPanel {
 
   private JTextArea areaAdresse;
 
-  /** ComboBox für Adressen */
+  /**
+   * ComboBox für Adressen
+   */
   private JComboBox<Address> boxAdressen = new JComboBox<>();
 
   public AddressChooserPanel() {
@@ -70,9 +59,6 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     constraints.insets = new Insets(INSET, INSET, INSET, INSET);
   }
 
-  /**
-   * 
-   */
   private void addButtons() {
     PositionCoordinates position;
     position = new PositionCoordinates();
@@ -96,9 +82,6 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     pnlButtons.add(btnDelete);
   }
 
-  /**
-   * 
-   */
   private void addAddressChooser() {
     PositionCoordinates position;
     // Adressboxen links NEBEN die Labels platzieren
@@ -118,9 +101,6 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     this.boxAdressen.addActionListener(e -> this.useGivenAddress());
   }
 
-  /**
-   * 
-   */
   private void addAddressField() {
     PositionCoordinates position;
     position = new PositionCoordinates();
@@ -137,16 +117,10 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     this.areaAdresse.setBorder(BorderFactory.createEtchedBorder());
   }
 
-  /**
-  *
-  */
   private void clearAddress() {
     this.areaAdresse.setText(Constants.EMPTY);
   }
 
-  /**
-  *
-  */
   private void saveAddress() {
     PanelControl.saveAddress(this.areaAdresse.getText());
     this.refreshBoxes();
@@ -163,9 +137,6 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     }
   }
 
-  /**
-  *
-  */
   private void useGivenAddress() {
     final Address address = (Address) this.boxAdressen.getSelectedItem();
     Session.setActiveAddress(address);

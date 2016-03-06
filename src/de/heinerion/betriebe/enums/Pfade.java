@@ -4,14 +4,22 @@ import java.io.File;
 
 public enum Pfade {
 
-  /** Pfad für den Vorlagen<b>ordner</b> für spezielle Rechnungen */
+  /**
+   * Pfad für den Vorlagen<b>ordner</b> für spezielle Rechnungen
+   */
   VORLAGENSPEZIAL("vorlagenSpezial"),
   VORLAGEN("Vorlagen"),
-  /** Pfad für die Performance CSV */
+  /**
+   * Pfad für die Performance CSV
+   */
   CSV("performance.csv"),
-  /** Pfad für die Logfile */
+  /**
+   * Pfad für die Logfile
+   */
   LOG("logfile.txt"),
-  /** Pfad für LogFile Datum */
+  /**
+   * Pfad für LogFile Datum
+   */
   LOG_DATE("logdate.sav");
 
   private String name;

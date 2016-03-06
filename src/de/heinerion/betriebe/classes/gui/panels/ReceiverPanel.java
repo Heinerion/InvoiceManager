@@ -51,11 +51,11 @@ public final class ReceiverPanel extends JPanel {
         RenderingHints.VALUE_ANTIALIAS_ON);
 
     g2.setPaint(Color.gray);
-    
+
     int x = 0;
     int width = 10;
     int y = 0;
-    
+
     final Color bright = this.getBackground().darker();
     final Color dark = this.getBackground();
     // TODO Hintergrund malen

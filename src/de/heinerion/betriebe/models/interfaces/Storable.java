@@ -4,7 +4,7 @@ import de.heinerion.betriebe.tools.PathTools;
 
 public interface Storable {
   default String[] getClassification() {
-    return new String[] { PathTools.determineFolderName(getClass()) };
+    return new String[]{PathTools.determineFolderName(getClass())};
   }
 
   String getEntryName();

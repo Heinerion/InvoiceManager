@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.classes.data;
 
-import java.io.File;
-import java.io.Serializable;
-
 import de.heinerion.betriebe.classes.texting.DropListable;
 import de.heinerion.betriebe.enums.Pfade;
+
+import java.io.File;
+import java.io.Serializable;
 
 // TODO zu RawTemplate machen, Coupling reduzieren
 @SuppressWarnings("serial")
@@ -20,7 +20,9 @@ public final class TexVorlage implements DropListable, Serializable {
   // private static final long serialVersionUID = -6073798754092187955L;
   // /** Zeigt an, ob Belegung vorgenommen wurde */
   // private boolean hasValue = false;
-  /** Vorlagenbezeichnung */
+  /**
+   * Vorlagenbezeichnung
+   */
   private String name;
 
   private final String path;

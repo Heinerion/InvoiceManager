@@ -3,16 +3,26 @@ package de.heinerion.betriebe.enums;
 import java.io.File;
 
 public enum Utilities {
-  /** Fenstertitel: führender text */
+  /**
+   * Fenstertitel: führender text
+   */
   TITEL("Betrieb: "),
-  /** Fenstertitel: Rechnungsnummer angabe */
+  /**
+   * Fenstertitel: Rechnungsnummer angabe
+   */
   NUMMER("Rechnungsnummer: "),
 
-  /** Rechnung - Ordnername und Briefbetreff */
+  /**
+   * Rechnung - Ordnername und Briefbetreff
+   */
   RECHNUNG("Rechnung"),
-  /** Brief - Ordnername */
+  /**
+   * Brief - Ordnername
+   */
   BRIEF("Brief"),
-  /** System - Ordnername */
+  /**
+   * System - Ordnername
+   */
   SYSTEM("System"),
   VORLAGE("Vorlagen");
 

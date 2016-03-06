@@ -1,9 +1,9 @@
 package de.heinerion.betriebe.models.interfaces;
 
-import java.time.LocalDate;
-
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+
+import java.time.LocalDate;
 
 public interface Conveyable {
   Company getCompany();
@@ -16,9 +16,9 @@ public interface Conveyable {
 
   /**
    * Bestimmt, ob ein Conveyable in einem druckbaren Zustand ist.
-   * 
+   *
    * @return {@code true}, wenn das Dokument vollständig und gültig ist.
-   *         {@code false} sonst.
+   * {@code false} sonst.
    */
   boolean isPrintable();
 }

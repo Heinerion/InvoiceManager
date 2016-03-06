@@ -1,13 +1,13 @@
 package de.heinerion.betriebe.models;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.tools.PathTools;
 import de.heinerion.betriebe.tools.strings.Strings;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Letter implements Conveyable, Storable {
   private final Company company;
@@ -35,8 +35,8 @@ public final class Letter implements Conveyable, Storable {
 
   @Override
   public String[] getClassification() {
-    return new String[] { this.company.getDescriptiveName(),
-        PathTools.determineFolderName(this.getClass()) };
+    return new String[]{this.company.getDescriptiveName(),
+        PathTools.determineFolderName(this.getClass())};
   }
 
   public String getClosing() {

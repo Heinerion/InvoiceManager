@@ -14,13 +14,13 @@ public final class Address implements Storable, Loadable {
   private String street;
 
   public Address(String company, String street, String number,
-      String postalCode, String location) {
+                 String postalCode, String location) {
     this(null, company, null, street, number, null, postalCode, location);
   }
 
   public Address(String recipient, String company, String district,
-      String street, String number, String apartment, String postalCode,
-      String location) {
+                 String street, String number, String apartment, String postalCode,
+                 String location) {
     this.apartment = apartment;
     this.company = company;
     this.district = district;

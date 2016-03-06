@@ -16,11 +16,15 @@ import javax.swing.JPanel;
  * @author heiner
  */
 public final class GlassPane extends JPanel {
-  /** Generierte UID */
+  /**
+   * Generierte UID
+   */
   private static final long serialVersionUID = -7600133123674600410L;
   private static final int ALPHA = 150;
 
-  /** Erzeugt ein neues GlassPane mit WaitCursor, zunächst unsichtbar */
+  /**
+   * Erzeugt ein neues GlassPane mit WaitCursor, zunächst unsichtbar
+   */
   public GlassPane() {
     this.setLayout(new BorderLayout());
     this.setVisible(false);

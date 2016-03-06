@@ -33,7 +33,7 @@ public final class LatexScrLetter extends LatexDocument {
   @Override
   protected String buildPreContent() {
     return String.join(getDelimiter(), "\\begin{" + LETTER
-        + Syntax.NEXT_GROUP + recipient + Syntax.END, "",
+            + Syntax.NEXT_GROUP + recipient + Syntax.END, "",
         "\\opening{}\\vspace{-25pt}");
   }
 

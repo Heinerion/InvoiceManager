@@ -1,13 +1,13 @@
 package de.heinerion.betriebe.models;
 
-import java.io.File;
-import java.text.Collator;
-
 import de.heinerion.betriebe.classes.file_operations.loading.Loadable;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
+
+import java.io.File;
+import java.text.Collator;
 
 public final class Company implements Addressable, Storable, Loadable {
   private final String descriptiveName;
@@ -25,8 +25,8 @@ public final class Company implements Addressable, Storable, Loadable {
   private int invoiceNumber;
 
   public Company(String descriptiveName, String officialName, Address address,
-      String signer, String phoneNumber, String taxNumber,
-      double valueAddedTax, double wagesPerHour, Account bankAccount) {
+                 String signer, String phoneNumber, String taxNumber,
+                 double valueAddedTax, double wagesPerHour, Account bankAccount) {
     this.descriptiveName = descriptiveName;
     this.officialName = officialName;
     this.address = address;
