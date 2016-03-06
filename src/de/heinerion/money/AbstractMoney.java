@@ -22,11 +22,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
 
   @Override
   public final boolean equals(Object obj) {
-    if (obj instanceof Money) {
-      return compareTo((Money) obj) == 0;
-    } else {
-      return false;
-    }
+    return obj instanceof Money && compareTo((Money) obj) == 0;
   }
 
   @Override

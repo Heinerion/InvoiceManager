@@ -29,13 +29,14 @@ public final class DateTools {
   }
 
   public static String extractDateString(String wholeString) {
-    final Matcher matcher = DATE_PATTERN.matcher(wholeString);
+    Matcher matcher = DATE_PATTERN.matcher(wholeString);
+    String result = null;
 
     if (matcher.find()) {
-      return matcher.group();
-    } else {
-      return null;
+      result = matcher.group();
     }
+
+    return result;
   }
 
   public static String format(Date date) {

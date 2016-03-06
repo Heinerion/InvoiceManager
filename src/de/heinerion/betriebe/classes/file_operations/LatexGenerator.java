@@ -42,12 +42,14 @@ public final class LatexGenerator {
   }
 
   private static String convertAddress(Address address) {
-    if (address == null) {
-      return "null";
+    String convertedAddress = "null";
+
+    if (address != null) {
+      convertedAddress = address.getStreet() + Constants.SPACE + address.getNumber()
+          + COL_SPACE + address.getPostalCode() + Constants.SPACE + address.getLocation();
     }
-    return address.getStreet() + Constants.SPACE + address.getNumber()
-        + COL_SPACE + address.getPostalCode() + Constants.SPACE
-        + address.getLocation();
+
+    return convertedAddress;
   }
 
   private static String createRecipientsAddress(Address address) {
