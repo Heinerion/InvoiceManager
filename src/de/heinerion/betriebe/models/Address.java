@@ -15,7 +15,7 @@ public final class Address implements Storable, Loadable {
 
   public Address(String company, String street, String number,
                  String postalCode, String location) {
-    this(null, company, null, street, number, null, postalCode, location);
+    this("", company, "", street, number, "", postalCode, location);
   }
 
   public Address(String recipient, String company, String district,
