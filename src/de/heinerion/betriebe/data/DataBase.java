@@ -22,11 +22,13 @@ public final class DataBase {
   private static final Logger logger = LogManager.getLogger(DataBase.class);
 
   private static List<ListEntry<Address>> addresses = new ArrayList<>();
+  private static List<ListEntry<Company>> companies = new ArrayList<>();
   private static List<ListEntry<Vorlage>> templates = new ArrayList<>();
   private static List<ListEntry<TexVorlage>> texTemplates = new ArrayList<>();
 
   /**
    * beinhaltet alle Rechnungen TODO wozu RechnungsListe?
+   * TODO warum hier eine Map und sonst Lists?
    */
   private static Map<Company, RechnungsListe> invoices = new HashMap<>();
 
@@ -36,6 +38,7 @@ public final class DataBase {
 
   private static void initLists() {
     addresses = new ArrayList<>();
+    companies = new ArrayList<>();
     templates = new ArrayList<>();
     texTemplates = new ArrayList<>();
   }
@@ -72,6 +75,14 @@ public final class DataBase {
 
   public static void addCompany(Company company) {
     Session.addAvailableCompany(company);
+
+    ListEntry<Company> oldCompany = getCompanyEntry(company.getDescriptiveName());
+
+    if (oldCompany == null) {
+      companies.add(new ListEntry<>(null, company));
+    } else {
+      oldCompany.setEntry(company);
+    }
   }
 
   public static void addAdresse(Address address) {
@@ -136,8 +147,46 @@ public final class DataBase {
     return addressEntry.getEntry().getRecipient().equals(recipient);
   }
 
+  public static Company getCompany(String descriptiveName) {
+    Company result = null;
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("getComapny({})", descriptiveName);
+    }
+
+    ListEntry<Company> entry = getCompanyEntry(descriptiveName);
+    if (entry != null) {
+      result = entry.getEntry();
+    }
+
+    return result;
+  }
+
+  private static ListEntry<Company> getCompanyEntry(String descriptiveName) {
+    ListEntry<Company> result = null;
+
+    for (ListEntry<Company> company : companies) {
+      if (hasThisDescriptiveName(company, descriptiveName)) {
+        result = company;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  private static boolean hasThisDescriptiveName(ListEntry<Company> company, String descriptiveName) {
+    return descriptiveName.equals(company.getEntry().getDescriptiveName());
+  }
+
   public static List<Address> getAddresses() {
     return getAddresses(null);
+  }
+
+  public static List<Company> getCompanies() {
+    List<Company> result = getEntries(companies, null);
+    result.sort((a, b) -> Collator.getInstance().compare(a.getDescriptiveName(), b.getDescriptiveName()));
+    return result;
   }
 
   public static List<Address> getAddresses(Company company) {
@@ -197,6 +246,10 @@ public final class DataBase {
 
   public static List<Vorlage> getTemplates(Company company) {
     return getEntries(templates, company);
+  }
+
+  public static List<TexVorlage> getTexTemplates(Company company) {
+    return getEntries(texTemplates, company);
   }
 
   public static void addLoadable(Loadable loadable) {
