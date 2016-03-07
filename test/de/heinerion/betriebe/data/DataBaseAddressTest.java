@@ -10,14 +10,13 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IO.class})
 @PowerMockIgnore("javax.management.*")
-public class DataBaseTest {
+public class DataBaseAddressTest {
   private Company company;
   private Address address;
 
@@ -37,6 +36,13 @@ public class DataBaseTest {
   }
 
   @Test
+  public void testAddAddressAsLoadable() {
+    DataBase.addLoadable(address);
+
+    assertTrue(DataBase.getAddresses(null).contains(address));
+  }
+
+  @Test
   public void testAddAddressMultipleTimes() {
     int baseSize = DataBase.getAddresses(company).size();
     int expectedGrowth = 1;
@@ -53,5 +59,20 @@ public class DataBaseTest {
     DataBase.addAdresse(address);
 
     assertTrue(DataBase.getAddresses().contains(address));
+  }
+
+  @Test
+  public void testDoNotFindAddressByCompany() {
+    Address result = DataBase.getAddress(company, "Charlie");
+    assertNull(result);
+  }
+
+  @Test
+  public void testFindAddressByCompany() {
+    String recipient = "Charlie";
+    address.setRecipient(recipient);
+    DataBase.addAddress(company, address);
+    Address result = DataBase.getAddress(company, recipient);
+    assertEquals(address, result);
   }
 }
