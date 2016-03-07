@@ -13,7 +13,7 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
   private String[][] inhalt;
 
   public Vorlage() {
-    this(null, null);
+    this("", new String[][]{{""}});
   }
 
   public Vorlage(String aName, String[][] content) {
