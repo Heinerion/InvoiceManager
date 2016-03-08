@@ -32,6 +32,10 @@ public final class DataBase {
    */
   private static Map<Company, RechnungsListe> invoices = new HashMap<>();
 
+  static {
+    new DataBase();
+  }
+
   private DataBase() {
     initLists();
   }
@@ -41,6 +45,8 @@ public final class DataBase {
     companies = new ArrayList<>();
     templates = new ArrayList<>();
     texTemplates = new ArrayList<>();
+
+    removeAllInvoices();
   }
 
   public static void addAddress(Company company, Address address) {
@@ -92,11 +98,14 @@ public final class DataBase {
   }
 
   public static void addInvoice(RechnungData daten) {
-    RechnungsListe list = getInvoice(Session.getActiveCompany());
+    Company company = Session.getActiveCompany();
+    RechnungsListe list = getInvoice(company);
 
     if (isEntryNotInList(daten, list)) {
       list.add(daten);
     }
+
+    invoices.put(company, list);
   }
 
   private static boolean isEntryNotInList(RechnungData daten, RechnungsListe list) {
