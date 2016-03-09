@@ -17,36 +17,40 @@ import org.apache.logging.log4j.Logger;
 /**
  * @author heiner
  */
-final class BetriebeOriginal {
-  private static final Logger logger = LogManager.getLogger(BetriebeOriginal.class);
+final class InvoiceManager {
+  private static final Logger LOGGER = LogManager.getLogger(InvoiceManager.class);
 
   private static final long ONE_SECOND = 1000L;
 
-  private BetriebeOriginal() {
+  private InvoiceManager() {
   }
 
   public static void main(String... args) {
-    setDebugMode(args);
+    parseArguments(args);
 
-    if (logger.isInfoEnabled()) {
-      logger.info("Setting up application.");
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Setting up application.");
     }
     setup();
 
-    if (logger.isInfoEnabled()) {
-      logger.info("Entering application.");
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Entering application.");
     }
     start();
   }
 
-  private static void setDebugMode(String... args) {
+  private static void parseArguments(String... args) {
+    boolean debug = false;
     for (String string : args) {
       if (string.contains("debug")) {
-        Utilities.setDebugMode(true);
+        debug = true;
       }
     }
-    if (logger.isWarnEnabled() && !Utilities.isDebugMode()) {
-      logger.warn("\n\tPRODUCTION MODE");
+
+    Utilities.setDebugMode(debug);
+
+    if (LOGGER.isWarnEnabled() && !Utilities.isDebugMode()) {
+      LOGGER.warn("\n\tPRODUCTION MODE");
     }
   }
 
@@ -85,7 +89,7 @@ final class BetriebeOriginal {
     try {
       Thread.sleep(ONE_SECOND);
     } catch (final InterruptedException e) {
-      HeinerionException.handleException(BetriebeOriginal.class, e);
+      HeinerionException.handleException(InvoiceManager.class, e);
     }
   }
 }

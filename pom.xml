@@ -33,7 +33,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>de.heinerion.betriebe.BetriebeOriginal</mainClass>
+                            <mainClass>de.heinerion.betriebe.InvoiceManager</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
