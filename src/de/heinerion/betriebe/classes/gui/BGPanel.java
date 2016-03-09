@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.classes.gui;
 
-import de.heinerion.betriebe.tools.math.Mathe;
+import de.heinerion.betriebe.tools.math.MathUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -54,7 +54,7 @@ public class BGPanel extends JPanel {
   }
 
   private void determineSidesToDraw(int[] sides) {
-    int direction = Mathe.produkt(sides);
+    int direction = MathUtil.product(sides);
     drawTop = direction % TOP == 0;
     drawBottom = direction % BOTTOM == 0;
     drawLeft = direction % LEFT == 0;
