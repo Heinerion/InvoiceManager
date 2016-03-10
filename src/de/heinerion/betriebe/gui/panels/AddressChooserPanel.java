@@ -8,7 +8,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.tools.DimensionTool;
+import de.heinerion.betriebe.tools.DimensionUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,7 +110,7 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     this.areaAdresse = this.myTextArea(position, ADDRESSFIELD_ROWS,
         ADDRESSFIELD_COLS);
     // TODO dynamische Größe für die Adressfläche?
-    setSizes(this.areaAdresse, DimensionTool.ADDRESS_AREA);
+    setSizes(this.areaAdresse, DimensionUtil.ADDRESS_AREA);
     this.areaAdresse.setBackground(Color.WHITE);
     // Undurchsichtig (sollte schon so sein)
     this.areaAdresse.setOpaque(true);

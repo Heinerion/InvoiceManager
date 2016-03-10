@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.classes.file_operations;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.tools.FormatTools;
+import de.heinerion.betriebe.tools.FormatUtil;
 
 public final class Syntax {
   public static final String BR = "\\\\";
@@ -42,7 +42,7 @@ public final class Syntax {
   }
 
   public static String euro(double euro) {
-    return euro(FormatTools.formatLocaleDecimal(euro));
+    return euro(FormatUtil.formatLocaleDecimal(euro));
   }
 
   public static String euro(String euro) {

@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class DateTools {
+public final class DateUtil {
   private static DateTimeFormatter formatter = DateTimeFormatter
       .ofPattern("dd.MM.yyyy");
 
@@ -21,7 +21,7 @@ public final class DateTools {
   private static final Pattern DATE_PATTERN = Pattern
       .compile("([0-3]?[0-9])\\.([012]?[0-9])\\.([0-9]{4})");
 
-  private DateTools() {
+  private DateUtil() {
   }
 
   public static LocalDate convertDates(Date date) {

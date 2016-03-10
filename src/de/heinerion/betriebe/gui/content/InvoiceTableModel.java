@@ -3,7 +3,7 @@ package de.heinerion.betriebe.gui.content;
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
-import de.heinerion.betriebe.tools.ParsingTools;
+import de.heinerion.betriebe.tools.ParsingUtil;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -153,7 +153,7 @@ public class InvoiceTableModel extends AbstractTableModel {
   private double parseDouble(Object aValue) {
     double result = 0;
     if (aValue instanceof String) {
-      result = ParsingTools.parseDouble((String) aValue);
+      result = ParsingUtil.parseDouble((String) aValue);
     } else if (aValue instanceof Double) {
       result = (Double) aValue;
     }

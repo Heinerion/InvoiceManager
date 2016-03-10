@@ -8,7 +8,7 @@ import de.heinerion.betriebe.classes.data.RechnungsListe;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.exceptions.HeinerionException;
-import de.heinerion.betriebe.tools.FormatTools;
+import de.heinerion.betriebe.tools.FormatUtil;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -71,7 +71,7 @@ public final class VerwaltungMenu extends AbstractMenu {
   @Override
   protected void setTitle() {
     this.setTitle("Verwaltung - Gesamtsumme: "
-        + FormatTools.formatLocaleDecimal(this.model.berechneEinnahmen())
+        + FormatUtil.formatLocaleDecimal(this.model.berechneEinnahmen())
         + " €");
   }
 

@@ -2,7 +2,7 @@ package de.heinerion.betriebe.classes.file_operations.loading;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.exceptions.HeinerionException;
-import de.heinerion.betriebe.tools.ParsingTools;
+import de.heinerion.betriebe.tools.ParsingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -39,7 +39,7 @@ public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
       data.setItem(info.getSubject());
       String keywords = info.getKeywords();
       if (keywords != null && !"".equals(keywords)) {
-        data.setAmount(ParsingTools.parseDouble(keywords));
+        data.setAmount(ParsingUtil.parseDouble(keywords));
       }
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {

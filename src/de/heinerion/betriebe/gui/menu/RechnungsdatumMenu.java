@@ -7,7 +7,7 @@ package de.heinerion.betriebe.gui.menu;
 import de.heinerion.betriebe.classes.gui.BGPanel;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.tools.DateTools;
+import de.heinerion.betriebe.tools.DateUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +84,7 @@ public final class RechnungsdatumMenu extends AbstractMenu {
     boolean correct = true;
 
     try {
-      date = DateTools.parse(fldDD.getValue() + "." + fldMM.getValue() + "." + fldYY.getValue());
+      date = DateUtil.parse(fldDD.getValue() + "." + fldMM.getValue() + "." + fldYY.getValue());
     } catch (final DateTimeParseException e) {
       correct = false;
     }

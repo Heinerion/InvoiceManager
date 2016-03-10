@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.classes.gui;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.tools.DimensionTool;
+import de.heinerion.betriebe.tools.DimensionUtil;
 import de.heinerion.money.Euro;
 import de.heinerion.money.Money;
 
@@ -35,7 +35,7 @@ public class TaschenrechnerPanel extends BGPanel {
 
   private void initLayout() {
     setLayout(new BorderLayout());
-    setPreferredSize(DimensionTool.CALCULATOR);
+    setPreferredSize(DimensionUtil.CALCULATOR);
     setOpaque(false);
   }
 

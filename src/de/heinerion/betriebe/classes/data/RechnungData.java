@@ -5,7 +5,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.tools.DateTools;
+import de.heinerion.betriebe.tools.DateUtil;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -70,9 +70,9 @@ public final class RechnungData implements Loadable {
     numberStringLen = token[0].length();
 
     this.invoiceNumber = Integer.parseInt(token[0].trim());
-    this.dateString = DateTools.extractDateString(name);
+    this.dateString = DateUtil.extractDateString(name);
     try {
-      this.date = DateTools.parse(this.dateString);
+      this.date = DateUtil.parse(this.dateString);
     } catch (final DateTimeParseException e) {
       this.date = null;
     }

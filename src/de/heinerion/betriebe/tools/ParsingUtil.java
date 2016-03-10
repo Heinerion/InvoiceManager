@@ -6,8 +6,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-public final class ParsingTools {
-  private ParsingTools() {
+public final class ParsingUtil {
+  private ParsingUtil() {
   }
 
   public static double parseDouble(String input) {
@@ -19,18 +19,13 @@ public final class ParsingTools {
       try {
         result = perseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
-        HeinerionException.handleException(ParsingTools.class, exe);
+        HeinerionException.handleException(ParsingUtil.class, exe);
       }
     }
 
     return result;
   }
 
-  /**
-   * @param input
-   * @return
-   * @throws ParseException
-   */
   private static double perseByLocale(String input, Locale locale)
       throws ParseException {
     double result;

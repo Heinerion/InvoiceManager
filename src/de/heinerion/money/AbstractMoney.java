@@ -1,6 +1,6 @@
 package de.heinerion.money;
 
-import de.heinerion.betriebe.tools.ParsingTools;
+import de.heinerion.betriebe.tools.ParsingUtil;
 
 import java.text.DecimalFormat;
 
@@ -36,7 +36,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
   }
 
   protected static final double parseValue(String input) {
-    return ParsingTools.parseDouble(input);
+    return ParsingUtil.parseDouble(input);
   }
 
   @Override

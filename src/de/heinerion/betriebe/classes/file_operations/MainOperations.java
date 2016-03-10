@@ -9,7 +9,7 @@ import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.tools.DateTools;
+import de.heinerion.betriebe.tools.DateUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -140,7 +140,7 @@ public class MainOperations {
     }
 
     String receiver = letter.getReceiver().getRecipient();
-    String date = DateTools.format(letter.getDate());
+    String date = DateUtil.format(letter.getDate());
 
     return String.join(SPACE, start, receiver,
         date);

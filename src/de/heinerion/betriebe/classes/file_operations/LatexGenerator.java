@@ -7,8 +7,8 @@ import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.tools.DateTools;
-import de.heinerion.betriebe.tools.FormatTools;
+import de.heinerion.betriebe.tools.DateUtil;
+import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.latex.KomaKey;
 import de.heinerion.latex.LatexScrLetter;
 import de.heinerion.latex.LatexTable;
@@ -130,7 +130,7 @@ public final class LatexGenerator {
                               final LatexScrLetter latexLetter, final boolean isInvoice) {
     String tab = " & : ";
     List<String> fields = new ArrayList<>();
-    fields.add(Syntax.sc("Datum") + tab + DateTools.format(letter.getDate()));
+    fields.add(Syntax.sc("Datum") + tab + DateUtil.format(letter.getDate()));
 
     if (isInvoice) {
       Company company = letter.getCompany();
@@ -178,7 +178,7 @@ public final class LatexGenerator {
     latexLetter.addHyperSetupArgument("pdfauthor", company.getOfficialName());
     latexLetter.addHyperSetupArgument("pdfsubject", pdfSubject);
     latexLetter.addHyperSetupArgument("pdfkeywords",
-        FormatTools.formatAmericanDecimal(total));
+        FormatUtil.formatAmericanDecimal(total));
   }
 
   /**
@@ -226,7 +226,7 @@ public final class LatexGenerator {
   }
 
   private static void generateTableSum(LatexTable table, Invoice letter) {
-    final String vat = FormatTools.formatLocaleDecimal(letter.getVat());
+    final String vat = FormatUtil.formatLocaleDecimal(letter.getVat());
 
     table.addLine();
 
@@ -256,7 +256,7 @@ public final class LatexGenerator {
     String itemLine;
 
     if (item.getPricePerUnit() > 0 && item.getQuantity() > 0) {
-      final String quantity = FormatTools.formatLocaleDecimal(item
+      final String quantity = FormatUtil.formatLocaleDecimal(item
           .getQuantity());
 
       itemLine = Syntax.multicol(1, COL_SEP + LEFT, item.getName())

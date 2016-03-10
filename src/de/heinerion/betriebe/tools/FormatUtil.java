@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public final class FormatTools {
+public final class FormatUtil {
   /* TODO Den ganzen Lokalisierungskäse nochmal überdenken */
 
   private static final String DECIMAL_PATTERN = ",##0.00";
@@ -22,7 +22,7 @@ public final class FormatTools {
     dfAmerican.applyPattern(DECIMAL_PATTERN);
   }
 
-  private FormatTools() {
+  private FormatUtil() {
   }
 
   public static String formatAmericanDecimal(double value) {

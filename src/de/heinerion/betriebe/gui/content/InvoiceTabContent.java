@@ -13,8 +13,8 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.tools.FormatTools;
-import de.heinerion.betriebe.tools.ParsingTools;
+import de.heinerion.betriebe.tools.FormatUtil;
+import de.heinerion.betriebe.tools.ParsingUtil;
 import de.heinerion.betriebe.tools.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -208,7 +208,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
     if (String.class.equals(colClass)) {
       tabPositions.setValueAt(content, row, col);
     } else if (Double.class.equals(colClass)) {
-      tabPositions.setValueAt(ParsingTools.parseDouble(content), row, col);
+      tabPositions.setValueAt(ParsingUtil.parseDouble(content), row, col);
     } else {
       throw new HeinerionException("Invalid column class " + colClass.getSimpleName());
     }
@@ -297,10 +297,10 @@ public final class InvoiceTabContent extends AbstractTabContent implements
   public void notifyConveyable() {
     if (Session.getActiveConveyable() instanceof Invoice) {
       Invoice invoice = (Invoice) Session.getActiveConveyable();
-      currentTotalGross.setText(FormatTools.formatLocaleDecimal(invoice
+      currentTotalGross.setText(FormatUtil.formatLocaleDecimal(invoice
           .getGross()));
       currentTotalNet
-          .setText(FormatTools.formatLocaleDecimal(invoice.getNet()));
+          .setText(FormatUtil.formatLocaleDecimal(invoice.getNet()));
     }
   }
 }

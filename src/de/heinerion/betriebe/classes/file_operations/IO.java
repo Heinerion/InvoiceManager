@@ -11,7 +11,7 @@ import de.heinerion.betriebe.enums.Pfade;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.tools.FormatTools;
+import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.betriebe.tools.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -236,7 +236,7 @@ public final class IO implements LoadListener {
 
       double percentage = (double) newValue / maxValue;
       String status = message + " ("
-          + FormatTools.formatPercentage(percentage) + ")";
+          + FormatUtil.formatPercentage(percentage) + ")";
       progress.setString(status);
     }
 

@@ -15,8 +15,8 @@ import de.heinerion.betriebe.gui.menu.MenuBar;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.tools.DateTools;
-import de.heinerion.betriebe.tools.DimensionTool;
+import de.heinerion.betriebe.tools.DateUtil;
+import de.heinerion.betriebe.tools.DimensionUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,7 +95,7 @@ public final class RechnungFrame extends AbstractBusyFrame implements
     progressBar.setString("Laden der Oberfläche wird vorbereitet");
     progressBar.setStringPainted(true);
     progressBar.setOpaque(false);
-    progressBar.setPreferredSize(DimensionTool.PROGRESS_BAR);
+    progressBar.setPreferredSize(DimensionUtil.PROGRESS_BAR);
   }
 
   /**
@@ -174,7 +174,7 @@ public final class RechnungFrame extends AbstractBusyFrame implements
     }
 
     if (null != this.rechnungsdatum) {
-      token.add(DateTools.format(this.rechnungsdatum));
+      token.add(DateUtil.format(this.rechnungsdatum));
     }
 
     if (Utilities.isDebugMode()) {
