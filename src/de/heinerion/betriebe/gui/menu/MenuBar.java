@@ -9,23 +9,40 @@ import javax.swing.*;
 public final class MenuBar extends JMenuBar {
   private static MenuBar instance;
 
+  private JMenuItem addresses;
+  private JMenuItem invoices;
+  private JMenuItem numbers;
+  private JMenuItem date;
+
   private MenuBar() {
-    final JMenuItem addresses = new JMenuItem("Adressen");
-    addresses.addActionListener(e -> new AdressbuchMenu(getFrame()));
+    createWidgets();
+    addWidgets();
+    setupInteractions();
+  }
 
-    final JMenuItem invoices = new JMenuItem("Verwaltung");
-    invoices.addActionListener(e -> new VerwaltungMenu(getFrame()));
+  private void createWidgets() {
+    addresses = createItem("Adressen");
+    invoices = createItem("Verwaltung");
+    numbers = createItem("Nummern");
+    date = createItem("Datum");
+  }
 
-    final JMenuItem numbers = new JMenuItem("Nummern");
-    numbers.addActionListener(e -> new RechnungsnummernMenu(getFrame()));
+  private JMenuItem createItem(String adressen) {
+    return new JMenuItem(adressen);
+  }
 
-    final JMenuItem date = new JMenuItem("Datum");
-    date.addActionListener(e -> new RechnungsdatumMenu(getFrame()));
-
+  private void addWidgets() {
     add(addresses);
     add(invoices);
     add(numbers);
     add(date);
+  }
+
+  private void setupInteractions() {
+    addresses.addActionListener(e -> new AdressbuchMenu(getFrame()));
+    invoices.addActionListener(e -> new VerwaltungMenu(getFrame()));
+    numbers.addActionListener(e -> new RechnungsnummernMenu(getFrame()));
+    date.addActionListener(e -> new RechnungsdatumMenu(getFrame()));
   }
 
   public static MenuBar getInstance() {
