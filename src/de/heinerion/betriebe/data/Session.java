@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;
@@ -36,7 +36,7 @@ public final class Session {
 
   private static Conveyable activeConveyable;
 
-  private static RechnungFrame activeFrame;
+  private static ApplicationFrame activeFrame;
 
   private Session() {
   }
@@ -80,7 +80,7 @@ public final class Session {
     return activeConveyable;
   }
 
-  public static RechnungFrame getActiveFrame() {
+  public static ApplicationFrame getActiveFrame() {
     return activeFrame;
   }
 
@@ -141,7 +141,7 @@ public final class Session {
     notifyConveyable();
   }
 
-  public static void setActiveFrame(RechnungFrame aFrame) {
+  public static void setActiveFrame(ApplicationFrame aFrame) {
     Session.activeFrame = aFrame;
   }
 

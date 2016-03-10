@@ -4,7 +4,7 @@
  */
 package de.heinerion.betriebe.classes.file_operations;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
@@ -205,7 +205,7 @@ public class MainOperations {
 
   private static void showExceptionDialog(Exception exception,
                                           String message) {
-    JOptionPane.showMessageDialog(RechnungFrame.getInstance(), message,
+    JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
         ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
     if (Utilities.isDebugMode()) {
       String out = "";
@@ -213,7 +213,7 @@ public class MainOperations {
         out += ste.getMethodName() + " : " + ste.getFileName() + " ("
             + ste.getLineNumber() + ")\n";
       }
-      JOptionPane.showMessageDialog(RechnungFrame.getInstance(),
+      JOptionPane.showMessageDialog(ApplicationFrame.getInstance(),
           exception.getLocalizedMessage() + "\n" + out,
           ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
     }

@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.classes.gui.BGPanel;
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 
@@ -25,7 +25,7 @@ public class RechnungsnummernMenu extends AbstractMenu {
 
   private JLabel header;
 
-  public RechnungsnummernMenu(RechnungFrame origin) {
+  public RechnungsnummernMenu(ApplicationFrame origin) {
     super(origin);
   }
 

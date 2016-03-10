@@ -4,7 +4,7 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.tools.DimensionUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +35,7 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
    */
   private JScrollPane scrollpane;
 
-  public AbstractDropListenMenu(final RechnungFrame origin) {
+  public AbstractDropListenMenu(final ApplicationFrame origin) {
     super(origin);
     this.setMinimumSize(DimensionUtil.MENU);
   }

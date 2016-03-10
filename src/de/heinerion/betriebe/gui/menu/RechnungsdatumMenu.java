@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.classes.gui.BGPanel;
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.tools.DateUtil;
 
@@ -26,7 +26,7 @@ public final class RechnungsdatumMenu extends AbstractMenu {
 
   private JLabel header;
 
-  public RechnungsdatumMenu(final RechnungFrame origin) {
+  public RechnungsdatumMenu(final ApplicationFrame origin) {
     super(origin);
   }
 

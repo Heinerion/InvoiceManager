@@ -9,7 +9,7 @@ import java.awt.BorderLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.classes.gui.table_models.AddressModel;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
@@ -21,7 +21,7 @@ import de.heinerion.betriebe.data.Session;
 public final class AdressbuchMenu extends AbstractMenu {
   private JScrollPane spAddresses;
 
-  public AdressbuchMenu(final RechnungFrame origin) {
+  public AdressbuchMenu(final ApplicationFrame origin) {
     // Macht Modal und setzt busy
     super(origin);
   }

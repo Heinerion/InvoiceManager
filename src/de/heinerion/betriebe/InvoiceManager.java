@@ -7,7 +7,7 @@ package de.heinerion.betriebe;
 import de.heinerion.betriebe.classes.file_operations.IO;
 import de.heinerion.betriebe.classes.file_operations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.classes.file_operations.loading.ProgressIndicator;
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
@@ -59,30 +59,30 @@ final class InvoiceManager {
       LOGGER.info("Entering application.");
     }
 
-    final RechnungFrame rechnungFrame = RechnungFrame.getInstance();
+    final ApplicationFrame applicationFrame = ApplicationFrame.getInstance();
 
-    rechnungFrame.setLocationRelativeTo(null);
-    rechnungFrame.setVisible(true);
+    applicationFrame.setLocationRelativeTo(null);
+    applicationFrame.setVisible(true);
 
-    startDataThread(rechnungFrame);
+    startDataThread(applicationFrame);
   }
 
-  private static void startDataThread(RechnungFrame rechnungFrame) {
-    new Thread(() -> collectData(rechnungFrame)).start();
+  private static void startDataThread(ApplicationFrame applicationFrame) {
+    new Thread(() -> collectData(applicationFrame)).start();
   }
 
-  private static void collectData(RechnungFrame rechnungFrame) {
-    ProgressIndicator progress = getProgressBarIndicator(rechnungFrame);
+  private static void collectData(ApplicationFrame applicationFrame) {
+    ProgressIndicator progress = getProgressBarIndicator(applicationFrame);
 
     IO.load(progress);
-    rechnungFrame.refresh();
+    applicationFrame.refresh();
 
     waitASecond();
     progress.setEnabled(false);
   }
 
-  private static JProgressBarIndicator getProgressBarIndicator(RechnungFrame rechnungFrame) {
-    return new JProgressBarIndicator(rechnungFrame.getProgressBar());
+  private static JProgressBarIndicator getProgressBarIndicator(ApplicationFrame applicationFrame) {
+    return new JProgressBarIndicator(applicationFrame.getProgressBar());
   }
 
   private static void waitASecond() {

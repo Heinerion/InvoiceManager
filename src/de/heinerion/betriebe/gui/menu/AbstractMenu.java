@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.BusyState;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ public abstract class AbstractMenu extends JDialog {
   /**
    * Quellfenster
    */
-  private RechnungFrame ursprung;
+  private ApplicationFrame ursprung;
   /**
    * Der Windowadapter, für schließvorgänge zuständig
    */
@@ -37,7 +37,7 @@ public abstract class AbstractMenu extends JDialog {
    *
    * @param origin
    */
-  public AbstractMenu(final RechnungFrame origin) {
+  public AbstractMenu(final ApplicationFrame origin) {
     super(origin, true);
     // Setze Glasspane auf ursprung
     origin.setBusyState(BusyState.BUSY);
@@ -75,7 +75,7 @@ public abstract class AbstractMenu extends JDialog {
     return closer;
   }
 
-  public final RechnungFrame getUrsprung() {
+  public final ApplicationFrame getUrsprung() {
     return ursprung;
   }
 

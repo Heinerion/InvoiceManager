@@ -1,7 +1,7 @@
 package de.heinerion.betriebe;
 
 import de.heinerion.betriebe.classes.file_operations.IO;
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.junit.Before;
@@ -22,11 +22,11 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RechnungFrame.class, LookAndFeelUtil.class, IO.class})
+@PrepareForTest({ApplicationFrame.class, LookAndFeelUtil.class, IO.class})
 @PowerMockIgnore("javax.management.*")
 public class InvoiceManagerTest {
   @Mock
-  private RechnungFrame frame;
+  private ApplicationFrame frame;
 
   @Mock
   private JProgressBar progressBar;
@@ -35,8 +35,8 @@ public class InvoiceManagerTest {
   public void setUp() {
     mockStatic(IO.class);
 
-    mockStatic(RechnungFrame.class);
-    when(RechnungFrame.getInstance()).thenReturn(frame);
+    mockStatic(ApplicationFrame.class);
+    when(ApplicationFrame.getInstance()).thenReturn(frame);
     when(frame.getProgressBar()).thenReturn(progressBar);
 
     mockStatic(LookAndFeelUtil.class);

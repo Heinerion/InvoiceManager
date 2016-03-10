@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.classes.gui.panels;
 
-import de.heinerion.betriebe.classes.gui.RechnungFrame;
+import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.panels.AddressPanel;
 import de.heinerion.betriebe.gui.panels.CalculatorPanel;
 import de.heinerion.betriebe.gui.panels.CompanyChooserPanel;
@@ -13,13 +13,13 @@ import java.awt.geom.Rectangle2D;
 @SuppressWarnings("serial")
 public final class ReceiverPanel extends JPanel {
 
-  private final RechnungFrame rechnungsFrame;
+  private final ApplicationFrame rechnungsFrame;
   private AddressPanel addressPanel;
   private CompanyChooserPanel companyChooserPanel;
 
-  public ReceiverPanel(RechnungFrame rechnungFrame) {
+  public ReceiverPanel(ApplicationFrame applicationFrame) {
     this.addressPanel = new AddressPanel();
-    this.rechnungsFrame = rechnungFrame;
+    this.rechnungsFrame = applicationFrame;
 
     setOpaque(false);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
