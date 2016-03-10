@@ -15,7 +15,7 @@ import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.FormatTools;
 import de.heinerion.betriebe.tools.ParsingTools;
-import de.heinerion.betriebe.tools.strings.Strings;
+import de.heinerion.betriebe.tools.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -261,8 +261,8 @@ public final class InvoiceTabContent extends AbstractTabContent implements
       Double price = doubleAt(row, COL_PRICE);
       Double count = doubleAt(row, COL_COUNT);
 
-      if (Strings.isEmpty(unit)) {
-        if (!Strings.isEmpty(name)) {
+      if (StringUtil.isEmpty(unit)) {
+        if (!StringUtil.isEmpty(name)) {
           // Außer Bezeichnung alles leer →
           // Multispalte
           invoice.add(name, null, 0, 0);

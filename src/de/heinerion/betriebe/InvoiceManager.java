@@ -10,7 +10,7 @@ import de.heinerion.betriebe.classes.file_operations.loading.ProgressIndicator;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.exceptions.HeinerionException;
-import de.heinerion.betriebe.tools.gui.LookAndFeel;
+import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,15 +27,7 @@ final class InvoiceManager {
 
   public static void main(String... args) {
     parseArguments(args);
-
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("Setting up application.");
-    }
     setup();
-
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("Entering application.");
-    }
     start();
   }
 
@@ -55,10 +47,18 @@ final class InvoiceManager {
   }
 
   private static void setup() {
-    LookAndFeel.setNimbus();
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Setting up application.");
+    }
+
+    LookAndFeelUtil.setNimbus();
   }
 
   private static void start() {
+    if (LOGGER.isInfoEnabled()) {
+      LOGGER.info("Entering application.");
+    }
+
     final RechnungFrame rechnungFrame = RechnungFrame.getInstance();
 
     rechnungFrame.setLocationRelativeTo(null);

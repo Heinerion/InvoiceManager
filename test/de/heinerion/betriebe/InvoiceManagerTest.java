@@ -3,7 +3,7 @@ package de.heinerion.betriebe;
 import de.heinerion.betriebe.classes.file_operations.IO;
 import de.heinerion.betriebe.classes.gui.RechnungFrame;
 import de.heinerion.betriebe.enums.Utilities;
-import de.heinerion.betriebe.tools.gui.LookAndFeel;
+import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({RechnungFrame.class, LookAndFeel.class, IO.class})
+@PrepareForTest({RechnungFrame.class, LookAndFeelUtil.class, IO.class})
 @PowerMockIgnore("javax.management.*")
 public class InvoiceManagerTest {
   @Mock
@@ -39,7 +39,7 @@ public class InvoiceManagerTest {
     when(RechnungFrame.getInstance()).thenReturn(frame);
     when(frame.getProgressBar()).thenReturn(progressBar);
 
-    mockStatic(LookAndFeel.class);
+    mockStatic(LookAndFeelUtil.class);
   }
 
   @Test
@@ -65,14 +65,14 @@ public class InvoiceManagerTest {
 
   @Test
   public void testMainSetLookAndFeelNimbus() {
-    PowerMockito.doCallRealMethod().when(LookAndFeel.class);
-    LookAndFeel.setNimbus();
+    PowerMockito.doCallRealMethod().when(LookAndFeelUtil.class);
+    LookAndFeelUtil.setNimbus();
 
     InvoiceManager.main();
 
     ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
-    verify(LookAndFeel.class);
-    LookAndFeel.setLookName(argument.capture());
+    verify(LookAndFeelUtil.class);
+    LookAndFeelUtil.setLookByName(argument.capture());
     assertEquals("Nimbus", argument.getValue());
   }
 }

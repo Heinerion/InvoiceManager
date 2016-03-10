@@ -1,9 +1,9 @@
-package de.heinerion.betriebe.tools.strings;
+package de.heinerion.betriebe.tools;
 
 import de.heinerion.betriebe.data.Constants;
 
-public final class Strings {
-  private Strings() {
+public final class StringUtil {
+  private StringUtil() {
   }
 
   /**

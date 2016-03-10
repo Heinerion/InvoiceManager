@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.tools;
 
 import de.heinerion.betriebe.exceptions.HeinerionException;
-import de.heinerion.betriebe.tools.strings.Strings;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -35,7 +34,7 @@ public final class ParsingTools {
   private static double perseByLocale(String input, Locale locale)
       throws ParseException {
     double result;
-    if (input == null || Strings.isEmpty(input)) {
+    if (input == null || StringUtil.isEmpty(input)) {
       result = 0;
     } else {
       final NumberFormat format = NumberFormat.getInstance(locale);

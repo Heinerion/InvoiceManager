@@ -3,7 +3,7 @@ package de.heinerion.betriebe.models;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.tools.PathTools;
-import de.heinerion.betriebe.tools.strings.Strings;
+import de.heinerion.betriebe.tools.StringUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public final class Letter implements Conveyable, Storable {
 
   @Override
   public boolean isPrintable() {
-    final boolean hasSubject = !Strings.isEmpty(subject);
+    final boolean hasSubject = !StringUtil.isEmpty(subject);
     final boolean hasContent = messageLines.size() > 0;
     return hasSubject && hasContent;
   }

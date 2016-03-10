@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.classes.gui;
 
-import de.heinerion.betriebe.tools.math.MathUtil;
+import de.heinerion.betriebe.tools.MathUtil;
 
 import javax.swing.*;
 import javax.swing.border.Border;

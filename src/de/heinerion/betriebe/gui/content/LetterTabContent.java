@@ -6,7 +6,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.tools.strings.Strings;
+import de.heinerion.betriebe.tools.StringUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +68,7 @@ public final class LetterTabContent extends AbstractTabContent {
     final Letter ltr = new Letter(Session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
-    final String text = Strings.nToSlash(getLetterText());
+    final String text = StringUtil.nToSlash(getLetterText());
     final String[] textLines = text.split(Constants.NEWLINE);
     for (final String line : textLines) {
       ltr.addMessageLine(line.replaceAll(DOUBLE_SLASH, Constants.EMPTY));

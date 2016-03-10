@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.tools.math;
+package de.heinerion.betriebe.tools;
 
 import org.junit.Test;
 
