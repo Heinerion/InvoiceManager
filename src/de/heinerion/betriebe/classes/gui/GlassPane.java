@@ -1,11 +1,7 @@
 package de.heinerion.betriebe.classes.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Ein Panel, das sich vor das aktive Fenster legt, es unnutzbar macht und
@@ -16,9 +12,6 @@ import javax.swing.JPanel;
  * @author heiner
  */
 public final class GlassPane extends JPanel {
-  /**
-   * Generierte UID
-   */
   private static final long serialVersionUID = -7600133123674600410L;
   private static final int ALPHA = 150;
 
@@ -36,13 +29,16 @@ public final class GlassPane extends JPanel {
 
   @Override
   protected void paintComponent(Graphics g) {
-    final Color bgColor = this.getBackground();
+    Color bgColor = getBackground();
 
-    // Hintergrund 60% Transparent
-    g.setColor(new Color(bgColor.getRed(), bgColor.getBlue(), bgColor
-        .getGreen(), ALPHA));
+    g.setColor(getTransparentColor(bgColor));
+    g.fillRect(0, 0, getWidth(), getHeight());
+  }
 
-    // Komplett füllen
-    g.fillRect(0, 0, this.getWidth(), this.getHeight());
+  private Color getTransparentColor(Color bgColor) {
+    int red = bgColor.getRed();
+    int blue = bgColor.getBlue();
+    int green = bgColor.getGreen();
+    return new Color(red, blue, green, ALPHA);
   }
 }
