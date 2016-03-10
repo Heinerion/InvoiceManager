@@ -15,28 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Session {
+  private static final Logger LOGGER = LogManager.getLogger(Session.class);
+
   // TODO solche Daten per configuration.properties lösen.
   private static final String VERSION = "1.0.0-0";
 
-  private static final Logger logger = LogManager.getLogger(Session.class);
-
   private static List<CompanyListener> companyListeners = new ArrayList<>();
-
   private static List<ConveyableListener> conveyableListeners = new ArrayList<>();
-
   private static List<DateListener> dateListeners = new ArrayList<>();
 
   private static List<Company> availableCompanies = new ArrayList<>();
-
   private static Company activeCompany = null;
+  private static Address activeAddress;
+  private static Conveyable activeConveyable;
+  private static ApplicationFrame activeFrame;
 
   private static LocalDate date = LocalDate.now();
-
-  private static Address activeAddress;
-
-  private static Conveyable activeConveyable;
-
-  private static ApplicationFrame activeFrame;
 
   private Session() {
   }
@@ -89,6 +83,7 @@ public final class Session {
   }
 
   public static Company getCompanyByName(String name) {
+    // TODO I'm selecting companies by official name here but by descriptive name in the DB. So which to use??
     Company result = null;
     for (final Company c : availableCompanies) {
       if (c.getOfficialName().equals(name)) {
@@ -107,22 +102,22 @@ public final class Session {
   }
 
   public static void notifyCompany() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("notifyCompany");
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("notifyCompany");
     }
     companyListeners.forEach(CompanyListener::notifyCompany);
   }
 
   public static void notifyConveyable() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("notifyConveyable");
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("notifyConveyable");
     }
     conveyableListeners.forEach(ConveyableListener::notifyConveyable);
   }
 
   private static void notifyDate() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("notifyDate");
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("notifyDate");
     }
     dateListeners.forEach(DateListener::notifyDate);
   }
