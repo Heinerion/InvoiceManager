@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.classes.gui.panels;
 
-import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.panels.AddressPanel;
 import de.heinerion.betriebe.gui.panels.CalculatorPanel;
 import de.heinerion.betriebe.gui.panels.CompanyChooserPanel;
@@ -13,18 +12,23 @@ import java.awt.geom.Rectangle2D;
 @SuppressWarnings("serial")
 public final class ReceiverPanel extends JPanel {
 
-  private final ApplicationFrame rechnungsFrame;
   private AddressPanel addressPanel;
   private CompanyChooserPanel companyChooserPanel;
 
-  public ReceiverPanel(ApplicationFrame applicationFrame) {
-    this.addressPanel = new AddressPanel();
-    this.rechnungsFrame = applicationFrame;
+  public ReceiverPanel() {
+    createWidgets();
+    addWidgets();
+  }
 
+  private void createWidgets() {
+    addressPanel = new AddressPanel();
+    companyChooserPanel = new CompanyChooserPanel();
+  }
+
+  private void addWidgets() {
     setOpaque(false);
     setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-    companyChooserPanel = new CompanyChooserPanel();
     add(companyChooserPanel);
     add(addressPanel);
 
@@ -34,10 +38,6 @@ public final class ReceiverPanel extends JPanel {
     add(new CalculatorPanel());
   }
 
-  public void refresh() {
-    this.rechnungsFrame.refresh();
-  }
-
   // TODO Mit Address-Listener funktionalität ersetzen...
   public void refreshBoxes() {
     addressPanel.refreshBoxes();
@@ -45,24 +45,28 @@ public final class ReceiverPanel extends JPanel {
   }
 
   @Override
-  public void paintComponent(Graphics g) {
-    final Graphics2D g2 = (Graphics2D) g;
-    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        RenderingHints.VALUE_ANTIALIAS_ON);
+  public void paintComponent(final Graphics g) {
+    Graphics2D g2 = initGraphic((Graphics2D) g);
 
     g2.setPaint(Color.gray);
 
+    Color decor = getBackground().darker();
+    Color base = getBackground();
+
+    int decorWidth = 10;
     int x = 0;
-    int width = 10;
     int y = 0;
 
-    final Color bright = this.getBackground().darker();
-    final Color dark = this.getBackground();
-    // TODO Hintergrund malen
-    final GradientPaint whiteToBack = new GradientPaint(x, y, bright, width,
-        y, dark);
-    g2.setPaint(whiteToBack);
+    GradientPaint baseToDecorGradient = new GradientPaint(x, y, decor, decorWidth,
+        y, base);
+    g2.setPaint(baseToDecorGradient);
     // Tabbereich
-    g2.fill(new Rectangle2D.Double(x, y, this.getWidth(), this.getHeight()));
+    g2.fill(new Rectangle2D.Double(x, y, getWidth(), getHeight()));
+  }
+
+  private Graphics2D initGraphic(Graphics2D g) {
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        RenderingHints.VALUE_ANTIALIAS_ON);
+    return g;
   }
 }

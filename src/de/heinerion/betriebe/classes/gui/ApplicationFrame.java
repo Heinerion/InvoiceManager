@@ -71,12 +71,11 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
     add(createReceiverPanel(), BorderLayout.LINE_START);
 
     add(contentTabPane, BorderLayout.CENTER);
-
     add(progressBar, BorderLayout.PAGE_END);
   }
 
   private JPanel createReceiverPanel() {
-    this.receiverPanel = new ReceiverPanel(this);
+    receiverPanel = new ReceiverPanel();
     return receiverPanel;
   }
 
