@@ -11,6 +11,7 @@ import de.heinerion.betriebe.enums.Pfade;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.betriebe.tools.PathTools;
 import org.apache.logging.log4j.LogManager;
@@ -218,7 +219,7 @@ public final class IO implements LoadListener {
     IO.ladeSpezielle();
 
     if (progress != null) {
-      progress.setString("done...");
+      progress.setString(Translator.translate("progress.done"));
     }
   }
 
