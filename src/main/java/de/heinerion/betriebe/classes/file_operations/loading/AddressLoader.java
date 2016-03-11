@@ -34,6 +34,7 @@ public final class AddressLoader extends AbstractTextFileLoader<Address> {
   }
 
   @Override
+  // TODO new class DataStore instead of Map<S, S>
   protected Address parse(Map<String, String> attributes) {
     String recipient = attributes.get(RECIPIENT);
     String company = attributes.get(COMPANY);
