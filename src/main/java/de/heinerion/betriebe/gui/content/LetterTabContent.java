@@ -6,6 +6,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.StringUtil;
 
 import javax.swing.*;
@@ -15,62 +16,95 @@ import java.awt.*;
 public final class LetterTabContent extends AbstractTabContent {
   private static final String DOUBLE_SLASH = "\\\\";
 
-  private JTextField fldBetreff;
-  private JTextArea areaBrief;
+  private JTextField subjectFld;
+  private JPanel subjectPnl;
+  private JLabel subjectLbl;
+  private JTextArea contentArea;
+  private JScrollPane contentScroll;
 
   protected LetterTabContent() {
     super(Constants.LETTER);
 
-    this.fldBetreff = new JTextField();
-    fldBetreff.addCaretListener(e -> Session.setActiveConveyable(getContent()));
-    this.areaBrief = new JTextArea();
-    // Zeilenumbruch
-    this.areaBrief.setLineWrap(true);
-    // Wortweise
-    this.areaBrief.setWrapStyleWord(true);
-    areaBrief.addCaretListener(e -> Session.setActiveConveyable(getContent()));
+    createWidgets();
+    addWidgets();
+    setupInteraction();
+  }
 
-    final JPanel pnlBetreff = new JPanel();
-    pnlBetreff.setOpaque(false);
-    pnlBetreff.setLayout(new GridLayout(0, 1));
+  private void createWidgets() {
+    createSubjectPanel();
+    createSubjectField();
+    createContentArea();
+    createContentScroller();
+  }
 
-    final JLabel lblBetreff = new JLabel("Betreff:");
-    lblBetreff.setFont(lblBetreff.getFont().deriveFont(Font.BOLD));
+  private void createSubjectField() {
+    subjectFld = new JTextField();
+  }
 
-    pnlBetreff.add(lblBetreff);
-    pnlBetreff.add(this.fldBetreff);
+  private void createContentArea() {
+    contentArea = new JTextArea();
+    contentArea.setLineWrap(true);
+    contentArea.setWrapStyleWord(true);
+  }
 
+  private void createContentScroller() {
+    contentScroll = new JScrollPane(contentArea);
+  }
+
+  private void createSubjectPanel() {
+    subjectPnl = new JPanel();
+    subjectPnl.setOpaque(false);
+    subjectPnl.setLayout(new GridLayout(0, 1));
+
+    subjectLbl = new JLabel(Translator.translate("letter.subject") + ":");
+    subjectLbl.setFont(getBoldFont());
+  }
+
+  private Font getBoldFont() {
+    return subjectLbl.getFont().deriveFont(Font.BOLD);
+  }
+
+  private void addWidgets() {
     setLayout(new BorderLayout());
-    add(pnlBetreff, BorderLayout.PAGE_START);
-    add(new JScrollPane(this.areaBrief), BorderLayout.CENTER);
+
+    add(subjectPnl, BorderLayout.PAGE_START);
+    subjectPnl.add(subjectLbl);
+    subjectPnl.add(subjectFld);
+
+    add(contentScroll, BorderLayout.CENTER);
     add(getDeleteBtn(), BorderLayout.PAGE_END);
+  }
+
+  private void setupInteraction() {
+    subjectFld.addCaretListener(e -> Session.setActiveConveyable(getContent()));
+    contentArea.addCaretListener(e -> Session.setActiveConveyable(getContent()));
   }
 
   @Override
   protected void clear() {
-    this.fldBetreff.setText("");
-    this.areaBrief.setText("");
+    subjectFld.setText("");
+    contentArea.setText("");
   }
 
   public String getBetreff() {
-    return this.fldBetreff.getText();
+    return subjectFld.getText();
   }
 
   public String getLetterText() {
-    return this.areaBrief.getText();
+    return contentArea.getText();
   }
 
   @Override
   protected Conveyable getConveyable() {
-    final Company company = Session.getActiveCompany();
-    final Address receiver = Session.getActiveAddress();
+    Company company = Session.getActiveCompany();
+    Address receiver = Session.getActiveAddress();
 
-    final Letter ltr = new Letter(Session.getDate(), company, receiver);
+    Letter ltr = new Letter(Session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
-    final String text = StringUtil.nToSlash(getLetterText());
-    final String[] textLines = text.split(Constants.NEWLINE);
-    for (final String line : textLines) {
+    String text = StringUtil.nToSlash(getLetterText());
+    String[] textLines = text.split(Constants.NEWLINE);
+    for (String line : textLines) {
       ltr.addMessageLine(line.replaceAll(DOUBLE_SLASH, Constants.EMPTY));
     }
 
