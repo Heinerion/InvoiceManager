@@ -13,6 +13,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.ParsingUtil;
 import de.heinerion.betriebe.tools.StringUtil;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
   private final JComboBox<Vorlage> templateBox = new JComboBox<>();
 
   protected InvoiceTabContent() {
-    super(Constants.INVOICE);
+    super(Translator.translate("invoice.title"));
     initTabPositions();
 
     setLayout(new BorderLayout());
