@@ -7,13 +7,12 @@ import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.exceptions.HeinerionException;
-import de.heinerion.betriebe.listener.ConveyableListener;
+import de.heinerion.betriebe.gui.content.components.FooterPanel;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.betriebe.tools.ParsingUtil;
 import de.heinerion.betriebe.tools.StringUtil;
 import org.apache.logging.log4j.LogManager;
@@ -29,8 +28,7 @@ import java.util.List;
 import static java.awt.BorderLayout.*;
 
 @SuppressWarnings("serial")
-public final class InvoiceTabContent extends AbstractTabContent implements
-    ConveyableListener {
+public final class InvoiceTabContent extends AbstractTabContent {
   // TODO aus TableModel beziehen
   private static final int COL_NAME = 0;
   private static final int COL_UNIT = 1;
@@ -48,13 +46,9 @@ public final class InvoiceTabContent extends AbstractTabContent implements
 
   private JTable tabPositions;
   private final JComboBox<Vorlage> templateBox = new JComboBox<>();
-  private JLabel currentTotalNet = new JLabel();
-  private JLabel currentTotalGross = new JLabel();
 
   protected InvoiceTabContent() {
     super(Constants.INVOICE);
-    Session.addConveyableListener(this);
-
     initTabPositions();
 
     setLayout(new BorderLayout());
@@ -155,25 +149,7 @@ public final class InvoiceTabContent extends AbstractTabContent implements
   }
 
   private JPanel createFooterPnl() {
-    JPanel pnlFooter = new JPanel(new GridLayout(0, 1));
-
-    pnlFooter.setOpaque(false);
-    pnlFooter.add(createSumPanel(), PAGE_END);
-    pnlFooter.add(getDeleteBtn());
-
-    return pnlFooter;
-  }
-
-  private JPanel createSumPanel() {
-    JPanel sumPnl = new JPanel(new GridLayout(1, 0));
-
-    sumPnl.setOpaque(false);
-    sumPnl.add(new JLabel("Vor Steuern"));
-    sumPnl.add(currentTotalNet);
-    sumPnl.add(new JLabel("Nach Steuern"));
-    sumPnl.add(currentTotalGross);
-
-    return sumPnl;
+    return new FooterPanel(getDeleteBtn());
   }
 
   private void setUpInteractions() {
@@ -291,16 +267,5 @@ public final class InvoiceTabContent extends AbstractTabContent implements
       result = (Double) value;
     }
     return result;
-  }
-
-  @Override
-  public void notifyConveyable() {
-    if (Session.getActiveConveyable() instanceof Invoice) {
-      Invoice invoice = (Invoice) Session.getActiveConveyable();
-      currentTotalGross.setText(FormatUtil.formatLocaleDecimal(invoice
-          .getGross()));
-      currentTotalNet
-          .setText(FormatUtil.formatLocaleDecimal(invoice.getNet()));
-    }
   }
 }
