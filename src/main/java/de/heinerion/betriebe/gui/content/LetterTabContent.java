@@ -23,7 +23,7 @@ public final class LetterTabContent extends AbstractTabContent {
   private JScrollPane contentScroll;
 
   protected LetterTabContent() {
-    super(Constants.LETTER);
+    super(Translator.translate("letter.title"));
 
     createWidgets();
     addWidgets();
