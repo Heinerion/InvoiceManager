@@ -10,6 +10,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <powermock.version>1.6.4</powermock.version>
+
+        <sonar.language>java</sonar.language>
+        <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
     </properties>
 
     <build>
