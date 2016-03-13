@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.classes.file_operations.loading.Loadable;
+import de.heinerion.betriebe.classes.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.models.interfaces.Addressable;

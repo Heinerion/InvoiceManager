@@ -2,7 +2,7 @@
  * MainOperations.java
  * heiner 27.03.2012
  */
-package de.heinerion.betriebe.classes.file_operations;
+package de.heinerion.betriebe.classes.fileoperations;
 
 import de.heinerion.betriebe.classes.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.file_operations;
+package de.heinerion.betriebe.classes.fileoperations;
 
 import de.heinerion.betriebe.models.*;
 import org.junit.Assert;

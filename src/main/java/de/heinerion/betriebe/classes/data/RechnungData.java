@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.classes.data;
 
-import de.heinerion.betriebe.classes.file_operations.loading.Loadable;
+import de.heinerion.betriebe.classes.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;

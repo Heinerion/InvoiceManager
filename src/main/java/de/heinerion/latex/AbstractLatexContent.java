@@ -1,6 +1,6 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.classes.file_operations.Syntax;
+import de.heinerion.betriebe.classes.fileoperations.Syntax;
 
 public abstract class AbstractLatexContent {
   private static String tab = "";

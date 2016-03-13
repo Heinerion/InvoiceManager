@@ -1,9 +1,9 @@
-package de.heinerion.betriebe.classes.file_operations;
+package de.heinerion.betriebe.classes.fileoperations;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.classes.data.TexVorlage;
-import de.heinerion.betriebe.classes.file_operations.io.FileHandler;
-import de.heinerion.betriebe.classes.file_operations.loading.*;
+import de.heinerion.betriebe.classes.fileoperations.io.FileHandler;
+import de.heinerion.betriebe.classes.fileoperations.loading.*;
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;

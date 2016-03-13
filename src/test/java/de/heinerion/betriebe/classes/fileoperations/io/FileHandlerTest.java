@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.file_operations.io;
+package de.heinerion.betriebe.classes.fileoperations.io;
 
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import org.junit.Assert;

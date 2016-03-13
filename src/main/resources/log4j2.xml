@@ -11,7 +11,7 @@
             <AppenderRef ref="Console"/>
             <Level>INFO</Level>
         </Root>
-        <Logger name="de.heinerion.betriebe.classes.file_operations.loading.LoadingManager">
+        <Logger name="de.heinerion.betriebe.classes.fileoperations.loading.LoadingManager">
             <Level>INFO</Level>
         </Logger>
         <Logger name="de.heinerion.betriebe.gui.content.InvoiceTabContent">
