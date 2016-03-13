@@ -13,6 +13,7 @@
 
         <sonar.language>java</sonar.language>
         <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
+        <sonar.jacococ.reportPath>target/jacoco.exec</sonar.jacococ.reportPath>
     </properties>
 
     <build>
@@ -44,6 +45,26 @@
                         <phase>package</phase> <!-- bind to the packaging phase -->
                         <goals>
                             <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.6.201602180812</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -97,5 +118,6 @@
             <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>
