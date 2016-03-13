@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.classes.fileoperations;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
-import de.heinerion.betriebe.classes.data.TexVorlage;
+import de.heinerion.betriebe.classes.data.TexTemplate;
 import de.heinerion.betriebe.classes.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.classes.fileoperations.loading.*;
 import de.heinerion.betriebe.classes.texting.Vorlage;
@@ -111,7 +111,7 @@ public final class IO implements LoadListener {
    * TexVorlagenliste
    */
   public static void ladeSpezielle() {
-    List<TexVorlage> templates = new ArrayList<>();
+    List<TexTemplate> templates = new ArrayList<>();
     File special = new File(Pfade.VORLAGENSPEZIAL.getPath());
     int count = 0;
     String[] specials = special.list();
@@ -121,7 +121,7 @@ public final class IO implements LoadListener {
         if (logger.isDebugEnabled()) {
           logger.debug("load special template {}", s);
         }
-        templates.add(new TexVorlage(s));
+        templates.add(new TexTemplate(s));
       }
     }
 
@@ -129,7 +129,7 @@ public final class IO implements LoadListener {
       logger.info(count + " templates loaded");
     }
 
-    for (TexVorlage template : templates) {
+    for (TexTemplate template : templates) {
       DataBase.addTexTemplate(null, template);
     }
   }

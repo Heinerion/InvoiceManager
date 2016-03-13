@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.data.TexVorlage;
+import de.heinerion.betriebe.classes.data.TexTemplate;
 import de.heinerion.betriebe.classes.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
@@ -19,14 +19,14 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("javax.management.*")
 public class DataBaseTexTemplateTest {
   private Company company;
-  private TexVorlage template;
+  private TexTemplate template;
 
   @Before
   public void setUp() throws Exception {
     mockStatic(IO.class);
     DataBase.clearAllLists();
     company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    template = new TexVorlage("template");
+    template = new TexTemplate("template");
   }
 
   @Test

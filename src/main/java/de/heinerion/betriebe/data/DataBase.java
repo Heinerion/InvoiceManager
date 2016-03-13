@@ -2,7 +2,7 @@ package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.classes.data.RechnungsListe;
-import de.heinerion.betriebe.classes.data.TexVorlage;
+import de.heinerion.betriebe.classes.data.TexTemplate;
 import de.heinerion.betriebe.classes.fileoperations.IO;
 import de.heinerion.betriebe.classes.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.classes.texting.DropListable;
@@ -24,7 +24,7 @@ public final class DataBase {
   private static List<ListEntry<Address>> addresses = new ArrayList<>();
   private static List<ListEntry<Company>> companies = new ArrayList<>();
   private static List<ListEntry<Vorlage>> templates = new ArrayList<>();
-  private static List<ListEntry<TexVorlage>> texTemplates = new ArrayList<>();
+  private static List<ListEntry<TexTemplate>> texTemplates = new ArrayList<>();
 
   /**
    * beinhaltet alle Rechnungen TODO wozu RechnungsListe?
@@ -69,8 +69,8 @@ public final class DataBase {
     }
   }
 
-  public static void addTexTemplate(Company company, TexVorlage template) {
-    ListEntry<TexVorlage> oldAddress = getTexTemplateEntry(company, template.getName());
+  public static void addTexTemplate(Company company, TexTemplate template) {
+    ListEntry<TexTemplate> oldAddress = getTexTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
       texTemplates.add(new ListEntry<>(company, template));
@@ -237,7 +237,7 @@ public final class DataBase {
     return getTemplateEntry(company, templateName, templates);
   }
 
-  private static ListEntry<TexVorlage> getTexTemplateEntry(Company company, String templateName) {
+  private static ListEntry<TexTemplate> getTexTemplateEntry(Company company, String templateName) {
     return getTemplateEntry(company, templateName, texTemplates);
   }
 
@@ -257,7 +257,7 @@ public final class DataBase {
     return getEntries(templates, company);
   }
 
-  public static List<TexVorlage> getTexTemplates(Company company) {
+  public static List<TexTemplate> getTexTemplates(Company company) {
     return getEntries(texTemplates, company);
   }
 
