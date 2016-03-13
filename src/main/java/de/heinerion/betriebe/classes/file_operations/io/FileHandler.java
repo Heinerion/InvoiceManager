@@ -28,46 +28,70 @@ public class FileHandler {
     if (obj instanceof List<?>) {
       List<?> objAsList = (List<?>) obj;
 
-      if (objAsList.size() > 0) {
-        Object firstElem = objAsList.get(0);
-        Class<?> objClass = firstElem.getClass();
-        ret = objClass.equals(clazz);
-      }
+      ret = isListOfClass(clazz, objAsList);
     }
 
+    return ret;
+  }
+
+  private static boolean isListOfClass(Class<?> clazz, List<?> objAsList) {
+    boolean ret = false;
+    if (!objAsList.isEmpty()) {
+      Object firstElem = objAsList.get(0);
+      Class<?> objClass = firstElem.getClass();
+      ret = objClass.equals(clazz);
+    }
     return ret;
   }
 
   public static <T> List<T> load(T element, String path) {
     Object content = new ArrayList<>();
 
-    try (FileInputStream inFile = new FileInputStream(path);
-         ObjectInputStream inObject = new ObjectInputStream(inFile)) {
-      content = inObject.readObject();
-    } catch (FileNotFoundException e) {
-      // Keine Speicherdaten ODER Datenklasse geändert
-      logger.warn("Keine Speicherdaten in {}", path);
-    } catch (IOException | ClassNotFoundException e) {
-      logger.error(e);
+    File source = new File(path);
+    if (source.exists()) {
+      content = loadFromFile(path);
+    } else {
+      logger.warn("Nothing to load in {}", path);
     }
 
     return asList(element, content);
   }
 
+  private static Object loadFromFile(String path) {
+    Object content = new ArrayList<>();
+
+    try (FileInputStream inFile = new FileInputStream(path);
+         ObjectInputStream inObject = new ObjectInputStream(inFile)) {
+      content = inObject.readObject();
+    } catch (IOException | ClassNotFoundException e) {
+      logger.error(e);
+    }
+
+    return content;
+  }
+
   public static void writeObject(Object obj, String path) {
     try {
       File pathToFile = new File(path);
-      pathToFile.getParentFile().mkdirs();
-      try (FileOutputStream fOut = new FileOutputStream(path);
-           ObjectOutputStream objOut = new ObjectOutputStream(fOut)) {
-        objOut.writeObject(obj);
-        objOut.close();
+      boolean dirsCreated = pathToFile.getParentFile().mkdirs();
+      if (dirsCreated || pathToFile.exists()) {
+        writeToFile(path, obj);
+      } else {
+        throw new HeinerionException("File could " + path + " not be created");
       }
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {
         logger.error(e);
       }
       HeinerionException.rethrow(e);
+    }
+  }
+
+  private static void writeToFile(String path, Object obj) throws IOException {
+    try (FileOutputStream fOut = new FileOutputStream(path);
+         ObjectOutputStream objOut = new ObjectOutputStream(fOut)) {
+      objOut.writeObject(obj);
+      objOut.close();
     }
   }
 }
