@@ -85,12 +85,12 @@ public class TextFileLoader {
   }
 
   private void addItem(Item item, int number) {
-    attributes.put(specify(ITEM, number + "", NAME), item.getName());
-    attributes.put(specify(ITEM, number + "", UNIT), item.getUnit());
+    attributes.put(specify(ITEM, Integer.toString(number), NAME), item.getName());
+    attributes.put(specify(ITEM, Integer.toString(number), UNIT), item.getUnit());
 
-    addAttribute(specify(ITEM, number + "", PPU), item.getPricePerUnit());
-    addAttribute(specify(ITEM, number + "", QTTY), item.getQuantity());
-    addAttribute(specify(ITEM, number + "", TOTAL), item.getTotal());
+    addAttribute(specify(ITEM, Integer.toString(number), PPU), item.getPricePerUnit());
+    addAttribute(specify(ITEM, Integer.toString(number), QTTY), item.getQuantity());
+    addAttribute(specify(ITEM, Integer.toString(number), TOTAL), item.getTotal());
   }
 
   private String generatePath(Storable storable) {
@@ -113,8 +113,8 @@ public class TextFileLoader {
     attributes.put(OFFICIAL_NAME, company.getOfficialName());
     attributes.put(SIGNER, company.getSigner());
     attributes.put(TAX_NUMBER, company.getTaxNumber());
-    attributes.put(VALUE_ADDED_TAX, "" + company.getValueAddedTax());
-    attributes.put(WAGES_PER_HOUR, company.getWagesPerHour() + "");
+    attributes.put(VALUE_ADDED_TAX, Double.toString(company.getValueAddedTax()));
+    attributes.put(WAGES_PER_HOUR, Double.toString(company.getWagesPerHour()));
 
     addAddress(company);
   }
