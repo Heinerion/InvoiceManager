@@ -14,8 +14,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import static de.heinerion.betriebe.data.Constants.BUTTON_DELETE;
+import static de.heinerion.betriebe.data.Constants.BUTTON_SAVE;
+
 @SuppressWarnings("serial")
-public final class AddressChooserPanel extends AbstractGridPanel {
+final class AddressChooserPanel extends AbstractGridPanel {
   private static final String FLOPPY_SYM = "FileChooser.floppyDriveIcon";
   private static final String DELETE_SYM = "de/heinerion/betriebe/images/delete.png";
 
@@ -31,12 +34,12 @@ public final class AddressChooserPanel extends AbstractGridPanel {
   private static final int ANY = 0;
   private static final int INSET = 3;
 
-  private JTextArea areaAdresse;
+  private JTextArea addressArea;
 
   /**
    * ComboBox für Adressen
    */
-  private JComboBox<Address> boxAdressen = new JComboBox<>();
+  private JComboBox<Address> addressBox = new JComboBox<>();
 
   public AddressChooserPanel() {
     init();
@@ -70,14 +73,14 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     pnlButtons.setLayout(new GridLayout(ANY, 1));
 
     final JButton btnSave = new JButton(UIManager.getIcon(FLOPPY_SYM));
-    btnSave.setToolTipText(Constants.BUTTON_SAVE);
+    btnSave.setToolTipText(BUTTON_SAVE);
     btnSave.addActionListener(e -> this.saveAddress());
     pnlButtons.add(btnSave);
 
     final ImageIcon imgDelete = PanelControl.loadImage(DELETE_SYM);
     final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete)
-        : new JButton(Constants.BUTTON_DELETE);
-    btnDelete.setToolTipText(Constants.BUTTON_DELETE);
+        : new JButton(BUTTON_DELETE);
+    btnDelete.setToolTipText(BUTTON_DELETE);
     btnDelete.addActionListener(e -> this.clearAddress());
     pnlButtons.add(btnDelete);
   }
@@ -88,17 +91,17 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     position = new PositionCoordinates();
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    boxAdressen = myComboBox(position, new Address[1]);
+    addressBox = myComboBox(position, new Address[1]);
 
     position = new PositionCoordinates();
     position.setPosX(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
     final JLabel l = this.myLabel("Adresse", position, BOLD, CENTER);
-    l.setLabelFor(boxAdressen);
+    l.setLabelFor(addressBox);
 
     // Adresse übernehmen
-    this.boxAdressen.addActionListener(e -> this.useGivenAddress());
+    this.addressBox.addActionListener(e -> this.useGivenAddress());
   }
 
   private void addAddressField() {
@@ -107,40 +110,40 @@ public final class AddressChooserPanel extends AbstractGridPanel {
     position.setPosY(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    this.areaAdresse = this.myTextArea(position, ADDRESSFIELD_ROWS,
+    this.addressArea = this.myTextArea(position, ADDRESSFIELD_ROWS,
         ADDRESSFIELD_COLS);
     // TODO dynamische Größe für die Adressfläche?
-    setSizes(this.areaAdresse, DimensionUtil.ADDRESS_AREA);
-    this.areaAdresse.setBackground(Color.WHITE);
+    setSizes(this.addressArea, DimensionUtil.ADDRESS_AREA);
+    this.addressArea.setBackground(Color.WHITE);
     // Undurchsichtig (sollte schon so sein)
-    this.areaAdresse.setOpaque(true);
-    this.areaAdresse.setBorder(BorderFactory.createEtchedBorder());
+    this.addressArea.setOpaque(true);
+    this.addressArea.setBorder(BorderFactory.createEtchedBorder());
   }
 
   private void clearAddress() {
-    this.areaAdresse.setText(Constants.EMPTY);
+    this.addressArea.setText(Constants.EMPTY);
   }
 
   private void saveAddress() {
-    PanelControl.saveAddress(this.areaAdresse.getText());
+    PanelControl.saveAddress(this.addressArea.getText());
     this.refreshBoxes();
   }
 
   public void refreshBoxes() {
     // Alte Adressen werden gelöscht
-    this.boxAdressen.removeAllItems();
+    this.addressBox.removeAllItems();
 
     final Company activeCompany = Session.getActiveCompany();
     final List<Address> knownAddresses = DataBase.getAddresses(activeCompany);
     for (final Address adresse : knownAddresses) {
-      this.boxAdressen.addItem(adresse);
+      this.addressBox.addItem(adresse);
     }
   }
 
   private void useGivenAddress() {
-    final Address address = (Address) this.boxAdressen.getSelectedItem();
+    final Address address = (Address) this.addressBox.getSelectedItem();
     Session.setActiveAddress(address);
     final String addressText = PanelControl.useGivenAddress(address);
-    this.areaAdresse.setText(addressText);
+    this.addressArea.setText(addressText);
   }
 }
