@@ -1,9 +1,6 @@
 package de.heinerion.betriebe.classes.gui.panels;
 
-import de.heinerion.betriebe.gui.panels.AddressPanel;
-import de.heinerion.betriebe.gui.panels.CalculatorPanel;
-import de.heinerion.betriebe.gui.panels.CompanyChooserPanel;
-import de.heinerion.betriebe.gui.panels.PrintButtonPanel;
+import de.heinerion.betriebe.gui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,16 +29,15 @@ public final class ReceiverPanel extends JPanel {
     add(companyChooserPanel);
     add(addressPanel);
 
-    add(new PrintButtonPanel());
+    add(SidePanelFactory.createPrintButtonPanel());
 
     add(Box.createVerticalGlue());
-    add(new CalculatorPanel());
+    add(SidePanelFactory.createCalculatorPanel());
   }
 
   // TODO Mit Address-Listener funktionalität ersetzen...
   public void refreshBoxes() {
     addressPanel.refreshBoxes();
-    companyChooserPanel.refresh();
   }
 
   @Override

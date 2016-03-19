@@ -69,7 +69,9 @@ public class TaschenrechnerPanel extends BGPanel {
     innerPanel.setOpaque(false);
     innerPanel.add(btnPlus);
     innerPanel.add(btnMinus);
-    innerPanel.add(new JLabel(NET));
+    JLabel netLabel = new JLabel(NET);
+    netLabel.setName("calculator.netLabel");
+    innerPanel.add(netLabel);
     innerPanel.add(fldNet);
     innerPanel.add(new JLabel(VAT));
     innerPanel.add(fldVat);
