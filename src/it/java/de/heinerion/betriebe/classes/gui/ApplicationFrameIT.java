@@ -19,13 +19,11 @@ public class ApplicationFrameIT {
 
   @After
   public void tearDown() {
-
     demo.cleanUp();
   }
 
   @Test
-  public void test() {
-
+  public void testPrintButtonText() {
     demo.button("print").requireText("Drucken");
   }
 }
