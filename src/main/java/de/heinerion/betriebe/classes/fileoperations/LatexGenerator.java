@@ -151,13 +151,6 @@ public final class LatexGenerator {
     latexLetter.setDate(dateString);
   }
 
-  /**
-   * @param letter
-   * @param latexLetter
-   * @param company
-   * @param subject
-   * @param isInvoice
-   */
   private static void addHyperSetupArguments(Conveyable letter,
                                              final LatexScrLetter latexLetter, final String subject,
                                              final boolean isInvoice) {
@@ -171,8 +164,14 @@ public final class LatexGenerator {
       items = ((Invoice) letter).getItems();
       total = ((Invoice) letter).getGross();
     }
-    final String pdfSubject = isInvoice ? Joiner.on(COL_SPACE).join(items)
-        : subject;
+
+    String pdfSubject;
+    if (isInvoice) {
+      // TODO replace this with default java, only use of guava in project
+      pdfSubject = Joiner.on(COL_SPACE).join(items);
+    } else {
+      pdfSubject = subject;
+    }
 
     latexLetter.addHyperSetupArgument("pdftitle", title);
     latexLetter.addHyperSetupArgument("pdfauthor", company.getOfficialName());
