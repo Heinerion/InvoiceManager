@@ -37,6 +37,7 @@ public final class ReceiverPanel extends JPanel {
 
   // TODO Mit Address-Listener funktionalität ersetzen...
   public void refreshBoxes() {
+    companyChooserPanel.refresh();
     addressPanel.refreshBoxes();
   }
 
