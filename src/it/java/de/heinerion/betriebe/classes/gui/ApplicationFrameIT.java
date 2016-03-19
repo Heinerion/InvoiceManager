@@ -1,29 +1,34 @@
 package de.heinerion.betriebe.classes.gui;
 
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.swing.*;
 
 public class ApplicationFrameIT {
-  private FrameFixture demo;
+  private static FrameFixture demo;
 
-  @Before
-  public void setUp() {
+  @BeforeClass
+  public static void setUp() {
     JFrame frame = ApplicationFrame.getInstance();
     frame.setVisible(true);
     demo = new FrameFixture(frame);
   }
 
-  @After
-  public void tearDown() {
+  @AfterClass
+  public static void tearDown() {
     demo.cleanUp();
   }
 
   @Test
   public void testPrintButtonText() {
     demo.button("print").requireText("Drucken");
+  }
+
+  @Test
+  public void testCalculatorPanel() {
+    demo.label("calculator.netLabel").requireText(TaschenrechnerPanel.NET);
   }
 }
