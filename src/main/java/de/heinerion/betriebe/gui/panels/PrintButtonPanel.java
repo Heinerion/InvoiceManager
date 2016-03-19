@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.listener.DruckAction;
+import de.heinerion.betriebe.listener.PrintAction;
 
 import javax.swing.*;
 
@@ -10,6 +10,6 @@ class PrintButtonPanel extends SidePanel {
     final JButton btnDrucken = new JButton("Drucken");
     btnDrucken.setName("print");
     add(btnDrucken);
-    btnDrucken.addActionListener(new DruckAction());
+    btnDrucken.addActionListener(new PrintAction());
   }
 }

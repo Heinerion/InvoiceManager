@@ -11,24 +11,22 @@ import org.apache.logging.log4j.Logger;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class DruckAction implements ActionListener {
-  private static final Logger logger = LogManager.getLogger(DruckAction.class);
+public final class PrintAction implements ActionListener {
+  private static final Logger logger = LogManager.getLogger(PrintAction.class);
+  private Conveyable letter;
 
   @Override
   public void actionPerformed(ActionEvent arg0) {
-    final Conveyable letter = Session.getActiveConveyable();
+    letter = Session.getActiveConveyable();
 
     if (letter != null) {
-      createLetter(letter);
+      createLetter();
     }
   }
 
-  /**
-   * @param letter
-   */
-  private void createLetter(final Conveyable letter) {
+  private void createLetter() {
     if (letter instanceof Invoice) {
-      final Company company = letter.getCompany();
+      Company company = letter.getCompany();
 
       company.increaseInvoiceNumber();
       if (logger.isDebugEnabled()) {
