@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.texting.DropListable;
 import de.heinerion.betriebe.enums.Pfade;
 
 import java.io.File;

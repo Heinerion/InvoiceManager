@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.texting;
+package de.heinerion.betriebe.data;
 
 public interface DropListable {
   String getName();

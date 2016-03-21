@@ -3,7 +3,7 @@ package de.heinerion.betriebe.fileoperations;
 import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.data.TexTemplate;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
-import de.heinerion.betriebe.classes.texting.Vorlage;
+import de.heinerion.betriebe.data.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Pfade;

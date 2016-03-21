@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.texting;
+package de.heinerion.betriebe.data;
 
 import java.io.Serializable;
 import java.text.Collator;

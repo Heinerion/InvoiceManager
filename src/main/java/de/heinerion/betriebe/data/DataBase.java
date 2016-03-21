@@ -2,8 +2,6 @@ package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
-import de.heinerion.betriebe.classes.texting.DropListable;
-import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import org.apache.logging.log4j.LogManager;
