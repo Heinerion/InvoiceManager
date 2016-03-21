@@ -1,5 +1,7 @@
-package de.heinerion.betriebe.gui;
+package de.heinerion.betriebe.betriebe.gui;
 
+import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.TaschenrechnerPanel;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
