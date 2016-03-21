@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileoperations;
+package de.heinerion.betriebe.fileoperations;
 
 import com.google.common.base.Joiner;
 import de.heinerion.betriebe.data.Constants;

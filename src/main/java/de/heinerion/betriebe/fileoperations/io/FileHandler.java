@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileoperations.io;
+package de.heinerion.betriebe.fileoperations.io;
 
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;

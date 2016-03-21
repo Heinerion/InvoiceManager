@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.classes.fileoperations.IO;
+import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.classes.texting.DropListable;
 import de.heinerion.betriebe.classes.texting.Vorlage;
 import de.heinerion.betriebe.data.Constants;

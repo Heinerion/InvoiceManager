@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileoperations.loading;
+package de.heinerion.betriebe.fileoperations.loading;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

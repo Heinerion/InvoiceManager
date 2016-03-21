@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.fileoperations.loading;
+package de.heinerion.betriebe.fileoperations.loading;
 
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;

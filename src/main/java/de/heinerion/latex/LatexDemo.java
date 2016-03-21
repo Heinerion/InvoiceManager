@@ -3,7 +3,7 @@ package de.heinerion.latex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.heinerion.betriebe.classes.fileoperations.Syntax;
+import de.heinerion.betriebe.fileoperations.Syntax;
 
 public final class LatexDemo {
   private static final Logger LOGGER = LogManager.getLogger(LatexDemo.class);

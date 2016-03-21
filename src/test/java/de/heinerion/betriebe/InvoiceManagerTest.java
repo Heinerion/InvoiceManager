@@ -1,6 +1,6 @@
 package de.heinerion.betriebe;
 
-import de.heinerion.betriebe.classes.fileoperations.IO;
+import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
