@@ -51,7 +51,9 @@ public class FileHandler {
     if (source.exists()) {
       content = loadFromFile(path);
     } else {
-      logger.warn("Nothing to load in {}", path);
+      if (logger.isWarnEnabled()) {
+        logger.warn("Nothing to load in {}", path);
+      }
     }
 
     return asList(element, content);
@@ -63,8 +65,34 @@ public class FileHandler {
     try (FileInputStream inFile = new FileInputStream(path);
          ObjectInputStream inObject = new ObjectInputStream(inFile)) {
       content = inObject.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      logger.error(e);
+    } catch (IOException e) {
+      logger.error("load from " + path, e);
+    } catch (ClassNotFoundException e) {
+      if (logger.isWarnEnabled()) {
+        logger.warn("loading old template from " + path, e);
+      }
+      content = convertLegacyTemplates(path);
+    }
+
+    return content;
+  }
+
+  private static Object convertLegacyTemplates(String path) {
+    Object content = new ArrayList<>();
+
+    try (FileInputStream inFile = new FileInputStream(path);
+         ObjectInputStream inObject = new LegacyTemplateReader(inFile)) {
+      if (logger.isInfoEnabled()) {
+        logger.info("try to read {} as old Template", path);
+      }
+      content = inObject.readObject();
+
+      if (logger.isInfoEnabled()) {
+        logger.info("write back to {} as new Template", path);
+      }
+      writeObject(content, path);
+    } catch (IOException | ClassNotFoundException e2) {
+      logger.error("could not repair template " + path, e2);
     }
 
     return content;
@@ -81,7 +109,7 @@ public class FileHandler {
       }
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {
-        logger.error(e);
+        logger.error("write to " + path, e);
       }
       HeinerionException.rethrow(e);
     }
