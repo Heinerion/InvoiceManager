@@ -96,7 +96,10 @@ public abstract class AbstractLoader<T> implements Loader<T> {
       notifyLoadListeners(getDescriptiveName(), item);
     }
 
-    logger.info("{} documents loaded", getFileNumber());
+    if (logger.isInfoEnabled()) {
+      logger.info("{} documents loaded ({})", getFileNumber(), getDescriptiveName());
+    }
+
     return resultList;
   }
 

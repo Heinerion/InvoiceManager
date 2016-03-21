@@ -126,7 +126,7 @@ public final class IO implements LoadListener {
     }
 
     if (logger.isInfoEnabled()) {
-      logger.info(count + " templates loaded");
+      logger.info(count + " tex templates loaded");
     }
 
     for (TexTemplate template : templates) {
