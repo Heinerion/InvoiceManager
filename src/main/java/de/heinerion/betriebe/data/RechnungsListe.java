@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.data.invoice_table_column.*;
 import de.heinerion.betriebe.data.invoice_table_column.*;
 import de.heinerion.betriebe.models.Company;
 

@@ -216,9 +216,7 @@ public final class IO implements LoadListener {
     IO.ladeVorlagen();
     IO.ladeSpezielle();
 
-    if (progress != null) {
-      progress.setString(Translator.translate("progress.done"));
-    }
+    progress.setString(Translator.translate("progress.done"));
   }
 
   @Override

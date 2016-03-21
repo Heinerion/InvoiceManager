@@ -43,7 +43,7 @@ public class TextFileLoaderTest {
 
   @Test
   public void testSaveAddressesWithException() throws Exception {
-    String exceptionText = "text";
+    String exceptionText = "expected Exception";
     String resultingText = "fail";
     PowerMockito.doThrow(new IOException(exceptionText)).when(writer).write(anyString(), anyString());
 
