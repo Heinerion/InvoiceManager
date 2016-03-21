@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class DataBase {
   private static final Logger logger = LogManager.getLogger(DataBase.class);
@@ -200,15 +201,15 @@ public final class DataBase {
   }
 
   private static <T> List<T> getEntries(List<ListEntry<T>> list, Company company) {
-    List<T> result = new ArrayList<>();
 
-    for (ListEntry<T> entry : list) {
-      if (entry.getCompany() == null || entry.getCompany().equals(company)) {
-        result.add(entry.getEntry());
-      }
-    }
+    return list.stream()
+        .filter(entry -> isValidForCompany(entry, company))
+        .map(ListEntry::getEntry)
+        .collect(Collectors.toList());
+  }
 
-    return result;
+  private static <T> boolean isValidForCompany(ListEntry<T> entry, Company company) {
+    return entry.getCompany() == null || entry.getCompany().equals(company);
   }
 
   public static RechnungsListe getInvoices() {

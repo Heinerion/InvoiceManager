@@ -4,6 +4,7 @@ import de.heinerion.betriebe.fileoperations.Syntax;
 import de.heinerion.betriebe.data.Constants;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LatexDocument {
   private static final String BEGIN = "\\begin{document}";
@@ -63,36 +64,32 @@ public class LatexDocument {
   }
 
   private String buildDoctype() {
-    final List<String> argumentList = new ArrayList<>();
-    for (String key : this.docTypeArguments.keySet()) {
-      argumentList.add(key + "=" + this.docTypeArguments.get(key));
-    }
+    List<String> argumentList = docTypeArguments.keySet().stream()
+        .map(key -> key + "=" + docTypeArguments.get(key))
+        .collect(Collectors.toList());
+
     Collections.sort(argumentList);
 
-    final String arguments = String.join(DELIM, argumentList);
+    String arguments = String.join(DELIM, argumentList);
 
     return "\\documentclass[" + arguments + "]"
-        + Syntax.embrace(this.documentType);
+        + Syntax.embrace(documentType);
   }
 
   private String buildHyperSetup() {
-    final List<String> token = new ArrayList<>();
+    List<String> token = hypersetup.stream()
+        .map(HyperCommand::toString)
+        .collect(Collectors.toList());
 
-    for (HyperCommand hyperCommand : hypersetup) {
-      token.add(hyperCommand.toString());
-    }
-    // Collections.sort(token);
+    String tokenList = String.join(DELIM, token);
 
-    final String tokenlist = String.join(DELIM, token);
-
-    return "\\hypersetup" + Syntax.embrace(tokenlist);
+    return "\\hypersetup" + Syntax.embrace(tokenList);
   }
 
   private String buildPackages() {
-    final List<String> declarations = new ArrayList<>();
-    for (LatexPackage aPackage : this.packageList) {
-      declarations.add(aPackage.toString());
-    }
+    List<String> declarations = packageList.stream()
+        .map(LatexPackage::toString)
+        .collect(Collectors.toList());
 
     return String.join(this.delimiter, declarations);
   }
@@ -171,12 +168,13 @@ public class LatexDocument {
     final List<String> components = new ArrayList<>();
     components.add(this.buildDoctype());
     components.add(this.buildPackages());
-    if (hypersetup.size() > 0) {
+    if (!hypersetup.isEmpty()) {
       components.add(this.buildHyperSetup());
     }
-    for (LatexCommand command : commands) {
-      components.add(command.toString());
-    }
+    List<String> mappedCommands = commands.stream()
+        .map(LatexCommand::toString)
+        .collect(Collectors.toList());
+    components.addAll(mappedCommands);
     components.add(buildSpecialVariables());
     if (this.date != null) {
       components.add("\\date{\n" + this.indent(this.date, "\t") + "\n}");

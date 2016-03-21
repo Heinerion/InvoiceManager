@@ -4,6 +4,7 @@ import de.heinerion.betriebe.fileoperations.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class LatexScrLetter extends LatexDocument {
   private static final String LETTER = "letter";
@@ -45,11 +46,9 @@ public final class LatexScrLetter extends LatexDocument {
 
   @Override
   protected String buildSpecialVariables() {
-    final List<String> vars = new ArrayList<>();
-
-    for (KomaVar komaVar : komavars) {
-      vars.add(komaVar.toString());
-    }
+    final List<String> vars = komavars.stream()
+        .map(KomaVar::toString)
+        .collect(Collectors.toList());
 
     return String.join("\n", vars);
   }

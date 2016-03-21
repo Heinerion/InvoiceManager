@@ -137,9 +137,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
     List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
     if (!activeTemplates.equals(templates)) {
       templateBox.removeAllItems();
-      for (Vorlage template : activeTemplates) {
-        templateBox.addItem(template);
-      }
+      activeTemplates.forEach(templateBox::addItem);
       templates = activeTemplates;
     }
     Session.setActiveConveyable(getContent());

@@ -1,12 +1,10 @@
 package de.heinerion.betriebe.gui.content;
 
+import de.heinerion.betriebe.data.Session;
+
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JComponent;
-import javax.swing.JTabbedPane;
-
-import de.heinerion.betriebe.data.Session;
 
 @SuppressWarnings("serial")
 public final class ContentTabPane extends JTabbedPane {
@@ -38,8 +36,6 @@ public final class ContentTabPane extends JTabbedPane {
   }
 
   public void refreshVorlagen() {
-    for (TabContent abstractTabContent : tabContents) {
-      abstractTabContent.refresh();
-    }
+    tabContents.forEach(TabContent::refresh);
   }
 }

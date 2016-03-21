@@ -135,9 +135,7 @@ public final class IO implements LoadListener {
   }
 
   public static void ladeVorlagen() {
-    for (Company company : Session.getAvailableCompanies()) {
-      loadAllTemplates(company);
-    }
+    Session.getAvailableCompanies().forEach(IO::loadAllTemplates);
   }
 
   private static void loadAllTemplates(Company company) {
@@ -155,11 +153,11 @@ public final class IO implements LoadListener {
   private static List<Vorlage> ladeVorlagen(Company company) {
     final List<Vorlage> result = FileHandler.load(new Vorlage(),
         getTemplatePath(company));
-    for (Vorlage template : result) {
-      if (template.getInhalt() == null) {
-        template.setInhalt(new String[0][0]);
-      }
-    }
+
+    result.stream()
+        .filter(template -> template.getInhalt() == null)
+        .forEach(template -> template.setInhalt(new String[0][0]));
+
     return result;
   }
 

@@ -84,9 +84,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   }
 
   public void load() {
-    for (Class<? extends Loadable> clazz : this.loadOrder) {
-      this.load(clazz);
-    }
+    loadOrder.forEach(this::load);
   }
 
   /**
@@ -94,17 +92,19 @@ public final class LoadingManager implements LoadListener, LoadListenable {
    */
   public void load(Class<? extends Loadable> clazz) {
     List<Loader<? extends Loadable>> loaderList = this.loaders.get(clazz);
-    for (Loader<? extends Loadable> loader : loaderList) {
-      if (loader != null) {
-        List<Loadable> result = loader.load();
+    loaderList.stream()
+        .filter(loader -> loader != null)
+        .forEach(loader -> loadClass(clazz, loader));
+  }
 
-        List<Loadable> oldResults = this.results.get(clazz);
-        if (oldResults == null) {
-          this.results.put(clazz, result);
-        } else {
-          oldResults.addAll(result);
-        }
-      }
+  private void loadClass(Class<? extends Loadable> clazz, Loader<? extends Loadable> loader) {
+    List<Loadable> result = loader.load();
+
+    List<Loadable> oldResults = this.results.get(clazz);
+    if (oldResults == null) {
+      this.results.put(clazz, result);
+    } else {
+      oldResults.addAll(result);
     }
   }
 

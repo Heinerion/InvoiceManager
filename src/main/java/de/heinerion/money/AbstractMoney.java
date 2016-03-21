@@ -35,7 +35,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
     return value;
   }
 
-  protected static final double parseValue(String input) {
+  protected static double parseValue(String input) {
     return ParsingUtil.parseDouble(input);
   }
 
