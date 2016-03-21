@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.data.RechnungData;
 import de.heinerion.betriebe.classes.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;

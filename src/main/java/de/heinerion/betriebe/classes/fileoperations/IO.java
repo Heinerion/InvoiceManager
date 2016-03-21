@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.classes.fileoperations;
 
-import de.heinerion.betriebe.classes.data.RechnungData;
-import de.heinerion.betriebe.classes.data.TexTemplate;
+import de.heinerion.betriebe.data.RechnungData;
+import de.heinerion.betriebe.data.TexTemplate;
 import de.heinerion.betriebe.classes.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.classes.fileoperations.loading.*;
 import de.heinerion.betriebe.classes.texting.Vorlage;

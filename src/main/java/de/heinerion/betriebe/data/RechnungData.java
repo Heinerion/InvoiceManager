@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.data;
+package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.classes.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.data.DataBase;

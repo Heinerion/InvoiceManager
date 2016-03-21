@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.classes.fileoperations.loading;
 
-import de.heinerion.betriebe.classes.data.RechnungData;
+import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.tools.ParsingUtil;
 import org.apache.logging.log4j.LogManager;

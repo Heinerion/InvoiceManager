@@ -1,8 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.data.RechnungData;
-import de.heinerion.betriebe.classes.data.RechnungsListe;
-import de.heinerion.betriebe.classes.data.TexTemplate;
 import de.heinerion.betriebe.classes.fileoperations.IO;
 import de.heinerion.betriebe.classes.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.classes.texting.DropListable;
