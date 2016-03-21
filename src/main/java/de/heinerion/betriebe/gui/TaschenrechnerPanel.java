@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui;
+package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.tools.DimensionUtil;
@@ -25,7 +25,7 @@ public class TaschenrechnerPanel extends BGPanel {
   private JButton btnMinus;
 
   public TaschenrechnerPanel() {
-    super(BGPanel.LEFT, BGPanel.TOP, BGPanel.BOTTOM, BGPanel.RIGHT);
+    super(LEFT, TOP, BOTTOM, RIGHT);
 
     initLayout();
     createWidgets();

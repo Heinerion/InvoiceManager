@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui.tablemodels;
+package de.heinerion.betriebe.gui.tablemodels;
 
 import de.heinerion.betriebe.models.Address;
 

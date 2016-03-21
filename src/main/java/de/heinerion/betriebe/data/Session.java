@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.classes.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;

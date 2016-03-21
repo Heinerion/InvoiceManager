@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui;
+package de.heinerion.betriebe.gui;
 
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.AfterClass;

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui;
+package de.heinerion.betriebe.gui;
 
 import javax.swing.JButton;
 

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui.panels;
+package de.heinerion.betriebe.gui.panels;
 
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.classes.gui;
+package de.heinerion.betriebe.gui;
 
 public final class PositionCoordinates {
   private int posX = 0;

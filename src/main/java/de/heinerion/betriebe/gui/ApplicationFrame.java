@@ -2,12 +2,11 @@
  * ApplicationFrame.java
  * heiner 27.03.2012
  */
-package de.heinerion.betriebe.classes.gui;
+package de.heinerion.betriebe.gui;
 
-import de.heinerion.betriebe.classes.gui.panels.ReceiverPanel;
+import de.heinerion.betriebe.gui.panels.ReceiverPanel;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.Utilities;
-import de.heinerion.betriebe.gui.AbstractBusyFrame;
 import de.heinerion.betriebe.gui.content.ContentTabPane;
 import de.heinerion.betriebe.gui.menu.MenuBar;
 import de.heinerion.betriebe.listener.CompanyListener;

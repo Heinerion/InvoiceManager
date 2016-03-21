@@ -1,8 +1,7 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.classes.gui.AbstractGridPanel;
-import de.heinerion.betriebe.classes.gui.PositionCoordinates;
-import de.heinerion.betriebe.classes.gui.panels.PanelControl;
+import de.heinerion.betriebe.gui.AbstractGridPanel;
+import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;

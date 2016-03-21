@@ -4,7 +4,7 @@
  */
 package de.heinerion.betriebe.classes.fileoperations;
 
-import de.heinerion.betriebe.classes.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
