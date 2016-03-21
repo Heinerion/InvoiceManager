@@ -20,7 +20,7 @@ import static de.heinerion.betriebe.data.Constants.BUTTON_SAVE;
 @SuppressWarnings("serial")
 final class AddressChooserPanel extends AbstractGridPanel {
   private static final String FLOPPY_SYM = "FileChooser.floppyDriveIcon";
-  private static final String DELETE_SYM = "de/heinerion/betriebe/images/delete.png";
+  private static final String DELETE_SYM = "images/delete.png";
 
   private static final int BOLD = Font.BOLD;
   private static final int CENTER = SwingConstants.CENTER;
