@@ -18,5 +18,5 @@ class LegacyTemplateReader extends ObjectInputStream {
       return ObjectStreamClass.lookup(de.heinerion.betriebe.data.Vorlage.class);
     }
     return desc;
-  };
+  }
 }

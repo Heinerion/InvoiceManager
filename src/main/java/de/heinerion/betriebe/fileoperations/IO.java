@@ -29,7 +29,7 @@ import static de.heinerion.betriebe.exceptions.HeinerionException.handleExceptio
 public final class IO implements LoadListener {
   private static final Logger logger = LogManager.getLogger(IO.class);
 
-  private static TextFileLoader loader = new TextFileLoader();
+  private static TextFileLoader fileLoader = new TextFileLoader();
 
   private static final LoadingManager loadingManager = new LoadingManager();
   private static ProgressIndicator progress;
@@ -54,7 +54,7 @@ public final class IO implements LoadListener {
     // TODO at this point, we don't know even one company
     for (Company company : Session.getAvailableCompanies()) {
       if (logger.isDebugEnabled()) {
-        logger.debug("add invoice loader for {}", company.getDescriptiveName());
+        logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
       }
       loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(company.getPfad()));
     }
@@ -93,7 +93,7 @@ public final class IO implements LoadListener {
       Constructor<X> loaderConstructor = loaderClass.getConstructor(File.class);
       loader = loaderConstructor.newInstance(loadDirectory);
       if (logger.isDebugEnabled()) {
-        logger.debug("loader {}", loader.getDescriptiveName());
+        logger.debug("fileLoader {}", loader.getDescriptiveName());
       }
     } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
       handleException(getClass(), e);
@@ -110,7 +110,7 @@ public final class IO implements LoadListener {
    * Lädt die Namen der Vorlage LaTeX Dokumente und erstellt daraus ein
    * TexVorlagenliste
    */
-  public static void ladeSpezielle() {
+  private static void ladeSpezielle() {
     List<TexTemplate> templates = new ArrayList<>();
     File special = new File(Pfade.VORLAGENSPEZIAL.getPath());
     int count = 0;
@@ -134,7 +134,7 @@ public final class IO implements LoadListener {
     }
   }
 
-  public static void ladeVorlagen() {
+  private static void ladeVorlagen() {
     Session.getAvailableCompanies().forEach(IO::loadAllTemplates);
   }
 
@@ -165,7 +165,7 @@ public final class IO implements LoadListener {
     final List<Address> addresses = DataBase.getAddresses();
 
     try {
-      loader.saveAddresses(addresses);
+      fileLoader.saveAddresses(addresses);
     } catch (final IOException e) {
       handleException(IO.class, e);
     }
@@ -189,7 +189,7 @@ public final class IO implements LoadListener {
    * @param company  Gibt den betroffenen Betrieb an
    * @see #speichereListe(List, String)
    */
-  public static void speichereVorlagen(List<Vorlage> vorlagen, Company company) {
+  private static void speichereVorlagen(List<Vorlage> vorlagen, Company company) {
     speichereListe(vorlagen, getTemplatePath(company));
   }
 
@@ -199,7 +199,7 @@ public final class IO implements LoadListener {
     ladeVorlagen();
   }
 
-  public static void load() {
+  static void load() {
     load(progress);
   }
 

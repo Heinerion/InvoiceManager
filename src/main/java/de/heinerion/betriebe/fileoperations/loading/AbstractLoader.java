@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class AbstractLoader<T> implements Loader<T> {
+abstract class AbstractLoader<T> implements Loader<T> {
   private static final Logger logger = LogManager.getLogger(AbstractLoader.class);
 
   private static final String VALID = "File: {}, compatible with {}";
@@ -22,7 +22,7 @@ public abstract class AbstractLoader<T> implements Loader<T> {
   private final List<LoadListener> listeners;
   private final File loadDirectory;
 
-  protected AbstractLoader(File aLoadDirectory) {
+  AbstractLoader(File aLoadDirectory) {
     loadDirectory = aLoadDirectory;
     listeners = new ArrayList<>();
   }
@@ -44,17 +44,13 @@ public abstract class AbstractLoader<T> implements Loader<T> {
     return number;
   }
 
-  protected final List<File> getFiles() {
+  private List<File> getFiles() {
     List<File> result = files;
     if (result == null) {
       result = new ArrayList<>();
     }
 
     return result;
-  }
-
-  protected final File getLoadDirectory() {
-    return loadDirectory;
   }
 
   protected abstract Pattern getPattern();
