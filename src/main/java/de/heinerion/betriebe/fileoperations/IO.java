@@ -6,7 +6,7 @@ import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.data.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.enums.Pfade;
+import de.heinerion.betriebe.enums.FolderPaths;
 import de.heinerion.betriebe.fileoperations.loading.*;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
@@ -103,7 +103,7 @@ public final class IO implements LoadListener {
   }
 
   private static String getTemplatePath(Company company) {
-    return Pfade.VORLAGEN.file(company.getDescriptiveName());
+    return FolderPaths.TEMPLATES.file(company.getDescriptiveName());
   }
 
   /**
@@ -112,7 +112,7 @@ public final class IO implements LoadListener {
    */
   private static void ladeSpezielle() {
     List<TexTemplate> templates = new ArrayList<>();
-    File special = new File(Pfade.VORLAGENSPEZIAL.getPath());
+    File special = new File(FolderPaths.TEX_TEMPLATES.getPath());
     int count = 0;
     String[] specials = special.list();
     if (null != specials) {
