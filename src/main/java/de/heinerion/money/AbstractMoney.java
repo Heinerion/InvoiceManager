@@ -10,7 +10,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
   private double value;
   private String currency;
 
-  protected AbstractMoney(double aValue, String aCurrency) {
+  AbstractMoney(double aValue, String aCurrency) {
     this.value = aValue;
     this.currency = aCurrency;
   }
@@ -35,7 +35,7 @@ public abstract class AbstractMoney implements Money, Comparable<Money> {
     return value;
   }
 
-  protected static double parseValue(String input) {
+  static double parseValue(String input) {
     return ParsingUtil.parseDouble(input);
   }
 
