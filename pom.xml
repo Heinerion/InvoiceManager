@@ -7,9 +7,17 @@
     <version>1.0.0</version>
     <name>InvoiceManager</name>
 
+    <scm>
+        <connection>scm:git:git://github.com/Heinerion/InvoiceManager.git</connection>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <project.build.number>${buildNumber}</project.build.number>
+        <project.build.timestamp>${maven.build.timestamp}</project.build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
         <powermock.version>1.6.4</powermock.version>
 
@@ -83,36 +91,41 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <shortRevisionLength>5</shortRevisionLength>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+        <resources>
+            <!-- assigns maven values in filtered files -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/configuration.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/configuration.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
-
-    <profiles>
-        <profile>
-            <id>integration-test-builder</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.19.1</version>
-                        <configuration>
-                            <parallel>methods</parallel>
-                            <threadCount>10</threadCount>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>failsafe-integration-tests</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -164,6 +177,7 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-swing-junit</artifactId>
             <version>1.2</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

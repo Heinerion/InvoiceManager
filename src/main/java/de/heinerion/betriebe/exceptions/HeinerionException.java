@@ -12,6 +12,10 @@ public class HeinerionException extends RuntimeException {
     super(message);
   }
 
+  public HeinerionException(String message, Throwable t) {
+    super(message, t);
+  }
+
   public HeinerionException(Throwable t) {
     super(t);
   }

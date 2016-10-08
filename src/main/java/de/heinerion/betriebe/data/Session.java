@@ -7,9 +7,11 @@ import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.ConfigurationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,7 @@ import java.util.List;
 public final class Session {
   private static final Logger LOGGER = LogManager.getLogger(Session.class);
 
-  // TODO solche Daten per configuration.properties lösen.
-  private static final String VERSION = "1.0.0-0";
+  private static final String VERSION;
 
   private static List<CompanyListener> companyListeners = new ArrayList<>();
   private static List<ConveyableListener> conveyableListeners = new ArrayList<>();
@@ -32,7 +33,14 @@ public final class Session {
 
   private static LocalDate date = LocalDate.now();
 
-  private Session() {
+  static {
+    try {
+      ConfigurationService.loadConfigurations();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    VERSION = ConfigurationService.get("version") + "-" + ConfigurationService.get("build") + "@" + ConfigurationService.get("timestamp");
   }
 
   public static void addAvailableCompany(Company company) {
