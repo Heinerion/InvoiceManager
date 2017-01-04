@@ -11,7 +11,7 @@ public final class FormatUtil {
   private static final String PERCENTAGE_PATTERN = "##0%";
 
   private static DecimalFormat dfAmerican;
-  private static DecimalFormat dfLocale = new DecimalFormat(DECIMAL_PATTERN);
+  private static DecimalFormat dfLocale;
   private static DecimalFormat dfPercentage = new DecimalFormat(
       PERCENTAGE_PATTERN);
 
@@ -20,6 +20,9 @@ public final class FormatUtil {
 
     dfAmerican = (DecimalFormat) NumberFormat.getNumberInstance(locale);
     dfAmerican.applyPattern(DECIMAL_PATTERN);
+
+    dfLocale =   (DecimalFormat) NumberFormat.getNumberInstance(Locale.GERMANY);
+    dfLocale.applyPattern(DECIMAL_PATTERN);
   }
 
   private FormatUtil() {
