@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.enums;
 
+import de.heinerion.betriebe.services.ConfigurationService;
+
 import java.io.File;
 
 public enum Utilities {
@@ -35,7 +37,7 @@ public enum Utilities {
   }
 
   public static String applicationHome() {
-    return System.getProperty("user.home") + File.separator + "Betriebe"
+    return System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data")
         + File.separator;
   }
 

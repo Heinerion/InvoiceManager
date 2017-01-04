@@ -16,6 +16,14 @@ public class ConfigurationService {
 
   private static InputStream inputStream;
 
+  static {
+    try {
+      loadConfigurations();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   public static void loadConfigurations() throws IOException {
     config = new Properties();
     String propFileName = "configuration.properties";
