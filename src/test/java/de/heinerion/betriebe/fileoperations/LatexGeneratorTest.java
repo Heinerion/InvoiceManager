@@ -162,13 +162,10 @@ public class LatexGeneratorTest {
 
   @BeforeClass
   public static void prepare() {
-    senderAddress = new Address("Senderfirma", "Senderstraße", "1", "12345",
-        "Senderort");
+    senderAddress = new Address("Senderfirma", "Senderstraße", "1", "12345", "Senderort");
     final Account anAccount = new Account("Bank", "BIC", "IBAN");
-    sender = new Company("Kurzname", "Offizieller Name GmbH", senderAddress,
-        "Prokurist", "09876", "123456789", TAX_PERCENT, WAGES_PER_H, anAccount);
-    receiverAddress = new Address("Empfänger", "Empfängerfirma", null,
-        "Empfängerstraße", "2", null, "54321", "Empfängerort");
+    sender = new Company("Kurzname", "Offizieller Name GmbH", senderAddress, "Prokurist", "09876", "123456789", TAX_PERCENT, WAGES_PER_H, anAccount);
+    receiverAddress = new Address("Empfänger", "Empfängerfirma", null, "Empfängerstraße", "2", null, "54321", "Empfängerort");
     date = LocalDate.of(YEAR, MONTH, DAY);
   }
 
