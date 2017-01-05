@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.fileoperations;
 
-import com.google.common.base.Joiner;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.enums.Utilities;
 import de.heinerion.betriebe.formatter.Formatter;
@@ -15,6 +14,7 @@ import de.heinerion.latex.LatexTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class LatexGenerator {
   private static final String INVOICE_NUMBER = "Rechnungs-Nr.";
@@ -167,8 +167,10 @@ public final class LatexGenerator {
 
     String pdfSubject;
     if (isInvoice) {
-      // TODO replace this with default java, only use of guava in project
-      pdfSubject = Joiner.on(COL_SPACE).join(items);
+      List<String> itemNames = items.stream()
+          .map(item -> item.toString())
+          .collect(Collectors.toList());
+      pdfSubject = String.join(COL_SPACE, itemNames);
     } else {
       pdfSubject = subject;
     }
