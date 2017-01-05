@@ -22,6 +22,7 @@
         <powermock.version>1.6.4</powermock.version>
 
         <sonar.language>java</sonar.language>
+        <sonar.host.url>sonarqube:9000</sonar.host.url>
         <sonar.junit.reportsPath>target/surefire-reports</sonar.junit.reportsPath>
         <sonar.jacococ.reportPath>target/jacoco.exec</sonar.jacococ.reportPath>
         <sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
