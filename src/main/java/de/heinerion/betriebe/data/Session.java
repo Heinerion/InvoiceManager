@@ -37,10 +37,17 @@ public final class Session {
     try {
       ConfigurationService.loadConfigurations();
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.error("Error in loading the configuration file", e);
     }
 
     VERSION = ConfigurationService.get("version") + "-" + ConfigurationService.get("build") + "@" + ConfigurationService.get("timestamp");
+  }
+
+  /**
+   * Hides the default public Constructor
+   */
+  private Session () {
+
   }
 
   public static void addAvailableCompany(Company company) {

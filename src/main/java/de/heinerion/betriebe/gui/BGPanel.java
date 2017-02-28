@@ -33,16 +33,16 @@ public class BGPanel extends JPanel {
   private Color[] colors;
   private float[] fractions = new float[]{0f, 1f};
 
-  private RadialGradientPaint topLeftCorner;
-  private RadialGradientPaint topRightCorner;
-  private RadialGradientPaint bottomLeftCorner;
-  private RadialGradientPaint bottomRightCorner;
+  private transient RadialGradientPaint topLeftCorner;
+  private transient RadialGradientPaint topRightCorner;
+  private transient RadialGradientPaint bottomLeftCorner;
+  private transient RadialGradientPaint bottomRightCorner;
 
-  private GradientPaint backgroundPaint;
-  private GradientPaint leftPaint;
-  private GradientPaint rightPaint;
-  private GradientPaint topPaint;
-  private GradientPaint bottomPaint;
+  private transient GradientPaint backgroundPaint;
+  private transient GradientPaint leftPaint;
+  private transient GradientPaint rightPaint;
+  private transient GradientPaint topPaint;
+  private transient GradientPaint bottomPaint;
 
   public BGPanel(int... sides) {
     determineSidesToDraw(sides);

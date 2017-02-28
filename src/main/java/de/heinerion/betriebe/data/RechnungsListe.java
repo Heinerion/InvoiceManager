@@ -19,7 +19,7 @@ public final class RechnungsListe implements TableModel {
   public static final int INDEX_SENDER = 4;
   public static final int INDEX_AMOUNT = 5;
 
-  public static final ColumnState[] STATE = {
+  private static final ColumnState[] STATE = {
       // Spalten in Reihenfolge des Auftretens
       new NumberColumn(), new ReceiverColumn(), new ProductColumn(),
       new DateColumn(), new SenderColumn(), new AmountColumn(),};

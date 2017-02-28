@@ -4,7 +4,6 @@ import de.heinerion.betriebe.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -20,9 +19,14 @@ public class ConfigurationService {
     try {
       loadConfigurations();
     } catch (IOException e) {
-      e.printStackTrace();
+      LOGGER.error("Error in loading the configuration file", e);
     }
   }
+
+  /**
+   * Hides the default public Constructor
+   */
+  private ConfigurationService(){}
 
   public static void loadConfigurations() throws IOException {
     config = new Properties();
