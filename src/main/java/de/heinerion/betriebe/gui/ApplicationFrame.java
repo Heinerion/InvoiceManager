@@ -161,7 +161,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
 
   private void addDebugMarks(List<String> token) {
     String debug = "##DEBUG##";
-    String version = "(v" + Session.getVersion() + ")";
+    String version = "(" + Session.getVersion() + ")";
 
     token.add(0, debug);
 

@@ -40,7 +40,7 @@ public final class Session {
       LOGGER.error("Error in loading the configuration file", e);
     }
 
-    VERSION = ConfigurationService.get("version") + "-" + ConfigurationService.get("build") + "@" + ConfigurationService.get("timestamp");
+    VERSION = ConfigurationService.get("git.commit.id.describe-short");
   }
 
   /**

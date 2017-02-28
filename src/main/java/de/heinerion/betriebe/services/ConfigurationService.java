@@ -30,8 +30,12 @@ public class ConfigurationService {
 
   public static void loadConfigurations() throws IOException {
     config = new Properties();
-    String propFileName = "configuration.properties";
 
+    loadPropertiesFile("configuration.properties");
+    loadPropertiesFile("git.properties");
+  }
+
+  private static void loadPropertiesFile(String propFileName) {
     inputStream = ConfigurationService.class.getClassLoader().getResourceAsStream(propFileName);
 
     try {
