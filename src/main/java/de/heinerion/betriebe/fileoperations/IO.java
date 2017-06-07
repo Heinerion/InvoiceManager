@@ -56,7 +56,7 @@ public final class IO implements LoadListener {
       if (logger.isDebugEnabled()) {
         logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
       }
-      loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(company.getPfad()));
+      loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(company.getFolderFile()));
     }
   }
 

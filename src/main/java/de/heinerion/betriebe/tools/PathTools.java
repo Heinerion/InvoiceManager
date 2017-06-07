@@ -79,7 +79,7 @@ public final class PathTools {
 
   public static String getPath(Class<?> clazz) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
-      return SystemAndPathsEnum.SYSTEM.getPath() + File.separator + determineFolderName(clazz);
+      return PathUtil.getSystemPath() + File.separator + determineFolderName(clazz);
     } else {
       throw new HeinerionException(getNoFileInfoMessage(clazz));
     }
@@ -90,6 +90,6 @@ public final class PathTools {
   }
 
   public static String getPath(Storable storable) {
-    return generatePath(SystemAndPathsEnum.SYSTEM.getPath(), storable);
+    return generatePath(PathUtil.getSystemPath(), storable);
   }
 }

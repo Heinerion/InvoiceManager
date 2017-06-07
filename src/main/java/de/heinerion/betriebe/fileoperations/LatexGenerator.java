@@ -6,6 +6,7 @@ import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.latex.KomaKey;
@@ -155,8 +156,10 @@ public final class LatexGenerator {
                                              final LatexScrLetter latexLetter, final String subject,
                                              final boolean isInvoice) {
     final Company company = letter.getCompany();
-    final String title = isInvoice ? SystemAndPathsEnum.RECHNUNG.getText()
-        : SystemAndPathsEnum.BRIEF.getText();
+
+
+    String key = isInvoice ? "invoice.title" : "letter.title";
+    final String title = Translator.translate(key);
 
     List<Item> items = new ArrayList<>();
     double total = 0.0;

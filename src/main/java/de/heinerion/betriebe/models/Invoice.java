@@ -3,6 +3,7 @@ package de.heinerion.betriebe.models;
 import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.PathTools;
 
 import java.time.LocalDate;
@@ -92,7 +93,7 @@ public final class Invoice implements Conveyable, Storable {
 
   @Override
   public String getSubject() {
-    return SystemAndPathsEnum.RECHNUNG.getText();
+    return Translator.translate("invoice.title");
   }
 
   public double getTax() {

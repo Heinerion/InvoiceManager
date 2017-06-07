@@ -5,6 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
+import de.heinerion.betriebe.tools.PathUtil;
 
 import java.io.File;
 import java.text.Collator;
@@ -69,8 +70,8 @@ public final class Company implements Addressable, Storable, Loadable {
     return this.officialName;
   }
 
-  public File getPfad() {
-    return new File(SystemAndPathsEnum.RECHNUNG + File.separator
+  public File getFolderFile() {
+    return new File(PathUtil.determinePath(Invoice.class) + File.separator
         + this.getDescriptiveName());
   }
 

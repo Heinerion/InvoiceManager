@@ -8,8 +8,10 @@ import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.DateUtil;
+import de.heinerion.betriebe.tools.PathUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -73,8 +75,8 @@ public class MainOperations {
     File parentFolder = generatePath(conveyable);
 
     String temp = parentFolder + File.separator + title + TEX;
-    String texPath = temp.replace(SystemAndPathsEnum.applicationHome(),
-        SystemAndPathsEnum.SYSTEM.toString() + File.separator);
+    String texPath = temp.replace(PathUtil.getBaseDir() + File.separator,
+        PathUtil.getSystemPath() + File.separator);
     File texDestination = new File(texPath);
 
     if (!texDestination.exists()) {
@@ -119,9 +121,9 @@ public class MainOperations {
     File folder;
 
     if (conveyable instanceof Invoice) {
-      folder = conveyable.getCompany().getPfad();
+      folder = conveyable.getCompany().getFolderFile();
     } else {
-      folder = new File(SystemAndPathsEnum.BRIEF.getPath());
+      folder = new File(PathUtil.determinePath(Letter.class));
     }
 
     if (!folder.exists()) {

@@ -1,11 +1,10 @@
 package de.heinerion.betriebe.models;
 
-import static de.heinerion.betriebe.enums.SystemAndPathsEnum.RECHNUNG;
-
 import java.time.LocalDate;
 
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
+import de.heinerion.betriebe.services.Translator;
 
 // TODO weiterführen
 public final class RawTemplate implements Conveyable, Storable {
@@ -40,7 +39,7 @@ public final class RawTemplate implements Conveyable, Storable {
 
   @Override
   public String getSubject() {
-    return RECHNUNG.getText();
+    return Translator.translate("invoice.title");
   }
 
   @Override

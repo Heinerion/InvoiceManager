@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.enums;
 
+import de.heinerion.betriebe.tools.PathUtil;
+
 import java.io.File;
 
 public enum FolderPaths {
@@ -12,7 +14,7 @@ public enum FolderPaths {
 
   FolderPaths(String aName) {
     name = aName;
-    path = SystemAndPathsEnum.SYSTEM + File.separator + aName;
+    path = PathUtil.getSystemPath() + File.separator + aName;
   }
 
   public String file(String fileBaseName) {
