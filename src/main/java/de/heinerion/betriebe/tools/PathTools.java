@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.tools;
 
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.interfaces.Storable;
 

@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;

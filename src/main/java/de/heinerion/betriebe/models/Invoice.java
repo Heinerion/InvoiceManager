@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.services.Translator;

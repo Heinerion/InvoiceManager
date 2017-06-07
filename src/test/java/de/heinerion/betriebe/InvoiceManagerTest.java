@@ -2,7 +2,7 @@ package de.heinerion.betriebe;
 
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
+import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,14 +46,14 @@ public class InvoiceManagerTest {
   public void testMainSetDebugMode() {
     InvoiceManager.main("debug");
 
-    assertTrue(SystemAndPathsEnum.isDebugMode());
+    assertTrue(System.isDebugMode());
   }
 
   @Test
   public void testMainNotSetDebugMode() {
     InvoiceManager.main();
 
-    assertFalse(SystemAndPathsEnum.isDebugMode());
+    assertFalse(System.isDebugMode());
   }
 
   @Test

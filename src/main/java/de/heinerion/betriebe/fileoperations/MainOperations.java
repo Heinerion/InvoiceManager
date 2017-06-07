@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
+import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
@@ -209,7 +209,7 @@ public class MainOperations {
                                           String message) {
     JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
         ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
-    if (SystemAndPathsEnum.isDebugMode()) {
+    if (System.isDebugMode()) {
       String out = "";
       for (StackTraceElement ste : exception.getStackTrace()) {
         out += ste.getMethodName() + " : " + ste.getFileName() + " ("

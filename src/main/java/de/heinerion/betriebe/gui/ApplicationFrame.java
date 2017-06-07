@@ -6,7 +6,7 @@ package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.gui.panels.ReceiverPanel;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
+import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.gui.content.ContentTabPane;
 import de.heinerion.betriebe.gui.menu.MenuBar;
 import de.heinerion.betriebe.listener.CompanyListener;
@@ -91,7 +91,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
       @Override
       public void windowClosing(WindowEvent e) {
         LOGGER.info("Planmäßig heruntergefahren.");
-        System.exit(0);
+        java.lang.System.exit(0);
       }
     };
   }
@@ -152,7 +152,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
     addCompanyAndNumber(token);
     addDate(token);
 
-    if (SystemAndPathsEnum.isDebugMode()) {
+    if (System.isDebugMode()) {
       addDebugMarks(token);
     }
 

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.tools;
 
-import de.heinerion.betriebe.enums.SystemAndPathsEnum;
+import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
@@ -32,7 +32,7 @@ public class PathUtil {
   }
 
   public static String getBaseDir() {
-    return System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data")
+    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data")
         + File.separator;
   }
 
@@ -51,6 +51,6 @@ public class PathUtil {
   }
 
   private static String buildPath(String baseDir, String folderName) {
-    return baseDir + File.separator + folderName + (SystemAndPathsEnum.isDebugMode() ? File.separator + "Debug" : "");
+    return baseDir + File.separator + folderName + (System.isDebugMode() ? File.separator + "Debug" : "");
   }
 }
