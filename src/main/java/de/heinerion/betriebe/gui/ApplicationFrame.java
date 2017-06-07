@@ -6,12 +6,13 @@ package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.gui.panels.ReceiverPanel;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.gui.content.ContentTabPane;
 import de.heinerion.betriebe.gui.menu.MenuBar;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.DimensionUtil;
 import org.apache.logging.log4j.LogManager;
@@ -151,7 +152,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
     addCompanyAndNumber(token);
     addDate(token);
 
-    if (Utilities.isDebugMode()) {
+    if (SystemAndPathsEnum.isDebugMode()) {
       addDebugMarks(token);
     }
 
@@ -179,7 +180,8 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
     final Company activeCompany = Session.getActiveCompany();
     if (activeCompany != null) {
       token.add(activeCompany.getDescriptiveName());
-      token.add(Utilities.NUMMER.getText() + (activeCompany.getInvoiceNumber() + 1));
+      String numberLabel = Translator.translate("invoice.number");
+      token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber() + 1));
     }
   }
 }

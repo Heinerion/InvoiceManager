@@ -4,16 +4,7 @@ import de.heinerion.betriebe.services.ConfigurationService;
 
 import java.io.File;
 
-public enum Utilities {
-  /**
-   * Fenstertitel: führender text
-   */
-  TITEL("Betrieb: "),
-  /**
-   * Fenstertitel: Rechnungsnummer angabe
-   */
-  NUMMER("Rechnungsnummer: "),
-
+public enum SystemAndPathsEnum {
   /**
    * Rechnung - Ordnername und Briefbetreff
    */
@@ -32,7 +23,7 @@ public enum Utilities {
 
   private String text;
 
-  Utilities(String aText) {
+  SystemAndPathsEnum(String aText) {
     this.text = aText;
   }
 
@@ -46,7 +37,7 @@ public enum Utilities {
   }
 
   public static void setDebugMode(boolean isDebugMode) {
-    Utilities.debugMode = isDebugMode;
+    SystemAndPathsEnum.debugMode = isDebugMode;
   }
 
   public String getPath() {

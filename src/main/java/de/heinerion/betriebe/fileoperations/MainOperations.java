@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
@@ -73,8 +73,8 @@ public class MainOperations {
     File parentFolder = generatePath(conveyable);
 
     String temp = parentFolder + File.separator + title + TEX;
-    String texPath = temp.replace(Utilities.applicationHome(),
-        Utilities.SYSTEM.toString() + File.separator);
+    String texPath = temp.replace(SystemAndPathsEnum.applicationHome(),
+        SystemAndPathsEnum.SYSTEM.toString() + File.separator);
     File texDestination = new File(texPath);
 
     if (!texDestination.exists()) {
@@ -121,7 +121,7 @@ public class MainOperations {
     if (conveyable instanceof Invoice) {
       folder = conveyable.getCompany().getPfad();
     } else {
-      folder = new File(Utilities.BRIEF.getPath());
+      folder = new File(SystemAndPathsEnum.BRIEF.getPath());
     }
 
     if (!folder.exists()) {
@@ -207,7 +207,7 @@ public class MainOperations {
                                           String message) {
     JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
         ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
-    if (Utilities.isDebugMode()) {
+    if (SystemAndPathsEnum.isDebugMode()) {
       String out = "";
       for (StackTraceElement ste : exception.getStackTrace()) {
         out += ste.getMethodName() + " : " + ste.getFileName() + " ("

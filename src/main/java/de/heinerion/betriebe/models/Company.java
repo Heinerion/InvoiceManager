@@ -2,7 +2,7 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 
@@ -70,7 +70,7 @@ public final class Company implements Addressable, Storable, Loadable {
   }
 
   public File getPfad() {
-    return new File(Utilities.RECHNUNG + File.separator
+    return new File(SystemAndPathsEnum.RECHNUNG + File.separator
         + this.getDescriptiveName());
   }
 

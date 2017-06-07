@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.formatter.Formatter;
 import de.heinerion.betriebe.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;
@@ -155,8 +155,8 @@ public final class LatexGenerator {
                                              final LatexScrLetter latexLetter, final String subject,
                                              final boolean isInvoice) {
     final Company company = letter.getCompany();
-    final String title = isInvoice ? Utilities.RECHNUNG.getText()
-        : Utilities.BRIEF.getText();
+    final String title = isInvoice ? SystemAndPathsEnum.RECHNUNG.getText()
+        : SystemAndPathsEnum.BRIEF.getText();
 
     List<Item> items = new ArrayList<>();
     double total = 0.0;

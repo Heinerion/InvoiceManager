@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import static de.heinerion.betriebe.enums.Utilities.RECHNUNG;
+import static de.heinerion.betriebe.enums.SystemAndPathsEnum.RECHNUNG;
 
 import java.time.LocalDate;
 

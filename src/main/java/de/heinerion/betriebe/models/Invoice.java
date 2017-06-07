@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.tools.PathTools;
@@ -92,7 +92,7 @@ public final class Invoice implements Conveyable, Storable {
 
   @Override
   public String getSubject() {
-    return Utilities.RECHNUNG.getText();
+    return SystemAndPathsEnum.RECHNUNG.getText();
   }
 
   public double getTax() {

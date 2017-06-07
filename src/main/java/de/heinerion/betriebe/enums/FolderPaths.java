@@ -12,7 +12,7 @@ public enum FolderPaths {
 
   FolderPaths(String aName) {
     name = aName;
-    path = Utilities.SYSTEM + File.separator + aName;
+    path = SystemAndPathsEnum.SYSTEM + File.separator + aName;
   }
 
   public String file(String fileBaseName) {

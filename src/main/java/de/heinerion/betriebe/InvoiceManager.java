@@ -10,7 +10,7 @@ import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
@@ -39,7 +39,7 @@ final class InvoiceManager {
       evaluateArgument(argument);
     }
 
-    if (LOGGER.isWarnEnabled() && !Utilities.isDebugMode()) {
+    if (LOGGER.isWarnEnabled() && !SystemAndPathsEnum.isDebugMode()) {
       LOGGER.warn("PRODUCTION MODE");
     }
   }
@@ -47,7 +47,7 @@ final class InvoiceManager {
   private static void evaluateArgument(String string) {
     switch (string) {
       case "debug":
-        Utilities.setDebugMode(true);
+        SystemAndPathsEnum.setDebugMode(true);
         break;
     }
   }

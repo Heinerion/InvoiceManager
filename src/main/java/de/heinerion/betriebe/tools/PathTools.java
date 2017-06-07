@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.tools;
 
-import de.heinerion.betriebe.enums.Utilities;
+import de.heinerion.betriebe.enums.SystemAndPathsEnum;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.interfaces.Storable;
 
@@ -79,7 +79,7 @@ public final class PathTools {
 
   public static String getPath(Class<?> clazz) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
-      return Utilities.SYSTEM.getPath() + File.separator + determineFolderName(clazz);
+      return SystemAndPathsEnum.SYSTEM.getPath() + File.separator + determineFolderName(clazz);
     } else {
       throw new HeinerionException(getNoFileInfoMessage(clazz));
     }
@@ -90,6 +90,6 @@ public final class PathTools {
   }
 
   public static String getPath(Storable storable) {
-    return generatePath(Utilities.SYSTEM.getPath(), storable);
+    return generatePath(SystemAndPathsEnum.SYSTEM.getPath(), storable);
   }
 }
