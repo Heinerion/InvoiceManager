@@ -94,10 +94,10 @@ public class MainOperations {
     tex.renameTo(texDestination);
     output.renameTo(destination);
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("Quelltextdatei nach {} verschoben",
+    if (logger.isInfoEnabled()) {
+      logger.info("Quelltextdatei nach {} verschoben",
           texDestination.getAbsolutePath());
-      logger.debug("Pdf nach {} verschoben", destination.getAbsolutePath());
+      logger.info("Pdf nach {} verschoben", destination.getAbsolutePath());
     }
   }
 
