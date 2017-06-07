@@ -10,7 +10,7 @@ public class System {
     return debugMode;
   }
 
-  public static void setDebugMode(boolean isDebugMode) {
-    System.debugMode = isDebugMode;
+  public static void activateDebugMode() {
+    System.debugMode = true;
   }
 }

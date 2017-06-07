@@ -47,7 +47,7 @@ final class InvoiceManager {
   private static void evaluateArgument(String string) {
     switch (string) {
       case "debug":
-        System.setDebugMode(true);
+        System.activateDebugMode();
         break;
     }
   }
