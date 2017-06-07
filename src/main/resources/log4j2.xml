@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+    <properties>
+        <property name="patternlayout">%d{ISO8601} [%-9t] %-5level %-40.40logger - %msg%n</property>
+        <property name="filename">logs/log.log</property>
+        <property name="filenamePattern">logs/%d{yyyy-MM-dd}.log</property>
+    </properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout
-                    pattern="%highlight{%d{ISO8601} [%-9t] %-5level %-40.40logger - %msg%n}"/>
+                    pattern="%d{ISO8601} [%-9t] %-5level %-40.40logger - %msg%n"/>
         </Console>
+
+        <RollingFile name="RootFile" fileName="${filename}" immediateFlush="false" append="false"
+                     filePattern="${filenamePattern}">
+            <PatternLayout pattern="${patternlayout}"/>
+            <Policies>
+                <!--  Roll over the file to the next day -->
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!--  Only keep up to 30 archived log files -->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Root>
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="RootFile"/>
             <Level>INFO</Level>
         </Root>
         <Logger name="de.heinerion.betriebe.fileoperations.loading.LoadingManager">
