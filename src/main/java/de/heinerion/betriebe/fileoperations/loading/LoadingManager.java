@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import de.heinerion.aspects.LogMethod;
+import de.heinerion.aspects.annotations.LogMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

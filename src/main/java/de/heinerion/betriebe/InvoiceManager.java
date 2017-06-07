@@ -4,7 +4,8 @@
  */
 package de.heinerion.betriebe;
 
-import de.heinerion.aspects.LogMethod;
+import de.heinerion.aspects.annotations.LogBefore;
+import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
@@ -34,41 +35,46 @@ final class InvoiceManager {
   }
 
   private static void parseArguments(String... args) {
-    boolean debug = false;
-    for (String string : args) {
-      if (string.contains("debug")) {
-        debug = true;
-      }
+    for (String argument : args) {
+      evaluateArgument(argument);
     }
 
-    Utilities.setDebugMode(debug);
-
     if (LOGGER.isWarnEnabled() && !Utilities.isDebugMode()) {
-      LOGGER.warn("\n\tPRODUCTION MODE");
+      LOGGER.warn("PRODUCTION MODE");
     }
   }
 
-  private static void setup() {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("Setting up application.");
+  private static void evaluateArgument(String string) {
+    switch (string) {
+      case "debug":
+        Utilities.setDebugMode(true);
+        break;
     }
+  }
 
+  @LogBefore
+  private static void setup() {
     LookAndFeelUtil.setNimbus();
   }
 
+  @LogBefore
   private static void start() {
-    if (LOGGER.isInfoEnabled()) {
-      LOGGER.info("Entering application.");
-    }
+    final ApplicationFrame applicationFrame = getApplicationFrame();
 
-    final ApplicationFrame applicationFrame = ApplicationFrame.getInstance();
-
-    applicationFrame.setLocationRelativeTo(null);
-    applicationFrame.setVisible(true);
-
+    prepareApplicationFrame(applicationFrame);
     startDataThread(applicationFrame);
   }
 
+  private static ApplicationFrame getApplicationFrame() {
+    return ApplicationFrame.getInstance();
+  }
+
+  private static void prepareApplicationFrame(ApplicationFrame applicationFrame) {
+    applicationFrame.setLocationRelativeTo(null);
+    applicationFrame.setVisible(true);
+  }
+
+  @LogBefore
   private static void startDataThread(ApplicationFrame applicationFrame) {
     new Thread(() -> collectData(applicationFrame)).start();
   }
