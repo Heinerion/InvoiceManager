@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <properties>
-        <property name="patternlayout">%d{ISO8601} [%-9t] %-5level %-40.40logger - %msg%n</property>
-        <property name="filename">logs/log.log</property>
-        <property name="filenamePattern">logs/%d{yyyy-MM-dd}.log</property>
+        <property name="patternlayout">%d{ISO8601}  %-20t  %-5level  %-40.40logger{3.} - %msg%n</property>
+        <property name="filename">logs/app-${date:yyyy-MM-dd}.log</property>
+        <property name="filenamePattern">logs/${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz</property>
+        <property name="log-path">logs/invoice-manager</property>
+        <property name="archive">${log-path}/archive</property>
+        <property name="defaultRollOverMax">50</property>
+        <property name="fileHeader">%d{ISO8601} Start of log %n========================================================================%n
+            Will be archived in ${archive}%n%n</property>
+        <property name="fileFooter">%n========================================================================%n%d{ISO8601} End of log</property>
     </properties>
 
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout
-                    pattern="%d{ISO8601} [%-9t] %-5level %-40.40logger - %msg%n"/>
+            <PatternLayout pattern="%highlight{${patternlayout}}" />
         </Console>
 
-        <RollingFile name="RootFile" fileName="${filename}" immediateFlush="false" append="false"
-                     filePattern="${filenamePattern}">
-            <PatternLayout pattern="${patternlayout}"/>
+        <RollingFile name="RootFile"
+                     fileName="${log-path}/app.log"
+                     filePattern="${archive}/app.log.%d{yyyy-MM-dd}_%i.gz"
+                     immediateFlush="true">
+            <PatternLayout pattern="${patternlayout}"
+                           charset="UTF-8"
+                           header="${fileHeader}"
+                           footer="${fileFooter}"/>
             <Policies>
-                <!--  Roll over the file to the next day -->
-                <TimeBasedTriggeringPolicy />
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <TimeBasedTriggeringPolicy/>
             </Policies>
             <!--  Only keep up to 30 archived log files -->
-            <DefaultRolloverStrategy max="30"/>
+            <DefaultRolloverStrategy max="${defaultRollOverMax}" fileIndex="max"/>
         </RollingFile>
     </Appenders>
     <Loggers>
