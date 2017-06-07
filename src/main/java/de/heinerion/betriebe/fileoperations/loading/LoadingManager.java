@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
+import de.heinerion.aspects.LogMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +30,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     this.listeners.add(listener);
   }
 
+  @LogMethod
   public void addLoader(Class<? extends Loadable> clazz,
                         Loader<? extends Loadable> loader) {
     if (logger.isDebugEnabled()) {

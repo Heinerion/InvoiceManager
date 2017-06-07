@@ -4,6 +4,7 @@
  */
 package de.heinerion.betriebe;
 
+import de.heinerion.aspects.LogMethod;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
@@ -25,6 +26,7 @@ final class InvoiceManager {
   private InvoiceManager() {
   }
 
+  @LogMethod
   public static void main(String... args) {
     parseArguments(args);
     setup();
