@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Before;
 
 @Aspect
 public class LoggingAspect {
-  @Around("execution(* *(..)) && @annotation(LogMethod)")
+  @Around("execution(* *(..)) && @annotation(de.heinerion.aspects.annotations.LogMethod)")
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     Logger logger = getLogger(joinPoint);
 
@@ -28,7 +28,7 @@ public class LoggingAspect {
     return LogManager.getLogger(joinPoint.getSignature().getDeclaringType());
   }
 
-  @Before("execution(* *(..)) && @annotation(LogBefore)")
+  @Before("execution(* *(..)) && @annotation(de.heinerion.aspects.annotations.LogBefore)")
   public void before(JoinPoint joinPoint) throws Throwable {
     Logger logger = getLogger(joinPoint);
 
