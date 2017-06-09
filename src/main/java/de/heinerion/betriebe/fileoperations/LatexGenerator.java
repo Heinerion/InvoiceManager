@@ -67,9 +67,9 @@ public final class LatexGenerator {
     final String first = COL_SEP + style;
 
     table.addColumnHeader(SPAN_ARTICLE, first,
-        Syntax.sc(Constants.INVOICE_NAME));
-    table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Constants.INVOICE_PPU));
-    table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Constants.INVOICE_SUM));
+        Syntax.sc(Translator.translate("invoice.description")));
+    table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Translator.translate("invoice.pricePerUnit")));
+    table.addColumnHeader(SPAN_PRICES, style, Syntax.sc(Translator.translate("invoice.sum")));
 
     for (Item item : invoice.getItems()) {
       table.addLine();
@@ -250,7 +250,7 @@ public final class LatexGenerator {
 
     table.fillStart(
         Syntax.multicol(1, COL_SEP + LEFT + COL_SEP,
-            Syntax.sc(Constants.INVOICE_SUM)), Syntax.euro(letter.getGross())
+            Syntax.sc(Translator.translate("invoice.sum"))), Syntax.euro(letter.getGross())
             + Syntax.BR);
     table.addLine(-1);
   }

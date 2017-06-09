@@ -8,13 +8,6 @@ public final class Constants {
   public static final String TABLE_RECEIVER = "Empfänger";
   public static final String TABLE_SENDER = "Sender";
 
-  public static final String INVOICE = "Rechnung";
-  public static final String INVOICE_PPU = "Einzelpreis";
-  public static final String INVOICE_SUM = "Gesamt";
-  public static final String INVOICE_NAME = "Bezeichnung";
-
-  public static final String LETTER = "Brief";
-
   public static final String BUTTON_SAVE = "Speichern";
   public static final String BUTTON_DELETE = "Löschen";
   public static final String BUTTON_DELETE_CONTENTS = "Inhalte Löschen";
