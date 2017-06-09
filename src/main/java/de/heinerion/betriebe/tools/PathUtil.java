@@ -14,21 +14,31 @@ public class PathUtil {
   }
 
   public static String getSystemPath() {
-    String baseDir = getBaseDir();
-    String folderName = getSystemFolderName();
-
-    return buildPath(baseDir, folderName);
+    return buildPath(getSystemFolderName());
   }
 
   private static String getSystemFolderName() {
     return ConfigurationService.get("folder.system");
   }
 
-  public static String determinePath(Class<? extends Conveyable> itemClass) {
-    String baseDir = getBaseDir();
-    String folderName = determineFolderName(itemClass);
+  public static String getTemplatePath() {
+    return buildPath(getTemplateFolderName());
+  }
 
-    return buildPath(baseDir, folderName);
+  public static String getTemplateFolderName() {
+    return ConfigurationService.get("folder.templates");
+  }
+
+  public static String getTexTemplatePath() {
+    return buildPath(getTexTemplateFolderName());
+  }
+
+  private static String getTexTemplateFolderName() {
+    return ConfigurationService.get("folder.texTemplates");
+  }
+
+  public static String determinePath(Class<? extends Conveyable> itemClass) {
+    return buildPath(determineFolderName(itemClass));
   }
 
   public static String getBaseDir() {
@@ -50,7 +60,19 @@ public class PathUtil {
     return folder;
   }
 
+  private static String buildPath(String folderName) {
+    return buildPath(getBaseDir(), folderName);
+  }
+
   private static String buildPath(String baseDir, String folderName) {
     return baseDir + File.separator + folderName + (System.isDebugMode() ? File.separator + "Debug" : "");
+  }
+
+  public static String getTemplateFileName(String descriptiveName) {
+    return generateFileName(getTemplatePath(), descriptiveName, "sav");
+  }
+
+  private static String generateFileName(String path, String name, String ending) {
+    return path + File.separator + name + "." + ending;
   }
 }

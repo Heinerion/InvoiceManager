@@ -6,7 +6,6 @@ import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.data.Vorlage;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.enums.FolderPaths;
 import de.heinerion.betriebe.fileoperations.loading.*;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
@@ -14,6 +13,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.FormatUtil;
 import de.heinerion.betriebe.tools.PathTools;
+import de.heinerion.betriebe.tools.PathUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -103,7 +103,7 @@ public final class IO implements LoadListener {
   }
 
   private static String getTemplatePath(Company company) {
-    return FolderPaths.TEMPLATES.file(company.getDescriptiveName());
+    return PathUtil.getTemplateFileName(company.getDescriptiveName());
   }
 
   /**
@@ -112,7 +112,7 @@ public final class IO implements LoadListener {
    */
   private static void ladeSpezielle() {
     List<TexTemplate> templates = new ArrayList<>();
-    File special = new File(FolderPaths.TEX_TEMPLATES.getPath());
+    File special = new File(PathUtil.getTexTemplatePath());
     int count = 0;
     String[] specials = special.list();
     if (null != specials) {

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.enums.FolderPaths;
+import de.heinerion.betriebe.tools.PathUtil;
 
 import java.io.File;
 import java.io.Serializable;
@@ -15,7 +15,7 @@ public final class TexTemplate implements DropListable, Serializable {
 
   public TexTemplate(String aName) {
     this.name = aName.split("\\.", 2)[0];
-    this.path = FolderPaths.TEX_TEMPLATES + File.separator + aName;
+    this.path = PathUtil.getTexTemplatePath() + File.separator + aName;
   }
 
   @Override
