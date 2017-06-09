@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.gui;
 
-import javax.swing.JButton;
-
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.models.Company;
+
+import javax.swing.*;
 
 @SuppressWarnings("serial")
 public final class CompanyButton extends JButton implements CompanyListener {

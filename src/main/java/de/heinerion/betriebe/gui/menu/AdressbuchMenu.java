@@ -4,15 +4,13 @@
  */
 package de.heinerion.betriebe.gui.menu;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.tablemodels.AddressModel;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.tablemodels.AddressModel;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author heiner

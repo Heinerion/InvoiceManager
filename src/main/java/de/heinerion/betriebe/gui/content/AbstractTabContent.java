@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.gui.BGPanel;
 import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.gui.BGPanel;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.gui.ApplicationFrame;
 
 import javax.swing.*;
 

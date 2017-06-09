@@ -1,8 +1,7 @@
 package de.heinerion.betriebe.tools;
 
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public final class LookAndFeelUtil {
   private LookAndFeelUtil() {

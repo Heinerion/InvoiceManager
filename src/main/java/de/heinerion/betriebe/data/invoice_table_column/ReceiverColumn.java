@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data.invoice_table_column;
 
-import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.models.Address;
 
 public final class ReceiverColumn implements ColumnState {

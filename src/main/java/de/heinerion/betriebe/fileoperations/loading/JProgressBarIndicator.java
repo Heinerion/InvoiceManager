@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import javax.swing.JProgressBar;
+import javax.swing.*;
 
 public final class JProgressBarIndicator implements ProgressIndicator {
   private final JProgressBar progressBar;

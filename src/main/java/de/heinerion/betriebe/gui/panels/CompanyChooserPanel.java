@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.gui.CompanyButton;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.gui.CompanyButton;
 import de.heinerion.betriebe.models.Company;
 
 import javax.swing.*;

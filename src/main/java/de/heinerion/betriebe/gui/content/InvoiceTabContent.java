@@ -1,12 +1,8 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.fileoperations.IO;
-import de.heinerion.betriebe.data.DropListable;
-import de.heinerion.betriebe.data.Vorlage;
-import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.data.*;
 import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.content.components.FooterPanel;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;

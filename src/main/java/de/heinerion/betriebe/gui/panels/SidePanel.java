@@ -1,9 +1,7 @@
 package de.heinerion.betriebe.gui.panels;
 
-import java.awt.Component;
-import java.awt.FlowLayout;
-
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class SidePanel extends JPanel {

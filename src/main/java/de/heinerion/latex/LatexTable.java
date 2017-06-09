@@ -1,7 +1,7 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.fileoperations.Syntax;
 import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.fileoperations.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;

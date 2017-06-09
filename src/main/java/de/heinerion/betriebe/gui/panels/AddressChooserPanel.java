@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.gui.AbstractGridPanel;
-import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.gui.AbstractGridPanel;
+import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.tools.DimensionUtil;

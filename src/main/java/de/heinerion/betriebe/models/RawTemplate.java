@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.models;
 
-import java.time.LocalDate;
-
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.services.Translator;
+
+import java.time.LocalDate;
 
 // TODO weiterführen
 public final class RawTemplate implements Conveyable, Storable {

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.tools;
 
-import java.awt.Dimension;
+import java.awt.*;
 
 public final class DimensionUtil {
 

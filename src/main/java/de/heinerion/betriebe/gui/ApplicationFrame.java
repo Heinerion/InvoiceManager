@@ -4,11 +4,11 @@
  */
 package de.heinerion.betriebe.gui;
 
-import de.heinerion.betriebe.gui.panels.ReceiverPanel;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.gui.content.ContentTabPane;
 import de.heinerion.betriebe.gui.menu.MenuBar;
+import de.heinerion.betriebe.gui.panels.ReceiverPanel;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;

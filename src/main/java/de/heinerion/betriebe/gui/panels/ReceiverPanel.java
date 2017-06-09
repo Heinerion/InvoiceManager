@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.gui.panels.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
