@@ -1,13 +1,6 @@
 package de.heinerion.betriebe.data;
 
 public final class Constants {
-  public static final String TABLE_AMOUNT = "Betrag";
-  public static final String TABLE_DATE = "Datum";
-  public static final String TABLE_NUMBER = "Nr";
-  public static final String TABLE_PRODUCT = "Leistung";
-  public static final String TABLE_RECEIVER = "Empfänger";
-  public static final String TABLE_SENDER = "Sender";
-
   public static final String BUTTON_SAVE = "Speichern";
   public static final String BUTTON_DELETE = "Löschen";
   public static final String BUTTON_DELETE_CONTENTS = "Inhalte Löschen";

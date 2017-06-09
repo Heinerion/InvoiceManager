@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data.invoice_table_column;
 
-import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.RechnungData;
+import de.heinerion.betriebe.services.Translator;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,7 @@ public final class DateColumn implements ColumnState {
 
   @Override
   public String getName() {
-    return Constants.TABLE_DATE;
+    return Translator.translate("table.date");
   }
 
   @Override

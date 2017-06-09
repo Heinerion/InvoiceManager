@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.data.invoice_table_column;
 
-import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.Translator;
 
 public final class SenderColumn implements ColumnState {
   @Override
@@ -12,7 +12,7 @@ public final class SenderColumn implements ColumnState {
 
   @Override
   public String getName() {
-    return Constants.TABLE_SENDER;
+    return Translator.translate("table.sender");
   }
 
   @Override
