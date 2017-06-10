@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.gui.BGPanel;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
 
@@ -16,7 +16,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
 
     this.title = aTitle;
 
-    delete = new JButton(Constants.BUTTON_DELETE_CONTENTS);
+    delete = new JButton(Translator.translate("controls.deleteContent"));
     delete.addActionListener(e -> clear());
   }
 

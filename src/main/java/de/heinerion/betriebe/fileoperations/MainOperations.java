@@ -10,6 +10,7 @@ import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.PathUtil;
 import org.apache.logging.log4j.LogManager;
@@ -170,7 +171,7 @@ public class MainOperations {
       p.waitFor();
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {
-        logger.error(ERROR_PDFLATEX, e);
+        logger.error(Translator.translate("error.pdflatex"), e);
       }
       // TODO Fehlerbehandlung über Session, diesen Abschnitt dafür verwenden
       String message = "pdflatex konnte nicht ausgeführt werden.\n"
@@ -208,7 +209,7 @@ public class MainOperations {
   private static void showExceptionDialog(Exception exception,
                                           String message) {
     JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
-        ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
+        Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     if (System.isDebugMode()) {
       String out = "";
       for (StackTraceElement ste : exception.getStackTrace()) {
@@ -217,7 +218,7 @@ public class MainOperations {
       }
       JOptionPane.showMessageDialog(ApplicationFrame.getInstance(),
           exception.getLocalizedMessage() + "\n" + out,
-          ERROR_PDFLATEX, JOptionPane.ERROR_MESSAGE);
+          Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     }
   }
 }

@@ -7,14 +7,12 @@ import de.heinerion.betriebe.gui.AbstractGridPanel;
 import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DimensionUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-
-import static de.heinerion.betriebe.data.Constants.BUTTON_DELETE;
-import static de.heinerion.betriebe.data.Constants.BUTTON_SAVE;
 
 @SuppressWarnings("serial")
 final class AddressChooserPanel extends AbstractGridPanel {
@@ -72,14 +70,14 @@ final class AddressChooserPanel extends AbstractGridPanel {
     pnlButtons.setLayout(new GridLayout(ANY, 1));
 
     final JButton btnSave = new JButton(UIManager.getIcon(FLOPPY_SYM));
-    btnSave.setToolTipText(BUTTON_SAVE);
+    btnSave.setToolTipText(Translator.translate("controls.save"));
     btnSave.addActionListener(e -> this.saveAddress());
     pnlButtons.add(btnSave);
 
     final ImageIcon imgDelete = PanelControl.loadImage(DELETE_SYM);
     final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete)
-        : new JButton(BUTTON_DELETE);
-    btnDelete.setToolTipText(BUTTON_DELETE);
+        : new JButton(Translator.translate("controls.delete"));
+    btnDelete.setToolTipText(Translator.translate("controls.delete"));
     btnDelete.addActionListener(e -> this.clearAddress());
     pnlButtons.add(btnDelete);
   }
