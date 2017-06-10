@@ -200,8 +200,8 @@ public final class IO implements LoadListener {
   }
 
   public static void load(ProgressIndicator indicator) {
-    loadingManager.init();
-    IO.progress = indicator;
+    loadingManager.determineFileNumbers();
+    progress = indicator;
     final int number = loadingManager.getFileNumber();
 
     DataBase.removeAllInvoices();

@@ -73,16 +73,24 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     return this.results.get(clazz);
   }
 
-  public void init() {
-    this.fileNumber = 0;
+  public void determineFileNumbers() {
+    resetFileNumber();
 
     for (List<Loader<? extends Loadable>> loaderList : this.loaders
         .values()) {
       for (Loader<? extends Loadable> loader : loaderList) {
         loader.init();
-        this.fileNumber += loader.getFileNumber();
+        appendToFileNumber(loader.getFileNumber());
       }
     }
+  }
+
+  private void resetFileNumber() {
+    fileNumber = 0;
+  }
+
+  private void appendToFileNumber(int number) {
+    fileNumber += number;
   }
 
   public void load() {
