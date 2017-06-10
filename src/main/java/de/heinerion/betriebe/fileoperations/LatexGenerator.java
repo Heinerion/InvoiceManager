@@ -170,7 +170,7 @@ public final class LatexGenerator {
     String pdfSubject;
     if (isInvoice) {
       List<String> itemNames = items.stream()
-          .map(item -> item.toString())
+          .map(Item::toString)
           .collect(Collectors.toList());
       pdfSubject = String.join(COL_SPACE, itemNames);
     } else {

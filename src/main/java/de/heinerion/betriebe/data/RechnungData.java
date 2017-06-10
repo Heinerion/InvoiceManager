@@ -55,12 +55,7 @@ public final class RechnungData implements Loadable {
     final String name = sourceFile.getName();
     final String companyName = sourceFile.getParentFile().getName();
     this.company = Session.getCompanyByName(companyName);
-    Map<String, Address> cache = globalAddressCache.get(this.company);
-    if (cache == null) {
-      cache = new HashMap<>();
-      globalAddressCache.put(this.company, cache);
-    }
-    this.addressCache = cache;
+    this.addressCache = globalAddressCache.computeIfAbsent(this.company, k -> new HashMap<>());
 
     int numberStringLen;
 
@@ -89,12 +84,7 @@ public final class RechnungData implements Loadable {
    * @return
    */
   private Address getAddress(final String recipientsName) {
-    Address result = addressCache.get(recipientsName);
-    if (result == null) {
-      result = DataBase.getAddress(this.company, recipientsName);
-      addressCache.put(recipientsName, result);
-    }
-    return result;
+    return addressCache.computeIfAbsent(recipientsName, n -> DataBase.getAddress(this.company, n));
   }
 
   public double getAmount() {

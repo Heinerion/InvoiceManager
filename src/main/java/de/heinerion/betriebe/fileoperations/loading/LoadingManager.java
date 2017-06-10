@@ -4,10 +4,7 @@ import de.heinerion.aspects.annotations.LogMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class LoadingManager implements LoadListener, LoadListenable {
   // TODO Priorität: Dokumente laden (alte Rechnungen)
@@ -103,7 +100,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
   public void load(Class<? extends Loadable> clazz) {
     List<Loader<? extends Loadable>> loaderList = this.loaders.get(clazz);
     loaderList.stream()
-        .filter(loader -> loader != null)
+        .filter(Objects::nonNull)
         .forEach(loader -> loadClass(clazz, loader));
   }
 
