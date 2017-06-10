@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data;
 
 public final class Constants {
-  public static final int INVOICE_LINECOUNT = 6;
+  public static final int INVOICE_LINE_COUNT = 6;
 
   public static final String EMPTY = "";
   public static final String SPACE = " ";

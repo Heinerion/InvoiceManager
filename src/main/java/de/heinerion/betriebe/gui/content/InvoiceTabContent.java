@@ -226,7 +226,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
     Invoice invoice = new Invoice(Session.getDate(), company, receiver);
 
     // TODO warum +1?
-    for (int row = 0; row < Constants.INVOICE_LINECOUNT + 1; row++) {
+    for (int row = 0; row < Constants.INVOICE_LINE_COUNT + 1; row++) {
       String name = stringAt(row, COL_NAME);
       String unit = stringAt(row, COL_UNIT);
       Double price = doubleAt(row, COL_PRICE);

@@ -79,7 +79,7 @@ public final class LatexGenerator {
     // TODO warum -1?
     // Weil die Letzte Reihe aus optischen Gründen frei bleibt.
     // (in generateTableSum sichergestellt)
-    for (int i = itemCount; i < Constants.INVOICE_LINECOUNT - 1; i++) {
+    for (int i = itemCount; i < Constants.INVOICE_LINE_COUNT - 1; i++) {
       table.addLine();
       table.addEmptyRow();
     }
