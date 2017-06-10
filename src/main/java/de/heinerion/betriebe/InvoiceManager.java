@@ -39,7 +39,7 @@ final class InvoiceManager {
       evaluateArgument(argument);
     }
 
-    if (LOGGER.isWarnEnabled() && !System.isDebugMode()) {
+    if (!System.isDebugMode()) {
       LOGGER.warn("PRODUCTION MODE");
     }
   }
