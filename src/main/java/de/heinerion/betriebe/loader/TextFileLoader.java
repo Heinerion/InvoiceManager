@@ -66,14 +66,7 @@ public class TextFileLoader {
   }
 
   private String specify(String... token) {
-    String result = "";
-    for (int i = 0; i < token.length; i++) {
-      result += token[i];
-      if (i < token.length - 1) {
-        result += DOT;
-      }
-    }
-    return result;
+    return String.join(DOT, token);
   }
 
   private void addAttribute(String key, LocalDate value) {
