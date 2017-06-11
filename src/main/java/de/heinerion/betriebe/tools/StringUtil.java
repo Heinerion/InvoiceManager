@@ -32,14 +32,16 @@ public final class StringUtil {
    * @return Der geänderte Ausgabestring
    */
   public static String nToSlash(String in) {
-    String out = "";
+    StringBuilder out = new StringBuilder();
     for (String string : in.split(Constants.NEWLINE)) {
       if ("".equals(string.trim())) {
-        out += string + Constants.NEWLINE;
+        out.append(string);
       } else {
-        out += string + "\\\\" + Constants.NEWLINE;
+        out.append(string)
+            .append("\\\\");
       }
+      out.append(Constants.NEWLINE);
     }
-    return out;
+    return out.toString();
   }
 }

@@ -71,10 +71,10 @@ public final class Syntax {
   }
 
   public static String tab(int number) {
-    String out = "";
+    StringBuilder out = new StringBuilder();
     for (int i = 0; i < number; i++) {
-      out += "&";
+      out.append("&");
     }
-    return out;
+    return out.toString();
   }
 }

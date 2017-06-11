@@ -93,9 +93,10 @@ public abstract class AbstractDropListenMenu extends AbstractMenu {
   }
 
   private void deleteRow(int row) {
-    String inhalte = "";
+    StringBuilder inhalte = new StringBuilder();
     for (int col = 0; col < this.tabelle.getColumnCount(); col++) {
-      inhalte += this.tabelle.getValueAt(row, col) + " ";
+      inhalte.append(this.tabelle.getValueAt(row, col))
+          .append(" ");
     }
     final String meldung = "Gelöscht: " + inhalte;
     if (LOGGER.isDebugEnabled()) {

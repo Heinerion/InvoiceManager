@@ -47,20 +47,22 @@ public class PanelControl {
 
       String streetAndNumber = stringToken[token - 2].trim();
       String[] numberToken = streetAndNumber.split(Constants.SPACE);
-      String streetTemp = "";
+      StringBuilder streetTemp = new StringBuilder();
       for (int i = 0; i < numberToken.length - 1; i++) {
-        streetTemp += numberToken[i].trim() + Constants.SPACE;
+        streetTemp.append(numberToken[i].trim())
+            .append(Constants.SPACE);
       }
-      street = streetTemp.trim();
+      street = streetTemp.toString().trim();
       number = numberToken[numberToken.length - 1].trim();
 
       String codeAndLocation = stringToken[token - 1].trim();
       String[] locationToken = codeAndLocation.split(Constants.SPACE);
-      String locationTemp = "";
+      StringBuilder locationTemp = new StringBuilder();
       for (int i = 1; i < locationToken.length; i++) {
-        locationTemp += locationToken[i].trim() + Constants.SPACE;
+        locationTemp.append(locationToken[i].trim())
+            .append(Constants.SPACE);
       }
-      location = locationTemp.trim();
+      location = locationTemp.toString().trim();
       postalCode = locationToken[0].trim();
     }
 
@@ -88,11 +90,12 @@ public class PanelControl {
       Formatter formatter = new PlainFormatter();
       formatter.formatAddress(address);
       List<String> out = formatter.getOutput();
-      String addressAsText = "";
+      StringBuilder addressAsText = new StringBuilder();
       for (String line : out) {
-        addressAsText += line + NEWLINE;
+        addressAsText.append(line)
+            .append(NEWLINE);
       }
-      result = addressAsText;
+      result = addressAsText.toString();
     }
 
     return result;

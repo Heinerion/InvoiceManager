@@ -56,14 +56,19 @@ public final class PathTools {
   }
 
   private static String generatePath(String rootPath, Storable storable) {
-    String path = rootPath;
-    for (String classification : storable.getClassification()) {
-      path += File.separator + classification;
-    }
-    path += File.separator + storable.getEntryName();
-    path += "." + storable.getIdentification();
+    StringBuilder path = new StringBuilder(rootPath);
 
-    return path;
+    for (String classification : storable.getClassification()) {
+      path.append(File.separator)
+          .append(classification);
+    }
+
+    path.append(File.separator)
+        .append(storable.getEntryName())
+        .append(".")
+        .append(storable.getIdentification());
+
+    return path.toString();
   }
 
   private static String get(Class<?> clazz, String key) {

@@ -211,10 +211,14 @@ public class MainOperations {
     JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
         Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     if (System.isDebugMode()) {
-      String out = "";
+      StringBuilder out = new StringBuilder();
       for (StackTraceElement ste : exception.getStackTrace()) {
-        out += ste.getMethodName() + " : " + ste.getFileName() + " ("
-            + ste.getLineNumber() + ")\n";
+        out.append(ste.getMethodName())
+            .append(" : ")
+            .append(ste.getFileName())
+            .append(" (")
+            .append(ste.getLineNumber())
+            .append(")\n");
       }
       JOptionPane.showMessageDialog(ApplicationFrame.getInstance(),
           exception.getLocalizedMessage() + "\n" + out,
