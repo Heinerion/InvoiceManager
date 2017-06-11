@@ -1,6 +1,7 @@
 package de.heinerion.betriebe.tools;
 
 import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.fileoperations.Syntax;
 
 public final class StringUtil {
   private StringUtil() {
@@ -33,15 +34,34 @@ public final class StringUtil {
    */
   public static String nToSlash(String in) {
     StringBuilder out = new StringBuilder();
-    for (String string : in.split(Constants.NEWLINE)) {
-      if ("".equals(string.trim())) {
-        out.append(string);
-      } else {
-        out.append(string)
-            .append("\\\\");
-      }
-      out.append(Constants.NEWLINE);
+
+    for (String string : getNewlineSeparatedParts(in)) {
+      appendContent(out, string);
     }
+
     return out.toString();
+  }
+
+  private static String[] getNewlineSeparatedParts(String in) {
+    if (!isEmpty(in)) {
+      return in.split(Constants.NEWLINE);
+    }
+
+    return new String[]{};
+  }
+
+  private static void appendContent(StringBuilder out, String string) {
+    appendText(out, string);
+
+    if (!isEmpty(string)) {
+      // Syntax.BR equals the Latex newline
+      appendText(out, Syntax.BR);
+    }
+
+    appendText(out, Constants.NEWLINE);
+  }
+
+  private static void appendText(StringBuilder out, String string) {
+    out.append(string);
   }
 }
