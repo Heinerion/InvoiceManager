@@ -1,21 +1,17 @@
 package de.heinerion.betriebe.tools;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Date;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class DateUtil {
-  private static DateTimeFormatter formatter = DateTimeFormatter
+  private static final DateTimeFormatter WRITE_FORMATTER = DateTimeFormatter
       .ofPattern("dd.MM.yyyy");
 
-  private static DateTimeFormatter parseFormatter = DateTimeFormatter
+  private static final DateTimeFormatter PARSE_FORMATTER = DateTimeFormatter
       .ofPattern("d.M.yyyy");
 
   private static final Pattern DATE_PATTERN = Pattern
@@ -24,7 +20,7 @@ public final class DateUtil {
   private DateUtil() {
   }
 
-  public static LocalDate convertDates(Date date) {
+  private static LocalDate convertDates(Date date) {
     return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
   }
 
@@ -44,17 +40,10 @@ public final class DateUtil {
   }
 
   public static String format(LocalDate date) {
-    return date.format(formatter);
+    return date.format(WRITE_FORMATTER);
   }
 
-  public static LocalDate parse(String source) throws DateTimeParseException {
-    return LocalDate.parse(source, parseFormatter);
-  }
-
-  public static Date parseDate(String wholeString, Locale locale)
-      throws ParseException {
-    final DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, locale);
-
-    return df.parse(extractDateString(wholeString));
+  public static LocalDate parse(String source) {
+    return LocalDate.parse(source, PARSE_FORMATTER);
   }
 }
