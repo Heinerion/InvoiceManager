@@ -4,10 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Ein Panel, das sich vor das aktive Fenster legt, es unnutzbar macht und
- * "ausgraut". <br>
- * Der Mauszeiger wird über diesem Panel zu einer Sanduhr bzw. zum
- * entsprechenden "Wait-Cursor" des Systems
+ * A Panel which covers the active window, decorates it with a gray overlay and effectively disables it.
+ * <br>
+ * The mouse pointer turns into an hourglass or the systems wait cursor respectively.
  *
  * @author heiner
  */
@@ -16,15 +15,15 @@ public final class GlassPane extends JPanel {
   private static final int ALPHA = 150;
 
   /**
-   * Erzeugt ein neues GlassPane mit WaitCursor, zunächst unsichtbar
+   * Creates a new GlassPane with wait cursor, invisible for now
    */
   public GlassPane() {
-    this.setLayout(new BorderLayout());
-    this.setVisible(false);
-    this.setOpaque(false);
+    setLayout(new BorderLayout());
+    setVisible(false);
+    setOpaque(false);
 
-    // "Sanduhr"
-    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+    // "hour glass"
+    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
   }
 
   @Override
