@@ -41,7 +41,7 @@ public final class LatexScrLetter extends LatexDocument {
   @Override
   protected String buildPostContent() {
     return String.join(getDelimiter(), "\\vfill",
-        "\\closing{}", "", Syntax.end(LETTER));
+        "\\closing{}", "", Syntax.endEnv(LETTER));
   }
 
   @Override

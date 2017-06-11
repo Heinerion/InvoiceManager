@@ -54,7 +54,7 @@ public final class LatexTable extends AbstractLatexContent {
   /**
    * Fügt eine waagerechte Linie über die komplette Breite der Tabelle hinzu.
    */
-  public void addLine() {
+  public void underLine() {
     add(LINE + Constants.NEWLINE);
   }
 
@@ -66,13 +66,13 @@ public final class LatexTable extends AbstractLatexContent {
    *
    * @param startColumn Spaltenindex, von dem aus unterstrichen wird
    */
-  public void addLine(int startColumn) {
+  public void underLine(int startColumn) {
     int max = countColumns();
 
     if (startColumn > 0) {
-      addLine(startColumn, max);
+      underLine(startColumn, max);
     } else {
-      addLine(max + startColumn, max);
+      underLine(max + startColumn, max);
     }
   }
 
@@ -83,7 +83,7 @@ public final class LatexTable extends AbstractLatexContent {
    * @param start Startspaltenindex
    * @param end   Endspaltenindex
    */
-  public void addLine(int start, int end) {
+  public void underLine(int start, int end) {
     add("\\cline{" + start + "-" + end + Syntax.END + Constants.NEWLINE);
   }
 
@@ -176,7 +176,7 @@ public final class LatexTable extends AbstractLatexContent {
     }
 
     elements.add(indent(this.content));
-    elements.add(Syntax.end(TABULAR));
+    elements.add(Syntax.endEnv(TABULAR));
 
     return String.join(Constants.NEWLINE, elements);
   }

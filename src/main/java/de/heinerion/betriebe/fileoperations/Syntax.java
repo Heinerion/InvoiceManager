@@ -20,25 +20,20 @@ public final class Syntax {
   private Syntax() {
   }
 
-  public static String begin(String environment) {
-    return begin(environment, null);
-  }
-
   public static String begin(String environment, String options) {
-    return "\\begin{" + environment
-        + ((options != null) ? NEXT_GROUP + options : "") + END;
+    return String.format("\\begin{%s%s}", environment, (options != null) ? NEXT_GROUP + options : "");
   }
 
   public static String embrace(String text) {
-    return START + text + END;
+    return String.format("{%s}", text);
   }
 
   public static String embrace(Object obj) {
     return embrace(obj.toString());
   }
 
-  public static String end(String environment) {
-    return "\\end{" + environment + END;
+  public static String endEnv(String environment) {
+    return String.format("\\end{%s}", environment);
   }
 
   public static String euro(double euro) {
@@ -46,20 +41,15 @@ public final class Syntax {
   }
 
   public static String euro(String euro) {
-    return "\\EUR{" + euro + END;
+    return String.format("\\EUR{%s}", euro);
   }
 
-  public static String math(String content) {
-    return "\\(" + content + "\\)";
-  }
-
-  public static String mathDisplay(String content) {
-    return "\\[" + content + "\\]";
+  public static String multicol(String style, String content) {
+    return multicol(1, style, content);
   }
 
   public static String multicol(int width, String style, String content) {
-    return "\\multicolumn{" + width + NEXT_GROUP + style + NEXT_GROUP + content
-        + END;
+    return String.format("\\multicolumn{%d}{%s}{%s}", width, style, content);
   }
 
   public static String sc(String text) {
