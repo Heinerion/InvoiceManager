@@ -1,21 +1,50 @@
 package de.heinerion.betriebe.services;
 
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Translator {
-  private final static ResourceBundle MESSAGES = ResourceBundle.getBundle("translation", Locale.getDefault());
+  private Translator() {
+  }
 
   public static String translate(String key) {
-    String result;
+    return translate(determineResourceBundle(key), key);
+  }
 
-    try {
-      result = MESSAGES.getString(key);
-    } catch (MissingResourceException mre) {
-      result = "'" + key + "'";
+  private static ResourceBundle determineResourceBundle(String key) {
+    return getResourceBundle(getPrefix(key));
+  }
+
+  private static String getPrefix(String key) {
+    return key.contains(".") ? key.split("\\.", 2)[0] : "";
+  }
+
+  private static ResourceBundle getResourceBundle(String prefix) {
+    return ResourceBundle.getBundle(determineBaseName(prefix), Locale.getDefault());
+  }
+
+  private static String determineBaseName(String prefix) {
+    String resourceName;
+
+    switch (prefix) {
+      case "error":
+        resourceName = "error";
+        break;
+      case "controls":
+        resourceName = "controls";
+        break;
+      default:
+        resourceName = "base";
     }
 
-    return result;
+    return "translation." + resourceName;
+  }
+
+  private static String translate(ResourceBundle resourceBundle, String key) {
+    return resourceBundle.containsKey(key) ? resourceBundle.getString(key) : decorateUnknownKey(key);
+  }
+
+  private static String decorateUnknownKey(String key) {
+    return "'" + key + "'";
   }
 }
