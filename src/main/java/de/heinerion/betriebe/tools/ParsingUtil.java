@@ -14,10 +14,10 @@ public final class ParsingUtil {
     double result = 0;
 
     try {
-      result = perseByLocale(input, Locale.US);
+      result = parseByLocale(input, Locale.US);
     } catch (ParseException ex) {
       try {
-        result = perseByLocale(input, Locale.GERMANY);
+        result = parseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
         HeinerionException.handleException(ParsingUtil.class, exe);
       }
@@ -26,7 +26,7 @@ public final class ParsingUtil {
     return result;
   }
 
-  private static double perseByLocale(String input, Locale locale)
+  private static double parseByLocale(String input, Locale locale)
       throws ParseException {
     double result;
     if (input == null || StringUtil.isEmpty(input)) {
