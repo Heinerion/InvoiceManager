@@ -11,6 +11,6 @@ public class SidePanelFactory {
   }
 
   public static JPanel createCalculatorPanel() {
-    return new CalculatorPanel();
+    return new CalculatorSidePanel();
   }
 }

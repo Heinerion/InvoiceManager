@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.betriebe.gui;
 
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.TaschenrechnerPanel;
+import de.heinerion.betriebe.services.Translator;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -31,6 +31,6 @@ public class ApplicationFrameIT {
 
   @Test
   public void testCalculatorPanel() {
-    demo.label("calculator.netLabel").requireText(TaschenrechnerPanel.NET);
+    demo.label("calculator.netLabel").requireText(Translator.translate("invoice.net"));
   }
 }
