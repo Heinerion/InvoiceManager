@@ -22,7 +22,7 @@ public class PathUtil {
   }
 
   public static String getTemplatePath() {
-    return buildPath(getTemplateFolderName());
+    return buildPath(getSystemPath(), getTemplateFolderName());
   }
 
   public static String getTemplateFolderName() {
@@ -42,8 +42,7 @@ public class PathUtil {
   }
 
   public static String getBaseDir() {
-    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data")
-        + File.separator;
+    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data");
   }
 
   private static String determineFolderName(Class<? extends Conveyable> itemClass) {
