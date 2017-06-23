@@ -41,7 +41,7 @@ public final class LatexGenerator {
     String convertedAddress = "null";
 
     if (address != null) {
-      convertedAddress = joinWithSpaces(address.getStreet(), address.getNumber(), address.getPostalCode(), address.getLocation());
+      convertedAddress = joinWithSpaces(address.getStreet(), address.getNumber()) + ", " + joinWithSpaces(address.getPostalCode(), address.getLocation());
     }
 
     return convertedAddress;
