@@ -14,7 +14,7 @@ public final class LatexTable extends AbstractLatexContent {
   private static final String LEFT = "l";
   private static final String LINE = "\\hline";
 
-  private static final String PHANTOM = "$\\phantom{iwas}$";
+  private static final String PHANTOM = "$\\phantom{sth}$";
 
   private static final boolean FILL_START = false;
   private static final boolean FILL_END = true;
