@@ -44,7 +44,7 @@ public class LatexGeneratorTest {
   private static final String DATE_END = "\t\\end{tabular}\n" + "}\n";
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";
-  private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{iwas}$}&&&&\\\\\n"
+  private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
       + HLINE + Syntax.EOL;
 
   private static final String LETTER_START = "\\begin{letter}{Empfänger\\\\\n"
@@ -98,7 +98,7 @@ public class LatexGeneratorTest {
       + EMPTY_LINE
       + EMPTY_LINE
       + EMPTY_LINE
-      + "\\multicolumn{1}{|l}{$\\phantom{iwas}$}&"
+      + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
       + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
       + HLINE
       + Syntax.EOL
@@ -141,7 +141,7 @@ public class LatexGeneratorTest {
       + EMPTY_LINE
       + EMPTY_LINE
       + EMPTY_LINE
-      + "\\multicolumn{1}{|l}{$\\phantom{iwas}$}&"
+      + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
       + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
       + HLINE
       + Syntax.EOL
