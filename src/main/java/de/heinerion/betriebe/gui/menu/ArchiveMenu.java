@@ -23,7 +23,7 @@ import java.io.IOException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class VerwaltungMenu extends AbstractMenu {
+public final class ArchiveMenu extends AbstractMenu {
   static final String NAME = Translator.translate("menu.archive");
 
   private RechnungsListe model;
@@ -32,7 +32,7 @@ public final class VerwaltungMenu extends AbstractMenu {
   private JScrollPane spDokumente;
 
   /**  */
-  public VerwaltungMenu(final ApplicationFrame origin) {
+  public ArchiveMenu(final ApplicationFrame origin) {
     super(origin);
   }
 

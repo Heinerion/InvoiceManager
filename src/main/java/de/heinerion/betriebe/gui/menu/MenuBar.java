@@ -22,7 +22,7 @@ public final class MenuBar extends JMenuBar {
 
   private void createWidgets() {
     addresses = createItem("Adressen");
-    invoices = createItem(VerwaltungMenu.NAME);
+    invoices = createItem(ArchiveMenu.NAME);
     numbers = createItem("Nummern");
     date = createItem("Datum");
   }
@@ -40,7 +40,7 @@ public final class MenuBar extends JMenuBar {
 
   private void setupInteractions() {
     addresses.addActionListener(e -> new AdressbuchMenu(getFrame()));
-    invoices.addActionListener(e -> new VerwaltungMenu(getFrame()));
+    invoices.addActionListener(e -> new ArchiveMenu(getFrame()));
     numbers.addActionListener(e -> new RechnungsnummernMenu(getFrame()));
     date.addActionListener(e -> new RechnungsdatumMenu(getFrame()));
   }
