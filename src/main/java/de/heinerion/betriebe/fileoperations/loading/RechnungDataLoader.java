@@ -2,6 +2,7 @@ package de.heinerion.betriebe.fileoperations.loading;
 
 import de.heinerion.betriebe.data.RechnungData;
 import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.ParsingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +22,7 @@ public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
 
   @Override
   public String getDescriptiveName() {
-    return "Rechnungen";
+    return Translator.translate("invoice.title");
   }
 
   @Override
