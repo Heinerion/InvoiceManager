@@ -22,7 +22,7 @@ public final class MenuBar extends JMenuBar {
 
   private void createWidgets() {
     addresses = createItem("Adressen");
-    invoices = createItem("Verwaltung");
+    invoices = createItem(VerwaltungMenu.NAME);
     numbers = createItem("Nummern");
     date = createItem("Datum");
   }

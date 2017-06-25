@@ -8,6 +8,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.RechnungsListe;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.FormatUtil;
 
 import javax.swing.*;
@@ -23,6 +24,8 @@ import java.io.IOException;
  */
 @SuppressWarnings("serial")
 public final class VerwaltungMenu extends AbstractMenu {
+  static final String NAME = Translator.translate("menu.archive");
+
   private RechnungsListe model;
 
   private JTable tblDokumente;
@@ -70,7 +73,7 @@ public final class VerwaltungMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    this.setTitle("Verwaltung - Gesamtsumme: "
+    this.setTitle(NAME + " - Gesamtsumme: "
         + FormatUtil.formatLocaleDecimal(this.model.berechneEinnahmen())
         + " €");
   }
