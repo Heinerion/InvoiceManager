@@ -44,16 +44,8 @@ public final class IO implements LoadListener {
   private void registerListenersAndLoaders() {
     registerToLoadingManager();
 
-    addLoader(Company.class, CompanyLoader.class);
+    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
     addLoader(Address.class, AddressLoader.class);
-
-    // TODO at this point, we don't know even one company
-    for (Company company : Session.getAvailableCompanies()) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
-      }
-      loadingManager.addLoader(RechnungData.class, new RechnungDataLoader(company.getFolderFile()));
-    }
   }
 
   private void registerToLoadingManager() {
@@ -63,7 +55,25 @@ public final class IO implements LoadListener {
     loadingManager.addListener(this);
   }
 
+  private void continueWithCompany(Loadable loadable) {
+    Company company = (Company) loadable;
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
+    }
+
+    RechnungDataLoader loader = new RechnungDataLoader(company.getFolderFile());
+    loader.init();
+    loader.addListener(loadingManager);
+    loadingManager.loadClass(RechnungData.class, loader);
+  }
+
   private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass) {
+    addLoader(classToLoad, loaderClass, null);
+  }
+
+  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass,
+                                                                   LoadableCallback callback) {
     if (logger.isDebugEnabled()) {
       logger.debug("add {}", loaderClass.getSimpleName());
     }
@@ -71,7 +81,7 @@ public final class IO implements LoadListener {
     File loadDirectory = getLoadDirectory(classToLoad);
     Loader<T> loader = initLoader(loaderClass, loadDirectory);
 
-    loadingManager.addLoader(classToLoad, loader);
+    loadingManager.addLoader(classToLoad, loader, callback);
   }
 
   private <T extends Loadable> File getLoadDirectory(Class<T> classToLoad) {
