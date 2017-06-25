@@ -7,10 +7,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 public final class LoadingManager implements LoadListener, LoadListenable {
-  // TODO Priorität: Dokumente laden (alte Rechnungen)
   private static final Logger logger = LogManager.getLogger(LoadingManager.class);
   private final Map<Class<? extends Loadable>, List<Loader<? extends Loadable>>> loaders;
   private final Map<Class<? extends Loadable>, List<Loadable>> results;
+  private final Map<Class<? extends Loadable>, LoadableCallback> callbacks;
   private final List<Class<? extends Loadable>> loadOrder;
   private int fileNumber;
   private final List<LoadListener> listeners;
@@ -20,6 +20,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     this.results = new HashMap<>();
     this.listeners = new ArrayList<>();
     this.loadOrder = new ArrayList<>();
+    this.callbacks = new HashMap<>();
   }
 
   @Override
@@ -27,9 +28,12 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     this.listeners.add(listener);
   }
 
+  public <T extends Loadable> void addLoader(Class<T> clazz, Loader<T> loader) {
+    addLoader(clazz, loader, null);
+  }
+
   @LogMethod
-  public void addLoader(Class<? extends Loadable> clazz,
-                        Loader<? extends Loadable> loader) {
+  public <T extends Loadable> void addLoader(Class<T> clazz, Loader<T> loader, LoadableCallback callback) {
     if (logger.isDebugEnabled()) {
       logger.debug("add " + clazz.getSimpleName());
     }
@@ -53,6 +57,13 @@ public final class LoadingManager implements LoadListener, LoadListenable {
     List<Loader<? extends Loadable>> loadersForClass = loaders.get(clazz);
     loadersForClass.add(loader);
     loader.addListener(this);
+
+    if (callback != null) {
+      callbacks.put(clazz, callback);
+      if (logger.isDebugEnabled()) {
+        logger.debug("add callback for {}", clazz.getSimpleName());
+      }
+    }
 
     int numberOfLoaders = loadersForClass.size();
 
@@ -104,7 +115,7 @@ public final class LoadingManager implements LoadListener, LoadListenable {
         .forEach(loader -> loadClass(clazz, loader));
   }
 
-  private void loadClass(Class<? extends Loadable> clazz, Loader<? extends Loadable> loader) {
+  public void loadClass(Class<? extends Loadable> clazz, Loader<? extends Loadable> loader) {
     List<Loadable> result = loader.load();
 
     List<Loadable> oldResults = this.results.get(clazz);
@@ -112,6 +123,12 @@ public final class LoadingManager implements LoadListener, LoadListenable {
       this.results.put(clazz, result);
     } else {
       oldResults.addAll(result);
+    }
+
+    LoadableCallback loadableCallback = this.callbacks.get(clazz);
+    if (loadableCallback != null)
+    {
+      result.forEach(loadableCallback::continueWithResult);
     }
   }
 
