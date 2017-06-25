@@ -33,6 +33,9 @@ public class Translator {
       case "controls":
         resourceName = "controls";
         break;
+      case "menu":
+        resourceName = "menu";
+        break;
       default:
         resourceName = "base";
     }
