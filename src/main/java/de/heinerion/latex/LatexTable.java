@@ -1,7 +1,6 @@
 package de.heinerion.latex;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.fileoperations.Syntax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public final class LatexTable extends AbstractLatexContent {
   private String content;
   private String columnAlignment;
 
-  public LatexTable(String someColumns) {
+  LatexTable(String someColumns) {
     this.columnAlignment = someColumns;
     columnHeaders = new ArrayList<>();
   }
@@ -40,11 +39,11 @@ public final class LatexTable extends AbstractLatexContent {
     add(someContent.toString());
   }
 
-  public void addColumnHeader(int aWidth, String style, String aColumnHeader) {
+  void addColumnHeader(int aWidth, String style, String aColumnHeader) {
     this.columnHeaders.add(new Header(aWidth, style, aColumnHeader));
   }
 
-  public void addEmptyRow() {
+  void addEmptyRow() {
     int columnsCount = countColumns();
 
     add(Syntax.multicol(1, COL_SEP + LEFT, PHANTOM)
@@ -54,7 +53,7 @@ public final class LatexTable extends AbstractLatexContent {
   /**
    * Fügt eine waagerechte Linie über die komplette Breite der Tabelle hinzu.
    */
-  public void underLine() {
+  void underLine() {
     add(LINE + Constants.NEWLINE);
   }
 
@@ -66,7 +65,7 @@ public final class LatexTable extends AbstractLatexContent {
    *
    * @param startColumn Spaltenindex, von dem aus unterstrichen wird
    */
-  public void underLine(int startColumn) {
+  void underLine(int startColumn) {
     int max = countColumns();
 
     if (startColumn > 0) {
@@ -83,27 +82,19 @@ public final class LatexTable extends AbstractLatexContent {
    * @param start Startspaltenindex
    * @param end   Endspaltenindex
    */
-  public void underLine(int start, int end) {
+  private void underLine(int start, int end) {
     add("\\cline{" + start + "-" + end + Syntax.END + Constants.NEWLINE);
   }
 
-  public void addRow(String someContent) {
-    add(someContent + Syntax.NEWLINE);
-  }
-
-  public <T extends AbstractLatexContent> void addRow(T someContent) {
-    addRow(someContent.toString());
-  }
-
-  public void fillEnd(String... columns) {
+  void fillEnd(String... columns) {
     fill(FILL_END, columns);
   }
 
-  public void fillMid(String start, String end) {
+  void fillMid(String start, String end) {
     fill(start, end);
   }
 
-  public void fillStart(String... columns) {
+  void fillStart(String... columns) {
     fill(FILL_START, columns);
   }
 
@@ -115,7 +106,7 @@ public final class LatexTable extends AbstractLatexContent {
     return result;
   }
 
-  public void finishRow() {
+  void finishRow() {
     add(Syntax.NEWLINE);
   }
 
@@ -158,10 +149,6 @@ public final class LatexTable extends AbstractLatexContent {
     return tableHead;
   }
 
-  public void setColumnHeaders(List<Header> someColumnHeaders) {
-    this.columnHeaders = someColumnHeaders;
-  }
-
   public void setContent(String someContent) {
     this.content = someContent;
   }
@@ -171,7 +158,7 @@ public final class LatexTable extends AbstractLatexContent {
     List<String> elements = new ArrayList<>();
     elements.add(Syntax.begin(TABULAR, columnAlignment));
 
-    if (columnHeaders.size() > 0) {
+    if (!columnHeaders.isEmpty()) {
       elements.add(generateHeader());
     }
 
@@ -186,7 +173,7 @@ public final class LatexTable extends AbstractLatexContent {
     private String text;
     private String style = "";
 
-    public Header(int aWidth, String aStyle, String someText) {
+    Header(int aWidth, String aStyle, String someText) {
       this.width = aWidth;
       this.text = someText;
       this.style = aStyle;

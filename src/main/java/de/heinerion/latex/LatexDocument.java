@@ -1,7 +1,6 @@
 package de.heinerion.latex;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.fileoperations.Syntax;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,7 +10,6 @@ public class LatexDocument {
   private static final String END = "\\end{document}";
 
   private static final String DELIM = ", ";
-  private static final String NEWLINE = "\n";
 
   private final String documentType;
   private final Map<String, String> docTypeArguments;
@@ -26,7 +24,7 @@ public class LatexDocument {
 
   private String delimiter;
 
-  public LatexDocument(String aDocumentType) {
+  LatexDocument(String aDocumentType) {
     this.documentType = aDocumentType;
     this.docTypeArguments = new HashMap<>();
     this.packageList = new ArrayList<>();
@@ -41,25 +39,25 @@ public class LatexDocument {
    * @param key   Name des Schlüssels
    * @param value Wert des Arguments
    */
-  public final void addHyperSetupArgument(String key, String value) {
+  final void addHyperSetupArgument(String key, String value) {
     final HyperCommand argument = new HyperCommand(key, value);
     hypersetup.add(argument);
   }
 
-  public final void addPackage(LatexPackage aPackage) {
+  private void addPackage(LatexPackage aPackage) {
     this.packageList.add(aPackage);
   }
 
-  public final void addPackage(String name) {
+  final void addPackage(String name) {
     this.addPackage(name, null);
   }
 
-  public final void addPackage(String name, String arguments) {
+  final void addPackage(String name, String arguments) {
     final LatexPackage pack = new LatexPackage(name, arguments);
     this.addPackage(pack);
   }
 
-  public final void addTypeArgument(String key, String value) {
+  final void addTypeArgument(String key, String value) {
     this.docTypeArguments.put(key, value);
   }
 
@@ -118,11 +116,11 @@ public class LatexDocument {
     return "";
   }
 
-  protected final String getDelimiter() {
+  final String getDelimiter() {
     return delimiter;
   }
 
-  protected final String indent(String text, String indentation) {
+  private final String indent(String text, String indentation) {
     String newline = Constants.NEWLINE;
     String[] lines = text.split(newline);
     String result = String.join(newline + indentation, lines);
@@ -133,12 +131,12 @@ public class LatexDocument {
     return this.compressed;
   }
 
-  public final void renewCommand(String name, String newValue) {
+  final void renewCommand(String name, String newValue) {
     final LatexCommand command = new LatexCommand(name, newValue, true);
     this.commands.add(command);
   }
 
-  public final void setCompressed(boolean isCompressed) {
+  final void setCompressed(boolean isCompressed) {
     this.compressed = isCompressed;
     this.setDelimiter();
   }

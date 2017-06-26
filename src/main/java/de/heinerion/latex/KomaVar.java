@@ -1,14 +1,12 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.fileoperations.Syntax;
-
 public final class KomaVar {
   private static final String COMMAND = "\\setkomavar";
 
   private KomaKey key;
   private String value;
 
-  public KomaVar(KomaKey aKey, String aValue) {
+  KomaVar(KomaKey aKey, String aValue) {
     this.key = aKey;
     this.value = aValue;
   }

@@ -1,27 +1,21 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.fileoperations.Syntax;
-
 public final class LatexCommand {
   private boolean renew;
   private String name;
   private String value;
 
-  public LatexCommand(String aName, String aValue) {
+  private LatexCommand(String aName, String aValue) {
     this.name = aName;
     this.value = aValue;
   }
 
-  public LatexCommand(String aName, String aValue, boolean isRenew) {
+  LatexCommand(String aName, String aValue, boolean isRenew) {
     this(aName, aValue);
     setRenew(isRenew);
   }
 
-  public boolean isRenew() {
-    return renew;
-  }
-
-  public void setRenew(boolean isRenew) {
+  private void setRenew(boolean isRenew) {
     this.renew = isRenew;
   }
 

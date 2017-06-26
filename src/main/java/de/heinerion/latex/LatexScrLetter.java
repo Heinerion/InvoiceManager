@@ -1,7 +1,5 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.fileoperations.Syntax;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,17 +10,17 @@ public final class LatexScrLetter extends LatexDocument {
   private String recipient;
   private List<KomaVar> komavars;
 
-  public LatexScrLetter(String aRecipient) {
+  LatexScrLetter(String aRecipient) {
     super("scrlttr2");
     setRecipient(aRecipient);
     komavars = new ArrayList<>();
   }
 
-  public void addKomaVar(KomaVar komaVar) {
+  private void addKomaVar(KomaVar komaVar) {
     komavars.add(komaVar);
   }
 
-  public void addKomaVar(KomaKey aKey, String aValue) {
+  void addKomaVar(KomaKey aKey, String aValue) {
     final KomaVar komaVar = new KomaVar(aKey, aValue);
     addKomaVar(komaVar);
   }

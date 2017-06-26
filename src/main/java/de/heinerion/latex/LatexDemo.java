@@ -1,6 +1,5 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.fileoperations.Syntax;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

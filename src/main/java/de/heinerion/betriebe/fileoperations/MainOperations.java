@@ -13,6 +13,7 @@ import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.PathUtil;
+import de.heinerion.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

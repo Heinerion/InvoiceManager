@@ -1,16 +1,13 @@
-package de.heinerion.betriebe.fileoperations;
+package de.heinerion.latex;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.formatter.Formatter;
-import de.heinerion.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.FormatUtil;
-import de.heinerion.latex.KomaKey;
-import de.heinerion.latex.LatexScrLetter;
-import de.heinerion.latex.LatexTable;
+import de.heinerion.formatter.Formatter;
+import de.heinerion.formatter.PlainFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
