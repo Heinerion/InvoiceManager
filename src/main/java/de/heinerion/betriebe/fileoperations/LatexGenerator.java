@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.Constants;
-import de.heinerion.betriebe.formatter.Formatter;
-import de.heinerion.betriebe.formatter.PlainFormatter;
+import de.heinerion.formatter.Formatter;
+import de.heinerion.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;

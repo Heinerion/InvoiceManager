@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.formatter;
+package de.heinerion.formatter;
 
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Invoice;

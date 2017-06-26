@@ -2,8 +2,8 @@ package de.heinerion.betriebe.gui.panels;
 
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.formatter.Formatter;
-import de.heinerion.betriebe.formatter.PlainFormatter;
+import de.heinerion.formatter.Formatter;
+import de.heinerion.formatter.PlainFormatter;
 import de.heinerion.betriebe.models.Address;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
