@@ -6,8 +6,7 @@ import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.FormatUtil;
-import de.heinerion.formatter.Formatter;
-import de.heinerion.formatter.PlainFormatter;
+import de.heinerion.formatter.AddressFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +52,8 @@ public final class LatexGenerator {
   }
 
   private static List<String> formatAddress(Address address) {
-    final Formatter formatter = new PlainFormatter();
-    formatter.formatAddress(address);
+    final AddressFormatter formatter = new AddressFormatter();
+    formatter.format(address);
     return formatter.getOutput();
   }
 

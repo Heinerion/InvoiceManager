@@ -2,8 +2,7 @@ package de.heinerion.betriebe.gui.panels;
 
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.formatter.Formatter;
-import de.heinerion.formatter.PlainFormatter;
+import de.heinerion.formatter.AddressFormatter;
 import de.heinerion.betriebe.models.Address;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -87,8 +86,8 @@ public class PanelControl {
     String result = null;
 
     if (address != null) {
-      Formatter formatter = new PlainFormatter();
-      formatter.formatAddress(address);
+      AddressFormatter formatter = new AddressFormatter();
+      formatter.format(address);
       List<String> out = formatter.getOutput();
       StringBuilder addressAsText = new StringBuilder();
       for (String line : out) {
