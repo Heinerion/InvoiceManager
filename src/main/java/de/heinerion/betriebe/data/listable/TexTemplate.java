@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.data.listable;
 
 import de.heinerion.betriebe.tools.PathUtil;
 

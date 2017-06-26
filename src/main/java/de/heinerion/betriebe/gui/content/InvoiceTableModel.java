@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.data.Vorlage;
+import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
 import de.heinerion.betriebe.tools.ParsingUtil;

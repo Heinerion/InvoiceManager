@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.data.listable;
 
 import java.io.Serializable;
 import java.text.Collator;

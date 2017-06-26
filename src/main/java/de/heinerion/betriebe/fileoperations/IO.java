@@ -1,6 +1,8 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.*;
+import de.heinerion.betriebe.data.listable.TexTemplate;
+import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.fileoperations.loading.*;
 import de.heinerion.betriebe.loader.TextFileLoader;

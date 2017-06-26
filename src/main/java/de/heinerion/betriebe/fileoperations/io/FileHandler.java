@@ -5,8 +5,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static java.nio.file.StandardCopyOption.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileHandler {
   private static final Logger logger = LogManager.getLogger(FileHandler.class);
@@ -78,6 +86,18 @@ public class FileHandler {
   }
 
   private static Object convertLegacyTemplates(String path) {
+    String backupPath = path + "_backup_" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(new Date());
+
+    if (logger.isInfoEnabled()) {
+      logger.info("backup legacy template to {}", backupPath);
+    }
+
+    try {
+      Files.copy(Paths.get(path), Paths.get(backupPath));
+    } catch (IOException e) {
+      throw new HeinerionException(e);
+    }
+
     Object content = new ArrayList<>();
 
     try (FileInputStream inFile = new FileInputStream(path);

@@ -1,5 +1,6 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.data.listable;
 
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
