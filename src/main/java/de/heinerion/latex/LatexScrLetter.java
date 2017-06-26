@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class LatexScrLetter extends LatexDocument {
+final class LatexScrLetter extends LatexDocument {
   private static final String LETTER = "letter";
 
   private String recipient;
-  private List<KomaVar> komavars;
+  private final List<KomaVar> komavars;
 
   LatexScrLetter(String aRecipient) {
-    super("scrlttr2");
+    super();
     setRecipient(aRecipient);
     komavars = new ArrayList<>();
   }
@@ -25,7 +25,7 @@ public final class LatexScrLetter extends LatexDocument {
     addKomaVar(komaVar);
   }
 
-  public void setRecipient(String aRecipient) {
+  private void setRecipient(String aRecipient) {
     this.recipient = aRecipient;
   }
 

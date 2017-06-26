@@ -5,15 +5,15 @@ import de.heinerion.betriebe.data.Constants;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class LatexDocument {
+class LatexDocument {
   private static final String BEGIN = "\\begin{document}";
   private static final String END = "\\end{document}";
 
   private static final String DELIM = ", ";
+  private static final String EMPTY = "";
 
   private final String documentType;
   private final Map<String, String> docTypeArguments;
-  private final List<LatexCommand> commands;
   private final List<LatexPackage> packageList;
   private final List<HyperCommand> hypersetup;
 
@@ -24,11 +24,10 @@ public class LatexDocument {
 
   private String delimiter;
 
-  LatexDocument(String aDocumentType) {
-    this.documentType = aDocumentType;
+  LatexDocument() {
+    this.documentType = "scrlttr2";
     this.docTypeArguments = new HashMap<>();
     this.packageList = new ArrayList<>();
-    this.commands = new ArrayList<>();
     this.hypersetup = new ArrayList<>();
     this.setCompressed(false);
   }
@@ -48,17 +47,17 @@ public class LatexDocument {
     this.packageList.add(aPackage);
   }
 
-  final void addPackage(String name) {
-    this.addPackage(name, null);
+  final void addHyperrefPackage() {
+    addPackage("hyperref", null);
   }
 
   final void addPackage(String name, String arguments) {
     final LatexPackage pack = new LatexPackage(name, arguments);
-    this.addPackage(pack);
+    addPackage(pack);
   }
 
   final void addTypeArgument(String key, String value) {
-    this.docTypeArguments.put(key, value);
+    docTypeArguments.put(key, value);
   }
 
   private String buildDoctype() {
@@ -89,102 +88,92 @@ public class LatexDocument {
         .map(LatexPackage::toString)
         .collect(Collectors.toList());
 
-    return String.join(this.delimiter, declarations);
+    return String.join(delimiter, declarations);
   }
 
   /**
    * Wird unmittelbar nach dem Inhalt ausgegeben
    */
-  protected String buildPostContent() {
+  String buildPostContent() {
     // Zum Überschreiben
-    return "";
+    return EMPTY;
   }
 
   /**
    * Wird unmittelbar vor dem Inhalt ausgegeben
    */
-  protected String buildPreContent() {
+  String buildPreContent() {
     // Zum Überschreiben
-    return "";
+    return EMPTY;
   }
 
   /**
    * Wird nach Paketen und Befehlen vor dem Dokumentenbegin ausgegeben.
    */
-  protected String buildSpecialVariables() {
+  String buildSpecialVariables() {
     // Zum Überschreiben
-    return "";
+    return EMPTY;
   }
 
   final String getDelimiter() {
     return delimiter;
   }
 
-  private final String indent(String text, String indentation) {
+  private String indent(String text) {
     String newline = Constants.NEWLINE;
     String[] lines = text.split(newline);
-    String result = String.join(newline + indentation, lines);
-    return indentation + result;
-  }
-
-  public final boolean isCompressed() {
-    return this.compressed;
-  }
-
-  final void renewCommand(String name, String newValue) {
-    final LatexCommand command = new LatexCommand(name, newValue, true);
-    this.commands.add(command);
+    String result = String.join(newline + "\t", lines);
+    return "\t" + result;
   }
 
   final void setCompressed(boolean isCompressed) {
-    this.compressed = isCompressed;
-    this.setDelimiter();
+    compressed = isCompressed;
+    setDelimiter();
   }
 
   public final void setContent(String anyContent) {
-    this.content = anyContent;
+    content = anyContent;
   }
 
   public final <T extends AbstractLatexContent> void setContent(T someContent) {
     setContent(someContent.toString());
   }
 
-  public final <T extends AbstractLatexContent> void setDate(T dateContent) {
-    this.date = dateContent.toString();
-  }
-
   public final void setDate(String dateText) {
-    this.date = dateText;
+    date = dateText;
   }
 
   private void setDelimiter() {
-    this.delimiter = this.compressed ? "" : Constants.NEWLINE;
+    delimiter = compressed ? EMPTY : Constants.NEWLINE;
   }
 
   @Override
   public final String toString() {
     final List<String> components = new ArrayList<>();
-    components.add(this.buildDoctype());
-    components.add(this.buildPackages());
+    components.add(buildDoctype());
+    components.add(buildPackages());
     if (!hypersetup.isEmpty()) {
-      components.add(this.buildHyperSetup());
+      components.add(buildHyperSetup());
     }
-    List<String> mappedCommands = commands.stream()
-        .map(LatexCommand::toString)
-        .collect(Collectors.toList());
-    components.addAll(mappedCommands);
+    components.add(redifineRaggedSignature());
     components.add(buildSpecialVariables());
-    if (this.date != null) {
-      components.add("\\date{\n" + this.indent(this.date, "\t") + "\n}");
+    if (date != null) {
+      components.add("\\date{\n" + indent(date) + "\n}");
     }
     components.add(BEGIN);
-    components.add(this.buildPreContent());
-    if (this.content != null && !this.content.isEmpty()) {
-      components.add(this.content);
+    components.add(buildPreContent());
+    if (content != null && !content.isEmpty()) {
+      components.add(content);
     }
-    components.add(this.buildPostContent());
+    components.add(buildPostContent());
     components.add(END);
 
-    return String.join(this.delimiter, components);
+    return String.join(delimiter, components);
+  }
+
+  private String redifineRaggedSignature() {
+    String name = "\\raggedsignature";
+    String value = "\\raggedright";
+    return "\\renewcommand" + Syntax.embrace(name) + Syntax.embrace(value);
   }
 }

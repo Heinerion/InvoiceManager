@@ -1,22 +1,14 @@
 package de.heinerion.latex;
 
-public final class LatexPackage {
+final class LatexPackage {
   private static final String PREFIX = "\\usepackage";
 
-  private String name;
-  private String arguments;
+  private final String name;
+  private final String arguments;
 
   LatexPackage(String aName, String someArguments) {
     this.name = aName;
     this.arguments = someArguments;
-  }
-
-  public String getArguments() {
-    return arguments;
-  }
-
-  public String getName() {
-    return name;
   }
 
   @Override

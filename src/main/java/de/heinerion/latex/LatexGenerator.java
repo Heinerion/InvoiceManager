@@ -116,7 +116,6 @@ public final class LatexGenerator {
 
     addTypeArguments(latexLetter);
     addPackages(latexLetter);
-    renewCommands(latexLetter);
     addKomaVars(latexLetter, letter.getCompany(), subject);
     addHyperSetupArguments(letter, latexLetter, subject, isInvoice);
     setDate(letter, latexLetter, isInvoice);
@@ -216,15 +215,11 @@ public final class LatexGenerator {
             + Syntax.TEXT_TINY);
   }
 
-  private static void renewCommands(final LatexScrLetter latexLetter) {
-    latexLetter.renewCommand("\\raggedsignature", "\\raggedright");
-  }
-
   private static void addPackages(final LatexScrLetter letter) {
     letter.addPackage("inputenc", "utf8");
     letter.addPackage("babel", "ngermanb");
     letter.addPackage("eurosym", "right");
-    letter.addPackage("hyperref");
+    letter.addHyperrefPackage();
   }
 
   private static void addTypeArguments(final LatexScrLetter letter) {

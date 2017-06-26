@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class LatexTable extends AbstractLatexContent {
+final class LatexTable extends AbstractLatexContent {
   private static final String TABULAR = "tabular";
 
   private static final String COL_SEP = "|";
@@ -18,9 +18,9 @@ public final class LatexTable extends AbstractLatexContent {
   private static final boolean FILL_START = false;
   private static final boolean FILL_END = true;
 
-  private List<Header> columnHeaders;
+  private final List<Header> columnHeaders;
   private String content;
-  private String columnAlignment;
+  private final String columnAlignment;
 
   LatexTable(String someColumns) {
     this.columnAlignment = someColumns;
@@ -33,10 +33,6 @@ public final class LatexTable extends AbstractLatexContent {
     } else {
       this.content += someContent;
     }
-  }
-
-  public <T extends AbstractLatexContent> void add(T someContent) {
-    add(someContent.toString());
   }
 
   void addColumnHeader(int aWidth, String style, String aColumnHeader) {
@@ -169,8 +165,8 @@ public final class LatexTable extends AbstractLatexContent {
   }
 
   private class Header {
-    private int width;
-    private String text;
+    private final int width;
+    private final String text;
     private String style = "";
 
     Header(int aWidth, String aStyle, String someText) {
