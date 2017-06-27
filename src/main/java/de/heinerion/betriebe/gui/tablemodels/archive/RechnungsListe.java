@@ -1,6 +1,6 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.gui.tablemodels.archive;
 
-import de.heinerion.betriebe.data.invoice_table_column.*;
+import de.heinerion.betriebe.gui.tablemodels.archive.columns.*;
 import de.heinerion.betriebe.models.Company;
 
 import javax.swing.event.TableModelEvent;
@@ -19,12 +19,12 @@ public final class RechnungsListe implements TableModel {
   public static final int INDEX_SENDER = 4;
   public static final int INDEX_AMOUNT = 5;
 
-  private static final ColumnState[] STATE = {
+  private static final InvoiceColumn[] COLUMNS = {
       // Spalten in Reihenfolge des Auftretens
       new NumberColumn(), new ReceiverColumn(), new ProductColumn(),
       new DateColumn(), new SenderColumn(), new AmountColumn(),};
 
-  private static final int COLUMN_COUNT = STATE.length;
+  private static final int COLUMN_COUNT = COLUMNS.length;
 
   private List<RechnungData> rechnungszeilen;
   private final List<TableModelListener> tableListener = new ArrayList<>();
@@ -78,7 +78,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public Class<?> getColumnClass(int columnIndex) {
-    return STATE[columnIndex].getClass();
+    return COLUMNS[columnIndex].getClass();
   }
 
   @Override
@@ -89,7 +89,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public String getColumnName(int columnIndex) {
-    return STATE[columnIndex].getName();
+    return COLUMNS[columnIndex].getName();
   }
 
   public void getMaxNumber() {
@@ -118,7 +118,7 @@ public final class RechnungsListe implements TableModel {
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
     final RechnungData data = this.get(rowIndex);
-    return STATE[columnIndex].getValue(data);
+    return COLUMNS[columnIndex].getValue(data);
   }
 
   @Override
@@ -144,6 +144,6 @@ public final class RechnungsListe implements TableModel {
   @Override
   public void setValueAt(Object value, int rowIndex, int columnIndex) {
     final RechnungData data = this.get(rowIndex);
-    STATE[columnIndex].setValue(data, value);
+    COLUMNS[columnIndex].setValue(data, value);
   }
 }

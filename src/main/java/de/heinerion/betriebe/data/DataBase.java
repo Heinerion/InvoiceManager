@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.RechnungsListe;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.data.listable.Vorlage;

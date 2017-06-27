@@ -1,24 +1,22 @@
-package de.heinerion.betriebe.data.invoice_table_column;
+package de.heinerion.betriebe.gui.tablemodels.archive.columns;
 
-import de.heinerion.betriebe.data.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
 import de.heinerion.betriebe.services.Translator;
 
-import java.time.LocalDate;
-
-public final class DateColumn implements ColumnState {
+public final class NumberColumn implements InvoiceColumn {
   @Override
   public Class<?> getColumnClass() {
-    return LocalDate.class;
+    return Integer.class;
   }
 
   @Override
   public String getName() {
-    return Translator.translate("table.date");
+    return Translator.translate("table.number");
   }
 
   @Override
   public Object getValue(RechnungData data) {
-    return data.getDate();
+    return data.getInvoiceNumber();
   }
 
   @Override

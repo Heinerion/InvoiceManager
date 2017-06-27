@@ -1,5 +1,7 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.gui.tablemodels.archive;
 
+import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;

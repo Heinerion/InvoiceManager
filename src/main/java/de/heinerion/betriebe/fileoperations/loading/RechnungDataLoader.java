@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import de.heinerion.betriebe.data.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.ParsingUtil;

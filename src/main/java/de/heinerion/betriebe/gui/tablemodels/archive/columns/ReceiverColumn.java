@@ -1,10 +1,10 @@
-package de.heinerion.betriebe.data.invoice_table_column;
+package de.heinerion.betriebe.gui.tablemodels.archive.columns;
 
-import de.heinerion.betriebe.data.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.services.Translator;
 
-public final class ReceiverColumn implements ColumnState {
+public final class ReceiverColumn implements InvoiceColumn {
   @Override
   public Class<?> getColumnClass() {
     return Address.class;
