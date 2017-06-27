@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
@@ -22,7 +22,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({IO.class})
 @PowerMockIgnore("javax.management.*")
 public class DataBaseInvoiceTest {
-  private RechnungData rechnungData;
+  private ArchivedInvoice archivedInvoice;
   private Company company;
 
   @Mock
@@ -35,30 +35,30 @@ public class DataBaseInvoiceTest {
   public void setUp() throws Exception {
     mockStatic(IO.class);
 
-    // TODO the RechnungData constructor makes way too much assumptions
+    // TODO the ArchivedInvoice constructor makes way too much assumptions
     when(file.getName()).thenReturn("1 Test 03.03.2016.pdf");
     when(file.getParentFile()).thenReturn(parent);
     when(parent.getName()).thenReturn("Heinerion");
 
     DataBase.clearAllLists();
     company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    rechnungData = new RechnungData(file);
+    archivedInvoice = new ArchivedInvoice(file);
 
     DataBase.addCompany(company);
   }
 
   @Test
   public void testAddInvoice() {
-    DataBase.addInvoice(rechnungData);
+    DataBase.addInvoice(archivedInvoice);
 
-    assertTrue(DataBase.getInvoices().contains(rechnungData));
+    assertTrue(DataBase.getInvoices().contains(archivedInvoice));
   }
 
   @Test
   public void testAddInvoiceAsLoadable() {
-    DataBase.addLoadable(rechnungData);
+    DataBase.addLoadable(archivedInvoice);
 
-    assertTrue(DataBase.getInvoices().contains(rechnungData));
+    assertTrue(DataBase.getInvoices().contains(archivedInvoice));
   }
 
   @Test
@@ -67,8 +67,8 @@ public class DataBaseInvoiceTest {
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addInvoice(rechnungData);
-    DataBase.addInvoice(rechnungData);
+    DataBase.addInvoice(archivedInvoice);
+    DataBase.addInvoice(archivedInvoice);
 
     assertEquals(expectedSize, DataBase.getInvoices().getAnzahlElemente());
   }

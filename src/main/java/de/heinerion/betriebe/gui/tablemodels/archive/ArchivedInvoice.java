@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class RechnungData implements Loadable {
+public final class ArchivedInvoice implements Loadable {
   private static final String DIVIDER = "\t";
   // 14 := dd.mm.yyyy.pdf
   private static final int DATE_LENGTH = 14;
@@ -52,7 +52,7 @@ public final class RechnungData implements Loadable {
   private Map<String, Address> addressCache;
 
   // TODO parsing der Daten unbedingt überarbeiten
-  public RechnungData(File sourceFile) {
+  public ArchivedInvoice(File sourceFile) {
     this.pdf = sourceFile;
     final String name = sourceFile.getName();
     final String companyName = sourceFile.getParentFile().getName();

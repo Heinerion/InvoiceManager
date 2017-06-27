@@ -26,7 +26,7 @@ public final class RechnungsListe implements TableModel {
 
   private static final int COLUMN_COUNT = COLUMNS.length;
 
-  private List<RechnungData> rechnungszeilen;
+  private List<ArchivedInvoice> rechnungszeilen;
   private final List<TableModelListener> tableListener = new ArrayList<>();
 
   /**
@@ -41,7 +41,7 @@ public final class RechnungsListe implements TableModel {
    *
    * @param data Die einzufügenden Daten
    */
-  public void add(RechnungData data) {
+  public void add(ArchivedInvoice data) {
     this.rechnungszeilen.add(data);
     this.notifyTableListener();
   }
@@ -64,11 +64,11 @@ public final class RechnungsListe implements TableModel {
     return summe;
   }
 
-  public boolean contains(RechnungData data) {
+  public boolean contains(ArchivedInvoice data) {
     return this.rechnungszeilen.contains(data);
   }
 
-  public RechnungData get(int index) {
+  public ArchivedInvoice get(int index) {
     return this.rechnungszeilen.get(index);
   }
 
@@ -106,7 +106,7 @@ public final class RechnungsListe implements TableModel {
   }
 
   public File getPdfAt(int rowIndex) {
-    final RechnungData data = this.get(rowIndex);
+    final ArchivedInvoice data = this.get(rowIndex);
     return data.getPdf();
   }
 
@@ -117,7 +117,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public Object getValueAt(int rowIndex, int columnIndex) {
-    final RechnungData data = this.get(rowIndex);
+    final ArchivedInvoice data = this.get(rowIndex);
     return COLUMNS[columnIndex].getValue(data);
   }
 
@@ -143,7 +143,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public void setValueAt(Object value, int rowIndex, int columnIndex) {
-    final RechnungData data = this.get(rowIndex);
+    final ArchivedInvoice data = this.get(rowIndex);
     COLUMNS[columnIndex].setValue(data, value);
   }
 }

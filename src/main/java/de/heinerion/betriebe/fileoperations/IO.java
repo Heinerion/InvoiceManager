@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.*;
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
@@ -68,7 +68,7 @@ public final class IO implements LoadListener {
     RechnungDataLoader loader = new RechnungDataLoader(company.getFolderFile());
     loader.init();
     loader.addListener(loadingManager);
-    loadingManager.loadClass(RechnungData.class, loader);
+    loadingManager.loadClass(ArchivedInvoice.class, loader);
   }
 
   private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass) {

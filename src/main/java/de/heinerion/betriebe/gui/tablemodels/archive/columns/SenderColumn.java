@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.tablemodels.archive.columns;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
 
@@ -16,12 +16,12 @@ public final class SenderColumn implements InvoiceColumn {
   }
 
   @Override
-  public Object getValue(RechnungData data) {
+  public Object getValue(ArchivedInvoice data) {
     return data.getCompany();
   }
 
   @Override
-  public void setValue(RechnungData data, Object value) {
+  public void setValue(ArchivedInvoice data, Object value) {
     if (value instanceof Company) {
       data.setCompany((Company) value);
     }

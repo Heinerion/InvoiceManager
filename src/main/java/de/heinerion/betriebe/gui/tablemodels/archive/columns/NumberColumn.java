@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.tablemodels.archive.columns;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.services.Translator;
 
 public final class NumberColumn implements InvoiceColumn {
@@ -15,12 +15,12 @@ public final class NumberColumn implements InvoiceColumn {
   }
 
   @Override
-  public Object getValue(RechnungData data) {
+  public Object getValue(ArchivedInvoice data) {
     return data.getInvoiceNumber();
   }
 
   @Override
-  public void setValue(RechnungData data, Object value) {
+  public void setValue(ArchivedInvoice data, Object value) {
     // Nicht setzbar
   }
 }

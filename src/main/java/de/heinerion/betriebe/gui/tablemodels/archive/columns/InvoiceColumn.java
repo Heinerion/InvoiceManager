@@ -1,13 +1,13 @@
 package de.heinerion.betriebe.gui.tablemodels.archive.columns;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 
 public interface InvoiceColumn {
   Class<?> getColumnClass();
 
   String getName();
 
-  Object getValue(RechnungData data);
+  Object getValue(ArchivedInvoice data);
 
-  void setValue(RechnungData data, Object value);
+  void setValue(ArchivedInvoice data, Object value);
 }

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.gui.tablemodels.archive.RechnungsListe;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.TexTemplate;
@@ -98,7 +98,7 @@ public final class DataBase {
     IO.saveAddresses();
   }
 
-  public static void addInvoice(RechnungData daten) {
+  public static void addInvoice(ArchivedInvoice daten) {
     Company company = Session.getActiveCompany();
     RechnungsListe list = getInvoice(company);
 
@@ -109,7 +109,7 @@ public final class DataBase {
     invoices.put(company, list);
   }
 
-  private static boolean isEntryNotInList(RechnungData daten, RechnungsListe list) {
+  private static boolean isEntryNotInList(ArchivedInvoice daten, RechnungsListe list) {
     return list != null && !list.contains(daten);
   }
 
@@ -265,8 +265,8 @@ public final class DataBase {
   public static void addLoadable(Loadable loadable) {
     if (loadable instanceof Address) {
       addAddress(null, (Address) loadable);
-    } else if (loadable instanceof RechnungData) {
-      addInvoice((RechnungData) loadable);
+    } else if (loadable instanceof ArchivedInvoice) {
+      addInvoice((ArchivedInvoice) loadable);
     } else if (loadable instanceof Company) {
       addCompany((Company) loadable);
     }

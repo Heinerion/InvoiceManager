@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungData;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.exceptions.HeinerionException;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.ParsingUtil;
@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
+public final class RechnungDataLoader extends AbstractLoader<ArchivedInvoice> {
   private static final Logger logger = LogManager.getLogger(RechnungDataLoader.class);
 
   public RechnungDataLoader(File aLoadDirectory) {
@@ -32,7 +32,7 @@ public final class RechnungDataLoader extends AbstractLoader<RechnungData> {
 
   @Override
   public Loadable loopAction(final File file) {
-    RechnungData data = new RechnungData(file);
+    ArchivedInvoice data = new ArchivedInvoice(file);
     try (PDDocument pdf = PDDocument.load(file)) {
       PDDocumentInformation info = pdf.getDocumentInformation();
       // Ausgelesene Informationen in den Datensatz speichern
