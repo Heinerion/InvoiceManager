@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.tools;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.interfaces.Storable;
 
 import java.io.File;

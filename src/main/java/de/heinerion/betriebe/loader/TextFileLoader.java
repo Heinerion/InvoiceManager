@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.loader;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;

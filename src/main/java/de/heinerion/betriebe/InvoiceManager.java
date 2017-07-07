@@ -7,7 +7,7 @@ package de.heinerion.betriebe;
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.data.System;
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;

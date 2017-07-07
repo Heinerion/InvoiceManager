@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.System;
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;

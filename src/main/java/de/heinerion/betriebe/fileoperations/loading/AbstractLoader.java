@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

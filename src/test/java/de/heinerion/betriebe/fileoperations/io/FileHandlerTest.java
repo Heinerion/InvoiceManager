@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.io;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import org.junit.Assert;
 import org.junit.Test;
 

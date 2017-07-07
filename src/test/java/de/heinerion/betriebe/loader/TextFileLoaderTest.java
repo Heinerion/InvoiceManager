@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.loader;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Address;
 import org.junit.Before;
 import org.junit.Test;

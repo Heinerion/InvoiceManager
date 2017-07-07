@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.io;
 
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,10 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static java.nio.file.StandardCopyOption.*;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class FileHandler {
   private static final Logger logger = LogManager.getLogger(FileHandler.class);

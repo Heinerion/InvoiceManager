@@ -6,7 +6,7 @@ package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.gui.tablemodels.archive.RechnungsListe;
-import de.heinerion.betriebe.exceptions.HeinerionException;
+import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.FormatUtil;

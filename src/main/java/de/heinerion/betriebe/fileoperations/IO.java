@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.heinerion.betriebe.exceptions.HeinerionException.handleException;
+import static de.heinerion.exceptions.HeinerionException.handleException;
 
 public final class IO implements LoadListener {
   private static final Logger logger = LogManager.getLogger(IO.class);
