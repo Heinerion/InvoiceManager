@@ -29,7 +29,7 @@ public class LoggingAspect {
   }
 
   @Before("execution(* *(..)) && @annotation(de.heinerion.aspects.annotations.LogBefore)")
-  public void before(JoinPoint joinPoint) throws Throwable {
+  public void before(JoinPoint joinPoint) {
     Logger logger = getLogger(joinPoint);
 
     String method = joinPoint.getSignature().getName();

@@ -6,6 +6,7 @@ import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.FormatUtil;
+import de.heinerion.betriebe.tools.StringUtil;
 import de.heinerion.formatter.AddressFormatter;
 
 import java.util.ArrayList;
@@ -30,10 +31,7 @@ public final class LatexGenerator {
 
   private static final String TABLE_FORMAT = "p{5cm}p{1cm}p{3cm}|r|r|";
 
-  private LatexGenerator() {
-  }
-
-  private static String convertAddress(Address address) {
+  private String convertAddress(Address address) {
     String convertedAddress = "null";
 
     if (address != null) {
@@ -43,27 +41,27 @@ public final class LatexGenerator {
     return convertedAddress;
   }
 
-  private static String joinWithSpaces(String... strings) {
+  private String joinWithSpaces(String... strings) {
     return String.join(Constants.SPACE, strings);
   }
 
-  private static String createRecipientsAddress(Address address) {
+  private String createRecipientsAddress(Address address) {
     return String.join(Syntax.NEWLINE, formatAddress(address));
   }
 
-  private static List<String> formatAddress(Address address) {
+  private List<String> formatAddress(Address address) {
     final AddressFormatter formatter = new AddressFormatter();
     formatter.format(address);
     return formatter.getOutput();
   }
 
-  private static void generateTableContent(LatexTable table, Invoice invoice) {
+  private void generateTableContent(LatexTable table, Invoice invoice) {
     fillHeader(table);
     fillItemLines(table, invoice);
     fillWithEmptyLines(table, getItemCount(invoice));
   }
 
-  private static void fillHeader(LatexTable table) {
+  private void fillHeader(LatexTable table) {
     final String style = CENTER + COL_SEP;
     final String first = COL_SEP + style;
 
@@ -72,26 +70,26 @@ public final class LatexGenerator {
     table.addColumnHeader(SPAN_PRICES, style, smallCaps("invoice.sum"));
   }
 
-  private static String smallCaps(String key) {
+  private String smallCaps(String key) {
     return Syntax.sc(Translator.translate(key));
   }
 
-  private static void fillItemLines(LatexTable table, Invoice invoice) {
+  private void fillItemLines(LatexTable table, Invoice invoice) {
     for (Item item : invoice.getItems()) {
       addItemLine(table, item);
     }
   }
 
-  private static void addItemLine(LatexTable table, Item item) {
+  private void addItemLine(LatexTable table, Item item) {
     table.underLine();
     table.add(itemToLatex(item));
   }
 
-  private static int getItemCount(Invoice invoice) {
+  private int getItemCount(Invoice invoice) {
     return invoice.getItems().size();
   }
 
-  private static void fillWithEmptyLines(LatexTable table, int itemCount) {
+  private void fillWithEmptyLines(LatexTable table, int itemCount) {
     /* Why -1? */
     /*
     The last line of the invoice should be empty for optical reasons. generateTableSum ensures that.
@@ -102,12 +100,12 @@ public final class LatexGenerator {
     }
   }
 
-  private static void addEmptyLine(LatexTable table) {
+  private void addEmptyLine(LatexTable table) {
     table.underLine();
     table.addEmptyRow();
   }
 
-  public static String generateLatexSource(Conveyable letter) {
+  public String generateSourceContent(Conveyable letter) {
     final LatexScrLetter latexLetter = new LatexScrLetter(
         createRecipientsAddress(letter.getReceiver()));
     final String subject = letter.getSubject();
@@ -123,7 +121,7 @@ public final class LatexGenerator {
     return latexLetter.toString();
   }
 
-  private static void setContent(Conveyable letter,
+  private void setContent(Conveyable letter,
                                  final LatexScrLetter latexLetter, final boolean isInvoice) {
     if (isInvoice) {
       setInvoiceContent((Invoice) letter, latexLetter);
@@ -132,19 +130,19 @@ public final class LatexGenerator {
     }
   }
 
-  private static void setInvoiceContent(Invoice letter, LatexScrLetter latexLetter) {
+  private void setInvoiceContent(Invoice letter, LatexScrLetter latexLetter) {
     final LatexTable table = new LatexTable(TABLE_FORMAT);
     generateTableContent(table, letter);
     generateTableSum(table, letter);
     latexLetter.setContent(table);
   }
 
-  private static void setLetterContent(Letter letter, LatexScrLetter latexLetter) {
+  private void setLetterContent(Letter letter, LatexScrLetter latexLetter) {
     final String content = String.join(Syntax.NEWLINE, letter.getMessageLines());
     latexLetter.setContent(content);
   }
 
-  private static void setDate(Conveyable letter,
+  private void setDate(Conveyable letter,
                               final LatexScrLetter latexLetter, final boolean isInvoice) {
     String tab = " & : ";
     List<String> fields = new ArrayList<>();
@@ -169,7 +167,7 @@ public final class LatexGenerator {
     latexLetter.setDate(dateString);
   }
 
-  private static void addHyperSetupArguments(Conveyable letter,
+  private void addHyperSetupArguments(Conveyable letter,
                                              final LatexScrLetter latexLetter, final String subject,
                                              final boolean isInvoice) {
     final Company company = letter.getCompany();
@@ -202,7 +200,7 @@ public final class LatexGenerator {
         FormatUtil.formatAmericanDecimal(total));
   }
 
-  private static void addKomaVars(final LatexScrLetter letter,
+  private void addKomaVars(final LatexScrLetter letter,
                                   final Company company, final String subject) {
     letter.addKomaVar(KomaKey.SIGNATURE, "\\underline{" + Translator.translate("invoice.signature") + ":\\hspace{10cm}}");
     letter.addKomaVar(KomaKey.SUBJECT, subject);
@@ -214,21 +212,21 @@ public final class LatexGenerator {
             + Syntax.TEXT_TINY);
   }
 
-  private static void addPackages(final LatexScrLetter letter) {
+  private void addPackages(final LatexScrLetter letter) {
     letter.addPackage("inputenc", "utf8");
     letter.addPackage("babel", "ngermanb");
     letter.addPackage("eurosym", "right");
     letter.addHyperrefPackage();
   }
 
-  private static void addTypeArguments(final LatexScrLetter letter) {
+  private void addTypeArguments(final LatexScrLetter letter) {
     letter.addTypeArgument("fontsize", "12pt");
     letter.addTypeArgument("paper", "a4");
     letter.addTypeArgument("fromalign", "center");
     letter.addTypeArgument(KomaKey.FROMPHONE + "", "true");
   }
 
-  private static void generateTableSum(LatexTable table, Invoice letter) {
+  private void generateTableSum(LatexTable table, Invoice letter) {
     startTableFooter(table);
     addEmptyRow(table);
     addNetRow(table, letter);
@@ -236,25 +234,25 @@ public final class LatexGenerator {
     addGrossRow(table, letter);
   }
 
-  private static void startTableFooter(LatexTable table) {
+  private void startTableFooter(LatexTable table) {
     table.underLine();
   }
 
-  private static void addEmptyRow(LatexTable table) {
+  private void addEmptyRow(LatexTable table) {
     table.fillEnd(Syntax.multicol(COL_SEP + LEFT, PHANTOM),
         Syntax.multicol(RIGHT, PHANTOM_EURO));
     table.finishRow();
     table.underLine();
   }
 
-  private static void addNetRow(LatexTable table, Invoice letter) {
+  private void addNetRow(LatexTable table, Invoice letter) {
     table.fillMid(Syntax.multicol(COL_SEP + LEFT, Translator.translate("invoice.net")),
         Syntax.euro(letter.getNet()));
     table.finishRow();
     table.underLine();
   }
 
-  private static void addVatRow(LatexTable table, Invoice letter) {
+  private void addVatRow(LatexTable table, Invoice letter) {
     final String vat = FormatUtil.formatLocaleDecimal(letter.getVat());
     String label = Syntax.multicol(COL_SEP + CENTER + COL_SEP, vat + "\\% " + Translator.translate("invoice.vat"));
     String value = Syntax.euro(letter.getTax());
@@ -262,14 +260,14 @@ public final class LatexGenerator {
     table.underLine(-1);
   }
 
-  private static void addGrossRow(LatexTable table, Invoice letter) {
+  private void addGrossRow(LatexTable table, Invoice letter) {
     String label = Syntax.multicol(COL_SEP + LEFT + COL_SEP, smallCaps("invoice.sum"));
     String value = Syntax.euro(letter.getGross());
     table.fillStart(label, value + Syntax.BR);
     table.underLine(-1);
   }
 
-  private static String itemToLatex(Item item) {
+  private String itemToLatex(Item item) {
     StringBuilder itemLine = new StringBuilder();
 
     if (isItem(item)) {
@@ -283,17 +281,17 @@ public final class LatexGenerator {
         .toString();
   }
 
-  private static boolean isItem(Item item) {
+  private boolean isItem(Item item) {
     return item.getPricePerUnit() > 0 && item.getQuantity() > 0;
   }
 
-  private static void appendLabel(Item item, StringBuilder itemLine) {
+  private void appendLabel(Item item, StringBuilder itemLine) {
     itemLine
         .append(Syntax.multicol(SPAN_ARTICLE, COL_SEP + LEFT + COL_SEP, item.getName()))
         .append(Syntax.tab(2));
   }
 
-  private static void appendItem(Item item, StringBuilder itemLine) {
+  private void appendItem(Item item, StringBuilder itemLine) {
     List<String> columns = new ArrayList<>();
     columns.add(Syntax.multicol(COL_SEP + LEFT, item.getName()));
     columns.add(Syntax.multicol(RIGHT, FormatUtil.formatLocaleDecimal(item.getQuantity())));
@@ -302,5 +300,42 @@ public final class LatexGenerator {
     columns.add(Syntax.euro(item.getTotal()));
 
     itemLine.append(String.join(Syntax.tab(), columns));
+  }
+
+  /**
+   * Wandelt nicht druckbare Zeilenumbrüche in Latex Zeilenumbüche<br>
+   * "<code>\n</code>" wird zu "<code> \\\\ </code>" (Im Quelltext "
+   * <code>\\</code>" )
+   *
+   * @param in Der Umzuwandelnde Eingabestring
+   * @return Der geänderte Ausgabestring
+   */
+  public static String nToSlash(String in) {
+    StringBuilder out = new StringBuilder();
+
+    for (String string : getNewlineSeparatedParts(in)) {
+      appendContent(out, string);
+    }
+
+    return out.toString();
+  }
+
+  private static String[] getNewlineSeparatedParts(String in) {
+    if (!StringUtil.isEmpty(in)) {
+      return in.split(Constants.NEWLINE);
+    }
+
+    return new String[]{};
+  }
+
+  private static void appendContent(StringBuilder out, String string) {
+    out.append(string);
+
+    if (!StringUtil.isEmpty(string)) {
+      // Syntax.BR equals the Latex newline
+      out.append(Syntax.BR);
+    }
+
+    out.append(Constants.NEWLINE);
   }
 }

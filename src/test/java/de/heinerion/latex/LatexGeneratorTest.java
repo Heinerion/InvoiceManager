@@ -160,6 +160,8 @@ public class LatexGeneratorTest {
   private static Letter letter;
   private static Invoice invoice;
 
+  private LatexGenerator latexGenerator;
+
   @BeforeClass
   public static void prepare() {
     senderAddress = new Address("Senderfirma", "Senderstraße", "1", "12345", "Senderort");
@@ -176,11 +178,13 @@ public class LatexGeneratorTest {
 
     invoice = new Invoice(date, sender, receiverAddress);
     invoice.add("Artikel 1", "Stück", 1.50, 2);
+
+    latexGenerator = new LatexGenerator();
   }
 
   @Test
   public final void generateLatexSourcesTestEmptyLetter() {
-    final String result = LatexGenerator.generateLatexSource(letter);
+    final String result = latexGenerator.generateSourceContent(letter);
 
     Assert.assertEquals(EXPECTATION_LETTER_START + EXPECTATION_LETTER_END,
         result);
@@ -193,7 +197,7 @@ public class LatexGeneratorTest {
     letter.addMessageLine(content);
     letter.addMessageLine(content);
     letter.addMessageLine(content);
-    String result = LatexGenerator.generateLatexSource(letter);
+    String result = latexGenerator.generateSourceContent(letter);
 
     Assert.assertEquals(
         EXPECTATION_LETTER_START
@@ -203,7 +207,7 @@ public class LatexGeneratorTest {
 
   @Test
   public final void generateLatexSourcesTestInvoice() {
-    final String result = LatexGenerator.generateLatexSource(invoice);
+    final String result = latexGenerator.generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE, result);
   }
@@ -211,7 +215,7 @@ public class LatexGeneratorTest {
   @Test
   public final void buildsCorrectInvoiceForMultipleItems() {
     invoice.add("Artikel 2", "Stück", 3.44, 3);
-    final String result = LatexGenerator.generateLatexSource(invoice);
+    final String result = latexGenerator.generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE_OF_TWO, result);
   }

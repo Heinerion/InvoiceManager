@@ -15,6 +15,8 @@ public final class PrintAction implements ActionListener {
   private static final Logger logger = LogManager.getLogger(PrintAction.class);
   private Conveyable letter;
 
+  private MainOperations mainOperations = new MainOperations();
+
   @Override
   public void actionPerformed(ActionEvent arg0) {
     letter = Session.getActiveConveyable();
@@ -36,7 +38,7 @@ public final class PrintAction implements ActionListener {
     }
 
     if (letter.isPrintable()) {
-      MainOperations.createDocument(letter);
+      mainOperations.createDocument(letter);
     }
   }
 }

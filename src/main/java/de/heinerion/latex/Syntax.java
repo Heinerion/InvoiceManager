@@ -3,7 +3,7 @@ package de.heinerion.latex;
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.tools.FormatUtil;
 
-public final class Syntax {
+final class Syntax {
   static final String BR = "\\\\";
 
   static final String EOL = Constants.NEWLINE;
@@ -13,7 +13,7 @@ public final class Syntax {
   static final String START = "{";
   static final String END = "}";
 
-  public static final String NEWLINE = BR + EOL;
+  static final String NEWLINE = BR + EOL;
 
   static final String TEXT_TINY = "\\tiny";
 

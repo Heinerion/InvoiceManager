@@ -7,7 +7,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.StringUtil;
+import de.heinerion.latex.LatexGenerator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +21,8 @@ public final class LetterTabContent extends AbstractTabContent {
   private JLabel subjectLbl;
   private JTextArea contentArea;
   private JScrollPane contentScroll;
+
+  private transient LatexGenerator latexGenerator = new LatexGenerator();
 
   protected LetterTabContent() {
     super(Translator.translate("letter.title"));
@@ -102,7 +104,7 @@ public final class LetterTabContent extends AbstractTabContent {
     Letter ltr = new Letter(Session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
-    String text = StringUtil.nToSlash(getLetterText());
+    String text = latexGenerator.nToSlash(getLetterText());
     String[] textLines = text.split(Constants.NEWLINE);
     for (String line : textLines) {
       ltr.addMessageLine(line.replaceAll(DOUBLE_SLASH, Constants.EMPTY));
