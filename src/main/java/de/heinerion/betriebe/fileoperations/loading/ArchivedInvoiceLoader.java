@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public final class RechnungDataLoader extends AbstractLoader<ArchivedInvoice> {
-  private static final Logger logger = LogManager.getLogger(RechnungDataLoader.class);
+public final class ArchivedInvoiceLoader extends AbstractLoader<ArchivedInvoice> {
+  private static final Logger logger = LogManager.getLogger(ArchivedInvoiceLoader.class);
 
-  public RechnungDataLoader(File aLoadDirectory) {
+  public ArchivedInvoiceLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 

@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.gui.tablemodels.archive;
 
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.gui.tablemodels.archive.columns.*;
 import de.heinerion.betriebe.models.Company;
 
@@ -9,6 +10,7 @@ import javax.swing.table.TableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class RechnungsListe implements TableModel {
 
@@ -65,15 +67,28 @@ public final class RechnungsListe implements TableModel {
   }
 
   public boolean contains(ArchivedInvoice data) {
-    return this.rechnungszeilen.contains(data);
+    return getRechnungszeilen().contains(data);
   }
 
   public ArchivedInvoice get(int index) {
-    return this.rechnungszeilen.get(index);
+    return getRechnungszeilen().get(index);
   }
 
   public int getAnzahlElemente() {
-    return this.rechnungszeilen.size();
+    return (int) getRechnungszeilen()
+        .stream()
+        .filter(this::filterByActiveComppany)
+        .count();
+  }
+
+  private List<ArchivedInvoice> getRechnungszeilen() {
+    return this.rechnungszeilen.stream()
+        .filter(this::filterByActiveComppany)
+        .collect(Collectors.toList());
+  }
+
+  private boolean filterByActiveComppany(ArchivedInvoice invoice) {
+    return invoice.getCompany().equals(Session.getActiveCompany());
   }
 
   @Override
@@ -112,7 +127,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public int getRowCount() {
-    return this.getAnzahlElemente();
+    return getAnzahlElemente();
   }
 
   @Override
