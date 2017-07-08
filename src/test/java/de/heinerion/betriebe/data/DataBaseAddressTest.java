@@ -56,7 +56,7 @@ public class DataBaseAddressTest {
 
   @Test
   public void testAddAdresseWithoutCompany() {
-    DataBase.addAdresse(address);
+    DataBase.addAddress(address);
 
     assertTrue(DataBase.getAddresses().contains(address));
   }

@@ -74,7 +74,7 @@ public class PanelControl {
       logger.debug("save...");
     }
     if (notEmpty(address)) {
-      DataBase.addAdresse(parseAddress(address));
+      DataBase.addAddress(parseAddress(address));
     }
   }
 

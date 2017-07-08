@@ -1,12 +1,12 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import org.apache.logging.log4j.LogManager;
@@ -14,9 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class DataBase {
@@ -27,11 +25,7 @@ public final class DataBase {
   private static List<ListEntry<Vorlage>> templates = new ArrayList<>();
   private static List<ListEntry<TexTemplate>> texTemplates = new ArrayList<>();
 
-  /**
-   * beinhaltet alle Rechnungen TODO wozu ArchivedInvoiceTable?
-   * TODO warum hier eine Map und sonst Lists?
-   */
-  private static Map<Company, ArchivedInvoiceTable> invoices = new HashMap<>();
+  private static ArchivedInvoiceTable invoices = new ArchivedInvoiceTable();
 
   static {
     new DataBase();
@@ -50,7 +44,7 @@ public final class DataBase {
     removeAllInvoices();
   }
 
-  public static void addAddress(Company company, Address address) {
+  static void addAddress(Company company, Address address) {
     ListEntry<Address> oldAddress = getAddressEntry(company, address.getRecipient());
 
     if (oldAddress == null) {
@@ -80,7 +74,7 @@ public final class DataBase {
     }
   }
 
-  public static void addCompany(Company company) {
+  static void addCompany(Company company) {
     Session.addAvailableCompany(company);
 
     ListEntry<Company> oldCompany = getCompanyEntry(company.getDescriptiveName());
@@ -92,25 +86,20 @@ public final class DataBase {
     }
   }
 
-  public static void addAdresse(Address address) {
+  public static void addAddress(Address address) {
     addAddress(null, address);
 
     IO.saveAddresses();
   }
 
-  public static void addInvoice(ArchivedInvoice daten) {
-    Company company = Session.getActiveCompany();
-    ArchivedInvoiceTable list = getInvoice(company);
-
-    if (isEntryNotInList(daten, list)) {
-      list.add(daten);
+  static void addInvoice(ArchivedInvoice archivedInvoice) {
+    if (isEntryNotInList(archivedInvoice, invoices)) {
+      invoices.add(archivedInvoice);
     }
-
-    invoices.put(company, list);
   }
 
-  private static boolean isEntryNotInList(ArchivedInvoice daten, ArchivedInvoiceTable list) {
-    return list != null && !list.contains(daten);
+  private static boolean isEntryNotInList(ArchivedInvoice archivedInvoice, ArchivedInvoiceTable list) {
+    return list != null && !list.contains(archivedInvoice);
   }
 
   public static Address getAddress(Company company, String recipient) {
@@ -161,7 +150,7 @@ public final class DataBase {
     Company result = null;
 
     if (logger.isDebugEnabled()) {
-      logger.debug("getComapny({})", descriptiveName);
+      logger.debug("getCompany({})", descriptiveName);
     }
 
     ListEntry<Company> entry = getCompanyEntry(descriptiveName);
@@ -193,7 +182,7 @@ public final class DataBase {
     return getAddresses(null);
   }
 
-  public static List<Company> getCompanies() {
+  static List<Company> getCompanies() {
     List<Company> result = getEntries(companies, null);
     result.sort((a, b) -> Collator.getInstance().compare(a.getDescriptiveName(), b.getDescriptiveName()));
     return result;
@@ -218,20 +207,7 @@ public final class DataBase {
   }
 
   public static ArchivedInvoiceTable getInvoices() {
-    return getInvoice(Session.getActiveCompany());
-  }
-
-  public static ArchivedInvoiceTable getInvoice(Company company) {
-    ArchivedInvoiceTable result = null;
-    if (company != null) {
-      result = invoices.get(company);
-    }
-
-    if (result == null) {
-      result = new ArchivedInvoiceTable();
-    }
-
-    return result;
+    return invoices;
   }
 
   private static ListEntry<Vorlage> getTemplateEntry(Company company, String templateName) {
@@ -282,10 +258,7 @@ public final class DataBase {
   }
 
   public static void removeAllInvoices() {
-    invoices = new HashMap<>();
-    for (Company c : Session.getAvailableCompanies()) {
-      invoices.put(c, new ArchivedInvoiceTable());
-    }
+    invoices = new ArchivedInvoiceTable();
   }
 
   public static void clearAllLists() {
@@ -294,9 +267,9 @@ public final class DataBase {
 
   private static class ListEntry<T> {
     private T entry;
-    private Company company;
+    private final Company company;
 
-    public ListEntry(Company aCompany, T anEntry) {
+    ListEntry(Company aCompany, T anEntry) {
       entry = anEntry;
       company = aCompany;
     }
@@ -305,11 +278,11 @@ public final class DataBase {
       return company;
     }
 
-    public T getEntry() {
+    T getEntry() {
       return entry;
     }
 
-    public void setEntry(T anEntry) {
+    void setEntry(T anEntry) {
       entry = anEntry;
     }
   }
