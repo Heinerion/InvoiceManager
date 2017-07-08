@@ -47,8 +47,8 @@ public final class IO implements LoadListener {
   private void registerListenersAndLoaders() {
     registerToLoadingManager();
 
-    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
     addLoader(Address.class, AddressLoader.class);
+    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
   }
 
   private void registerToLoadingManager() {
