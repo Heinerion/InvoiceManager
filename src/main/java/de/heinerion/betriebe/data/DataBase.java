@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungsListe;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.data.listable.Vorlage;
@@ -28,10 +28,10 @@ public final class DataBase {
   private static List<ListEntry<TexTemplate>> texTemplates = new ArrayList<>();
 
   /**
-   * beinhaltet alle Rechnungen TODO wozu RechnungsListe?
+   * beinhaltet alle Rechnungen TODO wozu ArchivedInvoiceTable?
    * TODO warum hier eine Map und sonst Lists?
    */
-  private static Map<Company, RechnungsListe> invoices = new HashMap<>();
+  private static Map<Company, ArchivedInvoiceTable> invoices = new HashMap<>();
 
   static {
     new DataBase();
@@ -100,7 +100,7 @@ public final class DataBase {
 
   public static void addInvoice(ArchivedInvoice daten) {
     Company company = Session.getActiveCompany();
-    RechnungsListe list = getInvoice(company);
+    ArchivedInvoiceTable list = getInvoice(company);
 
     if (isEntryNotInList(daten, list)) {
       list.add(daten);
@@ -109,7 +109,7 @@ public final class DataBase {
     invoices.put(company, list);
   }
 
-  private static boolean isEntryNotInList(ArchivedInvoice daten, RechnungsListe list) {
+  private static boolean isEntryNotInList(ArchivedInvoice daten, ArchivedInvoiceTable list) {
     return list != null && !list.contains(daten);
   }
 
@@ -217,18 +217,18 @@ public final class DataBase {
     return entry.getCompany() == null || entry.getCompany().equals(company);
   }
 
-  public static RechnungsListe getInvoices() {
+  public static ArchivedInvoiceTable getInvoices() {
     return getInvoice(Session.getActiveCompany());
   }
 
-  public static RechnungsListe getInvoice(Company company) {
-    RechnungsListe result = null;
+  public static ArchivedInvoiceTable getInvoice(Company company) {
+    ArchivedInvoiceTable result = null;
     if (company != null) {
       result = invoices.get(company);
     }
 
     if (result == null) {
-      result = new RechnungsListe();
+      result = new ArchivedInvoiceTable();
     }
 
     return result;
@@ -284,7 +284,7 @@ public final class DataBase {
   public static void removeAllInvoices() {
     invoices = new HashMap<>();
     for (Company c : Session.getAvailableCompanies()) {
-      invoices.put(c, new RechnungsListe());
+      invoices.put(c, new ArchivedInvoiceTable());
     }
   }
 

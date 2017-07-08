@@ -5,7 +5,7 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.gui.tablemodels.archive.RechnungsListe;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.services.Translator;
@@ -26,7 +26,7 @@ import java.io.IOException;
 public final class ArchiveMenu extends AbstractMenu {
   static final String NAME = Translator.translate("menu.archive");
 
-  private RechnungsListe model;
+  private ArchivedInvoiceTable model;
 
   private JTable tblDokumente;
   private JScrollPane spDokumente;
@@ -51,20 +51,20 @@ public final class ArchiveMenu extends AbstractMenu {
     this.tblDokumente.setRowSelectionAllowed(true);
     // Breite der Felder
     final TableColumnModel cols = this.tblDokumente.getColumnModel();
-    cols.getColumn(RechnungsListe.INDEX_NUMBER).setMaxWidth(50);
-    cols.getColumn(RechnungsListe.INDEX_RECEIVER).setPreferredWidth(150);
-    cols.getColumn(RechnungsListe.INDEX_PRODUCT).setPreferredWidth(150);
-    cols.getColumn(RechnungsListe.INDEX_DATE).setMinWidth(90);
-    cols.getColumn(RechnungsListe.INDEX_DATE).setMaxWidth(90);
-    cols.getColumn(RechnungsListe.INDEX_SENDER).setPreferredWidth(100);
-    cols.getColumn(RechnungsListe.INDEX_AMOUNT).setMinWidth(80);
-    cols.getColumn(RechnungsListe.INDEX_AMOUNT).setMaxWidth(80);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_NUMBER).setMaxWidth(50);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_RECEIVER).setPreferredWidth(150);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_PRODUCT).setPreferredWidth(150);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMinWidth(90);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMaxWidth(90);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_SENDER).setPreferredWidth(100);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMinWidth(80);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMaxWidth(80);
     // Nach Nummer sortieren
     this.tblDokumente.getRowSorter().toggleSortOrder(
-        RechnungsListe.INDEX_NUMBER);
+        ArchivedInvoiceTable.INDEX_NUMBER);
     // Mit Höchster anfangen
     this.tblDokumente.getRowSorter().toggleSortOrder(
-        RechnungsListe.INDEX_NUMBER);
+        ArchivedInvoiceTable.INDEX_NUMBER);
 
     this.spDokumente = new JScrollPane(this.tblDokumente);
 
@@ -74,7 +74,7 @@ public final class ArchiveMenu extends AbstractMenu {
   @Override
   protected void setTitle() {
     this.setTitle(NAME + " - Gesamtsumme: "
-        + FormatUtil.formatLocaleDecimal(this.model.berechneEinnahmen())
+        + FormatUtil.formatLocaleDecimal(this.model.calculateRevenues())
         + " €");
   }
 

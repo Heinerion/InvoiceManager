@@ -121,8 +121,8 @@ public final class ArchivedInvoice implements Loadable {
   @Override
   public String toString() {
     List<String> properties = Arrays
-        .stream(new Object[]{invoiceNumber, recipient, dateString, company + "\n->", pdf.getPath()})
-        .map(Object::toString)
+        .stream(new Object[]{invoiceNumber, recipient, dateString, company, pdf != null ? pdf.getPath() : null})
+        .map(x -> x != null ? x.toString() : "-")
         .collect(Collectors.toList());
 
     return String.join(DIVIDER, properties);

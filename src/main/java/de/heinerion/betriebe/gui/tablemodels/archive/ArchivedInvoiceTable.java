@@ -10,9 +10,10 @@ import javax.swing.table.TableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public final class RechnungsListe implements TableModel {
+public final class ArchivedInvoiceTable implements TableModel {
 
   public static final int INDEX_NUMBER = 0;
   public static final int INDEX_RECEIVER = 1;
@@ -22,29 +23,26 @@ public final class RechnungsListe implements TableModel {
   public static final int INDEX_AMOUNT = 5;
 
   private static final InvoiceColumn[] COLUMNS = {
-      // Spalten in Reihenfolge des Auftretens
+      // columns in order of appearance
       new NumberColumn(), new ReceiverColumn(), new ProductColumn(),
       new DateColumn(), new SenderColumn(), new AmountColumn(),};
 
   private static final int COLUMN_COUNT = COLUMNS.length;
 
-  private List<ArchivedInvoice> rechnungszeilen;
+  private List<ArchivedInvoice> invoiceList;
   private final List<TableModelListener> tableListener = new ArrayList<>();
 
-  /**
-   * TODO elemente auf maximalZeilen begrenzen?
-   */
-  public RechnungsListe() {
-    this.rechnungszeilen = new ArrayList<>();
+  public ArchivedInvoiceTable() {
+    this.invoiceList = new ArrayList<>();
   }
 
   /**
-   * Fügt neue Rechnungsdaten ein
+   * Add a new archived invoice
    *
-   * @param data Die einzufügenden Daten
+   * @param data the archived invoice to be added
    */
   public void add(ArchivedInvoice data) {
-    this.rechnungszeilen.add(data);
+    this.invoiceList.add(data);
     this.notifyTableListener();
   }
 
@@ -54,41 +52,50 @@ public final class RechnungsListe implements TableModel {
   }
 
   /**
-   * Berechnet Gesamteinnahmen dieser Rechnungsliste
+   * calculates the total sum of all shown items
    *
-   * @return
+   * @return cumulated sum of all items
    */
-  public double berechneEinnahmen() {
-    double summe = 0;
-    for (int i = 0; i < this.getAnzahlElemente(); i++) {
-      summe += this.get(i).getAmount();
+  public double calculateRevenues() {
+    double sum = 0;
+    for (int i = 0; i < this.getItemCount(); i++) {
+      sum += this.get(i).getAmount();
     }
-    return summe;
+    return sum;
   }
 
   public boolean contains(ArchivedInvoice data) {
-    return getRechnungszeilen().contains(data);
+    return getInvoiceList().contains(data);
   }
 
   public ArchivedInvoice get(int index) {
-    return getRechnungszeilen().get(index);
+    return getInvoiceList().get(index);
   }
 
-  public int getAnzahlElemente() {
-    return (int) getRechnungszeilen()
-        .stream()
-        .filter(this::filterByActiveComppany)
-        .count();
+  public int getItemCount() {
+    return getInvoiceList().size();
   }
 
-  private List<ArchivedInvoice> getRechnungszeilen() {
-    return this.rechnungszeilen.stream()
-        .filter(this::filterByActiveComppany)
+  private List<ArchivedInvoice> getInvoiceList() {
+    return this.invoiceList.stream()
+        .filter(this::filterByActiveCompany)
         .collect(Collectors.toList());
   }
 
-  private boolean filterByActiveComppany(ArchivedInvoice invoice) {
-    return invoice.getCompany().equals(Session.getActiveCompany());
+  private List<ArchivedInvoice> getUnfilteredInvoiceList() {
+    return this.invoiceList;
+  }
+
+  private boolean filterByActiveCompany(ArchivedInvoice invoice) {
+    return filterByCompany(invoice, Session.getActiveCompany());
+  }
+
+  private boolean filterByCompany(ArchivedInvoice invoice, Company company) {
+    return invoice.getCompany().equals(company);
+  }
+
+  private Predicate<? super ArchivedInvoice> filterByCompany(Company company) {
+    return invoice -> filterByCompany(invoice, company);
   }
 
   @Override
@@ -97,7 +104,6 @@ public final class RechnungsListe implements TableModel {
   }
 
   @Override
-  /* TODO Anzahl Zeilen */
   public int getColumnCount() {
     return COLUMN_COUNT;
   }
@@ -107,17 +113,20 @@ public final class RechnungsListe implements TableModel {
     return COLUMNS[columnIndex].getName();
   }
 
-  public void getMaxNumber() {
-    int nummer;
-    Company company;
-    for (int i = 0; i < this.getAnzahlElemente(); i++) {
-      nummer = this.get(i).getInvoiceNumber();
-      company = this.get(i).getCompany();
-
-      if (company != null && nummer > company.getInvoiceNumber()) {
-        company.setInvoiceNumber(nummer);
-      }
-    }
+  public void determineHighestInvoiceNumbers() {
+    getUnfilteredInvoiceList()
+        .stream()
+        .map(ArchivedInvoice::getCompany)
+        .distinct()
+        .forEach(c -> c
+            .setInvoiceNumber(getUnfilteredInvoiceList()
+                .stream()
+                .filter(filterByCompany(c))
+                .mapToInt(ArchivedInvoice::getInvoiceNumber)
+                .max()
+                .orElse(0)
+            )
+        );
   }
 
   public File getPdfAt(int rowIndex) {
@@ -127,7 +136,7 @@ public final class RechnungsListe implements TableModel {
 
   @Override
   public int getRowCount() {
-    return getAnzahlElemente();
+    return getItemCount();
   }
 
   @Override
@@ -145,10 +154,6 @@ public final class RechnungsListe implements TableModel {
     for (TableModelListener l : this.tableListener) {
       l.tableChanged(new TableModelEvent(this));
     }
-  }
-
-  public void removeAll() {
-    this.rechnungszeilen = new ArrayList<>();
   }
 
   @Override

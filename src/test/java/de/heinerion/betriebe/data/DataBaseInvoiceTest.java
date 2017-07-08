@@ -38,13 +38,15 @@ public class DataBaseInvoiceTest {
     // TODO the ArchivedInvoice constructor makes way too much assumptions
     when(file.getName()).thenReturn("1 Test 03.03.2016.pdf");
     when(file.getParentFile()).thenReturn(parent);
-    when(parent.getName()).thenReturn("Heinerion");
+    when(parent.getName()).thenReturn("officialName");
 
     DataBase.clearAllLists();
-    company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    archivedInvoice = new ArchivedInvoice(file);
+    company = new Company("desc", "officialName", null, "sign", "number", "tax", 10, 11, null);
 
     DataBase.addCompany(company);
+    Session.setActiveCompany(company);
+
+    archivedInvoice = new ArchivedInvoice(file);
   }
 
   @Test
@@ -63,13 +65,13 @@ public class DataBaseInvoiceTest {
 
   @Test
   public void testAddInvoiceMultipleTimes() {
-    int baseSize = DataBase.getInvoices().getAnzahlElemente();
+    int baseSize = DataBase.getInvoices().getItemCount();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
     DataBase.addInvoice(archivedInvoice);
     DataBase.addInvoice(archivedInvoice);
 
-    assertEquals(expectedSize, DataBase.getInvoices().getAnzahlElemente());
+    assertEquals(expectedSize, DataBase.getInvoices().getItemCount());
   }
 }
