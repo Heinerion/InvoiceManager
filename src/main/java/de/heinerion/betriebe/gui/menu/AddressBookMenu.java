@@ -16,7 +16,7 @@ import java.util.List;
  */
 @SuppressWarnings("serial")
 public final class AddressBookMenu extends AbstractMenu {
-  static final String NAME = Translator.translate("menu.addressBook");
+  private static final String NAME = Translator.translate("menu.addressBook");
   private JScrollPane spAddresses;
 
   AddressBookMenu(final ApplicationFrame origin) {
@@ -24,7 +24,7 @@ public final class AddressBookMenu extends AbstractMenu {
   }
 
   @Override
-  protected void addWidgets() {
+  protected void addWidgets(JDialog dialog) {
     dialog.setLayout(new BorderLayout());
     dialog.add(getBtnOk(), BorderLayout.PAGE_END);
     dialog.add(spAddresses, BorderLayout.CENTER);
@@ -46,12 +46,17 @@ public final class AddressBookMenu extends AbstractMenu {
   }
 
   @Override
-  protected void setTitle() {
+  protected void setTitle(JDialog dialog) {
     dialog.setTitle(NAME);
   }
 
   @Override
-  protected void setupInteractions() {
+  String getLinkText() {
+    return NAME;
+  }
+
+  @Override
+  protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(event -> getCloser().windowClosing(null));
   }
 }

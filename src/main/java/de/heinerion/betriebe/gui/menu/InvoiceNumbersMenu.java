@@ -16,10 +16,10 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public class InvoiceNumbersMenu extends AbstractMenu {
-  static final String NAME = Translator.translate("menu.invoiceNumbers");
+  private static final String NAME = Translator.translate("menu.invoiceNumbers");
   private BGPanel pnlNumbers;
 
-  private transient Map<Company, JSpinner> numbers;
+  private Map<Company, JSpinner> numbers;
 
   private JLabel header;
 
@@ -28,7 +28,7 @@ public class InvoiceNumbersMenu extends AbstractMenu {
   }
 
   @Override
-  protected void addWidgets() {
+  protected void addWidgets(JDialog dialog) {
     numbers = new HashMap<>();
     for (Company c : Session.getAvailableCompanies()) {
       pnlNumbers.add(new JLabel(c.getDescriptiveName()));
@@ -70,12 +70,17 @@ public class InvoiceNumbersMenu extends AbstractMenu {
   }
 
   @Override
-  protected void setTitle() {
+  protected void setTitle(JDialog dialog) {
     dialog.setTitle(NAME);
   }
 
   @Override
-  protected void setupInteractions() {
+  String getLinkText() {
+    return NAME;
+  }
+
+  @Override
+  protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(arg0 -> {
       for (Company c : Session.getAvailableCompanies()) {
         c.setInvoiceNumber(calculateInvoiceNumber(numbers.get(c).getValue() + ""));

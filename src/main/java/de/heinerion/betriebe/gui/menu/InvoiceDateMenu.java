@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
  */
 @SuppressWarnings("serial")
 public final class InvoiceDateMenu extends AbstractMenu {
-  static final String NAME = Translator.translate("menu.invoiceDate");
+  private static final String NAME = Translator.translate("menu.invoiceDate");
 
   private JSpinner fldYY;
   private JSpinner fldMM;
@@ -25,7 +25,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
   private JLabel lblMM;
   private JLabel lblDD;
   private JButton btnToday;
-  private transient LocalDate date;
+  private LocalDate date;
 
   private JLabel header;
 
@@ -34,7 +34,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
   }
 
   @Override
-  protected void addWidgets() {
+  protected void addWidgets(JDialog dialog) {
     dialog.setLayout(new BorderLayout(5, 5));
     dialog.add(header, BorderLayout.PAGE_START);
     dialog.add(createBtnPnl(), BorderLayout.PAGE_END);
@@ -109,12 +109,17 @@ public final class InvoiceDateMenu extends AbstractMenu {
   }
 
   @Override
-  protected void setTitle() {
+  protected void setTitle(JDialog dialog) {
     dialog.setTitle(NAME);
   }
 
   @Override
-  protected void setupInteractions() {
+  String getLinkText() {
+    return NAME;
+  }
+
+  @Override
+  protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(
         arg0 -> {
           if (isValidDate()) {

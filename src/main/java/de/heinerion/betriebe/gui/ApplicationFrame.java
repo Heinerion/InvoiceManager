@@ -67,7 +67,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
 
   private void addWidgets() {
     setLayout(new BorderLayout());
-    setJMenuBar(MenuBar.getInstance());
+    setJMenuBar(new MenuBar(this));
     add(createReceiverPanel(), BorderLayout.LINE_START);
 
     add(contentTabPane, BorderLayout.CENTER);

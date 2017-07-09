@@ -8,26 +8,24 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class AbstractMenu {
+abstract class AbstractMenu {
 
-  JDialog dialog;
+  private JDialog dialog;
 
-  /**
-   * Generated UID
-   */
-  private static final long serialVersionUID = 4454109756872082790L;
   /**
    * source frame
    */
-  private ApplicationFrame origin;
+  private final ApplicationFrame origin;
+
   /**
    * window adapter, responsible for closing
    */
-  private DisposeAdapter closer = new DisposeAdapter();
+  private final DisposeAdapter closer = new DisposeAdapter();
+
   /**
    * confirm button
    */
-  private JButton btnOk = new JButton(Translator.translate("controls.confirm"));
+  private final JButton btnOk = new JButton(Translator.translate("controls.confirm"));
 
   /**
    * creates an always on top modal menu and sets the origin frame busy.
@@ -35,26 +33,39 @@ public abstract class AbstractMenu {
    * @param origin origin frame
    */
   AbstractMenu(final ApplicationFrame origin) {
-    dialog = new JDialog(origin, true);
-    // create glass pane on top of the origin frame
-    origin.setBusyState(BusyState.BUSY);
     this.origin = origin;
-
-    dialog.setAlwaysOnTop(true);
-    dialog.addWindowListener(closer);
-
-    createWidgets();
-    addWidgets();
-    setupInteractions();
-    setTitle();
-    dialog.pack();
-
-    dialog.setLocationRelativeTo(origin);
-
-    dialog.setVisible(true);
   }
 
-  protected abstract void addWidgets();
+  /**
+   * shows an always on top modal menu and sets the origin frame busy.
+   */
+  void showDialog() {
+    setOriginsState(BusyState.BUSY);
+
+    dialog = new JDialog(origin, true);
+    showDialog(dialog);
+  }
+
+  private void setOriginsState(BusyState busy) {
+    origin.setBusyState(busy);
+  }
+
+  private void showDialog(JDialog modalDialog) {
+    modalDialog.setAlwaysOnTop(true);
+    modalDialog.addWindowListener(closer);
+    createWidgets();
+    addWidgets(modalDialog);
+    setupInteractions(modalDialog);
+    setTitle(modalDialog);
+    modalDialog.pack();
+
+    modalDialog.setLocationRelativeTo(origin);
+    modalDialog.setVisible(true);
+  }
+
+  abstract String getLinkText();
+
+  protected abstract void addWidgets(JDialog dialog);
 
   protected abstract void createWidgets();
 
@@ -70,15 +81,15 @@ public abstract class AbstractMenu {
     return origin;
   }
 
-  protected abstract void setTitle();
+  protected abstract void setTitle(JDialog dialog);
 
-  protected abstract void setupInteractions();
+  protected abstract void setupInteractions(JDialog dialog);
 
   class DisposeAdapter extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
-      AbstractMenu.this.dialog.dispose();
-      AbstractMenu.this.origin.setBusyState(BusyState.IDLE);
+      dialog.dispose();
+      setOriginsState(BusyState.IDLE);
     }
   }
 }

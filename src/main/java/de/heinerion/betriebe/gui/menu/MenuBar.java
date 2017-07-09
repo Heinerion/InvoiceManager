@@ -1,58 +1,38 @@
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public final class MenuBar extends JMenuBar {
-  private static MenuBar instance;
+  private final ApplicationFrame origin;
 
-  private JMenuItem addresses;
-  private JMenuItem invoices;
-  private JMenuItem numbers;
-  private JMenuItem date;
+  private transient List<JMenuItem> menuItems;
 
-  private MenuBar() {
+  public MenuBar(ApplicationFrame origin) {
+    this.origin = origin;
     createWidgets();
     addWidgets();
-    setupInteractions();
   }
 
   private void createWidgets() {
-    addresses = createItem(AddressBookMenu.NAME);
-    invoices = createItem(ArchiveMenu.NAME);
-    numbers = createItem(InvoiceNumbersMenu.NAME);
-    date = createItem(InvoiceDateMenu.NAME);
+    menuItems = new ArrayList<>();
+    menuItems.add(createItem(new AddressBookMenu(origin)));
+    menuItems.add(createItem(new ArchiveMenu(origin)));
+    menuItems.add(createItem(new InvoiceNumbersMenu(origin)));
+    menuItems.add(createItem(new InvoiceDateMenu(origin)));
   }
 
-  private JMenuItem createItem(String linkText) {
-    return new JMenuItem(linkText);
+  private JMenuItem createItem(AbstractMenu menu) {
+    JMenuItem item = new JMenuItem(menu.getLinkText());
+    item.addActionListener(e -> menu.showDialog());
+    return item;
   }
 
   private void addWidgets() {
-    add(addresses);
-    add(invoices);
-    add(numbers);
-    add(date);
-  }
-
-  private void setupInteractions() {
-    addresses.addActionListener(e -> new AddressBookMenu(getFrame()));
-    invoices.addActionListener(e -> new ArchiveMenu(getFrame()));
-    numbers.addActionListener(e -> new InvoiceNumbersMenu(getFrame()));
-    date.addActionListener(e -> new InvoiceDateMenu(getFrame()));
-  }
-
-  public static MenuBar getInstance() {
-    if (instance == null) {
-      instance = new MenuBar();
-    }
-    return instance;
-  }
-
-  private ApplicationFrame getFrame() {
-    return Session.getActiveFrame();
+    menuItems.forEach(this::add);
   }
 }

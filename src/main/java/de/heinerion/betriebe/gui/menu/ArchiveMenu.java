@@ -20,9 +20,9 @@ import java.io.IOException;
  */
 @SuppressWarnings("serial")
 public final class ArchiveMenu extends AbstractMenu {
-  static final String NAME = Translator.translate("menu.archive");
+  private static final String NAME = Translator.translate("menu.archive");
 
-  private transient ArchivedInvoiceTable model;
+  private ArchivedInvoiceTable model;
 
   private JTable tblInvoices;
   private JScrollPane spInvoices;
@@ -33,7 +33,7 @@ public final class ArchiveMenu extends AbstractMenu {
   }
 
   @Override
-  protected void addWidgets() {
+  protected void addWidgets(JDialog dialog) {
     dialog.setLayout(new BorderLayout());
     dialog.add(getBtnOk(), BorderLayout.PAGE_END);
     dialog.add(spInvoices, BorderLayout.CENTER);
@@ -45,7 +45,7 @@ public final class ArchiveMenu extends AbstractMenu {
     tblInvoices = new JTable(model);
     tblInvoices.setAutoCreateRowSorter(true);
     tblInvoices.setRowSelectionAllowed(true);
-    // Breite der Felder
+    // Set column widths
     final TableColumnModel cols = tblInvoices.getColumnModel();
     cols.getColumn(ArchivedInvoiceTable.INDEX_NUMBER).setMaxWidth(50);
     cols.getColumn(ArchivedInvoiceTable.INDEX_RECEIVER).setPreferredWidth(150);
@@ -55,10 +55,10 @@ public final class ArchiveMenu extends AbstractMenu {
     cols.getColumn(ArchivedInvoiceTable.INDEX_SENDER).setPreferredWidth(100);
     cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMinWidth(80);
     cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMaxWidth(80);
-    // Nach Nummer sortieren
+    // order by number
     tblInvoices.getRowSorter().toggleSortOrder(
         ArchivedInvoiceTable.INDEX_NUMBER);
-    // Mit Höchster anfangen
+    // start with highest / latest
     tblInvoices.getRowSorter().toggleSortOrder(
         ArchivedInvoiceTable.INDEX_NUMBER);
 
@@ -68,14 +68,19 @@ public final class ArchiveMenu extends AbstractMenu {
   }
 
   @Override
-  protected void setTitle() {
+  protected void setTitle(JDialog dialog) {
     dialog.setTitle(NAME + " - Gesamtsumme: "
         + FormatUtil.formatLocaleDecimal(model.calculateRevenues())
         + " €");
   }
 
   @Override
-  protected void setupInteractions() {
+  String getLinkText() {
+    return NAME;
+  }
+
+  @Override
+  protected void setupInteractions(JDialog dialog) {
     tblInvoices.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
