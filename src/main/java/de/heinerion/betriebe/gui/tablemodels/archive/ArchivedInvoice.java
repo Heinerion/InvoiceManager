@@ -10,11 +10,11 @@ import de.heinerion.betriebe.tools.DateUtil;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class ArchivedInvoice implements Loadable {
   private static final String DIVIDER = "\t";
@@ -120,8 +120,8 @@ public final class ArchivedInvoice implements Loadable {
 
   @Override
   public String toString() {
-    List<String> properties = Arrays
-        .stream(new Object[]{invoiceNumber, recipient, dateString, company, pdf != null ? pdf.getPath() : null})
+    List<String> properties = Stream
+        .of(invoiceNumber, recipient, dateString, company, pdf != null ? pdf.getPath() : null)
         .map(x -> x != null ? x.toString() : "-")
         .collect(Collectors.toList());
 
