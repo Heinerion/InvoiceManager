@@ -26,6 +26,16 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
     return (Collator.getInstance()).compare(this.getName(), o.getName());
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    return obj instanceof Vorlage && compareTo((Vorlage) obj) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return getName().hashCode();
+  }
+
   public final String[][] getInhalt() {
     return inhalt;
   }
