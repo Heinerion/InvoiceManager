@@ -82,7 +82,8 @@ public class LatexWriter {
       if (logger.isErrorEnabled()) {
         logger.error(e);
       }
-      HeinerionException.rethrow(e);
+
+      Thread.currentThread().interrupt();
     }
   }
 
