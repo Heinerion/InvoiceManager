@@ -1,15 +1,11 @@
-/**
- * GemeindenMenu.java
- * heiner 30.03.2012
- */
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
-import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.FormatUtil;
+import de.heinerion.exceptions.HeinerionException;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -28,29 +24,29 @@ public final class ArchiveMenu extends AbstractMenu {
 
   private transient ArchivedInvoiceTable model;
 
-  private JTable tblDokumente;
-  private JScrollPane spDokumente;
+  private JTable tblInvoices;
+  private JScrollPane spInvoices;
 
   /**  */
-  public ArchiveMenu(final ApplicationFrame origin) {
+  ArchiveMenu(final ApplicationFrame origin) {
     super(origin);
   }
 
   @Override
   protected void addWidgets() {
-    this.setLayout(new BorderLayout());
-    this.add(getBtnOk(), BorderLayout.PAGE_END);
-    this.add(this.spDokumente, BorderLayout.CENTER);
+    setLayout(new BorderLayout());
+    add(getBtnOk(), BorderLayout.PAGE_END);
+    add(spInvoices, BorderLayout.CENTER);
   }
 
   @Override
   protected void createWidgets() {
-    this.model = DataBase.getInvoices();
-    this.tblDokumente = new JTable(this.model);
-    this.tblDokumente.setAutoCreateRowSorter(true);
-    this.tblDokumente.setRowSelectionAllowed(true);
+    model = DataBase.getInvoices();
+    tblInvoices = new JTable(model);
+    tblInvoices.setAutoCreateRowSorter(true);
+    tblInvoices.setRowSelectionAllowed(true);
     // Breite der Felder
-    final TableColumnModel cols = this.tblDokumente.getColumnModel();
+    final TableColumnModel cols = tblInvoices.getColumnModel();
     cols.getColumn(ArchivedInvoiceTable.INDEX_NUMBER).setMaxWidth(50);
     cols.getColumn(ArchivedInvoiceTable.INDEX_RECEIVER).setPreferredWidth(150);
     cols.getColumn(ArchivedInvoiceTable.INDEX_PRODUCT).setPreferredWidth(150);
@@ -60,27 +56,27 @@ public final class ArchiveMenu extends AbstractMenu {
     cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMinWidth(80);
     cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMaxWidth(80);
     // Nach Nummer sortieren
-    this.tblDokumente.getRowSorter().toggleSortOrder(
+    tblInvoices.getRowSorter().toggleSortOrder(
         ArchivedInvoiceTable.INDEX_NUMBER);
     // Mit Höchster anfangen
-    this.tblDokumente.getRowSorter().toggleSortOrder(
+    tblInvoices.getRowSorter().toggleSortOrder(
         ArchivedInvoiceTable.INDEX_NUMBER);
 
-    this.spDokumente = new JScrollPane(this.tblDokumente);
+    spInvoices = new JScrollPane(tblInvoices);
 
-    this.spDokumente.setPreferredSize(getUrsprung().getSize());
+    spInvoices.setPreferredSize(getOrigin().getSize());
   }
 
   @Override
   protected void setTitle() {
-    this.setTitle(NAME + " - Gesamtsumme: "
-        + FormatUtil.formatLocaleDecimal(this.model.calculateRevenues())
+    setTitle(NAME + " - Gesamtsumme: "
+        + FormatUtil.formatLocaleDecimal(model.calculateRevenues())
         + " €");
   }
 
   @Override
   protected void setupInteractions() {
-    this.tblDokumente.addMouseListener(new MouseAdapter() {
+    tblInvoices.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         handleDocumentClick(e);
@@ -91,8 +87,8 @@ public final class ArchiveMenu extends AbstractMenu {
 
   private void handleDocumentClick(MouseEvent event) {
     if (event.getClickCount() == 2) {
-      final int selectedRow = tblDokumente.getSelectedRow();
-      final int rowIndex = tblDokumente.convertRowIndexToModel(selectedRow);
+      final int selectedRow = tblInvoices.getSelectedRow();
+      final int rowIndex = tblInvoices.convertRowIndexToModel(selectedRow);
       final File pdf = model.getPdfAt(rowIndex);
       try {
         Desktop.getDesktop().open(pdf);

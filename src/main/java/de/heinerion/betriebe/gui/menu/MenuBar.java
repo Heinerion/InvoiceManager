@@ -21,14 +21,14 @@ public final class MenuBar extends JMenuBar {
   }
 
   private void createWidgets() {
-    addresses = createItem("Adressen");
+    addresses = createItem(AddressBookMenu.NAME);
     invoices = createItem(ArchiveMenu.NAME);
-    numbers = createItem("Nummern");
-    date = createItem("Datum");
+    numbers = createItem(InvoiceNumbersMenu.NAME);
+    date = createItem(InvoiceDateMenu.NAME);
   }
 
-  private JMenuItem createItem(String adressen) {
-    return new JMenuItem(adressen);
+  private JMenuItem createItem(String linkText) {
+    return new JMenuItem(linkText);
   }
 
   private void addWidgets() {
@@ -39,10 +39,10 @@ public final class MenuBar extends JMenuBar {
   }
 
   private void setupInteractions() {
-    addresses.addActionListener(e -> new AdressbuchMenu(getFrame()));
+    addresses.addActionListener(e -> new AddressBookMenu(getFrame()));
     invoices.addActionListener(e -> new ArchiveMenu(getFrame()));
-    numbers.addActionListener(e -> new RechnungsnummernMenu(getFrame()));
-    date.addActionListener(e -> new RechnungsdatumMenu(getFrame()));
+    numbers.addActionListener(e -> new InvoiceNumbersMenu(getFrame()));
+    date.addActionListener(e -> new InvoiceDateMenu(getFrame()));
   }
 
   public static MenuBar getInstance() {

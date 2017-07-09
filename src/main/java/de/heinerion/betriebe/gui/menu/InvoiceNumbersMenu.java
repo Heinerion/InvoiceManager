@@ -1,13 +1,10 @@
-/**
- * GemeindenMenu.java
- * heiner 30.03.2012
- */
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.BGPanel;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,14 +15,15 @@ import java.util.Map;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public class RechnungsnummernMenu extends AbstractMenu {
-  private BGPanel pnlNummern;
+public class InvoiceNumbersMenu extends AbstractMenu {
+  public static final String NAME = Translator.translate("menu.invoiceNumbers");
+  private BGPanel pnlNumbers;
 
-  private Map<Company, JSpinner> numbers;
+  private transient Map<Company, JSpinner> numbers;
 
   private JLabel header;
 
-  public RechnungsnummernMenu(ApplicationFrame origin) {
+  InvoiceNumbersMenu(ApplicationFrame origin) {
     super(origin);
   }
 
@@ -33,25 +31,25 @@ public class RechnungsnummernMenu extends AbstractMenu {
   protected void addWidgets() {
     numbers = new HashMap<>();
     for (Company c : Session.getAvailableCompanies()) {
-      pnlNummern.add(new JLabel(c.getDescriptiveName()));
+      pnlNumbers.add(new JLabel(c.getDescriptiveName()));
       SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
           c.getInvoiceNumber(), 0, 500, 1);
       JSpinner numberField = new JSpinner(spinnerModel);
       numbers.put(c, numberField);
-      pnlNummern.add(numberField);
+      pnlNumbers.add(numberField);
     }
 
     setLayout(new BorderLayout(5, 5));
     add(header, BorderLayout.PAGE_START);
     add(getBtnOk(), BorderLayout.PAGE_END);
-    add(pnlNummern, BorderLayout.CENTER);
+    add(pnlNumbers, BorderLayout.CENTER);
   }
 
-  private int calculateRn(String rnString) {
+  private int calculateInvoiceNumber(String numberString) {
     int invoiceNumber = -1;
 
-    if (isNotEmpty(rnString)) {
-      invoiceNumber = Integer.parseInt(rnString);
+    if (isNotEmpty(numberString)) {
+      invoiceNumber = Integer.parseInt(numberString);
     }
 
     return invoiceNumber;
@@ -63,24 +61,24 @@ public class RechnungsnummernMenu extends AbstractMenu {
 
   @Override
   protected void createWidgets() {
-    header = new JLabel("zuletzt ausgestellte Rechnungsnr.",
+    header = new JLabel(Translator.translate("menu.invoiceNumbers.lastIssuedNumber"),
         SwingConstants.CENTER);
 
-    pnlNummern = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
+    pnlNumbers = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
         BGPanel.BOTTOM);
-    pnlNummern.setLayout(new GridLayout(2, 2));
+    pnlNumbers.setLayout(new GridLayout(2, 2));
   }
 
   @Override
   protected void setTitle() {
-    setTitle("Rechnungsnummern");
+    setTitle(NAME);
   }
 
   @Override
   protected void setupInteractions() {
     getBtnOk().addActionListener(arg0 -> {
       for (Company c : Session.getAvailableCompanies()) {
-        c.setInvoiceNumber(calculateRn(numbers.get(c).getValue() + ""));
+        c.setInvoiceNumber(calculateInvoiceNumber(numbers.get(c).getValue() + ""));
       }
 
       getCloser().windowClosing(null);

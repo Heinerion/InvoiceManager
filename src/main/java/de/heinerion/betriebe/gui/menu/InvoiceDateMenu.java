@@ -1,12 +1,9 @@
-/**
- * GemeindenMenu.java
- * heiner 30.03.2012
- */
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.BGPanel;
+import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 
 import javax.swing.*;
@@ -18,15 +15,21 @@ import java.time.format.DateTimeParseException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class RechnungsdatumMenu extends AbstractMenu {
-  private JSpinner fldYY, fldMM, fldDD;
-  private JLabel lblYY, lblMM, lblDD;
-  private JButton btnHeute;
-  private LocalDate date;
+public final class InvoiceDateMenu extends AbstractMenu {
+  static final String NAME = Translator.translate("menu.invoiceDate");
+
+  private JSpinner fldYY;
+  private JSpinner fldMM;
+  private JSpinner fldDD;
+  private JLabel lblYY;
+  private JLabel lblMM;
+  private JLabel lblDD;
+  private JButton btnToday;
+  private transient LocalDate date;
 
   private JLabel header;
 
-  public RechnungsdatumMenu(final ApplicationFrame origin) {
+  InvoiceDateMenu(final ApplicationFrame origin) {
     super(origin);
   }
 
@@ -39,9 +42,11 @@ public final class RechnungsdatumMenu extends AbstractMenu {
   }
 
   private JPanel createBtnPnl() {
-    JPanel btnPnl = new JPanel(new GridLayout(2, 1));
+    int rows = 2;
+    int cols = 1;
+    JPanel btnPnl = new JPanel(new GridLayout(rows, cols));
 
-    btnPnl.add(btnHeute);
+    btnPnl.add(btnToday);
     btnPnl.add(getBtnOk());
 
     return btnPnl;
@@ -50,8 +55,10 @@ public final class RechnungsdatumMenu extends AbstractMenu {
   private JPanel createDatePanel() {
     final BGPanel pnlDatum = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT,
         BGPanel.TOP, BGPanel.BOTTOM);
-    // Reihen 2, Spalten 3
-    pnlDatum.setLayout(new GridLayout(2, 3));
+
+    int rows = 2;
+    int cols = 3;
+    pnlDatum.setLayout(new GridLayout(rows, cols));
 
     pnlDatum.add(lblDD);
     pnlDatum.add(lblMM);
@@ -65,22 +72,31 @@ public final class RechnungsdatumMenu extends AbstractMenu {
 
   @Override
   protected void createWidgets() {
-    btnHeute = new JButton("Heute");
-    lblYY = new JLabel("Jahr");
-    lblMM = new JLabel("Monat");
-    lblDD = new JLabel("Tag");
+    btnToday = new JButton(Translator.translate("date.today"));
+    lblYY = new JLabel(Translator.translate("date.year"));
+    lblMM = new JLabel(Translator.translate("date.month"));
+    lblDD = new JLabel(Translator.translate("date.day"));
 
-    final int[] aktuell = getUrsprung().getRechnungsdatumAsArray();
-    fldDD = new JSpinner(new SpinnerNumberModel(aktuell[0], 1, 31, 1));
-    fldMM = new JSpinner(new SpinnerNumberModel(aktuell[1], 1, 12, 1));
-    fldYY = new JSpinner(new SpinnerNumberModel(aktuell[2], 1990, 2050, 1));
+    final int[] currentDate = getOrigin().getRechnungsdatumAsArray();
+    int currentDay = currentDate[0];
+    int currentMonth = currentDate[1];
+    int currentYear = currentDate[2];
+    int stepSize = 1;
+
+    fldDD = configureSpinner(currentDay, 1, 31, stepSize);
+    fldMM = configureSpinner(currentMonth, 1, 12, 1);
+    fldYY = configureSpinner(currentYear, 1990, 2050, 1);
     fldYY.setEditor(new JSpinner.NumberEditor(fldYY, "#"));
 
-    header = new JLabel("Aktuelles Rechnungsdatum", SwingConstants.CENTER);
+    header = new JLabel(Translator.translate("invoice.currentDate"), SwingConstants.CENTER);
 
   }
 
-  private boolean eingabenKorrekt() {
+  private JSpinner configureSpinner(int preselected, int min, int max, int stepSize) {
+    return new JSpinner(new SpinnerNumberModel(preselected, min, max, stepSize));
+  }
+
+  private boolean isValidDate() {
     boolean correct = true;
 
     try {
@@ -94,24 +110,24 @@ public final class RechnungsdatumMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    setTitle("Rechnungsdatum");
+    setTitle(NAME);
   }
 
   @Override
   protected void setupInteractions() {
     getBtnOk().addActionListener(
         arg0 -> {
-          if (eingabenKorrekt()) {
+          if (isValidDate()) {
             Session.setDate(date);
             getCloser().windowClosing(null);
           } else {
             JOptionPane.showMessageDialog(rootPane,
-                "Das eingegebene Datum ist falsch", "Fehler",
+                Translator.translate("error.dateFormat"), Translator.translate("error.title"),
                 JOptionPane.INFORMATION_MESSAGE);
           }
         });
 
-    btnHeute.addActionListener(e -> {
+    btnToday.addActionListener(e -> {
       final LocalDate now = LocalDate.now();
       fldDD.setValue(now.getDayOfMonth());
       fldMM.setValue(now.getMonthValue());

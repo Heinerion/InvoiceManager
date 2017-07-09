@@ -1,58 +1,57 @@
-/**
- * GemeindenMenu.java
- * heiner 30.03.2012
- */
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.tablemodels.AddressModel;
+import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class AdressbuchMenu extends AbstractMenu {
+public final class AddressBookMenu extends AbstractMenu {
+  public static final String NAME = Translator.translate("menu.addressBook");
   private JScrollPane spAddresses;
 
-  public AdressbuchMenu(final ApplicationFrame origin) {
-    // Macht Modal und setzt busy
+  AddressBookMenu(final ApplicationFrame origin) {
     super(origin);
   }
 
   @Override
   protected void addWidgets() {
-    this.setLayout(new BorderLayout());
-    this.add(getBtnOk(), BorderLayout.PAGE_END);
-    this.add(this.spAddresses, BorderLayout.CENTER);
+    setLayout(new BorderLayout());
+    add(getBtnOk(), BorderLayout.PAGE_END);
+    add(spAddresses, BorderLayout.CENTER);
   }
 
   @Override
   protected void createWidgets() {
-    final AddressModel model = new AddressModel(DataBase.getAddresses(Session
-        .getActiveCompany()));
+    List<Address> addresses = DataBase.getAddresses(Session.getActiveCompany());
+    final AddressModel model = new AddressModel(addresses);
 
     final JTable tblAddresses = new JTable(model);
     tblAddresses.setAutoCreateRowSorter(true);
     tblAddresses.setRowSelectionAllowed(true);
     tblAddresses.getRowSorter().toggleSortOrder(0);
 
-    this.spAddresses = new JScrollPane(tblAddresses);
+    spAddresses = new JScrollPane(tblAddresses);
 
-    this.spAddresses.setPreferredSize(getUrsprung().getSize());
+    spAddresses.setPreferredSize(getOrigin().getSize());
   }
 
   @Override
   protected void setTitle() {
-    this.setTitle("Adressbuch");
+    setTitle(NAME);
   }
 
   @Override
   protected void setupInteractions() {
-    getBtnOk().addActionListener((event) -> getCloser().windowClosing(null));
+    getBtnOk().addActionListener(event -> getCloser().windowClosing(null));
   }
 }

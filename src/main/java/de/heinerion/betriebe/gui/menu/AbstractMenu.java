@@ -2,6 +2,7 @@ package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.BusyState;
+import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -10,52 +11,45 @@ import java.awt.event.WindowEvent;
 public abstract class AbstractMenu extends JDialog {
 
   /**
-   * Generierte UID
+   * Generated UID
    */
   private static final long serialVersionUID = 4454109756872082790L;
   /**
-   * Quellfenster
+   * source frame
    */
-  private ApplicationFrame ursprung;
+  private ApplicationFrame origin;
   /**
-   * Der Windowadapter, für schließvorgänge zuständig
+   * window adapter, responsible for closing
    */
-  private DisposeAdapter closer = new DisposeAdapter();
+  private transient DisposeAdapter closer = new DisposeAdapter();
   /**
-   * Bestätigungs-/ Schließknopf
+   * confirm button
    */
-  private JButton btnOk = new JButton("OK");
-  /**
-   * Knopf um Einträge zu löschen
-   */
-  private JButton btnDelete = new JButton("Löschen");
+  private JButton btnOk = new JButton(Translator.translate("controls.confirm"));
 
   /**
-   * Erstellt ein Menu, macht es Modal und setzt das Ursprungsfenster
-   * beschäftigt, lässt den Titel setzen und Positioniert mittig zum
-   * Ursprungsfenster und immer im Vordergrund
+   * creates an always on top modal menu and sets the origin frame busy.
    *
-   * @param origin
+   * @param origin origin frame
    */
-  public AbstractMenu(final ApplicationFrame origin) {
+  AbstractMenu(final ApplicationFrame origin) {
     super(origin, true);
-    // Setze Glasspane auf ursprung
+    // create glass pane on top of the origin frame
     origin.setBusyState(BusyState.BUSY);
-    this.ursprung = origin;
+    this.origin = origin;
 
-    // Immer im Vordergrund
-    this.setAlwaysOnTop(true);
-    this.addWindowListener(this.closer);
+    setAlwaysOnTop(true);
+    addWindowListener(closer);
 
-    this.createWidgets();
-    this.addWidgets();
-    this.setupInteractions();
-    this.setTitle();
-    this.pack();
+    createWidgets();
+    addWidgets();
+    setupInteractions();
+    setTitle();
+    pack();
 
-    this.setLocationRelativeTo(origin);
+    setLocationRelativeTo(origin);
 
-    this.setVisible(true);
+    setVisible(true);
 
   }
 
@@ -63,28 +57,16 @@ public abstract class AbstractMenu extends JDialog {
 
   protected abstract void createWidgets();
 
-  public final JButton getBtnDelete() {
-    return btnDelete;
-  }
-
-  public final JButton getBtnOk() {
+  final JButton getBtnOk() {
     return btnOk;
   }
 
-  public final DisposeAdapter getCloser() {
+  final DisposeAdapter getCloser() {
     return closer;
   }
 
-  public final ApplicationFrame getUrsprung() {
-    return ursprung;
-  }
-
-  public final void setBtnDelete(JButton aButton) {
-    this.btnDelete = aButton;
-  }
-
-  public final void setBtnOk(JButton aButton) {
-    this.btnOk = aButton;
+  final ApplicationFrame getOrigin() {
+    return origin;
   }
 
   protected abstract void setTitle();
@@ -95,7 +77,7 @@ public abstract class AbstractMenu extends JDialog {
     @Override
     public void windowClosing(WindowEvent e) {
       AbstractMenu.this.dispose();
-      AbstractMenu.this.ursprung.setBusyState(BusyState.IDLE);
+      AbstractMenu.this.origin.setBusyState(BusyState.IDLE);
     }
   }
 }
