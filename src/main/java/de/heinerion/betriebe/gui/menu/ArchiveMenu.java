@@ -26,7 +26,7 @@ import java.io.IOException;
 public final class ArchiveMenu extends AbstractMenu {
   static final String NAME = Translator.translate("menu.archive");
 
-  private ArchivedInvoiceTable model;
+  private transient ArchivedInvoiceTable model;
 
   private JTable tblDokumente;
   private JScrollPane spDokumente;
