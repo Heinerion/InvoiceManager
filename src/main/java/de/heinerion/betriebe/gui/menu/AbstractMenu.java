@@ -8,7 +8,9 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class AbstractMenu extends JDialog {
+public abstract class AbstractMenu {
+
+  JDialog dialog;
 
   /**
    * Generated UID
@@ -21,7 +23,7 @@ public abstract class AbstractMenu extends JDialog {
   /**
    * window adapter, responsible for closing
    */
-  private transient DisposeAdapter closer = new DisposeAdapter();
+  private DisposeAdapter closer = new DisposeAdapter();
   /**
    * confirm button
    */
@@ -33,24 +35,23 @@ public abstract class AbstractMenu extends JDialog {
    * @param origin origin frame
    */
   AbstractMenu(final ApplicationFrame origin) {
-    super(origin, true);
+    dialog = new JDialog(origin, true);
     // create glass pane on top of the origin frame
     origin.setBusyState(BusyState.BUSY);
     this.origin = origin;
 
-    setAlwaysOnTop(true);
-    addWindowListener(closer);
+    dialog.setAlwaysOnTop(true);
+    dialog.addWindowListener(closer);
 
     createWidgets();
     addWidgets();
     setupInteractions();
     setTitle();
-    pack();
+    dialog.pack();
 
-    setLocationRelativeTo(origin);
+    dialog.setLocationRelativeTo(origin);
 
-    setVisible(true);
-
+    dialog.setVisible(true);
   }
 
   protected abstract void addWidgets();
@@ -76,7 +77,7 @@ public abstract class AbstractMenu extends JDialog {
   class DisposeAdapter extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
-      AbstractMenu.this.dispose();
+      AbstractMenu.this.dialog.dispose();
       AbstractMenu.this.origin.setBusyState(BusyState.IDLE);
     }
   }

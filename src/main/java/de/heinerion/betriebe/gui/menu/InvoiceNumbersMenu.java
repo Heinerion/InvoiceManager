@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public class InvoiceNumbersMenu extends AbstractMenu {
-  public static final String NAME = Translator.translate("menu.invoiceNumbers");
+  static final String NAME = Translator.translate("menu.invoiceNumbers");
   private BGPanel pnlNumbers;
 
   private transient Map<Company, JSpinner> numbers;
@@ -39,10 +39,10 @@ public class InvoiceNumbersMenu extends AbstractMenu {
       pnlNumbers.add(numberField);
     }
 
-    setLayout(new BorderLayout(5, 5));
-    add(header, BorderLayout.PAGE_START);
-    add(getBtnOk(), BorderLayout.PAGE_END);
-    add(pnlNumbers, BorderLayout.CENTER);
+    dialog.setLayout(new BorderLayout(5, 5));
+    dialog.add(header, BorderLayout.PAGE_START);
+    dialog.add(getBtnOk(), BorderLayout.PAGE_END);
+    dialog.add(pnlNumbers, BorderLayout.CENTER);
   }
 
   private int calculateInvoiceNumber(String numberString) {
@@ -71,7 +71,7 @@ public class InvoiceNumbersMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    setTitle(NAME);
+    dialog.setTitle(NAME);
   }
 
   @Override

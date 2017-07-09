@@ -34,9 +34,9 @@ public final class ArchiveMenu extends AbstractMenu {
 
   @Override
   protected void addWidgets() {
-    setLayout(new BorderLayout());
-    add(getBtnOk(), BorderLayout.PAGE_END);
-    add(spInvoices, BorderLayout.CENTER);
+    dialog.setLayout(new BorderLayout());
+    dialog.add(getBtnOk(), BorderLayout.PAGE_END);
+    dialog.add(spInvoices, BorderLayout.CENTER);
   }
 
   @Override
@@ -69,7 +69,7 @@ public final class ArchiveMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    setTitle(NAME + " - Gesamtsumme: "
+    dialog.setTitle(NAME + " - Gesamtsumme: "
         + FormatUtil.formatLocaleDecimal(model.calculateRevenues())
         + " €");
   }

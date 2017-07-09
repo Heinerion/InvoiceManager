@@ -35,10 +35,10 @@ public final class InvoiceDateMenu extends AbstractMenu {
 
   @Override
   protected void addWidgets() {
-    setLayout(new BorderLayout(5, 5));
-    add(header, BorderLayout.PAGE_START);
-    add(createBtnPnl(), BorderLayout.PAGE_END);
-    add(createDatePanel(), BorderLayout.CENTER);
+    dialog.setLayout(new BorderLayout(5, 5));
+    dialog.add(header, BorderLayout.PAGE_START);
+    dialog.add(createBtnPnl(), BorderLayout.PAGE_END);
+    dialog.add(createDatePanel(), BorderLayout.CENTER);
   }
 
   private JPanel createBtnPnl() {
@@ -110,7 +110,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
 
   @Override
   protected void setTitle() {
-    setTitle(NAME);
+    dialog.setTitle(NAME);
   }
 
   @Override
@@ -121,7 +121,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
             Session.setDate(date);
             getCloser().windowClosing(null);
           } else {
-            JOptionPane.showMessageDialog(rootPane,
+            JOptionPane.showMessageDialog(dialog.getRootPane(),
                 Translator.translate("error.dateFormat"), Translator.translate("error.title"),
                 JOptionPane.INFORMATION_MESSAGE);
           }
