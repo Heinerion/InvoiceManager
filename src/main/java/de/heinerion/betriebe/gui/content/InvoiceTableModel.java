@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.data.listable.Vorlage;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
 import de.heinerion.betriebe.tools.ParsingUtil;
@@ -160,8 +160,8 @@ public class InvoiceTableModel extends AbstractTableModel {
     return result;
   }
 
-  public Vorlage createVorlage() {
-    Vorlage result = new Vorlage();
+  public InvoiceTemplate createVorlage() {
+    InvoiceTemplate result = new InvoiceTemplate();
 
     result.setName(contents.get(0).getName());
     String[][] contentTable = new String[contents.size()][getColumnCount()];

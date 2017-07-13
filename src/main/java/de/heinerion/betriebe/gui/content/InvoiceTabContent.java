@@ -2,7 +2,7 @@ package de.heinerion.betriebe.gui.content;
 
 import de.heinerion.betriebe.data.*;
 import de.heinerion.betriebe.data.listable.DropListable;
-import de.heinerion.betriebe.data.listable.Vorlage;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.content.components.FooterPanel;
@@ -41,10 +41,10 @@ public final class InvoiceTabContent extends AbstractTabContent {
   private final static int COLS = 4;
 
   private final List<Item> contentPositions = new ArrayList<>();
-  private List<Vorlage> templates = new ArrayList<>();
+  private List<InvoiceTemplate> templates = new ArrayList<>();
 
   private JTable tabPositions;
-  private final JComboBox<Vorlage> templateBox = new JComboBox<>();
+  private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
 
   protected InvoiceTabContent() {
     super(Translator.translate("invoice.title"));
@@ -103,8 +103,8 @@ public final class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void addToTemplates(Item item) {
-    List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
-    Vorlage template = createTemplate();
+    List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    InvoiceTemplate template = createTemplate();
 
     int index = index(item.getName(), activeTemplates);
     if (index == -1) {
@@ -118,8 +118,8 @@ public final class InvoiceTabContent extends AbstractTabContent {
     refresh();
   }
 
-  private Vorlage createTemplate() {
-    Vorlage result = null;
+  private InvoiceTemplate createTemplate() {
+    InvoiceTemplate result = null;
 
     if (tabPositions.getModel() instanceof InvoiceTableModel) {
       TableModel tableModel = tabPositions.getModel();
@@ -132,7 +132,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
 
   @Override
   public void refresh() {
-    List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
     if (!activeTemplates.equals(templates)) {
       templateBox.removeAllItems();
       activeTemplates.forEach(templateBox::addItem);
@@ -158,7 +158,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
     if (pos >= 0) {
       // Überschreibe Tabelleninhalt mit Vorlage
       String[][] table;
-      List<Vorlage> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+      List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
       table = activeTemplates.get(pos).getInhalt();
       fillTable(table);
     }

@@ -1,9 +1,9 @@
 package de.heinerion.betriebe.fileoperations;
 
 import de.heinerion.betriebe.data.*;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.data.listable.TexTemplate;
-import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.fileoperations.loading.*;
 import de.heinerion.betriebe.loader.TextFileLoader;
@@ -148,7 +148,7 @@ public final class IO implements LoadListener {
   }
 
   private static void loadAllTemplates(Company company) {
-    for (Vorlage template : ladeVorlagen(company)) {
+    for (InvoiceTemplate template : ladeVorlagen(company)) {
       DataBase.addTemplate(company, template);
     }
   }
@@ -159,8 +159,8 @@ public final class IO implements LoadListener {
    * @param company Der Betrieb
    * @return Die Betriebsgebundene Vorlagenliste
    */
-  private static List<Vorlage> ladeVorlagen(Company company) {
-    final List<Vorlage> result = FileHandler.load(new Vorlage(),
+  private static List<InvoiceTemplate> ladeVorlagen(Company company) {
+    final List<InvoiceTemplate> result = FileHandler.load(new InvoiceTemplate(),
         getTemplatePath(company));
 
     result.stream()
@@ -198,12 +198,12 @@ public final class IO implements LoadListener {
    * @param company  Gibt den betroffenen Betrieb an
    * @see #speichereListe(List, String)
    */
-  private static void speichereVorlagen(List<Vorlage> vorlagen, Company company) {
+  private static void speichereVorlagen(List<InvoiceTemplate> vorlagen, Company company) {
     speichereListe(vorlagen, getTemplatePath(company));
   }
 
   // TODO an der Effizienz arbeiten...
-  public static void updateTemplates(List<Vorlage> vorlagen) {
+  public static void updateTemplates(List<InvoiceTemplate> vorlagen) {
     speichereVorlagen(vorlagen, Session.getActiveCompany());
     ladeVorlagen();
   }

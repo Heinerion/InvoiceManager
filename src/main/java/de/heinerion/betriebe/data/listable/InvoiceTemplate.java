@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.text.Collator;
 import java.util.Arrays;
 
-public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable {
+public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate>, DropListable {
   /**
    * Generierte ID
    */
@@ -12,23 +12,23 @@ public class Vorlage implements Serializable, Comparable<Vorlage>, DropListable 
   private String name;
   private String[][] inhalt;
 
-  public Vorlage() {
+  public InvoiceTemplate() {
     this("", new String[][]{{""}});
   }
 
-  public Vorlage(String aName, String[][] content) {
+  private InvoiceTemplate(String aName, String[][] content) {
     this.name = aName;
     this.inhalt = content;
   }
 
   @Override
-  public final int compareTo(Vorlage o) {
+  public final int compareTo(InvoiceTemplate o) {
     return (Collator.getInstance()).compare(this.getName(), o.getName());
   }
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof Vorlage && compareTo((Vorlage) obj) == 0;
+    return obj instanceof InvoiceTemplate && compareTo((InvoiceTemplate) obj) == 0;
   }
 
   @Override

@@ -1,11 +1,15 @@
 package de.heinerion.betriebe.fileoperations.io;
 
-import de.heinerion.betriebe.data.listable.Vorlage;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class LegacyTemplateReader extends ObjectInputStream {
   LegacyTemplateReader(InputStream inputStream) throws IOException {
@@ -16,12 +20,20 @@ class LegacyTemplateReader extends ObjectInputStream {
   protected java.io.ObjectStreamClass readClassDescriptor()
       throws IOException, ClassNotFoundException {
     ObjectStreamClass desc = super.readClassDescriptor();
-    if ("de.heinerion.betriebe.classes.texting.Vorlage".equals(desc.getName())) {
-      return ObjectStreamClass.lookup(Vorlage.class);
+
+    if (isOldInvoiceTemplate(desc.getName())) {
+      desc = ObjectStreamClass.lookup(InvoiceTemplate.class);
     }
-    if ("de.heinerion.betriebe.data.Vorlage".equals(desc.getName())) {
-      return ObjectStreamClass.lookup(Vorlage.class);
-    }
+
     return desc;
+  }
+
+  private boolean isOldInvoiceTemplate(String qualifiedName) {
+    return Stream
+        .of("de.heinerion.betriebe.classes.texting.Vorlage",
+            "de.heinerion.betriebe.data.Vorlage",
+            "de.heinerion.betriebe.data.listable.Vorlage")
+        .collect(Collectors.toList())
+        .contains(qualifiedName);
   }
 }

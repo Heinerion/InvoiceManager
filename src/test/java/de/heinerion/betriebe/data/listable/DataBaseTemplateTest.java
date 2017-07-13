@@ -19,14 +19,14 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("javax.management.*")
 public class DataBaseTemplateTest {
   private Company company;
-  private Vorlage template;
+  private InvoiceTemplate template;
 
   @Before
   public void setUp() throws Exception {
     mockStatic(IO.class);
     DataBase.clearAllLists();
     company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    template = new Vorlage();
+    template = new InvoiceTemplate();
   }
 
   @Test

@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.listable.DropListable;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
-import de.heinerion.betriebe.data.listable.Vorlage;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
@@ -22,7 +22,7 @@ public final class DataBase {
 
   private static List<ListEntry<Address>> addresses = new ArrayList<>();
   private static List<ListEntry<Company>> companies = new ArrayList<>();
-  private static List<ListEntry<Vorlage>> templates = new ArrayList<>();
+  private static List<ListEntry<InvoiceTemplate>> templates = new ArrayList<>();
   private static List<ListEntry<TexTemplate>> texTemplates = new ArrayList<>();
 
   private static ArchivedInvoiceTable invoices = new ArchivedInvoiceTable();
@@ -54,8 +54,8 @@ public final class DataBase {
     }
   }
 
-  public static void addTemplate(Company company, Vorlage template) {
-    ListEntry<Vorlage> oldAddress = getTemplateEntry(company, template.getName());
+  public static void addTemplate(Company company, InvoiceTemplate template) {
+    ListEntry<InvoiceTemplate> oldAddress = getTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
       templates.add(new ListEntry<>(company, template));
@@ -210,7 +210,7 @@ public final class DataBase {
     return invoices;
   }
 
-  private static ListEntry<Vorlage> getTemplateEntry(Company company, String templateName) {
+  private static ListEntry<InvoiceTemplate> getTemplateEntry(Company company, String templateName) {
     return getTemplateEntry(company, templateName, templates);
   }
 
@@ -230,7 +230,7 @@ public final class DataBase {
     return result;
   }
 
-  public static List<Vorlage> getTemplates(Company company) {
+  public static List<InvoiceTemplate> getTemplates(Company company) {
     return getEntries(templates, company);
   }
 
