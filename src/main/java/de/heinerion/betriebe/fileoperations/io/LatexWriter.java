@@ -180,8 +180,14 @@ public class LatexWriter {
       File tempfile = new File(pathname + "." + ending);
 
       boolean isDeleted = tempfile.delete();
-      if (logger.isDebugEnabled() && isDeleted) {
-        logger.debug("{}.{} removed", pathname, ending);
+      if (isDeleted) {
+        if (logger.isDebugEnabled()) {
+          logger.debug("{}.{} removed", pathname, ending);
+        }
+      } else {
+        if (logger.isWarnEnabled()) {
+          logger.warn("{}.{} could not be removed", pathname, ending);
+        }
       }
     }
   }
