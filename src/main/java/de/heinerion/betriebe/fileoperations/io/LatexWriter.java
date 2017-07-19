@@ -177,10 +177,9 @@ public class LatexWriter {
   private void removeTempFiles(String pathname) {
     String[] endings = {"aux", "log", "out",};
     for (String ending : endings) {
-      File tempfile = new File(pathname + "." + ending);
+      File tempfile = new File(pathname.replace("tex", ending));
 
-      boolean isDeleted = tempfile.delete();
-      if (isDeleted) {
+      if (tempfile.delete()) {
         if (logger.isDebugEnabled()) {
           logger.debug("{}.{} removed", pathname, ending);
         }
