@@ -29,6 +29,7 @@
 
     <build>
         <plugins>
+            <!-- aspectJ -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
@@ -46,6 +47,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- maven compiler plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -55,6 +57,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!-- fat-jar -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -77,6 +80,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- jacoco -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -108,6 +112,7 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- gather git infos -->
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -130,12 +135,15 @@
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
                     <!--<dirty>-DEV</dirty>-->
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>
+                        ${project.build.outputDirectory}/git.properties
+                    </generateGitPropertiesFilename>
                 </configuration>
             </plugin>
         </plugins>
+
+        <!-- assigns maven properties in filtered files -->
         <resources>
-            <!-- assigns maven values in filtered files -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -185,6 +193,7 @@
             <version>2.8.8.1</version>
         </dependency>
 
+        <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
