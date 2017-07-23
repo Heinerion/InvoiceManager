@@ -43,7 +43,7 @@ public class LatexWriter {
     removeTempFiles(pathname);
 
     if (logger.isDebugEnabled()) {
-      logger.debug("{} created, tempfiles cleaned", pathname);
+      logger.debug("{} created, temp files cleaned", pathname);
     }
   }
 
@@ -177,9 +177,9 @@ public class LatexWriter {
   private void removeTempFiles(String pathname) {
     String[] endings = {"aux", "log", "out",};
     for (String ending : endings) {
-      File tempfile = new File(pathname.replace("tex", ending));
+      File tempFile = new File(pathname.replace("tex", ending));
 
-      if (tempfile.delete()) {
+      if (tempFile.delete()) {
         if (logger.isDebugEnabled()) {
           logger.debug("{}.{} removed", pathname, ending);
         }
