@@ -113,25 +113,40 @@ public class LatexWriter {
   }
 
   private void moveSource(File parentFolder, String pathname, File tex) {
-    move(parentFolder, pathname, tex);
+    String temp = combineAbsolutePath(parentFolder, pathname);
+
+    String destinationPath = changePathFromBaseToSystem(temp);
+
+    moveFile(destinationPath, tex);
   }
 
-  private void move(File parentFolder, String pdfPathname, File output) {
+  private String changePathFromBaseToSystem(String temp) {
     String oldRoot = PathUtil.getBaseDir() + File.separator;
     String destinationRoot = PathUtil.getSystemPath() + File.separator;
 
-    File destination = prepareDestinationFile(parentFolder, pdfPathname, oldRoot, destinationRoot);
+    return temp.replace(oldRoot, destinationRoot);
+  }
+
+  private String combineAbsolutePath(File parentFolder, String pathname) {
+    return parentFolder + File.separator + pathname;
+  }
+
+  private void moveFile(String destinationPath, File output) {
+    File destination = prepareFile(destinationPath);
     boolean success = output.renameTo(destination);
 
-    if (logger.isInfoEnabled()) {
-      logger.info("File {} moved to {}", success ? "was" : "could not be", destination.getAbsolutePath());
+    if (success) {
+      if (logger.isInfoEnabled()) {
+        logger.info("File moved to {}", destination.getAbsolutePath());
+      }
+    } else {
+      if (logger.isWarnEnabled()) {
+        logger.warn("File could not be moved to {}", destination.getAbsolutePath());
+      }
     }
   }
 
-  private File prepareDestinationFile(File parentFolder, String pathname, String oldRoot, String destinationRoot) {
-    String temp = parentFolder + File.separator + pathname;
-
-    String texPath = temp.replace(oldRoot, destinationRoot);
+  private File prepareFile(String texPath) {
     File texDestination = new File(texPath);
 
     if (!texDestination.exists()) {
@@ -143,8 +158,10 @@ public class LatexWriter {
 
   private void moveDocument(File parentFolder, String title) {
     String pdfPathname = title + PDF;
+    String destinationPath = combineAbsolutePath(parentFolder, pdfPathname);
+
     File output = new File(pdfPathname);
-    move(parentFolder, pdfPathname, output);
+    moveFile(destinationPath, output);
   }
 
   private void createDestinationFile(File texDestination) {
