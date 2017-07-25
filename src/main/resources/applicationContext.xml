@@ -6,7 +6,8 @@
 
     <context:annotation-config/>
 
-    <bean id="latexWriter" class="de.heinerion.betriebe.fileoperations.io.LatexWriter"/>
+    <bean class="de.heinerion.betriebe.fileoperations.io.LatexWriter"/>
     <bean class="de.heinerion.latex.LatexGenerator"/>
     <bean class="de.heinerion.betriebe.services.SwingService"/>
+    <bean id="mainOperations" class="de.heinerion.betriebe.fileoperations.MainOperations"/>
 </beans>

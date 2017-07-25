@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.fileoperations.io;
 
-import de.heinerion.betriebe.fileoperations.MainOperations;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.services.ViewService;
@@ -62,7 +61,7 @@ public class LatexWriter {
       out.flush();
       out.close();
     } catch (IOException e) {
-      HeinerionException.handleException(MainOperations.class, e);
+      HeinerionException.rethrow(e);
     }
     return target;
   }
