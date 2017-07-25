@@ -8,6 +8,7 @@ import de.heinerion.betriebe.fileoperations.io.LatexWriter;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.PathUtil;
 
@@ -20,7 +21,7 @@ import static de.heinerion.betriebe.data.Constants.SPACE;
  * @author heiner
  */
 public class MainOperations {
-  private static LatexWriter latexWriter = new LatexWriter();
+  private static LatexWriter latexWriter = ConfigurationService.getBean("latexWriter");
 
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;

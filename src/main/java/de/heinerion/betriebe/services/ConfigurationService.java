@@ -3,6 +3,8 @@ package de.heinerion.betriebe.services;
 import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +12,8 @@ import java.util.Properties;
 
 public class ConfigurationService {
   private static final Logger LOGGER = LogManager.getLogger(ConfigurationService.class);
+
+  private static ApplicationContext context;
 
   private static Properties config;
 
@@ -33,6 +37,9 @@ public class ConfigurationService {
 
     loadPropertiesFile("configuration.properties");
     loadPropertiesFile("git.properties");
+
+    context = new ClassPathXmlApplicationContext(
+        "applicationContext.xml");
   }
 
   private static void loadPropertiesFile(String propFileName) {
@@ -55,6 +62,10 @@ public class ConfigurationService {
         LOGGER.error(e);
       }
     }
+  }
+
+  public static <T> T getBean(String classnameOrId) {
+    return (T) context.getBean(classnameOrId);
   }
 
   public static String get(String key) {

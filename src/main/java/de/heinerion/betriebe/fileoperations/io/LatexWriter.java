@@ -2,7 +2,6 @@ package de.heinerion.betriebe.fileoperations.io;
 
 import de.heinerion.betriebe.fileoperations.MainOperations;
 import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.services.SwingService;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.services.ViewService;
 import de.heinerion.betriebe.tools.PathUtil;
@@ -11,6 +10,7 @@ import de.heinerion.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,8 +27,11 @@ public class LatexWriter {
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
 
-  private LatexGenerator latexGenerator = new LatexGenerator();
-  private static ViewService viewService = new SwingService();
+  @Autowired
+  private LatexGenerator latexGenerator;
+
+  @Autowired
+  private ViewService viewService;
 
   public void writeFile(Conveyable letter, File parentFolder, String title) {
     String pathname = determineFilename(title);
