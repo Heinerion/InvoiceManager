@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.betriebe.gui;
+package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.services.Translator;
