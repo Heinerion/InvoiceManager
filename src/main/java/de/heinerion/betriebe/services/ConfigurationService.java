@@ -20,26 +20,22 @@ public class ConfigurationService {
   private static InputStream inputStream;
 
   static {
-    try {
-      loadConfigurations();
-    } catch (IOException e) {
-      LOGGER.error("Error in loading the configuration file", e);
-    }
+    loadConfigurations();
   }
 
   /**
    * Hides the default public Constructor
    */
-  private ConfigurationService(){}
+  private ConfigurationService() {
+  }
 
-  public static void loadConfigurations() throws IOException {
+  public static void loadConfigurations() {
     config = new Properties();
 
     loadPropertiesFile("configuration.properties");
     loadPropertiesFile("git.properties");
 
-    context = new ClassPathXmlApplicationContext(
-        "applicationContext.xml");
+    context = new ClassPathXmlApplicationContext("applicationContext.xml");
     context.registerShutdownHook();
   }
 
