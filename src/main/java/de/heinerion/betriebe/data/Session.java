@@ -34,11 +34,7 @@ public final class Session {
   private static LocalDate date = LocalDate.now();
 
   static {
-    try {
-      ConfigurationService.loadConfigurations();
-    } catch (IOException e) {
-      LOGGER.error("Error in loading the configuration file", e);
-    }
+    ConfigurationService.loadConfigurations();
 
     VERSION = ConfigurationService.get("git.commit.id.describe-short");
   }
@@ -46,7 +42,7 @@ public final class Session {
   /**
    * Hides the default public Constructor
    */
-  private Session () {
+  private Session() {
 
   }
 
