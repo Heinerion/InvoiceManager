@@ -26,11 +26,15 @@ public class LatexWriter {
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
 
-  @Autowired
   private LatexGenerator latexGenerator;
 
-  @Autowired
   private ViewService viewService;
+
+  @Autowired
+  public LatexWriter(LatexGenerator latexGenerator, ViewService viewService) {
+    this.latexGenerator = latexGenerator;
+    this.viewService = viewService;
+  }
 
   public void writeFile(Conveyable letter, File parentFolder, String title) {
     String pathname = determineFilename(title);

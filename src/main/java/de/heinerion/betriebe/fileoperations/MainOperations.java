@@ -21,14 +21,18 @@ import static de.heinerion.betriebe.data.Constants.SPACE;
  * @author heiner
  */
 public class MainOperations {
-  @Autowired
-  private static LatexWriter latexWriter;
+  private LatexWriter latexWriter;
 
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
+
+  @Autowired
+  public MainOperations(LatexWriter latexWriter) {
+    this.latexWriter = latexWriter;
+  }
 
   /**
    * Writes the conveyable to pdf
