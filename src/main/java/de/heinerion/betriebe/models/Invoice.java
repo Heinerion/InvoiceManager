@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.PathTools;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,13 +40,6 @@ public class Invoice extends Letter {
   }
 
   // TODO removeItem?
-
-  @Override
-  // TODO Classification war wofür?
-  public String[] getClassification() {
-    return new String[]{this.company.getDescriptiveName(),
-        PathTools.determineFolderName(this.getClass()),};
-  }
 
   @Override
   public String getEntryName() {
