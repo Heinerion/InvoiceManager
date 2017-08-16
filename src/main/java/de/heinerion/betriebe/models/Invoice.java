@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.models.interfaces.Conveyable;
-import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.PathTools;
 
@@ -9,10 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Invoice implements Conveyable, Storable {
+public class Invoice extends Letter {
   private static final int PERCENT = 100;
-  private final Company company;
-  private final LocalDate date;
+
   private final int number;
 
   private final List<Item> items;
@@ -21,12 +18,10 @@ public final class Invoice implements Conveyable, Storable {
   private final double vat;
   private double tax;
   private double gross;
-  private final Address receiver;
 
   public Invoice(LocalDate aDate, Company theSender, Address theReceiver) {
-    this.date = aDate;
-    this.company = theSender;
-    this.receiver = theReceiver;
+    super(aDate, theSender, theReceiver);
+    subject = Translator.translate("invoice.title");
 
     this.items = new ArrayList<>();
 
@@ -40,7 +35,7 @@ public final class Invoice implements Conveyable, Storable {
     this.addItem(new Item(new Product(artikel, einheit, preis), anzahl));
   }
 
-  public void addItem(Item item) {
+  private void addItem(Item item) {
     this.items.add(item);
     this.updateValues();
   }
@@ -52,16 +47,6 @@ public final class Invoice implements Conveyable, Storable {
   public String[] getClassification() {
     return new String[]{this.company.getDescriptiveName(),
         PathTools.determineFolderName(this.getClass()),};
-  }
-
-  @Override
-  public Company getCompany() {
-    return this.company;
-  }
-
-  @Override
-  public LocalDate getDate() {
-    return this.date;
   }
 
   @Override
@@ -83,16 +68,6 @@ public final class Invoice implements Conveyable, Storable {
 
   public int getNumber() {
     return this.number;
-  }
-
-  @Override
-  public Address getReceiver() {
-    return this.receiver;
-  }
-
-  @Override
-  public String getSubject() {
-    return Translator.translate("invoice.title");
   }
 
   public double getTax() {

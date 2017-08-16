@@ -9,15 +9,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Letter implements Conveyable, Storable {
-  private final Company company;
-  private final LocalDate date;
+public class Letter implements Conveyable, Storable {
+  protected final Company company;
+  protected final LocalDate date;
   private final String closing;
 
-  private String subject;
+  String subject;
 
   private final List<String> messageLines;
-  private final Address receiver;
+  final Address receiver;
 
   public Letter(LocalDate date, Company sender, Address receiver) {
     this.date = date;
