@@ -12,7 +12,6 @@ import java.util.List;
 public class Letter implements Conveyable, Storable {
   protected final Company company;
   protected final LocalDate date;
-  private final String closing;
 
   String subject;
 
@@ -23,8 +22,6 @@ public class Letter implements Conveyable, Storable {
     this.date = date;
     this.company = sender;
     this.receiver = receiver;
-
-    this.closing = sender.getSigner();
 
     this.messageLines = new ArrayList<>();
   }
@@ -37,10 +34,6 @@ public class Letter implements Conveyable, Storable {
   public String[] getClassification() {
     return new String[]{this.company.getDescriptiveName(),
         PathTools.determineFolderName(this.getClass())};
-  }
-
-  public String getClosing() {
-    return this.closing;
   }
 
   @Override
@@ -76,7 +69,7 @@ public class Letter implements Conveyable, Storable {
   @Override
   public boolean isPrintable() {
     final boolean hasSubject = !StringUtil.isEmpty(subject);
-    final boolean hasContent = messageLines.size() > 0;
+    final boolean hasContent = !messageLines.isEmpty();
     return hasSubject && hasContent;
   }
 
