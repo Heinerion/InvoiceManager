@@ -4,7 +4,6 @@ import de.heinerion.betriebe.data.System;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.ConfigurationService;
 
 import java.io.File;
@@ -37,7 +36,7 @@ public class PathUtil {
     return ConfigurationService.get("folder.texTemplates");
   }
 
-  public static String determinePath(Class<? extends Conveyable> itemClass) {
+  public static String determinePath(Class<? extends Letter> itemClass) {
     return buildPath(determineFolderName(itemClass));
   }
 
@@ -45,7 +44,7 @@ public class PathUtil {
     return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data");
   }
 
-  private static String determineFolderName(Class<? extends Conveyable> itemClass) {
+  private static String determineFolderName(Class<? extends Letter> itemClass) {
     String folder;
 
     if (itemClass.isAssignableFrom(Invoice.class)) {

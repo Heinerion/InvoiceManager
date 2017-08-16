@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.tools.PathTools;
 import de.heinerion.betriebe.tools.StringUtil;
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Letter implements Conveyable, Storable {
+public class Letter implements Storable {
   protected final Company company;
   protected final LocalDate date;
 
@@ -36,12 +35,10 @@ public class Letter implements Conveyable, Storable {
         PathTools.determineFolderName(this.getClass())};
   }
 
-  @Override
   public Company getCompany() {
     return this.company;
   }
 
-  @Override
   public LocalDate getDate() {
     return this.date;
   }
@@ -56,17 +53,14 @@ public class Letter implements Conveyable, Storable {
     return this.messageLines;
   }
 
-  @Override
   public Address getReceiver() {
     return this.receiver;
   }
 
-  @Override
   public String getSubject() {
     return this.subject;
   }
 
-  @Override
   public boolean isPrintable() {
     final boolean hasSubject = !StringUtil.isEmpty(subject);
     final boolean hasContent = !messageLines.isEmpty();

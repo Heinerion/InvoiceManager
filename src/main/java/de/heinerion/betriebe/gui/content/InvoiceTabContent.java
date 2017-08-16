@@ -3,14 +3,10 @@ package de.heinerion.betriebe.gui.content;
 import de.heinerion.betriebe.data.*;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
+import de.heinerion.betriebe.models.*;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.content.components.FooterPanel;
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Item;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.ParsingUtil;
 import de.heinerion.betriebe.tools.StringUtil;
@@ -221,7 +217,7 @@ public final class InvoiceTabContent extends AbstractTabContent {
   }
 
   @Override
-  protected Conveyable getConveyable() {
+  protected Letter getConveyable() {
     Company company = Session.getActiveCompany();
     Address receiver = Session.getActiveAddress();
 

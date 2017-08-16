@@ -7,7 +7,6 @@ package de.heinerion.betriebe.fileoperations;
 import de.heinerion.betriebe.fileoperations.io.LatexWriter;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class MainOperations {
    *
    * @param letter the conveyable to be written to pdf
    */
-  public void createDocument(Conveyable letter) {
+  public void createDocument(Letter letter) {
     updateState(letter);
 
     SwingUtilities.invokeLater(() -> {
@@ -56,7 +55,7 @@ public class MainOperations {
     });
   }
 
-  private void updateState(Conveyable letter) {
+  private void updateState(Letter letter) {
     if (letter instanceof Invoice) {
       state = STATE_INVOICE;
     } else {
@@ -64,7 +63,7 @@ public class MainOperations {
     }
   }
 
-  private File generatePath(Conveyable conveyable) {
+  private File generatePath(Letter conveyable) {
     File folder = getGenerator().getFolder(conveyable);
 
     if (!folder.exists()) {
@@ -78,7 +77,7 @@ public class MainOperations {
     return generators[state];
   }
 
-  private String generateTitle(Conveyable letter) {
+  private String generateTitle(Letter letter) {
     String start = getGenerator().getTitle(letter);
 
     String receiver = letter.getReceiver().getRecipient();
@@ -88,32 +87,32 @@ public class MainOperations {
   }
 
   private interface FileInfoGenerator {
-    String getTitle(Conveyable letter);
+    String getTitle(Letter letter);
 
-    File getFolder(Conveyable conveyable);
+    File getFolder(Letter conveyable);
   }
 
   private class LetterInfoGenerator implements FileInfoGenerator {
     @Override
-    public String getTitle(Conveyable letter) {
+    public String getTitle(Letter letter) {
       return letter.getSubject() + " --";
     }
 
     @Override
-    public File getFolder(Conveyable conveyable) {
+    public File getFolder(Letter conveyable) {
       return new File(PathUtil.determinePath(Letter.class));
     }
   }
 
   private class InvoiceInfoGenerator implements FileInfoGenerator {
     @Override
-    public String getTitle(Conveyable letter) {
+    public String getTitle(Letter letter) {
       int invoiceNumber = letter.getCompany().getInvoiceNumber();
       return Integer.toString(invoiceNumber);
     }
 
     @Override
-    public File getFolder(Conveyable conveyable) {
+    public File getFolder(Letter conveyable) {
       return conveyable.getCompany().getFolderFile();
     }
   }

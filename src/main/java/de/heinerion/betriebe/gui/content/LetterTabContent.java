@@ -5,7 +5,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.latex.LatexGenerator;
 
@@ -97,7 +96,7 @@ public final class LetterTabContent extends AbstractTabContent {
   }
 
   @Override
-  protected Conveyable getConveyable() {
+  protected Letter getConveyable() {
     Company company = Session.getActiveCompany();
     Address receiver = Session.getActiveAddress();
 

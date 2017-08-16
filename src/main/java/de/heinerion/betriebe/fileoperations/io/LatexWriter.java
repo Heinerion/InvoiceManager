@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.io;
 
-import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.services.ViewService;
 import de.heinerion.betriebe.tools.PathUtil;
@@ -36,7 +36,7 @@ public class LatexWriter {
     this.viewService = viewService;
   }
 
-  public void writeFile(Conveyable letter, File parentFolder, String title) {
+  public void writeFile(Letter letter, File parentFolder, String title) {
     String pathname = determineFilename(title);
     String content = latexGenerator.generateSourceContent(letter);
     File tex = writeContentToFile(pathname, content);

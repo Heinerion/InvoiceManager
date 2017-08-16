@@ -6,12 +6,11 @@ import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public final class Session {
   private static List<Company> availableCompanies = new ArrayList<>();
   private static Company activeCompany = null;
   private static Address activeAddress;
-  private static Conveyable activeConveyable;
+  private static Letter activeConveyable;
   private static ApplicationFrame activeFrame;
 
   private static LocalDate date = LocalDate.now();
@@ -81,7 +80,7 @@ public final class Session {
     return activeCompany;
   }
 
-  public static Conveyable getActiveConveyable() {
+  public static Letter getActiveConveyable() {
     return activeConveyable;
   }
 
@@ -142,7 +141,7 @@ public final class Session {
     notifyCompany();
   }
 
-  public static void setActiveConveyable(Conveyable theActiveConveyable) {
+  public static void setActiveConveyable(Letter theActiveConveyable) {
     Session.activeConveyable = theActiveConveyable;
     notifyConveyable();
   }

@@ -2,7 +2,6 @@ package de.heinerion.latex;
 
 import de.heinerion.betriebe.data.Constants;
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.tools.DateUtil;
 import de.heinerion.betriebe.tools.FormatUtil;
@@ -105,7 +104,7 @@ public final class LatexGenerator {
     table.addEmptyRow();
   }
 
-  public String generateSourceContent(Conveyable letter) {
+  public String generateSourceContent(Letter letter) {
     final LatexScrLetter latexLetter = new LatexScrLetter(
         createRecipientsAddress(letter.getReceiver()));
     final String subject = letter.getSubject();
@@ -121,12 +120,12 @@ public final class LatexGenerator {
     return latexLetter.toString();
   }
 
-  private void setContent(Conveyable letter,
+  private void setContent(Letter letter,
                                  final LatexScrLetter latexLetter, final boolean isInvoice) {
     if (isInvoice) {
       setInvoiceContent((Invoice) letter, latexLetter);
     } else {
-      setLetterContent((Letter) letter, latexLetter);
+      setLetterContent(letter, latexLetter);
     }
   }
 
@@ -142,7 +141,7 @@ public final class LatexGenerator {
     latexLetter.setContent(content);
   }
 
-  private void setDate(Conveyable letter,
+  private void setDate(Letter letter,
                               final LatexScrLetter latexLetter, final boolean isInvoice) {
     String tab = " & : ";
     List<String> fields = new ArrayList<>();
@@ -167,7 +166,7 @@ public final class LatexGenerator {
     latexLetter.setDate(dateString);
   }
 
-  private void addHyperSetupArguments(Conveyable letter,
+  private void addHyperSetupArguments(Letter letter,
                                              final LatexScrLetter latexLetter, final String subject,
                                              final boolean isInvoice) {
     final Company company = letter.getCompany();

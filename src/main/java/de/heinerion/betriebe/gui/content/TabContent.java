@@ -1,9 +1,9 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.models.Letter;
 
 public interface TabContent {
-  Conveyable getContent();
+  Letter getContent();
 
   String getTitle();
 

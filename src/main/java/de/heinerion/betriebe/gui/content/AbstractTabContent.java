@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.gui.content;
 
 import de.heinerion.betriebe.gui.BGPanel;
-import de.heinerion.betriebe.models.interfaces.Conveyable;
+import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
@@ -23,7 +23,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
   protected abstract void clear();
 
   @Override
-  public final Conveyable getContent() {
+  public final Letter getContent() {
     return getConveyable();
   }
 
@@ -36,7 +36,7 @@ public abstract class AbstractTabContent extends BGPanel implements TabContent {
     return title;
   }
 
-  protected abstract Conveyable getConveyable();
+  protected abstract Letter getConveyable();
 
   @Override
   public void refresh() {
