@@ -86,4 +86,18 @@ class FileHandler {
       }
     }
   }
+
+  void deleteFile(String filename) {
+    File tempFile = new File(filename);
+
+    if (tempFile.delete()) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("{} removed", filename);
+      }
+    } else {
+      if (logger.isWarnEnabled()) {
+        logger.warn("{} could not be removed", filename);
+      }
+    }
+  }
 }

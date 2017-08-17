@@ -25,4 +25,8 @@ public class HostSystem {
   public void moveFile(String destinationPath, File file) {
     fileHandler.moveFile(destinationPath, file);
   }
+
+  public void deleteFile(String filename) {
+    fileHandler.deleteFile(filename);
+  }
 }
