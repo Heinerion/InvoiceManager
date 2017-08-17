@@ -11,4 +11,9 @@
     <bean class="de.heinerion.latex.LatexGenerator"/>
     <bean class="de.heinerion.betriebe.services.SwingService"/>
     <bean id="mainOperations" class="de.heinerion.betriebe.fileoperations.MainOperations"/>
+
+    <bean class="de.heinerion.betriebe.boundary.ProcessRunner" />
+    <bean class="de.heinerion.betriebe.boundary.HostSystem" />
+    <bean class="de.heinerion.betriebe.boundary.FileHandler" />
+    <bean class="de.heinerion.betriebe.boundary.SystemCall" />
 </beans>
