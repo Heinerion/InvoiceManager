@@ -21,4 +21,8 @@ public class HostSystem {
   public File writeToFile(String path, String content) {
     return fileHandler.writeToFile(path, content);
   }
+
+  public void moveFile(String destinationPath, File file) {
+    fileHandler.moveFile(destinationPath, file);
+  }
 }

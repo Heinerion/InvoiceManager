@@ -6,13 +6,9 @@ import de.heinerion.betriebe.tools.PathUtil;
 import de.heinerion.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LatexWriter {
   private Logger logger = LogManager.getLogger(LatexWriter.class);
@@ -55,7 +51,7 @@ public class LatexWriter {
 
     String destinationPath = changePathFromBaseToSystem(temp);
 
-    moveFile(destinationPath, tex);
+    hostSystem.moveFile(destinationPath, tex);
   }
 
   private String changePathFromBaseToSystem(String temp) {
@@ -69,64 +65,12 @@ public class LatexWriter {
     return parentFolder + File.separator + pathname;
   }
 
-  private void moveFile(String destinationPath, File output) {
-    File destination = prepareFile(destinationPath);
-    boolean success = output.renameTo(destination);
-
-    if (success) {
-      if (logger.isInfoEnabled()) {
-        logger.info("File moved to {}", destination.getAbsolutePath());
-      }
-    } else {
-      if (logger.isWarnEnabled()) {
-        logger.warn("File could not be moved to {}", destination.getAbsolutePath());
-      }
-    }
-  }
-
-  private File prepareFile(String texPath) {
-    File texDestination = new File(texPath);
-
-    if (!texDestination.exists()) {
-      createDestinationFile(texDestination);
-    }
-
-    return texDestination;
-  }
-
   private void moveDocument(File parentFolder, String title) {
     String pdfPathname = title + PDF;
     String destinationPath = combineAbsolutePath(parentFolder, pdfPathname);
 
     File output = new File(pdfPathname);
-    moveFile(destinationPath, output);
-  }
-
-  private void createDestinationFile(File texDestination) {
-    try {
-      boolean dirsCreated = texDestination
-          .getAbsoluteFile()
-          .getParentFile()
-          .mkdirs();
-
-      boolean fileCreated = texDestination.createNewFile();
-
-      if (logger.isInfoEnabled()) {
-        List<String> messages = new ArrayList<>();
-        if (fileCreated) {
-          messages.add("File '" + texDestination.getAbsolutePath() + "' created.");
-        }
-        if (dirsCreated) {
-          messages.add("Directories created.");
-        }
-
-        logger.info(Strings.join(messages, ' '));
-      }
-    } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error("Could not create destination '" + texDestination.getAbsolutePath() + "'", e);
-      }
-    }
+    hostSystem.moveFile(destinationPath, output);
   }
 
   private void removeTempFiles(String pathname) {
