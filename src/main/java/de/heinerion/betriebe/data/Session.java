@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;
@@ -18,23 +17,17 @@ import java.util.List;
 public final class Session {
   private static final Logger LOGGER = LogManager.getLogger(Session.class);
 
-  private static final String VERSION;
+  private static String version;
 
-  private static List<CompanyListener> companyListeners = new ArrayList<>();
-  private static List<ConveyableListener> conveyableListeners = new ArrayList<>();
-  private static List<DateListener> dateListeners = new ArrayList<>();
-
-  private static List<Company> availableCompanies = new ArrayList<>();
-  private static Company activeCompany = null;
+  private static List<CompanyListener> companyListeners;
+  private static List<ConveyableListener> conveyableListeners;
+  private static List<DateListener> dateListeners;
+  private static List<Company> availableCompanies;
+  private static Company activeCompany;
   private static Address activeAddress;
   private static Letter activeConveyable;
-  private static ApplicationFrame activeFrame;
-
-  private static LocalDate date = LocalDate.now();
-
-  static {
-    VERSION = ConfigurationService.get("git.commit.id.describe-short");
-  }
+  //  private static ApplicationFrame activeFrame;
+  private static LocalDate date;
 
   /**
    * Hides the default public Constructor
@@ -43,30 +36,56 @@ public final class Session {
 
   }
 
-  public static void addAvailableCompany(Company company) {
-    if (!availableCompanies.contains(company)) {
-      availableCompanies.add(company);
+  private static List<CompanyListener> getCompanyListeners() {
+    if (companyListeners == null) {
+      companyListeners = new ArrayList<>();
     }
-    if (availableCompanies.size() == 1) {
+
+    return companyListeners;
+  }
+
+  private static List<ConveyableListener> getConveyableListeners() {
+    if (conveyableListeners == null) {
+      conveyableListeners = new ArrayList<>();
+    }
+
+    return conveyableListeners;
+  }
+
+  private static List<DateListener> getDateListeners() {
+    if (dateListeners == null) {
+      dateListeners = new ArrayList<>();
+    }
+
+    return dateListeners;
+  }
+
+  public static void addAvailableCompany(Company company) {
+    List<Company> companies = getAvailableCompanies();
+
+    if (!companies.contains(company)) {
+      companies.add(company);
+    }
+    if (companies.size() == 1) {
       setActiveCompany(company);
     }
   }
 
   public static void addCompanyListener(CompanyListener listener) {
-    if (!companyListeners.contains(listener)) {
-      companyListeners.add(listener);
-    }
+    addListener(listener, getCompanyListeners());
   }
 
   public static void addConveyableListener(ConveyableListener listener) {
-    if (!conveyableListeners.contains(listener)) {
-      conveyableListeners.add(listener);
-    }
+    addListener(listener, getConveyableListeners());
   }
 
   public static void addDateListener(DateListener listener) {
-    if (!dateListeners.contains(listener)) {
-      dateListeners.add(listener);
+    addListener(listener, getDateListeners());
+  }
+
+  private static <T> void addListener(T listener, List<T> listeners) {
+    if (!listeners.contains(listener)) {
+      listeners.add(listener);
     }
   }
 
@@ -74,26 +93,40 @@ public final class Session {
     return activeAddress;
   }
 
+  public static void setActiveAddress(Address theActiveAddress) {
+    Session.activeAddress = theActiveAddress;
+  }
+
   public static Company getActiveCompany() {
     return activeCompany;
+  }
+
+  public static void setActiveCompany(Company aCompany) {
+    Session.activeCompany = aCompany;
+    notifyCompany();
   }
 
   public static Letter getActiveConveyable() {
     return activeConveyable;
   }
 
-  public static ApplicationFrame getActiveFrame() {
-    return activeFrame;
+  public static void setActiveConveyable(Letter theActiveConveyable) {
+    Session.activeConveyable = theActiveConveyable;
+    notifyConveyable();
   }
 
   public static List<Company> getAvailableCompanies() {
+    if (availableCompanies == null) {
+      availableCompanies = new ArrayList<>();
+    }
+
     return availableCompanies;
   }
 
   public static Company getCompanyByName(String name) {
     // TODO I'm selecting companies by official name here but by descriptive name in the DB. So which to use??
     Company result = null;
-    for (final Company c : availableCompanies) {
+    for (final Company c : getAvailableCompanies()) {
       if (c.getOfficialName().equals(name)) {
         result = c;
       }
@@ -102,54 +135,44 @@ public final class Session {
   }
 
   public static LocalDate getDate() {
+    if (Session.date == null) {
+      Session.date = LocalDate.now();
+    }
+
     return Session.date;
   }
 
+  public static void setDate(LocalDate aDate) {
+    Session.date = aDate;
+    notifyDate();
+  }
+
   public static String getVersion() {
-    return VERSION;
+    if (version == null) {
+      version = ConfigurationService.get("git.commit.id.describe-short");
+    }
+
+    return version;
   }
 
   public static void notifyCompany() {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("notifyCompany");
     }
-    companyListeners.forEach(CompanyListener::notifyCompany);
+    getCompanyListeners().forEach(CompanyListener::notifyCompany);
   }
 
   public static void notifyConveyable() {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("notifyConveyable");
     }
-    conveyableListeners.forEach(ConveyableListener::notifyConveyable);
+    getConveyableListeners().forEach(ConveyableListener::notifyConveyable);
   }
 
   private static void notifyDate() {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("notifyDate");
     }
-    dateListeners.forEach(DateListener::notifyDate);
-  }
-
-  public static void setActiveAddress(Address theActiveAddress) {
-    Session.activeAddress = theActiveAddress;
-  }
-
-  public static void setActiveCompany(Company aCompany) {
-    Session.activeCompany = aCompany;
-    notifyCompany();
-  }
-
-  public static void setActiveConveyable(Letter theActiveConveyable) {
-    Session.activeConveyable = theActiveConveyable;
-    notifyConveyable();
-  }
-
-  public static void setActiveFrame(ApplicationFrame aFrame) {
-    Session.activeFrame = aFrame;
-  }
-
-  public static void setDate(LocalDate aDate) {
-    Session.date = aDate;
-    notifyDate();
+    getDateListeners().forEach(DateListener::notifyDate);
   }
 }

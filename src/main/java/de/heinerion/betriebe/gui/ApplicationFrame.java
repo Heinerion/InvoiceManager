@@ -100,7 +100,6 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
   public static ApplicationFrame getInstance() {
     if (null == instance) {
       instance = new ApplicationFrame();
-      Session.setActiveFrame(instance);
     }
     return instance;
   }
