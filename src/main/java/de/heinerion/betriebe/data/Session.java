@@ -33,8 +33,6 @@ public final class Session {
   private static LocalDate date = LocalDate.now();
 
   static {
-    ConfigurationService.loadConfigurations();
-
     VERSION = ConfigurationService.get("git.commit.id.describe-short");
   }
 
