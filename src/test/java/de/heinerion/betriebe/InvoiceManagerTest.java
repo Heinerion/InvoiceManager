@@ -1,11 +1,10 @@
 package de.heinerion.betriebe;
 
+import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -50,15 +49,6 @@ public class InvoiceManagerTest {
     assertTrue(System.isDebugMode());
   }
 
-  /**
-   * TODO this test only works if run before testMainSetDebugMode
-   *
-   * this is because System uses a static variable for the debug mode,
-   * which will only be actively set to true, assuming false is default.
-   *
-   * thus a change will last for multiple tests.
-   */
-  @Ignore
   @Test
   public void testMainNotSetDebugMode() {
     InvoiceManager.main();

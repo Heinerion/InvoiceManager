@@ -35,6 +35,8 @@ final class InvoiceManager {
   }
 
   private static void parseArguments(String... args) {
+    System.isDebugMode(false);
+
     for (String argument : args) {
       evaluateArgument(argument);
     }
@@ -47,7 +49,7 @@ final class InvoiceManager {
   private static void evaluateArgument(String string) {
     switch (string) {
       case "debug":
-        System.activateDebugMode();
+        System.isDebugMode(true);
         break;
     }
   }
