@@ -1,11 +1,12 @@
 package de.heinerion.betriebe.fileoperations;
 
-import de.heinerion.betriebe.data.*;
+import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.fileoperations.loading.*;
+import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
@@ -27,88 +28,19 @@ import static de.heinerion.exceptions.HeinerionException.handleException;
 
 public final class IO implements LoadListener {
   private static final Logger logger = LogManager.getLogger(IO.class);
-
-  private static TextFileLoader fileLoader = new TextFileLoader();
-
   private static final LoadingManager loadingManager = new LoadingManager();
+  private static TextFileLoader fileLoader = new TextFileLoader();
   private static ProgressIndicator progress;
-
-  private String lastMessage;
 
   static {
     // Kick off the registrations
     new IO();
   }
 
+  private String lastMessage;
+
   private IO() {
     registerListenersAndLoaders();
-  }
-
-  private void registerListenersAndLoaders() {
-    registerToLoadingManager();
-
-    addLoader(Address.class, AddressLoader.class);
-    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
-  }
-
-  private void registerToLoadingManager() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("setup Loaders");
-    }
-    loadingManager.addListener(this);
-  }
-
-  private void continueWithCompany(Loadable loadable) {
-    Company company = (Company) loadable;
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
-    }
-
-    ArchivedInvoiceLoader loader = new ArchivedInvoiceLoader(company.getFolderFile());
-    loader.init();
-    loader.addListener(loadingManager);
-    loadingManager.loadClass(ArchivedInvoice.class, loader);
-  }
-
-  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass) {
-    addLoader(classToLoad, loaderClass, null);
-  }
-
-  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass,
-                                                                   LoadableCallback callback) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("add {}", loaderClass.getSimpleName());
-    }
-
-    File loadDirectory = getLoadDirectory(classToLoad);
-    Loader<T> loader = initLoader(loaderClass, loadDirectory);
-
-    loadingManager.addLoader(classToLoad, loader, callback);
-  }
-
-  private <T extends Loadable> File getLoadDirectory(Class<T> classToLoad) {
-    File loadDirectory = new File(PathTools.getPath(classToLoad));
-    if (logger.isDebugEnabled()) {
-      logger.debug("loadDirectory {}", loadDirectory.getAbsolutePath());
-    }
-    return loadDirectory;
-  }
-
-  private <T extends Loadable, X extends Loader<T>> Loader<T> initLoader(Class<X> loaderClass, File loadDirectory) {
-    Loader<T> loader = null;
-
-    try {
-      Constructor<X> loaderConstructor = loaderClass.getConstructor(File.class);
-      loader = loaderConstructor.newInstance(loadDirectory);
-      if (logger.isDebugEnabled()) {
-        logger.debug("fileLoader {}", loader.getDescriptiveName());
-      }
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      handleException(getClass(), e);
-    }
-
-    return loader;
   }
 
   private static String getTemplatePath(Company company) {
@@ -212,20 +144,96 @@ public final class IO implements LoadListener {
     load(progress);
   }
 
+  /*
+   * Attention:
+   * This method is decoupled from the view, so the progress indicator could become null anytime.
+   * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
+   */
   public static void load(ProgressIndicator indicator) {
     loadingManager.determineFileNumbers();
     progress = indicator;
     final int number = loadingManager.getFileNumber();
 
     DataBase.removeAllInvoices();
-    progress.setMaximum(number);
+    if (progress != null) {
+      progress.setMaximum(number);
+    }
     loadingManager.load();
     DataBase.getInvoices().determineHighestInvoiceNumbers();
 
     IO.ladeVorlagen();
     IO.ladeSpezielle();
 
-    progress.setString(Translator.translate("progress.done"));
+    if (progress != null) {
+      progress.setString(Translator.translate("progress.done"));
+    }
+  }
+
+  private void registerListenersAndLoaders() {
+    registerToLoadingManager();
+
+    addLoader(Address.class, AddressLoader.class);
+    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
+  }
+
+  private void registerToLoadingManager() {
+    if (logger.isDebugEnabled()) {
+      logger.debug("setup Loaders");
+    }
+    loadingManager.addListener(this);
+  }
+
+  private void continueWithCompany(Loadable loadable) {
+    Company company = (Company) loadable;
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
+    }
+
+    ArchivedInvoiceLoader loader = new ArchivedInvoiceLoader(company.getFolderFile());
+    loader.init();
+    loader.addListener(loadingManager);
+    loadingManager.loadClass(ArchivedInvoice.class, loader);
+  }
+
+  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass) {
+    addLoader(classToLoad, loaderClass, null);
+  }
+
+  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass,
+                                                                   LoadableCallback callback) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("add {}", loaderClass.getSimpleName());
+    }
+
+    File loadDirectory = getLoadDirectory(classToLoad);
+    Loader<T> loader = initLoader(loaderClass, loadDirectory);
+
+    loadingManager.addLoader(classToLoad, loader, callback);
+  }
+
+  private <T extends Loadable> File getLoadDirectory(Class<T> classToLoad) {
+    File loadDirectory = new File(PathTools.getPath(classToLoad));
+    if (logger.isDebugEnabled()) {
+      logger.debug("loadDirectory {}", loadDirectory.getAbsolutePath());
+    }
+    return loadDirectory;
+  }
+
+  private <T extends Loadable, X extends Loader<T>> Loader<T> initLoader(Class<X> loaderClass, File loadDirectory) {
+    Loader<T> loader = null;
+
+    try {
+      Constructor<X> loaderConstructor = loaderClass.getConstructor(File.class);
+      loader = loaderConstructor.newInstance(loadDirectory);
+      if (logger.isDebugEnabled()) {
+        logger.debug("fileLoader {}", loader.getDescriptiveName());
+      }
+    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+      handleException(getClass(), e);
+    }
+
+    return loader;
   }
 
   @Override
