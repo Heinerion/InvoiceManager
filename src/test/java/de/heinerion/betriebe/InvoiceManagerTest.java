@@ -1,6 +1,6 @@
 package de.heinerion.betriebe;
 
-import de.heinerion.betriebe.data.System;
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.tools.LookAndFeelUtil;
@@ -46,14 +46,14 @@ public class InvoiceManagerTest {
   public void testMainSetDebugMode() {
     InvoiceManager.main("debug");
 
-    assertTrue(System.isDebugMode());
+    assertTrue(Session.isDebugMode());
   }
 
   @Test
   public void testMainNotSetDebugMode() {
     InvoiceManager.main();
 
-    assertFalse(System.isDebugMode());
+    assertFalse(Session.isDebugMode());
   }
 
   @Test

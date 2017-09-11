@@ -6,7 +6,7 @@ package de.heinerion.betriebe;
 
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
-import de.heinerion.betriebe.data.System;
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
@@ -35,13 +35,13 @@ final class InvoiceManager {
   }
 
   private static void parseArguments(String... args) {
-    System.isDebugMode(false);
+    Session.isDebugMode(false);
 
     for (String argument : args) {
       evaluateArgument(argument);
     }
 
-    if (!System.isDebugMode()) {
+    if (!Session.isDebugMode()) {
       LOGGER.warn("PRODUCTION MODE");
     }
   }
@@ -49,7 +49,7 @@ final class InvoiceManager {
   private static void evaluateArgument(String string) {
     switch (string) {
       case "debug":
-        System.isDebugMode(true);
+        Session.isDebugMode(true);
         break;
     }
   }

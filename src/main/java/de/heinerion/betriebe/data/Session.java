@@ -26,14 +26,23 @@ public final class Session {
   private static Company activeCompany;
   private static Address activeAddress;
   private static Letter activeConveyable;
-  //  private static ApplicationFrame activeFrame;
+
   private static LocalDate date;
+  private static boolean debugMode = false;
 
   /**
    * Hides the default public Constructor
    */
   private Session() {
 
+  }
+
+  public static boolean isDebugMode() {
+    return debugMode;
+  }
+
+  public static void isDebugMode(boolean isDebugActivated) {
+    debugMode = isDebugActivated;
   }
 
   private static List<CompanyListener> getCompanyListeners() {

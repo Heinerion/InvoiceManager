@@ -5,7 +5,6 @@
 package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.data.System;
 import de.heinerion.betriebe.gui.content.ContentTabPane;
 import de.heinerion.betriebe.gui.menu.MenuBar;
 import de.heinerion.betriebe.gui.panels.ReceiverPanel;
@@ -151,7 +150,7 @@ public final class ApplicationFrame extends AbstractBusyFrame implements
     addCompanyAndNumber(token);
     addDate(token);
 
-    if (System.isDebugMode()) {
+    if (Session.isDebugMode()) {
       addDebugMarks(token);
     }
 

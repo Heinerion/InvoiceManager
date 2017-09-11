@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.tools;
 
-import de.heinerion.betriebe.data.System;
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
@@ -63,7 +63,7 @@ public class PathUtil {
   }
 
   private static String buildPath(String baseDir, String folderName) {
-    return baseDir + File.separator + folderName + (System.isDebugMode() ? File.separator + "Debug" : "");
+    return baseDir + File.separator + folderName + (Session.isDebugMode() ? File.separator + "Debug" : "");
   }
 
   public static String getTemplateFileName(String descriptiveName) {
