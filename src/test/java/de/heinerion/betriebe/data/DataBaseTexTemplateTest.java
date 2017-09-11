@@ -1,6 +1,7 @@
-package de.heinerion.betriebe.data.listable;
+package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
@@ -17,34 +18,34 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IO.class})
 @PowerMockIgnore("javax.management.*")
-public class DataBaseTemplateTest {
+public class DataBaseTexTemplateTest {
   private Company company;
-  private InvoiceTemplate template;
+  private TexTemplate template;
 
   @Before
   public void setUp() throws Exception {
     mockStatic(IO.class);
     DataBase.clearAllLists();
     company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    template = new InvoiceTemplate();
+    template = new TexTemplate("template");
   }
 
   @Test
   public void testAddTemplateWithCompany() {
-    DataBase.addTemplate(company, template);
+    DataBase.addTexTemplate(company, template);
 
-    assertTrue(DataBase.getTemplates(company).contains(template));
+    assertTrue(DataBase.getTexTemplates(company).contains(template));
   }
 
   @Test
   public void testAddTemplatesMultipleTimes() {
-    int baseSize = DataBase.getTemplates(company).size();
+    int baseSize = DataBase.getTexTemplates(company).size();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addTemplate(company, template);
-    DataBase.addTemplate(company, template);
+    DataBase.addTexTemplate(company, template);
+    DataBase.addTexTemplate(company, template);
 
-    assertEquals(expectedSize, DataBase.getTemplates(company).size());
+    assertEquals(expectedSize, DataBase.getTexTemplates(company).size());
   }
 }
