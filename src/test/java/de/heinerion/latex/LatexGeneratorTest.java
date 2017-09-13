@@ -18,9 +18,6 @@ public class LatexGeneratorTest {
 
   private static final int DOUBLE_DIGIT = 10;
 
-  private static final double TAX_PERCENT = 10;
-  private static final double WAGES_PER_H = 20;
-
   private static final String HLINE = "\\hline";
 
   private static final String DOCCLASS = "\\documentclass"
@@ -34,9 +31,9 @@ public class LatexGeneratorTest {
   private static final String KOMA_SIGNATURE = "\\setkomavar{signature}"
       + "{\\underline{Unterschrift:\\hspace{10cm}}}\n";
   private static final String KOMA_FROMADDRESS = "\\setkomavar{fromaddress}"
-      + "{Senderstraße 1, 12345 Senderort}\n"
-      + "\\setkomavar{fromphone}{09876}\n"
-      + "\\setkomavar{fromname}{{Offizieller Name GmbH}\\tiny}\n";
+      + "{street number, postalCode location}\n"
+      + "\\setkomavar{fromphone}{123-456}\n"
+      + "\\setkomavar{fromname}{{officialName}\\tiny}\n";
   private static final String DATE_START = "\\date{\n"
       + "\t\\footnotesize \n"
       + "\t\\begin{tabular}{ll}\n"
@@ -49,14 +46,14 @@ public class LatexGeneratorTest {
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
       + HLINE + Syntax.EOL;
 
-  private static final String LETTER_START = "\\begin{letter}{Empfänger\\\\\n"
-      + "Empfängerfirma\\\\\n" + "Empfängerstraße 2\\\\\n"
-      + "54321 Empfängerort}\n\n" + "\\opening{}\\vspace{-25pt}\n";
+  private static final String LETTER_START = "\\begin{letter}{recipient\\\\\n"
+      + "company\\\\\n" + "street number\\\\\n"
+      + "postalCode location}\n\n" + "\\opening{}\\vspace{-25pt}\n";
   private static final String LETTER_END = "\\vfill\n" + "\\closing{}\n" + "\n"
       + "\\end{letter}\n";
 
   private static final String EXPECTATION_LETTER_START = DOCCLASS + PACKAGES
-      + "\\hypersetup{pdftitle={Brief}, pdfauthor={Offizieller Name GmbH}, "
+      + "\\hypersetup{pdftitle={Brief}, pdfauthor={officialName}, "
       + "pdfsubject={Test}, pdfkeywords={0.00}}\n" + RENEW + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Test}\n" + KOMA_FROMADDRESS + DATE_START
       + Syntax.EOL + DATE_END + DOC_START + LETTER_START;
@@ -65,15 +62,15 @@ public class LatexGeneratorTest {
   private static final String BANK_ACCOUNT = DATE_START
       + Syntax.NEWLINE
       + "\t\\textsc Rechnungs-Nr. & : 0\\\\\n"
-      + "\t\\textsc Steuernummer & : 123456789\\\\\n"
-      + "\t\\textsc BIC & : BIC\\\\\n"
-      + "\t\\textsc IBAN & : IBAN\\\\\n"
-      + "\t\\multicolumn{2}{l}{Bank}\n"
+      + "\t\\textsc Steuernummer & : taxNumber\\\\\n"
+      + "\t\\textsc BIC & : bic\\\\\n"
+      + "\t\\textsc IBAN & : iban\\\\\n"
+      + "\t\\multicolumn{2}{l}{institute}\n"
       + DATE_END;
 
   private static final String EXPECTATION_INVOICE = DOCCLASS
       + PACKAGES
-      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={Offizieller Name GmbH}, "
+      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={officialName}, "
       + "pdfsubject={Artikel 1}, pdfkeywords={3.30}}\n"
       + RENEW
       + KOMA_SIGNATURE
@@ -113,7 +110,7 @@ public class LatexGeneratorTest {
 
   private static final String EXPECTATION_INVOICE_OF_TWO = DOCCLASS
       + PACKAGES
-      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={Offizieller Name GmbH}, "
+      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={officialName}, "
       + "pdfsubject={Artikel 1, Artikel 2}, pdfkeywords={14.65}}\n"
       + RENEW
       + KOMA_SIGNATURE
@@ -154,7 +151,6 @@ public class LatexGeneratorTest {
       + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{14,65}\\\\\\cline{4-5}\n"
       + "\\end{tabular}\n" + LETTER_END + DOC_END;
 
-  private static Address senderAddress;
   private static Company sender;
   private static Address receiverAddress;
   private static LocalDate date;
@@ -166,32 +162,8 @@ public class LatexGeneratorTest {
 
   @BeforeClass
   public static void prepare() {
-    senderAddress = new AddressBuilder()
-        .withCompany("Senderfirma")
-        .withStreet("Senderstraße")
-        .withNumber("1")
-        .withPostalCode("12345")
-        .withLocation("Senderort")
-        .build();
-    final Account anAccount = new Account("Bank", "BIC", "IBAN");
-    sender = new CompanyBuilder()
-        .withDescriptiveName("Kurzname")
-        .withOfficialName("Offizieller Name GmbH")
-        .withAddress(senderAddress)
-        .withSigner("Prokurist")
-        .withPhoneNumber("09876")
-        .withTaxNumber("123456789")
-        .withValueAddedTax(TAX_PERCENT)
-        .withWagesPerHour(WAGES_PER_H)
-        .withAccount(anAccount)
-        .build();
+    sender = new CompanyBuilder().build();
     receiverAddress = new AddressBuilder()
-        .withRecipient("Empfänger")
-        .withCompany("Empfängerfirma")
-        .withStreet("Empfängerstraße")
-        .withNumber("2")
-        .withPostalCode("54321")
-        .withLocation("Empfängerort")
         .withDistrict("null")
         .withApartment("null")
         .build();

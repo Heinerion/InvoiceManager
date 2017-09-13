@@ -39,7 +39,7 @@ public class AccountBuilder implements TestDataBuilder<Account> {
   @Override
   public Account build() {
     return new Account(
-        getName().orElse("name"),
+        getName().orElse("institute"),
         getBic().orElse("bic"),
         getIban().orElse("iban")
     );
