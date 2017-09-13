@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
@@ -23,7 +24,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("javax.management.*")
 public class DataBaseInvoiceTest {
   private ArchivedInvoice archivedInvoice;
-  private Company company;
 
   @Mock
   private File file;
@@ -41,7 +41,7 @@ public class DataBaseInvoiceTest {
     when(parent.getName()).thenReturn("officialName");
 
     DataBase.clearAllLists();
-    company = new Company("desc", "officialName", null, "sign", "number", "tax", 10, 11, null);
+    Company company = new CompanyBuilder().build();
 
     DataBase.addCompany(company);
     Session.setActiveCompany(company);

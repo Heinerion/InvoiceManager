@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.builder.AddressBuilder;
+import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
@@ -26,8 +28,8 @@ public class DataBaseAddressTest {
   public void setUp() throws Exception{
     mockStatic(IO.class);
     DataBase.clearAllLists();
-    company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
-    address = new Address("bla", "street", "nr", "12345", "location");
+    company = new CompanyBuilder().build();
+    address = new AddressBuilder().build();
   }
 
   @Test

@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class DataBaseCompanyTest {
     mockStatic(IO.class);
     mockStatic(Session.class);
     DataBase.clearAllLists();
-    company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
+    company = new CompanyBuilder().build();
   }
 
   @Test
@@ -64,6 +65,6 @@ public class DataBaseCompanyTest {
     DataBase.addCompany(company);
     Optional<Company> result = DataBase.getCompany(company.getDescriptiveName());
     assertTrue(result.isPresent());
-    assertEquals(company, result.orElse(null));
+    assertEquals(company, result.get());
   }
 }

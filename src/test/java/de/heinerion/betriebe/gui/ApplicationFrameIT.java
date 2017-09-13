@@ -1,6 +1,9 @@
 package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.TestContext;
+import de.heinerion.betriebe.builder.AddressBuilder;
+import de.heinerion.betriebe.builder.CompanyBuilder;
+import de.heinerion.betriebe.builder.InvoiceBuilder;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
@@ -29,11 +32,14 @@ public class ApplicationFrameIT {
   }
 
   private static void prepareSession() {
-    Account bankAccount = new Account("name", "bic", "iban");
-    Company company = new Company("companyName", "off", null, "sign", "number", "tax", 10, 11, bankAccount);
-    Address theReceiver = new Address("test", "test", "test", "test", "test");
+    Company company = new CompanyBuilder().build();
+    Address theReceiver = new AddressBuilder().withRecipient("").build();
 
-    Letter theActiveConveyable = new Invoice(LocalDate.of(2017, Month.MAY, 1), company, theReceiver);
+    Letter theActiveConveyable = new InvoiceBuilder()
+        .withDateOf(2017, Month.MAY, 1)
+        .withCompany(company)
+        .withReceiver(theReceiver)
+        .build();
 
     Session.setActiveAddress(theReceiver);
     Session.setActiveCompany(company);
@@ -62,8 +68,8 @@ public class ApplicationFrameIT {
 
     String baseDir = PathUtil.getBaseDir();
     String folder = Translator.translate("invoice.title");
-    expectedMessages.add("moveFile(\"" + baseDir + "/null/" + folder + "/companyName/1  01.05.2017.tex\", \"path\")");
-    expectedMessages.add("moveFile(\"" + baseDir + "/" + folder + "/companyName/1  01.05.2017.pdf\", \"1  01.05.2017.pdf\")");
+    expectedMessages.add("moveFile(\"" + baseDir + "/null/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
+    expectedMessages.add("moveFile(\"" + baseDir + "/" + folder + "/descriptiveName/1  01.05.2017.pdf\", \"1  01.05.2017.pdf\")");
 
     expectedMessages.add("deleteFile(\"1  01.05.2017.aux\")");
     expectedMessages.add("deleteFile(\"1  01.05.2017.log\")");

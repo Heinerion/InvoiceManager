@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.fileoperations.IO;
@@ -26,7 +27,7 @@ public class DataBaseTexTemplateTest {
   public void setUp() throws Exception {
     mockStatic(IO.class);
     DataBase.clearAllLists();
-    company = new Company("desc", "off", null, "sign", "number", "tax", 10, 11, null);
+    company = new CompanyBuilder().build();
     template = new TexTemplate("template");
   }
 

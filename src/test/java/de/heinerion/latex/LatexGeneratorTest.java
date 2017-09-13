@@ -1,5 +1,7 @@
 package de.heinerion.latex;
 
+import de.heinerion.betriebe.builder.AddressBuilder;
+import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.models.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -164,10 +166,35 @@ public class LatexGeneratorTest {
 
   @BeforeClass
   public static void prepare() {
-    senderAddress = new Address("Senderfirma", "Senderstraße", "1", "12345", "Senderort");
+    senderAddress = new AddressBuilder()
+        .withCompany("Senderfirma")
+        .withStreet("Senderstraße")
+        .withNumber("1")
+        .withPostalCode("12345")
+        .withLocation("Senderort")
+        .build();
     final Account anAccount = new Account("Bank", "BIC", "IBAN");
-    sender = new Company("Kurzname", "Offizieller Name GmbH", senderAddress, "Prokurist", "09876", "123456789", TAX_PERCENT, WAGES_PER_H, anAccount);
-    receiverAddress = new Address("Empfänger", "Empfängerfirma", null, "Empfängerstraße", "2", null, "54321", "Empfängerort");
+    sender = new CompanyBuilder()
+        .withDescriptiveName("Kurzname")
+        .withOfficialName("Offizieller Name GmbH")
+        .withAddress(senderAddress)
+        .withSigner("Prokurist")
+        .withPhoneNumber("09876")
+        .withTaxNumber("123456789")
+        .withValueAddedTax(TAX_PERCENT)
+        .withWagesPerHour(WAGES_PER_H)
+        .withAccount(anAccount)
+        .build();
+    receiverAddress = new AddressBuilder()
+        .withRecipient("Empfänger")
+        .withCompany("Empfängerfirma")
+        .withStreet("Empfängerstraße")
+        .withNumber("2")
+        .withPostalCode("54321")
+        .withLocation("Empfängerort")
+        .withDistrict("null")
+        .withApartment("null")
+        .build();
     date = LocalDate.of(YEAR, MONTH, DAY);
   }
 
