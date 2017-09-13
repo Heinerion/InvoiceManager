@@ -10,6 +10,8 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
@@ -63,8 +65,7 @@ public class DataBaseAddressTest {
 
   @Test
   public void testDoNotFindAddressByCompany() {
-    Address result = DataBase.getAddress(company, "Charlie");
-    assertNull(result);
+    assertFalse(DataBase.getAddress(company, "Charlie").isPresent());
   }
 
   @Test
@@ -72,7 +73,8 @@ public class DataBaseAddressTest {
     String recipient = "Charlie";
     address.setRecipient(recipient);
     DataBase.addAddress(company, address);
-    Address result = DataBase.getAddress(company, recipient);
-    assertEquals(address, result);
+    Optional<Address> result = DataBase.getAddress(company, recipient);
+    assertTrue(result.isPresent());
+    assertEquals(address, result.get());
   }
 }

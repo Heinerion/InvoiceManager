@@ -71,7 +71,7 @@ public final class ArchivedInvoice implements Loadable {
   }
 
   private Address getAddress(final String recipientsName) {
-    return addressCache.computeIfAbsent(recipientsName, n -> DataBase.getAddress(company, n));
+    return addressCache.computeIfAbsent(recipientsName, n -> DataBase.getAddress(company, n).orElse(null));
   }
 
   public double getAmount() {
