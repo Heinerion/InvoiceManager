@@ -3,7 +3,7 @@ package de.heinerion.betriebe;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.tools.LookAndFeelUtil;
+import de.heinerion.betriebe.util.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

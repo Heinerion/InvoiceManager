@@ -1,6 +1,6 @@
 package de.heinerion.latex;
 
-import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.DateUtil;

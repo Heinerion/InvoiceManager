@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.content;
 
-import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;

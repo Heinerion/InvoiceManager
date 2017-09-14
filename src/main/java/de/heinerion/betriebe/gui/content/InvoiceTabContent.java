@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.*;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.content.components.FooterPanel;

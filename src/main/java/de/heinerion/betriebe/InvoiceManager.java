@@ -12,7 +12,7 @@ import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
 import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.tools.LookAndFeelUtil;
+import de.heinerion.betriebe.util.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

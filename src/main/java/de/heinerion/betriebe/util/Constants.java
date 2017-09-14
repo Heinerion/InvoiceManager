@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.data;
+package de.heinerion.betriebe.util;
 
 public final class Constants {
   public static final int INVOICE_LINE_COUNT = 6;

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.swing.*;
 import java.io.File;
 
-import static de.heinerion.betriebe.data.Constants.SPACE;
+import static de.heinerion.betriebe.util.Constants.SPACE;
 
 /**
  * @author heiner
