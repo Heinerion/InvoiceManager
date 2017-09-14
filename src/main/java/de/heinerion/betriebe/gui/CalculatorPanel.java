@@ -2,7 +2,7 @@ package de.heinerion.betriebe.gui;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.DimensionUtil;
+import de.heinerion.betriebe.util.DimensionUtil;
 import de.heinerion.money.Euro;
 import de.heinerion.money.Money;
 

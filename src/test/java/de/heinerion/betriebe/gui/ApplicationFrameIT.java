@@ -7,14 +7,13 @@ import de.heinerion.betriebe.builder.InvoiceBuilder;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.PathUtil;
+import de.heinerion.betriebe.util.PathUtil;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.swing.*;
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;

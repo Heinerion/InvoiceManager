@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.tools;
+package de.heinerion.betriebe.util;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;

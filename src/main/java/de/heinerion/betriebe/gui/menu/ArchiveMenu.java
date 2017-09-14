@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.gui.ApplicationFrame;
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.FormatUtil;
+import de.heinerion.betriebe.util.FormatUtil;
 import de.heinerion.exceptions.HeinerionException;
 
 import javax.swing.*;

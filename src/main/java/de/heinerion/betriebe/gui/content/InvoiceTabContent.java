@@ -8,8 +8,8 @@ import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.gui.content.components.FooterPanel;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.ParsingUtil;
-import de.heinerion.betriebe.tools.StringUtil;
+import de.heinerion.betriebe.util.ParsingUtil;
+import de.heinerion.betriebe.util.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

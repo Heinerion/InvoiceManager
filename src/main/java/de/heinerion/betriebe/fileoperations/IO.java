@@ -11,9 +11,9 @@ import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.FormatUtil;
-import de.heinerion.betriebe.tools.PathTools;
-import de.heinerion.betriebe.tools.PathUtil;
+import de.heinerion.betriebe.util.FormatUtil;
+import de.heinerion.betriebe.util.PathTools;
+import de.heinerion.betriebe.util.PathUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

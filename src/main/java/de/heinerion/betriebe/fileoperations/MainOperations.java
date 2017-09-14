@@ -7,8 +7,8 @@ package de.heinerion.betriebe.fileoperations;
 import de.heinerion.betriebe.fileoperations.io.LatexWriter;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.tools.DateUtil;
-import de.heinerion.betriebe.tools.PathUtil;
+import de.heinerion.betriebe.util.DateUtil;
+import de.heinerion.betriebe.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;

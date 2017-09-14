@@ -4,7 +4,7 @@ import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
-import de.heinerion.betriebe.tools.PathTools;
+import de.heinerion.betriebe.util.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

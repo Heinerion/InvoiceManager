@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data.listable;
 
-import de.heinerion.betriebe.tools.PathUtil;
+import de.heinerion.betriebe.util.PathUtil;
 
 import java.io.File;
 import java.io.Serializable;

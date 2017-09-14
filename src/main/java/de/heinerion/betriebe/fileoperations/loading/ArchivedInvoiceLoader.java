@@ -3,7 +3,7 @@ package de.heinerion.betriebe.fileoperations.loading;
 import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.ParsingUtil;
+import de.heinerion.betriebe.util.ParsingUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;

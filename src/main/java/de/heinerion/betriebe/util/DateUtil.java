@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.tools;
+package de.heinerion.betriebe.util;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

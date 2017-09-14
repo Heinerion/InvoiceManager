@@ -1,6 +1,6 @@
 package de.heinerion.money;
 
-import de.heinerion.betriebe.tools.ParsingUtil;
+import de.heinerion.betriebe.util.ParsingUtil;
 
 import java.text.DecimalFormat;
 

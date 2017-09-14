@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.tools;
+package de.heinerion.betriebe.util;
 
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.interfaces.Storable;

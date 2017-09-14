@@ -8,7 +8,7 @@ import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.tools.DimensionUtil;
+import de.heinerion.betriebe.util.DimensionUtil;
 
 import javax.swing.*;
 import java.awt.*;
