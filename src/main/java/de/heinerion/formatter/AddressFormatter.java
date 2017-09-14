@@ -37,6 +37,6 @@ public class AddressFormatter {
   }
 
   private boolean isValidMessage(String message) {
-    return null != message && !"null".equals(message);
+    return null != message && !message.trim().isEmpty();
   }
 }

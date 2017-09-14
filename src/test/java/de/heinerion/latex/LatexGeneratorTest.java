@@ -164,8 +164,8 @@ public class LatexGeneratorTest {
   public static void prepare() {
     sender = new CompanyBuilder().build();
     receiverAddress = new AddressBuilder()
-        .withDistrict("null")
-        .withApartment("null")
+        .withDistrict("")
+        .withApartment("")
         .build();
     date = LocalDate.of(YEAR, MONTH, DAY);
   }

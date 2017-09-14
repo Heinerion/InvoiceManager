@@ -90,7 +90,12 @@ public final class CompanyLoader extends AbstractTextFileLoader<Company> {
   }
 
   private String getAddressPart(Map<String, String> attributes, String part) {
-    return attributes.get(ADDRESS + DOT + part);
+    return readAttribute(attributes, ADDRESS + DOT + part);
+  }
+
+  private String readAttribute(Map<String, String> attributes, String key) {
+    String value = attributes.get(key);
+    return value.trim().equals("null") ? null : value;
   }
 
   private double getValueAddedTax(Map<String, String> attributes) {

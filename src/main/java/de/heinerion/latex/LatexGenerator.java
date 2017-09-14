@@ -10,6 +10,7 @@ import de.heinerion.formatter.AddressFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LatexGenerator {
@@ -30,18 +31,15 @@ public class LatexGenerator {
 
   private static final String TABLE_FORMAT = "p{5cm}p{1cm}p{3cm}|r|r|";
 
-  private String convertAddress(Address address) {
-    String convertedAddress = "null";
-
+  private Optional<String> convertAddress(Address address) {
     if (address != null) {
-      convertedAddress = joinWithSpaces(address.getStreet(), address.getNumber()) + ", " + joinWithSpaces(address.getPostalCode(), address.getLocation());
+      String streetPart = String.join(Constants.SPACE, address.getStreet(), address.getNumber());
+      String locationPart = String.join(Constants.SPACE, address.getPostalCode(), address.getLocation());
+      String convertedAddress = streetPart + ", " + locationPart;
+      return Optional.of(convertedAddress);
     }
 
-    return convertedAddress;
-  }
-
-  private String joinWithSpaces(String... strings) {
-    return String.join(Constants.SPACE, strings);
+    return Optional.empty();
   }
 
   private String createRecipientsAddress(Address address) {
@@ -204,7 +202,7 @@ public class LatexGenerator {
     letter.addKomaVar(KomaKey.SIGNATURE, "\\underline{" + Translator.translate("invoice.signature") + ":\\hspace{10cm}}");
     letter.addKomaVar(KomaKey.SUBJECT, subject);
     letter
-        .addKomaVar(KomaKey.FROMADDRESS, convertAddress(company.getAddress()));
+        .addKomaVar(KomaKey.FROMADDRESS, convertAddress(company.getAddress()).orElseThrow(() -> new IllegalArgumentException("The sending company does not have a valid address")));
     letter.addKomaVar(KomaKey.FROMPHONE, company.getPhoneNumber());
     letter.addKomaVar(KomaKey.FROMNAME,
         Syntax.START + company.getOfficialName() + Syntax.END
