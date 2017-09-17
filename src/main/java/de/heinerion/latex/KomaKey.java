@@ -1,6 +1,6 @@
 package de.heinerion.latex;
 
-public enum KomaKey {
+enum KomaKey {
   SIGNATURE, SUBJECT, FROMADDRESS, FROMPHONE, FROMNAME;
 
   @Override

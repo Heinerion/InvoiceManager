@@ -178,7 +178,7 @@ public class LatexGeneratorTest {
     invoice = new Invoice(date, sender, receiverAddress);
     invoice.add("Artikel 1", "Stück", 1.50, 2);
 
-    latexGenerator = new LatexGenerator();
+    latexGenerator = new LatexGeneratorImpl();
   }
 
   @Test

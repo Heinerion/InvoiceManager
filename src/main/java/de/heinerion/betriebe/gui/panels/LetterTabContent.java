@@ -6,19 +6,14 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.Constants;
-import de.heinerion.latex.LatexGenerator;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static java.awt.BorderLayout.CENTER;
-import static java.awt.BorderLayout.PAGE_END;
-import static java.awt.BorderLayout.PAGE_START;
+import static java.awt.BorderLayout.*;
 
 @SuppressWarnings("serial")
 class LetterTabContent extends AbstractTabContent {
-  private static final String DOUBLE_SLASH = "\\\\";
-
   private JTextField subjectFld;
   private JPanel subjectPnl;
   private JLabel subjectLbl;
@@ -106,10 +101,8 @@ class LetterTabContent extends AbstractTabContent {
     Letter ltr = new Letter(Session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
-    String text = LatexGenerator.nToSlash(getLetterText());
-    String[] textLines = text.split(Constants.NEWLINE);
-    for (String line : textLines) {
-      ltr.addMessageLine(line.replaceAll(DOUBLE_SLASH, Constants.EMPTY));
+    for (String line : getLetterText().split(Constants.NEWLINE)) {
+      ltr.addMessageLine(line);
     }
 
     return ltr;

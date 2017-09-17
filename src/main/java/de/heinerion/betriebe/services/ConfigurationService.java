@@ -28,6 +28,10 @@ public class ConfigurationService {
     return (T) getContext().getBean(classnameOrId);
   }
 
+  public static <T> T getBean(Class<T> requiredType) {
+    return (T) getContext().getBean(requiredType);
+  }
+
   public static String get(String key) {
     return getConfig().getProperty(key);
   }
