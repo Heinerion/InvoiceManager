@@ -1,13 +1,11 @@
-package de.heinerion.betriebe.fileoperations;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
-import de.heinerion.betriebe.fileoperations.io.FileHandler;
-import de.heinerion.betriebe.fileoperations.loading.*;
 import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.loader.TextFileLoader;
+import de.heinerion.betriebe.gui.panels.ProgressIndicator;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
@@ -19,10 +17,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import static de.heinerion.exceptions.HeinerionException.handleException;
 
@@ -140,7 +137,7 @@ public final class IO implements LoadListener {
     ladeVorlagen();
   }
 
-  static void load() {
+  public static void load() {
     load(progress);
   }
 
@@ -172,8 +169,8 @@ public final class IO implements LoadListener {
   private void registerListenersAndLoaders() {
     registerToLoadingManager();
 
-    addLoader(Address.class, AddressLoader.class);
-    addLoader(Company.class, CompanyLoader.class, this::continueWithCompany);
+    addLoader(Address.class);
+    addLoader(Company.class, this::continueWithCompany);
   }
 
   private void registerToLoadingManager() {
@@ -190,24 +187,23 @@ public final class IO implements LoadListener {
       logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
     }
 
-    ArchivedInvoiceLoader loader = new ArchivedInvoiceLoader(company.getFolderFile());
+    Loader loader = LoaderFactory.getLoader(ArchivedInvoice.class, company.getFolderFile());
     loader.init();
     loader.addListener(loadingManager);
     loadingManager.loadClass(ArchivedInvoice.class, loader);
   }
 
-  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass) {
-    addLoader(classToLoad, loaderClass, null);
+  private <T extends Loadable> void addLoader(Class<T> classToLoad) {
+    addLoader(classToLoad, null);
   }
 
-  private <T extends Loadable, X extends Loader<T>> void addLoader(Class<T> classToLoad, Class<X> loaderClass,
-                                                                   LoadableCallback callback) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("add {}", loaderClass.getSimpleName());
-    }
+  private <T extends Loadable> void addLoader(Class<T> classToLoad, LoadableCallback callback) {
+    Function<File, Loader> loaderGenerator = LoaderFactory
+        .getLoaderFactory(classToLoad)
+        .orElseThrow(() -> new LoadingException(classToLoad));
 
     File loadDirectory = getLoadDirectory(classToLoad);
-    Loader<T> loader = initLoader(loaderClass, loadDirectory);
+    Loader loader = initLoader(loaderGenerator, loadDirectory);
 
     loadingManager.addLoader(classToLoad, loader, callback);
   }
@@ -220,17 +216,11 @@ public final class IO implements LoadListener {
     return loadDirectory;
   }
 
-  private <T extends Loadable, X extends Loader<T>> Loader<T> initLoader(Class<X> loaderClass, File loadDirectory) {
-    Loader<T> loader = null;
+  private Loader initLoader(Function<File, Loader> loaderClass, File loadDirectory) {
+    Loader loader = loaderClass.apply(loadDirectory);
 
-    try {
-      Constructor<X> loaderConstructor = loaderClass.getConstructor(File.class);
-      loader = loaderConstructor.newInstance(loadDirectory);
-      if (logger.isDebugEnabled()) {
-        logger.debug("fileLoader {}", loader.getDescriptiveName());
-      }
-    } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-      handleException(getClass(), e);
+    if (logger.isDebugEnabled()) {
+      logger.debug("fileLoader {}", loader.getDescriptiveName());
     }
 
     return loader;

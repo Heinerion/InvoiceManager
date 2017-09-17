@@ -3,10 +3,10 @@ package de.heinerion.betriebe;
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.fileoperations.IO;
-import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
-import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
+import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.gui.panels.ApplicationFrame;
+import de.heinerion.betriebe.gui.panels.PanelFactory;
+import de.heinerion.betriebe.gui.panels.ProgressIndicator;
 import de.heinerion.betriebe.util.LookAndFeelUtil;
 import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
@@ -83,8 +83,8 @@ final class InvoiceManager {
     progress.setEnabled(false);
   }
 
-  private static JProgressBarIndicator getProgressBarIndicator(ApplicationFrame applicationFrame) {
-    return new JProgressBarIndicator(applicationFrame.getProgressBar());
+  private static ProgressIndicator getProgressBarIndicator(ApplicationFrame applicationFrame) {
+    return PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
   }
 
   private static void waitASecond() {

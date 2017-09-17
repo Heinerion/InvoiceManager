@@ -1,6 +1,6 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
-public interface LoadListenable {
+interface LoadListenable {
   void addListener(LoadListener listener);
 
   void notifyLoadListeners(String message, Loadable loadable);

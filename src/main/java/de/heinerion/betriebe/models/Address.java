@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.fileoperations.loading.Loadable;
+import de.heinerion.betriebe.loading.Loadable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 
 public final class Address implements Storable, Loadable {

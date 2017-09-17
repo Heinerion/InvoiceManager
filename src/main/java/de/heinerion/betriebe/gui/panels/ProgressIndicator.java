@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.gui.panels;
 
 public interface ProgressIndicator {
 

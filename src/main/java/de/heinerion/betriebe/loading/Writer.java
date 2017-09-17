@@ -1,8 +1,8 @@
-package de.heinerion.betriebe.loader;
+package de.heinerion.betriebe.loading;
 
 import java.io.IOException;
 
-public interface Writer {
+interface Writer {
   void closeFile() throws IOException;
 
   void prepareFile(String path) throws IOException;

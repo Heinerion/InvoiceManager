@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.models.Address;
 
@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public final class AddressLoader extends AbstractTextFileLoader<Address> {
+class AddressLoader extends AbstractTextFileLoader {
   private static final String APARTMENT = "Apartment";
   private static final String COMPANY = "Company";
   private static final String DISTRICT = "District";
@@ -16,7 +16,7 @@ public final class AddressLoader extends AbstractTextFileLoader<Address> {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  public AddressLoader(File aLoadDirectory) {
+  AddressLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 
@@ -25,9 +25,6 @@ public final class AddressLoader extends AbstractTextFileLoader<Address> {
     return "Adressen";
   }
 
-  /**
-   * @return
-   */
   @Override
   protected Pattern getPattern() {
     return Pattern.compile(".*\\.address$");

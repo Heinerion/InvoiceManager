@@ -1,9 +1,9 @@
-package de.heinerion.betriebe.loader;
+package de.heinerion.betriebe.loading;
 
 import java.io.IOException;
 import java.util.Map;
 
-public interface Reader {
+interface Reader {
   void closeFile() throws IOException;
 
   void prepareFile(String path) throws IOException;

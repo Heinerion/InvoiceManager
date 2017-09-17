@@ -42,4 +42,8 @@ public class PanelFactory {
   static void createApplicationFrame(JFrame jFrame) {
     createApplicationFrame(jFrame, createGlassPane(), new JProgressBar(), createTabPane());
   }
+
+  public static ProgressIndicator getProgressIndicator(JProgressBar progressBar) {
+    return new ProgressIndicatorImpl(progressBar);
+  }
 }

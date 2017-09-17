@@ -1,8 +1,6 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.exceptions.HeinerionException;
-import de.heinerion.betriebe.loader.Reader;
-import de.heinerion.betriebe.loader.TextFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public abstract class AbstractTextFileLoader<T> extends AbstractLoader<T> {
+abstract class AbstractTextFileLoader extends AbstractLoader {
   private static final Logger logger = LogManager.getLogger(AbstractTextFileLoader.class);
 
   private final Reader reader = new TextFileReader();
 
-  protected AbstractTextFileLoader(File aLoadDirectory) {
+  AbstractTextFileLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 

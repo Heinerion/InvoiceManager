@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.io;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FileHandler {
+class FileHandler {
   private static final Logger logger = LogManager.getLogger(FileHandler.class);
 
   private FileHandler() {
@@ -48,7 +48,7 @@ public class FileHandler {
     return ret;
   }
 
-  public static <T> List<T> load(T element, String path) {
+  static <T> List<T> load(T element, String path) {
     Object content = new ArrayList<>();
 
     File source = new File(path);
@@ -114,7 +114,7 @@ public class FileHandler {
     return content;
   }
 
-  public static void writeObject(Object obj, String path) {
+  static void writeObject(Object obj, String path) {
     try {
       File pathToFile = new File(path);
       boolean dirsCreated = pathToFile.getParentFile().mkdirs();

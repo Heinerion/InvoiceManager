@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-abstract class AbstractLoader<T> implements Loader<T> {
+abstract class AbstractLoader implements Loader {
   private static final Logger logger = LogManager.getLogger(AbstractLoader.class);
 
   private static final String VALID = "File: {}, compatible with {}";

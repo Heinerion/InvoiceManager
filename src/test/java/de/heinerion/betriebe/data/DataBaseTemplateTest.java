@@ -1,9 +1,8 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.builder.CompanyBuilder;
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.fileoperations.IO;
+import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;
 import org.junit.Test;

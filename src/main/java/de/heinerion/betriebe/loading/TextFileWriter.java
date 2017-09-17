@@ -1,11 +1,11 @@
-package de.heinerion.betriebe.loader;
+package de.heinerion.betriebe.loading;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public final class TextFileWriter implements Writer {
+class TextFileWriter implements Writer {
   private static final String PROPERTY_DEVIDER = ":";
   private static final String LINE_END = "\r\n";
 

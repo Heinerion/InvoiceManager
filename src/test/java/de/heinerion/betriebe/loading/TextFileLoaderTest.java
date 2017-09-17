@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loader;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Address;

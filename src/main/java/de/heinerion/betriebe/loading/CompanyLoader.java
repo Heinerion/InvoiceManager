@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public final class CompanyLoader extends AbstractTextFileLoader<Company> {
+class CompanyLoader extends AbstractTextFileLoader {
   private static final Logger logger = LogManager.getLogger(CompanyLoader.class);
 
   private static final String ADDRESS = "Address";
@@ -39,7 +39,7 @@ public final class CompanyLoader extends AbstractTextFileLoader<Company> {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  public CompanyLoader(File aLoadDirectory) {
+  CompanyLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 
@@ -48,9 +48,6 @@ public final class CompanyLoader extends AbstractTextFileLoader<Company> {
     return "Betriebe";
   }
 
-  /**
-   * @return
-   */
   @Override
   protected Pattern getPattern() {
     return Pattern.compile(".*\\.company$");

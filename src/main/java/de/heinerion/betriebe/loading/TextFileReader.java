@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loader;
+package de.heinerion.betriebe.loading;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class TextFileReader implements Reader {
+class TextFileReader implements Reader {
   private static final String PROPERTY_DIVIDER = ":";
 
   private BufferedReader reader = null;

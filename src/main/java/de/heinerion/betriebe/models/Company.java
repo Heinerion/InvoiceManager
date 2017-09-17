@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.fileoperations.loading.Loadable;
+import de.heinerion.betriebe.loading.Loadable;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.util.PathUtil;

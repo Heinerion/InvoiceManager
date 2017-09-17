@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.io;
+package de.heinerion.betriebe.listener;
 
 import de.heinerion.betriebe.boundary.HostSystem;
 import de.heinerion.betriebe.models.Letter;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
-public class LatexWriter {
+class LatexWriter {
   private Logger logger = LogManager.getLogger(LatexWriter.class);
 
   private static final String TEX = ".tex";
@@ -20,12 +20,12 @@ public class LatexWriter {
   private final LatexGenerator latexGenerator;
 
   @Autowired
-  public LatexWriter(LatexGenerator latexGenerator, HostSystem hostSystem) {
+  LatexWriter(LatexGenerator latexGenerator, HostSystem hostSystem) {
     this.latexGenerator = latexGenerator;
     this.hostSystem = hostSystem;
   }
 
-  public void writeFile(Letter letter, File parentFolder, String title) {
+  void writeFile(Letter letter, File parentFolder, String title) {
     String pathname = determineFilename(title);
     String content = latexGenerator.generateSourceContent(letter);
     File tex = hostSystem.writeToFile(pathname, content);

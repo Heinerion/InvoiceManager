@@ -1,10 +1,6 @@
-/**
- * MainOperations.java
- * heiner 27.03.2012
- */
-package de.heinerion.betriebe.fileoperations;
+package de.heinerion.betriebe.listener;
 
-import de.heinerion.betriebe.fileoperations.io.LatexWriter;
+import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.DateUtil;
@@ -19,7 +15,7 @@ import static de.heinerion.betriebe.util.Constants.SPACE;
 /**
  * @author heiner
  */
-public class MainOperations {
+class MainOperations {
   private LatexWriter latexWriter;
 
   private static final int STATE_LETTER = 0;
@@ -29,7 +25,7 @@ public class MainOperations {
   private int state = STATE_LETTER;
 
   @Autowired
-  public MainOperations(LatexWriter latexWriter) {
+  MainOperations(LatexWriter latexWriter) {
     this.latexWriter = latexWriter;
   }
 
@@ -45,7 +41,7 @@ public class MainOperations {
    *
    * @param letter the conveyable to be written to pdf
    */
-  public void createDocument(Letter letter) {
+  void createDocument(Letter letter) {
     updateState(letter);
 
     SwingUtilities.invokeLater(() -> {

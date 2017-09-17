@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.exceptions.HeinerionException;
@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public final class ArchivedInvoiceLoader extends AbstractLoader<ArchivedInvoice> {
+class ArchivedInvoiceLoader extends AbstractLoader {
   private static final Logger logger = LogManager.getLogger(ArchivedInvoiceLoader.class);
 
-  public ArchivedInvoiceLoader(File aLoadDirectory) {
+  ArchivedInvoiceLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 

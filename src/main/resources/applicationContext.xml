@@ -7,10 +7,10 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <bean class="de.heinerion.betriebe.fileoperations.io.LatexWriter"/>
+    <bean class="de.heinerion.betriebe.listener.LatexWriter"/>
     <bean class="de.heinerion.latex.LatexGeneratorImpl"/>
     <bean class="de.heinerion.betriebe.services.SwingService"/>
-    <bean id="mainOperations" class="de.heinerion.betriebe.fileoperations.MainOperations"/>
+    <bean id="mainOperations" class="de.heinerion.betriebe.listener.MainOperations"/>
 
     <bean class="de.heinerion.betriebe.boundary.ProcessRunner" />
     <bean class="de.heinerion.betriebe.boundary.HostSystemImpl" />

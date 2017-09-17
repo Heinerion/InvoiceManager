@@ -1,8 +1,8 @@
-package de.heinerion.betriebe.fileoperations.loading;
+package de.heinerion.betriebe.loading;
 
 import java.util.List;
 
-public interface Loader<T> extends LoadListenable {
+interface Loader extends LoadListenable {
   String getDescriptiveName();
 
   int getFileNumber();
