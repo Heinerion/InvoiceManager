@@ -9,8 +9,8 @@ public class InvoiceBuilder extends LetterBuilder {
   public Invoice build() {
     return new Invoice(
         getDate().orElse(LocalDate.now()),
-        getCompany().orElse(new CompanyBuilder().build()),
-        getReceiver().orElse(new AddressBuilder().build())
+        getCompany().orElseGet(() -> new CompanyBuilder().build()),
+        getReceiver().orElseGet(() -> new AddressBuilder().build())
     );
   }
 }

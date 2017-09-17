@@ -57,11 +57,11 @@ public class SessionPreparer {
   }
 
   public void prepare() {
-    Session.setActiveAddress(getActiveAddress().orElse(new AddressBuilder().withRecipient("").build()));
+    Session.setActiveAddress(getActiveAddress().orElseGet(() -> new AddressBuilder().withRecipient("").build()));
 
-    Session.setActiveCompany(getActiveCompany().orElse(new CompanyBuilder().build()));
+    Session.setActiveCompany(getActiveCompany().orElseGet(() -> new CompanyBuilder().build()));
 
-    Session.setActiveConveyable(getActiveConveyable().orElse(
+    Session.setActiveConveyable(getActiveConveyable().orElseGet(() ->
         new InvoiceBuilder()
             .withCompany(Session.getActiveCompany())
             .withReceiver(Session.getActiveAddress())

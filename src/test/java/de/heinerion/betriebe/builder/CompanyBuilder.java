@@ -116,12 +116,12 @@ public class CompanyBuilder implements TestDataBuilder<Company> {
     return new Company(
         getDescriptiveName().orElse("descriptiveName"),
         getOfficialName().orElse("officialName"),
-        getAddress().orElse(new AddressBuilder().build()),
+        getAddress().orElseGet(() -> new AddressBuilder().build()),
         getSigner().orElse("signer"),
         getPhoneNumber().orElse("123-456"),
         getTaxNumber().orElse("taxNumber"),
         getValueAddedTax().orElse(10d),
         getWagesPerHour().orElse(50d),
-        getAccount().orElse(new AccountBuilder().build()));
+        getAccount().orElseGet(() -> new AccountBuilder().build()));
   }
 }
