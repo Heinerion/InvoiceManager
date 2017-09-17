@@ -6,7 +6,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.fileoperations.io.FileHandler;
 import de.heinerion.betriebe.fileoperations.loading.*;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.loader.TextFileLoader;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;

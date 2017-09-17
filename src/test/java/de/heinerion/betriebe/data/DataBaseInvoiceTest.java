@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.builder.CompanyBuilder;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.models.Company;
 import org.junit.Before;

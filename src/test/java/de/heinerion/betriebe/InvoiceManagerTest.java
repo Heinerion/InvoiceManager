@@ -1,8 +1,10 @@
 package de.heinerion.betriebe;
 
+import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.fileoperations.IO;
-import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.panels.ApplicationFrame;
+import de.heinerion.betriebe.gui.panels.PanelFactory;
 import de.heinerion.betriebe.util.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +24,11 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ApplicationFrame.class, LookAndFeelUtil.class, IO.class})
-@PowerMockIgnore("javax.management.*")
+@PrepareForTest({PanelFactory.class, LookAndFeelUtil.class, IO.class})
+@PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 public class InvoiceManagerTest {
   @Mock
-  private ApplicationFrame frame;
+  private JFrame frame;
 
   @Mock
   private JProgressBar progressBar;
@@ -35,11 +37,16 @@ public class InvoiceManagerTest {
   public void setUp() {
     mockStatic(IO.class);
 
-    mockStatic(ApplicationFrame.class);
-    when(ApplicationFrame.getInstance()).thenReturn(frame);
-    when(frame.getProgressBar()).thenReturn(progressBar);
+    ApplicationFrame applicationFrame = PanelFactory.createApplicationFrame(frame, progressBar);
+
+    mockStatic(PanelFactory.class);
+    when(PanelFactory.createApplicationFrame()).thenReturn(applicationFrame);
 
     mockStatic(LookAndFeelUtil.class);
+
+    new SessionPreparer()
+        .withApplicationFrame(applicationFrame)
+        .prepare();
   }
 
   @Test
@@ -60,7 +67,7 @@ public class InvoiceManagerTest {
   public void testMainSetFrameVisible() {
     InvoiceManager.main("debug");
 
-    verify(frame).setVisible(true);
+    verify(Session.getFrame()).setVisible(true);
   }
 
   @Test

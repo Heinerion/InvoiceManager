@@ -1,13 +1,11 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.AbstractGridPanel;
-import de.heinerion.betriebe.gui.PositionCoordinates;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.util.DimensionUtil;
 
 import javax.swing.*;
@@ -15,7 +13,7 @@ import java.awt.*;
 import java.util.List;
 
 @SuppressWarnings("serial")
-final class AddressChooserPanel extends AbstractGridPanel {
+class AddressChooserPanel extends AbstractGridPanel {
   private static final String FLOPPY_SYM = "FileChooser.floppyDriveIcon";
   private static final String DELETE_SYM = "images/delete.png";
 
@@ -38,7 +36,7 @@ final class AddressChooserPanel extends AbstractGridPanel {
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  public AddressChooserPanel() {
+  AddressChooserPanel() {
     init();
 
     addAddressChooser();
@@ -126,7 +124,7 @@ final class AddressChooserPanel extends AbstractGridPanel {
     this.refreshBoxes();
   }
 
-  public void refreshBoxes() {
+  void refreshBoxes() {
     // Alte Adressen werden gelöscht
     this.addressBox.removeAllItems();
 

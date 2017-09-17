@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.data;
 
+import de.heinerion.betriebe.gui.panels.ApplicationFrame;
+import de.heinerion.betriebe.gui.panels.PanelFactory;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;
@@ -10,6 +12,7 @@ import de.heinerion.betriebe.services.ConfigurationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,8 @@ public final class Session {
 
   private static LocalDate date;
   private static boolean debugMode = false;
+
+  private static ApplicationFrame applicationFrame;
 
   /**
    * Hides the default public Constructor
@@ -69,7 +74,7 @@ public final class Session {
     return dateListeners;
   }
 
-  public static void addAvailableCompany(Company company) {
+  static void addAvailableCompany(Company company) {
     List<Company> companies = getAvailableCompanies();
 
     if (!companies.contains(company)) {
@@ -183,5 +188,21 @@ public final class Session {
       LOGGER.debug("notifyDate");
     }
     getDateListeners().forEach(DateListener::notifyDate);
+  }
+
+  public static JFrame getFrame() {
+    return getApplicationFrame().getFrame();
+  }
+
+  public static void setApplicationFrame (ApplicationFrame frame) {
+    applicationFrame = frame;
+  }
+
+  public static ApplicationFrame getApplicationFrame() {
+    if (applicationFrame == null) {
+      applicationFrame = PanelFactory.createApplicationFrame();
+    }
+
+    return applicationFrame;
   }
 }

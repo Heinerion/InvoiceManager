@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.BGPanel;
+import de.heinerion.betriebe.gui.panels.PanelSides;
+import de.heinerion.betriebe.gui.panels.PanelFactory;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
 
@@ -15,17 +15,13 @@ import java.util.Map;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public class InvoiceNumbersMenu extends AbstractMenu {
+class InvoiceNumbersMenu extends AbstractMenu {
   private static final String NAME = Translator.translate("menu.invoiceNumbers");
-  private BGPanel pnlNumbers;
+  private JPanel pnlNumbers;
 
   private Map<Company, JSpinner> numbers;
 
   private JLabel header;
-
-  InvoiceNumbersMenu(ApplicationFrame origin) {
-    super(origin);
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -64,8 +60,7 @@ public class InvoiceNumbersMenu extends AbstractMenu {
     header = new JLabel(Translator.translate("menu.invoiceNumbers.lastIssuedNumber"),
         SwingConstants.CENTER);
 
-    pnlNumbers = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT, BGPanel.TOP,
-        BGPanel.BOTTOM);
+    pnlNumbers = PanelFactory.createBackgroundPanel(PanelSides.ALL);
     pnlNumbers.setLayout(new GridLayout(2, 2));
   }
 
@@ -75,7 +70,7 @@ public class InvoiceNumbersMenu extends AbstractMenu {
   }
 
   @Override
-  String getLinkText() {
+  public String getLinkText() {
     return NAME;
   }
 

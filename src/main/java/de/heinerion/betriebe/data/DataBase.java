@@ -5,8 +5,8 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.Loadable;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import org.apache.logging.log4j.LogManager;
@@ -207,7 +207,7 @@ public final class DataBase {
     return getTemplateEntry(company, templateName, getTexTemplateEntries());
   }
 
-  public static List<TexTemplate> getTexTemplates(Company company) {
+  static List<TexTemplate> getTexTemplates(Company company) {
     return getEntries(getTexTemplateEntries(), company);
   }
 

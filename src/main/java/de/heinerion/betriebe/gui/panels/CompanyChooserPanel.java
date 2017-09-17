@@ -1,16 +1,15 @@
 package de.heinerion.betriebe.gui.panels;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.CompanyButton;
 import de.heinerion.betriebe.models.Company;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public final class CompanyChooserPanel extends SidePanel {
+class CompanyChooserPanel extends SidePanel implements Refreshable {
   private JPanel content = new JPanel();
 
-  public CompanyChooserPanel() {
+  CompanyChooserPanel() {
     refresh();
   }
 
@@ -22,5 +21,10 @@ public final class CompanyChooserPanel extends SidePanel {
       content.add(btn);
     }
     add(content);
+  }
+
+  @Override
+  public JPanel getPanel() {
+    return this;
   }
 }

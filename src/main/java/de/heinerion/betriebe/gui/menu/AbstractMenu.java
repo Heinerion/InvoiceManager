@@ -1,53 +1,35 @@
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.BusyState;
 import de.heinerion.betriebe.services.Translator;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-abstract class AbstractMenu {
-
-  private JDialog dialog;
-
-  /**
-   * source frame
-   */
-  private final ApplicationFrame origin;
-
+abstract class AbstractMenu implements Menu {
   /**
    * window adapter, responsible for closing
    */
   private final DisposeAdapter closer = new DisposeAdapter();
-
   /**
    * confirm button
    */
   private final JButton btnOk = new JButton(Translator.translate("controls.confirm"));
-
   /**
-   * creates an always on top modal menu and sets the origin frame busy.
-   *
-   * @param origin origin frame
+   * source frame
    */
-  AbstractMenu(final ApplicationFrame origin) {
-    this.origin = origin;
-  }
+  private BusyFrame busyFrame;
+  private JDialog dialog;
 
   /**
    * shows an always on top modal menu and sets the origin frame busy.
    */
-  void showDialog() {
-    setOriginsState(BusyState.BUSY);
+  @Override
+  public void showDialog() {
+    busyFrame.setBusy(true);
 
-    dialog = new JDialog(origin, true);
+    dialog = new JDialog(busyFrame.getFrame(), true);
     showDialog(dialog);
-  }
-
-  private void setOriginsState(BusyState busy) {
-    origin.setBusyState(busy);
   }
 
   private void showDialog(JDialog modalDialog) {
@@ -59,11 +41,9 @@ abstract class AbstractMenu {
     setTitle(modalDialog);
     modalDialog.pack();
 
-    modalDialog.setLocationRelativeTo(origin);
+    modalDialog.setLocationRelativeTo(busyFrame.getFrame());
     modalDialog.setVisible(true);
   }
-
-  abstract String getLinkText();
 
   protected abstract void addWidgets(JDialog dialog);
 
@@ -77,8 +57,13 @@ abstract class AbstractMenu {
     return closer;
   }
 
-  final ApplicationFrame getOrigin() {
-    return origin;
+  final JFrame getBusyFrame() {
+    return busyFrame.getFrame();
+  }
+
+  @Override
+  public void setBusyFrame(JFrame frame) {
+    this.busyFrame = new BusyFrame(frame);
   }
 
   protected abstract void setTitle(JDialog dialog);
@@ -89,7 +74,7 @@ abstract class AbstractMenu {
     @Override
     public void windowClosing(WindowEvent e) {
       dialog.dispose();
-      setOriginsState(BusyState.IDLE);
+      busyFrame.setBusy(false);
     }
   }
 }

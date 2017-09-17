@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.fileoperations.loading;
 
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.ParsingUtil;

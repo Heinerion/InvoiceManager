@@ -6,7 +6,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 class PrintButtonPanel extends SidePanel {
-  public PrintButtonPanel() {
+  PrintButtonPanel() {
     final JButton btnDrucken = new JButton("Drucken");
     btnDrucken.setName("print");
     add(btnDrucken);

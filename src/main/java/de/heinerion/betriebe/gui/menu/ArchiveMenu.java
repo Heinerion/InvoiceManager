@@ -1,11 +1,9 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.tablemodels.archive.ArchivedInvoiceTable;
+import de.heinerion.betriebe.gui.menu.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.FormatUtil;
-import de.heinerion.exceptions.HeinerionException;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -19,18 +17,13 @@ import java.io.IOException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class ArchiveMenu extends AbstractMenu {
+class ArchiveMenu extends AbstractMenu {
   private static final String NAME = Translator.translate("menu.archive");
 
   private ArchivedInvoiceTable model;
 
   private JTable tblInvoices;
   private JScrollPane spInvoices;
-
-  /**  */
-  ArchiveMenu(final ApplicationFrame origin) {
-    super(origin);
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -64,7 +57,7 @@ public final class ArchiveMenu extends AbstractMenu {
 
     spInvoices = new JScrollPane(tblInvoices);
 
-    spInvoices.setPreferredSize(getOrigin().getSize());
+    spInvoices.setPreferredSize(getBusyFrame().getSize());
   }
 
   @Override
@@ -75,7 +68,7 @@ public final class ArchiveMenu extends AbstractMenu {
   }
 
   @Override
-  String getLinkText() {
+  public String getLinkText() {
     return NAME;
   }
 
@@ -98,7 +91,7 @@ public final class ArchiveMenu extends AbstractMenu {
       try {
         Desktop.getDesktop().open(pdf);
       } catch (final IOException e) {
-        HeinerionException.handleException(getClass(), e);
+        throw new GuiMenuException(e);
       }
     }
   }

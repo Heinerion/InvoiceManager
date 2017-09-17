@@ -6,11 +6,23 @@ public class SidePanelFactory {
   private SidePanelFactory() {
   }
 
-  public static JPanel createPrintButtonPanel() {
+  static JPanel createPrintButtonPanel() {
     return new PrintButtonPanel();
   }
 
-  public static JPanel createCalculatorPanel() {
+  static JPanel createCalculatorSidePanel() {
     return new CalculatorSidePanel();
+  }
+
+  static CalculatorPanel createCalculatorPanel() {
+    return new CalculatorPanel();
+  }
+
+  static Refreshable createAddressPanel() {
+    return new AddressPanel();
+  }
+
+  static Refreshable createCompanyChooserPanel() {
+    return new CompanyChooserPanel();
   }
 }

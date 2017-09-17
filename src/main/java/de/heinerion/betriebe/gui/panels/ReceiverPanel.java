@@ -5,63 +5,73 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 @SuppressWarnings("serial")
-public final class ReceiverPanel extends JPanel {
+class ReceiverPanel implements Refreshable {
+  private JPanel panel;
 
-  private AddressPanel addressPanel;
-  private CompanyChooserPanel companyChooserPanel;
+  private Refreshable addressPanel;
+  private Refreshable companyChooserPanel;
 
-  public ReceiverPanel() {
+  ReceiverPanel() {
     createWidgets();
     addWidgets();
   }
 
   private void createWidgets() {
-    addressPanel = new AddressPanel();
-    companyChooserPanel = new CompanyChooserPanel();
+    panel = new FancyPanel();
+    addressPanel = SidePanelFactory.createAddressPanel();
+    companyChooserPanel = SidePanelFactory.createCompanyChooserPanel();
   }
 
   private void addWidgets() {
-    setOpaque(false);
-    setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    panel.setOpaque(false);
+    panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-    add(companyChooserPanel);
-    add(addressPanel);
+    panel.add(companyChooserPanel.getPanel());
+    panel.add(addressPanel.getPanel());
 
-    add(SidePanelFactory.createPrintButtonPanel());
+    panel.add(SidePanelFactory.createPrintButtonPanel());
 
-    add(Box.createVerticalGlue());
-    add(SidePanelFactory.createCalculatorPanel());
-  }
-
-  // TODO Mit Address-Listener funktionalität ersetzen...
-  public void refreshBoxes() {
-    companyChooserPanel.refresh();
-    addressPanel.refreshBoxes();
+    panel.add(Box.createVerticalGlue());
+    panel.add(SidePanelFactory.createCalculatorSidePanel());
   }
 
   @Override
-  public void paintComponent(final Graphics g) {
-    Graphics2D g2 = initGraphic((Graphics2D) g);
-
-    g2.setPaint(Color.gray);
-
-    Color decor = getBackground().darker();
-    Color base = getBackground();
-
-    int decorWidth = 10;
-    int x = 0;
-    int y = 0;
-
-    GradientPaint baseToDecorGradient = new GradientPaint(x, y, decor, decorWidth,
-        y, base);
-    g2.setPaint(baseToDecorGradient);
-    // Tabbereich
-    g2.fill(new Rectangle2D.Double(x, y, getWidth(), getHeight()));
+  public JPanel getPanel() {
+    return panel;
   }
 
-  private Graphics2D initGraphic(Graphics2D g) {
-    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        RenderingHints.VALUE_ANTIALIAS_ON);
-    return g;
+  // TODO Mit Address-Listener funktionalität ersetzen...
+  @Override
+  public void refresh() {
+    companyChooserPanel.refresh();
+    addressPanel.refresh();
+  }
+
+  private class FancyPanel extends JPanel {
+    @Override
+    public void paintComponent(final Graphics g) {
+      Graphics2D g2 = initGraphic((Graphics2D) g);
+
+      g2.setPaint(Color.gray);
+
+      Color decor = getBackground().darker();
+      Color base = getBackground();
+
+      int decorWidth = 10;
+      int x = 0;
+      int y = 0;
+
+      GradientPaint baseToDecorGradient = new GradientPaint(x, y, decor, decorWidth,
+          y, base);
+      g2.setPaint(baseToDecorGradient);
+      // Tab area
+      g2.fill(new Rectangle2D.Double(x, y, getWidth(), getHeight()));
+    }
+
+    private Graphics2D initGraphic(Graphics2D g) {
+      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+          RenderingHints.VALUE_ANTIALIAS_ON);
+      return g;
+    }
   }
 }

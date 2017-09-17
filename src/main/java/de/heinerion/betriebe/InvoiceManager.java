@@ -1,20 +1,18 @@
-/**
- * Main.java
- * heiner 27.03.2012
- */
 package de.heinerion.betriebe;
 
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.fileoperations.IO;
 import de.heinerion.betriebe.fileoperations.loading.JProgressBarIndicator;
 import de.heinerion.betriebe.fileoperations.loading.ProgressIndicator;
-import de.heinerion.betriebe.gui.ApplicationFrame;
+import de.heinerion.betriebe.gui.panels.ApplicationFrame;
 import de.heinerion.betriebe.util.LookAndFeelUtil;
+import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.swing.*;
 
 /**
  * @author heiner
@@ -61,19 +59,13 @@ final class InvoiceManager {
 
   @LogBefore
   private static void start() {
-    final ApplicationFrame applicationFrame = getApplicationFrame();
-
-    prepareApplicationFrame(applicationFrame);
-    startDataThread(applicationFrame);
+    prepareApplicationFrame(Session.getFrame());
+    startDataThread(Session.getApplicationFrame());
   }
 
-  private static ApplicationFrame getApplicationFrame() {
-    return ApplicationFrame.getInstance();
-  }
-
-  private static void prepareApplicationFrame(ApplicationFrame applicationFrame) {
-    applicationFrame.setLocationRelativeTo(null);
-    applicationFrame.setVisible(true);
+  private static void prepareApplicationFrame(JFrame frame) {
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
   }
 
   @LogBefore

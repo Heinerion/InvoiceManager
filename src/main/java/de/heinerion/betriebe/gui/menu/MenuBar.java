@@ -1,18 +1,16 @@
 package de.heinerion.betriebe.gui.menu;
 
-import de.heinerion.betriebe.gui.ApplicationFrame;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public final class MenuBar extends JMenuBar {
-  private final ApplicationFrame origin;
+class MenuBar extends JMenuBar {
+  private final JFrame origin;
 
   private transient List<JMenuItem> menuItems;
 
-  public MenuBar(ApplicationFrame origin) {
+  MenuBar(JFrame origin) {
     this.origin = origin;
     createWidgets();
     addWidgets();
@@ -20,13 +18,14 @@ public final class MenuBar extends JMenuBar {
 
   private void createWidgets() {
     menuItems = new ArrayList<>();
-    menuItems.add(createItem(new AddressBookMenu(origin)));
-    menuItems.add(createItem(new ArchiveMenu(origin)));
-    menuItems.add(createItem(new InvoiceNumbersMenu(origin)));
-    menuItems.add(createItem(new InvoiceDateMenu(origin)));
+    menuItems.add(createItem(new AddressBookMenu()));
+    menuItems.add(createItem(new ArchiveMenu()));
+    menuItems.add(createItem(new InvoiceNumbersMenu()));
+    menuItems.add(createItem(new InvoiceDateMenu()));
   }
 
-  private JMenuItem createItem(AbstractMenu menu) {
+  private JMenuItem createItem(Menu menu) {
+    menu.setBusyFrame(origin);
     JMenuItem item = new JMenuItem(menu.getLinkText());
     item.addActionListener(e -> menu.showDialog());
     return item;

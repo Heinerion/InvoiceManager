@@ -1,14 +1,13 @@
 package de.heinerion.betriebe.services;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.ApplicationFrame;
 
 import javax.swing.*;
 
 public class SwingService implements ViewService {
   @Override
   public void showExceptionMessage(Exception exception, String message) {
-    JOptionPane.showMessageDialog(ApplicationFrame.getInstance(), message,
+    JOptionPane.showMessageDialog(Session.getFrame(), message,
         Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     if (Session.isDebugMode()) {
       StringBuilder out = new StringBuilder();
@@ -20,7 +19,7 @@ public class SwingService implements ViewService {
             .append(ste.getLineNumber())
             .append(")\n");
       }
-      JOptionPane.showMessageDialog(ApplicationFrame.getInstance(),
+      JOptionPane.showMessageDialog(Session.getFrame(),
           exception.getLocalizedMessage() + "\n" + out,
           Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     }

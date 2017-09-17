@@ -1,6 +1,6 @@
 package de.heinerion.formatter;
 
-import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.models.Address;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class AddressFormatter {
     out(address.getPostalCode() + Constants.SPACE + address.getLocation());
   }
 
-  protected final void out(String message) {
+  private void out(String message) {
     output.add(message);
   }
 

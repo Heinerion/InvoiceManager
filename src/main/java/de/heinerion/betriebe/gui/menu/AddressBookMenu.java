@@ -2,8 +2,7 @@ package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.tablemodels.AddressModel;
+import de.heinerion.betriebe.gui.menu.tablemodels.AddressModel;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.services.Translator;
 
@@ -15,13 +14,9 @@ import java.util.List;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class AddressBookMenu extends AbstractMenu {
+class AddressBookMenu extends AbstractMenu {
   private static final String NAME = Translator.translate("menu.addressBook");
   private JScrollPane spAddresses;
-
-  AddressBookMenu(final ApplicationFrame origin) {
-    super(origin);
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -42,7 +37,7 @@ public final class AddressBookMenu extends AbstractMenu {
 
     spAddresses = new JScrollPane(tblAddresses);
 
-    spAddresses.setPreferredSize(getOrigin().getSize());
+    spAddresses.setPreferredSize(getBusyFrame().getSize());
   }
 
   @Override
@@ -51,7 +46,7 @@ public final class AddressBookMenu extends AbstractMenu {
   }
 
   @Override
-  String getLinkText() {
+  public String getLinkText() {
     return NAME;
   }
 

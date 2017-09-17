@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.data.Constants;
+import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.formatter.AddressFormatter;
 import de.heinerion.betriebe.models.Address;
@@ -10,9 +10,9 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.util.List;
 
-import static de.heinerion.betriebe.data.Constants.NEWLINE;
+import static de.heinerion.betriebe.util.Constants.NEWLINE;
 
-public class PanelControl {
+class PanelControl {
   private static final Logger logger = LogManager.getLogger(PanelControl.class);
 
   private static final String DEFAULT_APARTMENT = null;
@@ -29,7 +29,7 @@ public class PanelControl {
    *                angegeben
    * @return die geparste Address
    */
-  public static Address parseAddress(String address) {
+  private static Address parseAddress(String address) {
     int token;
 
     String location = null;
@@ -69,7 +69,7 @@ public class PanelControl {
         postalCode, location);
   }
 
-  public static void saveAddress(String address) {
+  static void saveAddress(String address) {
     if (logger.isDebugEnabled()) {
       logger.debug("save...");
     }
@@ -82,7 +82,7 @@ public class PanelControl {
     return address != null && !"".equals(address.trim());
   }
 
-  public static String useGivenAddress(Address address) {
+  static String useGivenAddress(Address address) {
     String result = null;
 
     if (address != null) {
@@ -100,7 +100,7 @@ public class PanelControl {
     return result;
   }
 
-  public static ImageIcon loadImage(String path) {
+  static ImageIcon loadImage(String path) {
     ImageIcon image = null;
 
     // Benutze den Classloader um Bilder einzubinden

@@ -1,15 +1,23 @@
 package de.heinerion.betriebe.gui.panels;
 
-@SuppressWarnings("serial")
-public final class AddressPanel extends SidePanel {
-  private AddressChooserPanel addressChooser;
+import javax.swing.*;
 
-  public AddressPanel() {
+@SuppressWarnings("serial")
+class AddressPanel extends SidePanel implements Refreshable {
+  private final AddressChooserPanel addressChooser;
+
+  AddressPanel() {
     this.addressChooser = new AddressChooserPanel();
     add(addressChooser);
   }
 
-  public void refreshBoxes() {
+  @Override
+  public void refresh() {
     addressChooser.refreshBoxes();
+  }
+
+  @Override
+  public JPanel getPanel() {
+    return this;
   }
 }

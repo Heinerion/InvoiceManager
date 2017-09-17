@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
-import static de.heinerion.betriebe.data.Constants.QUOTE;
+import static de.heinerion.betriebe.util.Constants.QUOTE;
 
 class ProcessRunner {
   private Logger logger = LogManager.getLogger(ProcessRunner.class);

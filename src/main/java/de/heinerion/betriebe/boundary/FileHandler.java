@@ -29,7 +29,7 @@ class FileHandler {
       out.flush();
       out.close();
     } catch (IOException e) {
-      HeinerionException.rethrow(e);
+      BoundaryException.rethrow(e);
     }
 
     return target;

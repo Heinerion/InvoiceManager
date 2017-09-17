@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.gui.menu;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.gui.ApplicationFrame;
-import de.heinerion.betriebe.gui.BGPanel;
+import de.heinerion.betriebe.gui.panels.PanelSides;
+import de.heinerion.betriebe.gui.panels.PanelFactory;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.DateUtil;
 
@@ -15,7 +15,7 @@ import java.time.format.DateTimeParseException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-public final class InvoiceDateMenu extends AbstractMenu {
+class InvoiceDateMenu extends AbstractMenu {
   private static final String NAME = Translator.translate("menu.invoiceDate");
 
   private JSpinner fldYY;
@@ -28,10 +28,6 @@ public final class InvoiceDateMenu extends AbstractMenu {
   private LocalDate date;
 
   private JLabel header;
-
-  InvoiceDateMenu(final ApplicationFrame origin) {
-    super(origin);
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -53,8 +49,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
   }
 
   private JPanel createDatePanel() {
-    final BGPanel pnlDatum = new BGPanel(BGPanel.LEFT, BGPanel.RIGHT,
-        BGPanel.TOP, BGPanel.BOTTOM);
+    final JPanel pnlDatum = PanelFactory.createBackgroundPanel(PanelSides.ALL);
 
     int rows = 2;
     int cols = 3;
@@ -77,10 +72,10 @@ public final class InvoiceDateMenu extends AbstractMenu {
     lblMM = new JLabel(Translator.translate("date.month"));
     lblDD = new JLabel(Translator.translate("date.day"));
 
-    final int[] currentDate = getOrigin().getRechnungsdatumAsArray();
-    int currentDay = currentDate[0];
-    int currentMonth = currentDate[1];
-    int currentYear = currentDate[2];
+    LocalDate invoiceDate = Session.getDate();
+    int currentDay = invoiceDate.getDayOfMonth();
+    int currentMonth = invoiceDate.getMonthValue();
+    int currentYear = invoiceDate.getYear();
     int stepSize = 1;
 
     fldDD = configureSpinner(currentDay, 1, 31, stepSize);
@@ -114,7 +109,7 @@ public final class InvoiceDateMenu extends AbstractMenu {
   }
 
   @Override
-  String getLinkText() {
+  public String getLinkText() {
     return NAME;
   }
 
