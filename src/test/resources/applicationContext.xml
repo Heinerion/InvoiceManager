@@ -8,12 +8,14 @@
     <context:property-placeholder location="classpath:configuration.properties"/>
 
     <bean class="de.heinerion.betriebe.listener.LatexWriter"/>
-    <bean class="de.heinerion.latex.LatexGeneratorMock"/>
+    <bean class="de.heinerion.betriebe.gui.formatter.AddressFormatterMock"/>
+    <bean class="de.heinerion.betriebe.gui.formatter.FormatterImpl"/>
+    <bean class="de.heinerion.betriebe.gui.latex.LatexGeneratorMock"/>
     <bean class="de.heinerion.betriebe.services.SwingService"/>
     <bean id="mainOperations" class="de.heinerion.betriebe.listener.MainOperations"/>
 
-    <bean class="de.heinerion.betriebe.boundary.ProcessRunnerMock" />
-    <bean class="de.heinerion.betriebe.boundary.HostSystemMock" />
-    <bean class="de.heinerion.betriebe.boundary.FileHandler" />
-    <bean class="de.heinerion.betriebe.boundary.SystemCall" />
+    <bean class="de.heinerion.betriebe.boundary.ProcessRunnerMock"/>
+    <bean class="de.heinerion.betriebe.boundary.HostSystemMock"/>
+    <bean class="de.heinerion.betriebe.boundary.FileHandler"/>
+    <bean class="de.heinerion.betriebe.boundary.SystemCall"/>
 </beans>

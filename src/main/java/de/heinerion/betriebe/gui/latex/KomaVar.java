@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 final class KomaVar {
   private static final String COMMAND = "\\setkomavar";

@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 import de.heinerion.betriebe.models.Letter;
 

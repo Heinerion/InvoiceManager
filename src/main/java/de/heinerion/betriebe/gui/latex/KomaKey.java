@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 enum KomaKey {
   SIGNATURE, SUBJECT, FROMADDRESS, FROMPHONE, FROMNAME;

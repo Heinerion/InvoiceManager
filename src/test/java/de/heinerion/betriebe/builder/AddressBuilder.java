@@ -86,6 +86,19 @@ public class AddressBuilder implements TestDataBuilder<Address> {
     return this;
   }
 
+  public AddressBuilder clear() {
+    apartment = "";
+    company = "";
+    district = "";
+    location = "";
+    number = "";
+    postalCode = "";
+    recipient = "";
+    street = "";
+
+    return this;
+  }
+
   @Override
   public Address build() {
     return new Address(

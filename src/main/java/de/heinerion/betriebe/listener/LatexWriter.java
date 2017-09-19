@@ -3,7 +3,7 @@ package de.heinerion.betriebe.listener;
 import de.heinerion.betriebe.boundary.HostSystem;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtil;
-import de.heinerion.latex.LatexGenerator;
+import de.heinerion.betriebe.gui.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

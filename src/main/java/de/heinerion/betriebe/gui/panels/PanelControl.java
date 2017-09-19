@@ -1,9 +1,10 @@
 package de.heinerion.betriebe.gui.panels;
 
-import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.formatter.AddressFormatter;
+import de.heinerion.betriebe.gui.formatter.Formatter;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.util.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +20,13 @@ class PanelControl {
   private static final String DEFAULT_COMPANY = null;
   private static final String DEFAULT_DISTRICT = null;
 
+  private static final Formatter formatter;
+
   private PanelControl() {
+  }
+
+  static {
+    formatter = ConfigurationService.getBean(Formatter.class);
   }
 
   /**
@@ -86,9 +93,7 @@ class PanelControl {
     String result = null;
 
     if (address != null) {
-      AddressFormatter formatter = new AddressFormatter();
-      formatter.format(address);
-      List<String> out = formatter.getOutput();
+      List<String> out = formatter.formatAddress(address);
       StringBuilder addressAsText = new StringBuilder();
       for (String line : out) {
         addressAsText.append(line)

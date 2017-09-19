@@ -1,29 +1,30 @@
-package de.heinerion.formatter;
+package de.heinerion.betriebe.gui.formatter;
 
-import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressFormatter {
-  private final List<String> output;
+class AddressFormatterImpl implements AddressFormatter {
+  private List<String> output;
 
-  public AddressFormatter() {
-    output = new ArrayList<>();
-  }
-
+  @Override
   public final List<String> getOutput() {
     return output;
   }
 
-  public final void format(Address address) {
+  public final AddressFormatter format(Address address) {
+    output = new ArrayList<>();
+
     out(address.getRecipient());
     optionalOut(address.getCompany());
     optionalOut(address.getDistrict());
     out(address.getStreet() + Constants.SPACE + address.getNumber());
     optionalOut(address.getApartment());
     out(address.getPostalCode() + Constants.SPACE + address.getLocation());
+
+    return this;
   }
 
   private void out(String message) {

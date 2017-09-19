@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 import de.heinerion.betriebe.util.Constants;
 
@@ -135,7 +135,7 @@ class LatexDocument {
     content = anyContent;
   }
 
-  public final <T extends AbstractLatexContent> void setContent(T someContent) {
+  public final <T extends LatexContent> void setContent(T someContent) {
     setContent(someContent.toString());
   }
 

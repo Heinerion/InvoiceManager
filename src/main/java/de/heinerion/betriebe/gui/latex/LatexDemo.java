@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

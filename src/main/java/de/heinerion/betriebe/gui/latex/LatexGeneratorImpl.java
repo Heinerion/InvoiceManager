@@ -1,11 +1,12 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
+import de.heinerion.betriebe.gui.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.betriebe.util.Constants;
 import de.heinerion.betriebe.util.DateUtil;
 import de.heinerion.betriebe.util.FormatUtil;
-import de.heinerion.formatter.AddressFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,13 @@ public class LatexGeneratorImpl implements LatexGenerator {
 
   private static final String TABLE_FORMAT = "p{5cm}p{1cm}p{3cm}|r|r|";
 
+  private Formatter formatter;
+
+  @Autowired
+  LatexGeneratorImpl(Formatter formatter) {
+    this.formatter = formatter;
+  }
+
   private Optional<String> convertAddress(Address address) {
     if (address != null) {
       String streetPart = String.join(Constants.SPACE, address.getStreet(), address.getNumber());
@@ -42,13 +50,7 @@ public class LatexGeneratorImpl implements LatexGenerator {
   }
 
   private String createRecipientsAddress(Address address) {
-    return String.join(Syntax.NEWLINE, formatAddress(address));
-  }
-
-  private List<String> formatAddress(Address address) {
-    final AddressFormatter formatter = new AddressFormatter();
-    formatter.format(address);
-    return formatter.getOutput();
+    return String.join(Syntax.NEWLINE, formatter.formatAddress(address));
   }
 
   private void generateTableContent(LatexTable table, Invoice invoice) {

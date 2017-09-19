@@ -1,8 +1,10 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 import de.heinerion.betriebe.builder.AddressBuilder;
 import de.heinerion.betriebe.builder.CompanyBuilder;
+import de.heinerion.betriebe.gui.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
+import de.heinerion.betriebe.services.ConfigurationService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -46,9 +48,8 @@ public class LatexGeneratorTest {
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
       + HLINE + Syntax.EOL;
 
-  private static final String LETTER_START = "\\begin{letter}{recipient\\\\\n"
-      + "company\\\\\n" + "street number\\\\\n"
-      + "postalCode location}\n\n" + "\\opening{}\\vspace{-25pt}\n";
+  private static final String LETTER_START = "\\begin{letter}{formatted\\\\\n"
+      + "address}\n\n" + "\\opening{}\\vspace{-25pt}\n";
   private static final String LETTER_END = "\\vfill\n" + "\\closing{}\n" + "\n"
       + "\\end{letter}\n";
 
@@ -178,7 +179,8 @@ public class LatexGeneratorTest {
     invoice = new Invoice(date, sender, receiverAddress);
     invoice.add("Artikel 1", "Stück", 1.50, 2);
 
-    latexGenerator = new LatexGeneratorImpl();
+    Formatter formatter = ConfigurationService.getBean(Formatter.class);
+    latexGenerator = new LatexGeneratorImpl(formatter);
   }
 
   @Test

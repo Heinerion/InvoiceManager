@@ -1,4 +1,4 @@
-package de.heinerion.latex;
+package de.heinerion.betriebe.gui.latex;
 
 import de.heinerion.betriebe.util.Constants;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-final class LatexTable extends AbstractLatexContent {
+final class LatexTable implements LatexContent {
   private static final String TABULAR = "tabular";
 
   private static final String COL_SEP = "|";
@@ -162,6 +162,11 @@ final class LatexTable extends AbstractLatexContent {
     elements.add(Syntax.endEnv(TABULAR));
 
     return String.join(Constants.NEWLINE, elements);
+  }
+
+  private String indent(String text) {
+    final String[] lines = text.split(Syntax.EOL);
+    return String.join(Syntax.EOL, lines);
   }
 
   private class Header {
