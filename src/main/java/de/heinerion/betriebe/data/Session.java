@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.gui.panels.ApplicationFrame;
-import de.heinerion.betriebe.gui.panels.PanelFactory;
+import de.heinerion.betriebe.view.panels.ApplicationFrame;
+import de.heinerion.betriebe.view.panels.PanelFactory;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;

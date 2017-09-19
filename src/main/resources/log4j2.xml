@@ -43,7 +43,7 @@
         <Logger name="de.heinerion.betriebe.loading.LoadingManager">
             <Level>INFO</Level>
         </Logger>
-        <Logger name="de.heinerion.betriebe.gui.panels.SidePanelFactory.InvoiceTabContent">
+        <Logger name="de.heinerion.betriebe.view.panels.SidePanelFactory.InvoiceTabContent">
             <Level>DEBUG</Level>
         </Logger>
         <Logger name="de.heinerion.betriebe.classes.gui.listener.DruckAction" level="DEBUG"/>
