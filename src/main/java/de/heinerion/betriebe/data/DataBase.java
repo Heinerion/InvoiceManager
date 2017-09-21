@@ -5,6 +5,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.loading.Loadable;
+import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.models.Address;
@@ -27,6 +28,12 @@ public final class DataBase {
   private static List<ListEntry<TexTemplate>> texTemplateEntries;
 
   private static ArchivedInvoiceTable invoices;
+
+  private static IO io;
+
+  static {
+    io = ConfigurationService.getBean(IO.class);
+  }
 
   private DataBase() {
   }
@@ -94,7 +101,7 @@ public final class DataBase {
   public static void addAddress(Address address) {
     addAddress(null, address);
 
-    IO.saveAddresses();
+    io.saveAddresses();
   }
 
   static Optional<Company> getCompany(String descriptiveName) {

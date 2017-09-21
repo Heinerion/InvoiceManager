@@ -42,8 +42,13 @@ class InvoiceTabContent extends AbstractTabContent {
   private JTable tabPositions;
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
 
-  InvoiceTabContent() {
+  private IO io;
+
+  InvoiceTabContent(IO io) {
     super(Translator.translate("invoice.title"));
+
+    this.io = io;
+
     initTabPositions();
 
     JPanel panel = getPanel();
@@ -111,7 +116,7 @@ class InvoiceTabContent extends AbstractTabContent {
     }
 
     Collections.sort(activeTemplates);
-    IO.updateTemplates(activeTemplates);
+    io.updateTemplates(activeTemplates);
     refresh();
   }
 

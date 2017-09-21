@@ -4,6 +4,7 @@ import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
+import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.view.panels.ApplicationFrame;
 import de.heinerion.betriebe.view.panels.PanelFactory;
 import de.heinerion.betriebe.view.panels.ProgressIndicator;
@@ -76,7 +77,12 @@ final class InvoiceManager {
   private static void collectData(ApplicationFrame applicationFrame) {
     ProgressIndicator progress = getProgressBarIndicator(applicationFrame);
 
-    IO.load(progress);
+    // TODO pass to constructor
+    IO io = ConfigurationService.getBean(IO.class);
+    // registerListenersAndLoaders needs to be called explicitly here
+    // instead of in its constructor to avoid multiple registrations
+    io.registerListenersAndLoaders();
+    io.load(progress);
     applicationFrame.refresh();
 
     waitASecond();

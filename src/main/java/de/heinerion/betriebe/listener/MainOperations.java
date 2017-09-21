@@ -16,17 +16,17 @@ import static de.heinerion.betriebe.util.Constants.SPACE;
  * @author heiner
  */
 class MainOperations {
-  private LatexWriter latexWriter;
-
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
-
+  private LatexWriter latexWriter;
+  private IO io;
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
   @Autowired
-  MainOperations(LatexWriter latexWriter) {
+  MainOperations(LatexWriter latexWriter, IO io) {
     this.latexWriter = latexWriter;
+    this.io = io;
   }
 
   /**
@@ -47,7 +47,7 @@ class MainOperations {
     SwingUtilities.invokeLater(() -> {
       latexWriter.writeFile(letter, generatePath(letter), generateTitle(letter));
 
-      IO.load();
+      io.load();
     });
   }
 

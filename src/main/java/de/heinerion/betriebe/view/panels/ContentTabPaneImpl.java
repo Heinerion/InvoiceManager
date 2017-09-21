@@ -1,6 +1,8 @@
 package de.heinerion.betriebe.view.panels;
 
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.loading.IO;
+import de.heinerion.betriebe.services.ConfigurationService;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ class ContentTabPaneImpl implements ContentTabPane {
     tabContents = new ArrayList<>();
 
     tabContents.add(new LetterTabContent());
-    tabContents.add(new InvoiceTabContent());
+    tabContents.add(new InvoiceTabContent(ConfigurationService.getBean(IO.class)));
 
     for (TabContent abstractTabContent : tabContents) {
       pane.addTab(abstractTabContent.getTitle(), abstractTabContent.getPanel());
