@@ -7,6 +7,7 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
+    <bean class="de.heinerion.betriebe.InvoiceManager"/>
     <bean class="de.heinerion.betriebe.listener.LatexWriter"/>
     <bean class="de.heinerion.betriebe.view.formatter.AddressFormatterImpl"/>
     <bean class="de.heinerion.betriebe.view.formatter.FormatterImpl"/>
