@@ -40,8 +40,8 @@ public class LatexGeneratorImpl implements LatexGenerator {
 
   private Optional<String> convertAddress(Address address) {
     if (address != null) {
-      String streetPart = String.join(Constants.SPACE, address.getStreet(), address.getNumber());
-      String locationPart = String.join(Constants.SPACE, address.getPostalCode(), address.getLocation());
+      String streetPart = String.join(" ", address.getStreet(), address.getNumber());
+      String locationPart = String.join(" ", address.getPostalCode(), address.getLocation());
       String convertedAddress = streetPart + ", " + locationPart;
       return Optional.of(convertedAddress);
     }

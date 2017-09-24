@@ -4,7 +4,6 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.util.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,21 +49,21 @@ class PanelControl {
       token = stringToken.length;
 
       String streetAndNumber = stringToken[token - 2].trim();
-      String[] numberToken = streetAndNumber.split(Constants.SPACE);
+      String[] numberToken = streetAndNumber.split(" ");
       StringBuilder streetTemp = new StringBuilder();
       for (int i = 0; i < numberToken.length - 1; i++) {
         streetTemp.append(numberToken[i].trim())
-            .append(Constants.SPACE);
+            .append(" ");
       }
       street = streetTemp.toString().trim();
       number = numberToken[numberToken.length - 1].trim();
 
       String codeAndLocation = stringToken[token - 1].trim();
-      String[] locationToken = codeAndLocation.split(Constants.SPACE);
+      String[] locationToken = codeAndLocation.split(" ");
       StringBuilder locationTemp = new StringBuilder();
       for (int i = 1; i < locationToken.length; i++) {
         locationTemp.append(locationToken[i].trim())
-            .append(Constants.SPACE);
+            .append(" ");
       }
       location = locationTemp.toString().trim();
       postalCode = locationToken[0].trim();

@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.swing.*;
 import java.io.File;
 
-import static de.heinerion.util.Constants.SPACE;
-
 /**
  * @author heiner
  */
@@ -79,7 +77,7 @@ class MainOperations {
     String receiver = letter.getReceiver().getRecipient();
     String date = DateUtil.format(letter.getDate());
 
-    return String.join(SPACE, start, receiver, date);
+    return String.join(" ", start, receiver, date);
   }
 
   private interface FileInfoGenerator {

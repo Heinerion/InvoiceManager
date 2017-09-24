@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.view.formatter;
 
 import de.heinerion.betriebe.models.Address;
-import de.heinerion.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,9 @@ class AddressFormatterImpl implements AddressFormatter {
     out(address.getRecipient());
     optionalOut(address.getCompany());
     optionalOut(address.getDistrict());
-    out(address.getStreet() + Constants.SPACE + address.getNumber());
+    out(address.getStreet() + " " + address.getNumber());
     optionalOut(address.getApartment());
-    out(address.getPostalCode() + Constants.SPACE + address.getLocation());
+    out(address.getPostalCode() + " " + address.getLocation());
 
     return this;
   }
