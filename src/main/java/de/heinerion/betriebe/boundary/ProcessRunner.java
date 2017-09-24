@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
-import static de.heinerion.util.Constants.QUOTE;
-
 class ProcessRunner {
   private Logger logger = LogManager.getLogger(ProcessRunner.class);
 
@@ -20,7 +18,7 @@ class ProcessRunner {
   }
 
   String quote(String string) {
-    return QUOTE + string + QUOTE;
+    return "\"" + string + "\"";
   }
 
   void startProcess(String errorLogMessage, String... command) {

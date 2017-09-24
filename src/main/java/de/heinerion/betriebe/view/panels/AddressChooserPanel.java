@@ -5,7 +5,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.util.Constants;
 import de.heinerion.util.DimensionUtil;
 
 import javax.swing.*;
@@ -116,7 +115,7 @@ class AddressChooserPanel extends AbstractGridPanel {
   }
 
   private void clearAddress() {
-    this.addressArea.setText(Constants.EMPTY);
+    this.addressArea.setText("");
   }
 
   private void saveAddress() {
