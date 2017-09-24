@@ -3,7 +3,6 @@ package de.heinerion.betriebe.view.latex;
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.util.Constants;
 import de.heinerion.util.DateUtil;
 import de.heinerion.util.FormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +92,7 @@ public class LatexGeneratorImpl implements LatexGenerator {
     The last line of the invoice should be empty for optical reasons. generateTableSum ensures that.
     Thus we do not need to take care of the last line here.
      */
-    for (int i = itemCount; i < Constants.INVOICE_LINE_COUNT - 1; i++) {
+    for (int i = itemCount; i < Invoice.getDefaultLineCount() - 1; i++) {
       addEmptyLine(table);
     }
   }

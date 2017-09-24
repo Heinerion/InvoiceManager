@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Invoice extends Letter {
+  private static final int INVOICE_LINE_COUNT = 6;
   private static final int PERCENT = 100;
 
   private final int number;
@@ -28,6 +29,10 @@ public class Invoice extends Letter {
     this.updateValues();
 
     this.number = theSender.getInvoiceNumber();
+  }
+
+  public static int getDefaultLineCount() {
+    return INVOICE_LINE_COUNT;
   }
 
   public void add(String artikel, String einheit, double preis, double anzahl) {
