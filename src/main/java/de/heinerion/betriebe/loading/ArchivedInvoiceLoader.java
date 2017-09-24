@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.HeinerionException;
 import de.heinerion.betriebe.services.Translator;
 import de.heinerion.util.ParsingUtil;
 import org.apache.logging.log4j.LogManager;
@@ -46,9 +45,15 @@ class ArchivedInvoiceLoader extends AbstractLoader {
       if (logger.isErrorEnabled()) {
         logger.error(e);
       }
-      HeinerionException.rethrow(e);
+      throw new LoadArchivedInvoiceException(e);
     }
 
     return data;
+  }
+
+  private static class LoadArchivedInvoiceException extends RuntimeException {
+    public LoadArchivedInvoiceException(Throwable cause) {
+      super(cause);
+    }
   }
 }

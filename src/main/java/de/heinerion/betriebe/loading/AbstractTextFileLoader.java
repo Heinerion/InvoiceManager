@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +41,7 @@ abstract class AbstractTextFileLoader extends AbstractLoader {
     try {
       this.readAttributesFromFile(path.getCanonicalPath(), attributes);
     } catch (final IOException e) {
-      HeinerionException.rethrow(e);
+      throw new ParseAttributeException(e);
     }
 
     return attributes;
@@ -69,5 +68,11 @@ abstract class AbstractTextFileLoader extends AbstractLoader {
     }
 
     this.reader.closeFile();
+  }
+
+  private static class ParseAttributeException extends RuntimeException {
+    public ParseAttributeException(Throwable cause) {
+      super(cause);
+    }
   }
 }

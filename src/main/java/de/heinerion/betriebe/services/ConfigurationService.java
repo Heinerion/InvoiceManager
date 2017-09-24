@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.services;
 
-import de.heinerion.betriebe.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -66,7 +65,7 @@ public class ConfigurationService {
     try {
       getConfig().load(inputStream);
     } catch (IOException ex) {
-      throw new HeinerionException("property file '" + propFileName + "' could not be read", ex);
+      throw new PropertiesCouldNotBeReadException(propFileName, ex);
     } finally {
       closeInputStream(inputStream);
     }
@@ -79,6 +78,12 @@ public class ConfigurationService {
       } catch (IOException e) {
         LOGGER.error(e);
       }
+    }
+  }
+
+  private static class PropertiesCouldNotBeReadException extends RuntimeException {
+    PropertiesCouldNotBeReadException(String fileName, Throwable t) {
+      super("property file '" + fileName + "' could not be read", t);
     }
   }
 }

@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +23,13 @@ public final class FileHandlerTest {
       Assert.assertTrue((Boolean) isListOf.invoke(null, list, String.class));
       Assert.assertFalse((Boolean) isListOf.invoke(null, list, Integer.class));
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-      HeinerionException.rethrow(e);
+      throw new IsListOfCouldNotBeInvokedException(e);
+    }
+  }
+
+  private static class IsListOfCouldNotBeInvokedException extends RuntimeException {
+    IsListOfCouldNotBeInvokedException(Throwable t) {
+      super(t);
     }
   }
 }

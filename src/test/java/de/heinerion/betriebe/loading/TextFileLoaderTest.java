@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import de.heinerion.betriebe.models.Address;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +50,7 @@ public class TextFileLoaderTest {
     addresses.add(new Address("company", "street", "number", "postCode", "location"));
     try {
       loader.saveAddresses(addresses);
-    } catch(HeinerionException e) {
+    } catch(CouldNotWriteException e) {
       resultingText =  e.getCause().getMessage();
     }
 

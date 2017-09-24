@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -117,7 +116,10 @@ abstract class AbstractLoader implements Loader {
         logger.info(INVALID, filename, getClass().getSimpleName());
       }
     } catch (IOException e) {
-      HeinerionException.handleException(getClass(), e);
+      if(logger.isErrorEnabled()) {
+        logger.error(e);
+      }
+      throw new MatchFilesException(e);
     }
 
     return result;
@@ -127,6 +129,12 @@ abstract class AbstractLoader implements Loader {
   public final void notifyLoadListeners(String message, Loadable loadable) {
     for (LoadListener listener : listeners) {
       listener.notifyLoading(message, loadable);
+    }
+  }
+
+  private static class MatchFilesException extends RuntimeException {
+    public MatchFilesException(Throwable cause) {
+      super(cause);
     }
   }
 }

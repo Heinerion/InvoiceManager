@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.models.interfaces.Addressable;
 import de.heinerion.betriebe.models.interfaces.Storable;
@@ -210,7 +209,7 @@ public class TextFileLoader {
       writer.write(key, value);
     } catch (IOException e) {
       logger.error(e);
-      HeinerionException.rethrow(e);
+      throw new CouldNotWriteException(e);
     }
   }
 
@@ -222,4 +221,5 @@ public class TextFileLoader {
 
     writer.closeFile();
   }
+
 }

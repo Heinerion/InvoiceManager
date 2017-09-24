@@ -4,14 +4,14 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.view.panels.ProgressIndicator;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.util.FormatUtil;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.view.panels.ProgressIndicator;
+import de.heinerion.util.FormatUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,8 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
-
-import static de.heinerion.betriebe.HeinerionException.handleException;
 
 class IOImpl implements IO, LoadListener {
   private static final Logger logger = LogManager.getLogger(IOImpl.class);
@@ -101,7 +99,11 @@ class IOImpl implements IO, LoadListener {
     try {
       fileLoader.saveAddresses(addresses);
     } catch (final IOException e) {
-      handleException(IOImpl.class, e);
+      if (logger.isErrorEnabled()) {
+        logger.error(e);
+      }
+
+      throw new AddressesCouldNotBeSavedException(addresses, e);
     }
   }
 
@@ -246,4 +248,5 @@ class IOImpl implements IO, LoadListener {
 
     DataBase.addLoadable(loadable);
   }
+
 }

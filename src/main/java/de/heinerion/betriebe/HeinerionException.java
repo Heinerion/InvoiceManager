@@ -3,20 +3,8 @@ package de.heinerion.betriebe;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class HeinerionException extends RuntimeException {
-  public HeinerionException() {
-    super();
-  }
-
-  public HeinerionException(String message) {
-    super(message);
-  }
-
-  public HeinerionException(String message, Throwable t) {
-    super(message, t);
-  }
-
-  public HeinerionException(Throwable t) {
+class HeinerionException extends RuntimeException {
+  private HeinerionException(Throwable t) {
     super(t);
   }
 

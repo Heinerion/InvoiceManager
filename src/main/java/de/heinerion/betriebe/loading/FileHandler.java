@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -91,7 +90,7 @@ class FileHandler {
     try {
       Files.copy(Paths.get(path), Paths.get(backupPath));
     } catch (IOException e) {
-      throw new HeinerionException(e);
+      throw new FileCouldNotBeCopiedException(e);
     }
 
     Object content = new ArrayList<>();
@@ -121,13 +120,13 @@ class FileHandler {
       if (dirsCreated || pathToFile.exists()) {
         writeToFile(path, obj);
       } else {
-        throw new HeinerionException("File could " + path + " not be created");
+        throw new FileCouldNotBeCreatedException(path);
       }
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {
         logger.error("write to " + path, e);
       }
-      HeinerionException.rethrow(e);
+      throw new CouldNotWriteObjectToFileException(e);
     }
   }
 
@@ -136,6 +135,24 @@ class FileHandler {
          ObjectOutputStream objOut = new ObjectOutputStream(fOut)) {
       objOut.writeObject(obj);
       objOut.close();
+    }
+  }
+
+  private static class CouldNotWriteObjectToFileException extends RuntimeException {
+    CouldNotWriteObjectToFileException(Throwable e) {
+      super(e);
+    }
+  }
+
+  private static class FileCouldNotBeCopiedException extends RuntimeException {
+    FileCouldNotBeCopiedException(Throwable e) {
+      super(e);
+    }
+  }
+
+  private static class FileCouldNotBeCreatedException extends RuntimeException {
+    FileCouldNotBeCreatedException(String path) {
+      super("File " + path + " could not be created.");
     }
   }
 }
