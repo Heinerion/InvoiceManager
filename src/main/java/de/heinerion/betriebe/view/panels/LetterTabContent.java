@@ -5,7 +5,6 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.util.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,7 +100,7 @@ class LetterTabContent extends AbstractTabContent {
     Letter ltr = new Letter(Session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
-    for (String line : getLetterText().split(Constants.NEWLINE)) {
+    for (String line : getLetterText().split("\n")) {
       ltr.addMessageLine(line);
     }
 

@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.view.latex;
 
-import de.heinerion.util.Constants;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +48,7 @@ final class LatexTable implements LatexContent {
    * Fügt eine waagerechte Linie über die komplette Breite der Tabelle hinzu.
    */
   void underLine() {
-    add(LINE + Constants.NEWLINE);
+    add(LINE + "\n");
   }
 
   /**
@@ -79,7 +77,7 @@ final class LatexTable implements LatexContent {
    * @param end   Endspaltenindex
    */
   private void underLine(int start, int end) {
-    add("\\cline{" + start + "-" + end + Syntax.END + Constants.NEWLINE);
+    add("\\cline{" + start + "-" + end + Syntax.END + "\n");
   }
 
   void fillEnd(String... columns) {
@@ -133,7 +131,7 @@ final class LatexTable implements LatexContent {
   private String generateHeader() {
     String tableHead = "";
     tableHead += LINE;
-    tableHead += Constants.NEWLINE;
+    tableHead += "\n";
 
     String headers = columnHeaders.stream().map(Object::toString)
         .collect(Collectors.joining(Syntax.tab()));
@@ -161,7 +159,7 @@ final class LatexTable implements LatexContent {
     elements.add(indent(this.content));
     elements.add(Syntax.endEnv(TABULAR));
 
-    return String.join(Constants.NEWLINE, elements);
+    return String.join("\n", elements);
   }
 
   private String indent(String text) {

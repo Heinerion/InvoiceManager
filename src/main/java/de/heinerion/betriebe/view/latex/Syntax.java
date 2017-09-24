@@ -1,12 +1,11 @@
 package de.heinerion.betriebe.view.latex;
 
-import de.heinerion.util.Constants;
 import de.heinerion.util.FormatUtil;
 
 final class Syntax {
   static final String BR = "\\\\";
 
-  static final String EOL = Constants.NEWLINE;
+  static final String EOL = "\n";
 
   static final String NEXT_GROUP = "}{";
 

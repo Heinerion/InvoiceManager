@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.view.latex;
 
-import de.heinerion.util.Constants;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,7 +118,7 @@ class LatexDocument {
   }
 
   private String indent(String text) {
-    String newline = Constants.NEWLINE;
+    String newline = "\n";
     String[] lines = text.split(newline);
     String result = String.join(newline + "\t", lines);
     return "\t" + result;
@@ -144,7 +142,7 @@ class LatexDocument {
   }
 
   private void setDelimiter() {
-    delimiter = compressed ? EMPTY : Constants.NEWLINE;
+    delimiter = compressed ? EMPTY : "\n";
   }
 
   @Override

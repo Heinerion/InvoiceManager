@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.util.List;
 
-import static de.heinerion.util.Constants.NEWLINE;
-
 class PanelControl {
   private static final Logger logger = LogManager.getLogger(PanelControl.class);
 
@@ -46,7 +44,7 @@ class PanelControl {
     String street = null;
 
     if (address != null) {
-      recipient = address.split(NEWLINE)[0];
+      recipient = address.split("\n")[0];
 
       String[] stringToken = address.split("\\n");
       token = stringToken.length;
@@ -97,7 +95,7 @@ class PanelControl {
       StringBuilder addressAsText = new StringBuilder();
       for (String line : out) {
         addressAsText.append(line)
-            .append(NEWLINE);
+            .append("\n");
       }
       result = addressAsText.toString();
     }

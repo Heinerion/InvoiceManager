@@ -7,7 +7,6 @@ public final class Constants {
   public static final String SPACE = " ";
   public static final String QUOTE = "\"";
   public static final String TAB = "\t";
-  public static final String NEWLINE = "\n";
 
   public static final String SYMBOL_EURO = "€";
 
