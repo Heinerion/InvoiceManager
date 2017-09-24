@@ -90,7 +90,12 @@ final class InvoiceManager {
     applicationFrame.refresh();
 
     waitASecond();
-    progress.setEnabled(false);
+    // only needed for testing.
+    // In tests the applicationFrame is disposed before {@code waitASecond} returns
+    if (progress != null)
+    {
+      progress.setEnabled(false);
+    }
   }
 
   private ProgressIndicator getProgressBarIndicator(ApplicationFrame applicationFrame) {
