@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.util;
+package de.heinerion.util;
 
 import org.junit.Assert;
 import org.junit.Test;

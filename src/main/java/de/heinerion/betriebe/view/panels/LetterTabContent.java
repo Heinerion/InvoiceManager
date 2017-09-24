@@ -5,7 +5,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.Constants;
+import de.heinerion.util.Constants;
 
 import javax.swing.*;
 import java.awt.*;

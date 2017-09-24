@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.view.latex;
 
-import de.heinerion.betriebe.util.Constants;
-import de.heinerion.betriebe.util.FormatUtil;
+import de.heinerion.util.Constants;
+import de.heinerion.util.FormatUtil;
 
 final class Syntax {
   static final String BR = "\\\\";

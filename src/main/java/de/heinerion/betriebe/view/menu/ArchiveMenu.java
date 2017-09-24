@@ -3,7 +3,7 @@ package de.heinerion.betriebe.view.menu;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.FormatUtil;
+import de.heinerion.util.FormatUtil;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;

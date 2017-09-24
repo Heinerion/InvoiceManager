@@ -4,14 +4,14 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.util.Constants;
+import de.heinerion.util.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.util.List;
 
-import static de.heinerion.betriebe.util.Constants.NEWLINE;
+import static de.heinerion.util.Constants.NEWLINE;
 
 class PanelControl {
   private static final Logger logger = LogManager.getLogger(PanelControl.class);

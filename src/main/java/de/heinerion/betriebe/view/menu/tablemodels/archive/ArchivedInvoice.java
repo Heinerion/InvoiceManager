@@ -5,7 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.Loadable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.util.DateUtil;
+import de.heinerion.util.DateUtil;
 
 import java.io.File;
 import java.time.LocalDate;

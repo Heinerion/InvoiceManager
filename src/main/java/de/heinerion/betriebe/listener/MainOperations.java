@@ -3,14 +3,14 @@ package de.heinerion.betriebe.listener;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.util.DateUtil;
+import de.heinerion.util.DateUtil;
 import de.heinerion.betriebe.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.io.File;
 
-import static de.heinerion.betriebe.util.Constants.SPACE;
+import static de.heinerion.util.Constants.SPACE;
 
 /**
  * @author heiner

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.util;
+package de.heinerion.util;
 
 public final class MathUtil {
   private MathUtil() {

@@ -2,7 +2,7 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.util.PathTools;
-import de.heinerion.betriebe.util.StringUtil;
+import de.heinerion.util.StringUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

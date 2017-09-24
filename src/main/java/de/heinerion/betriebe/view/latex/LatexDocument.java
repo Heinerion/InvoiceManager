@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.view.latex;
 
-import de.heinerion.betriebe.util.Constants;
+import de.heinerion.util.Constants;
 
 import java.util.*;
 import java.util.stream.Collectors;

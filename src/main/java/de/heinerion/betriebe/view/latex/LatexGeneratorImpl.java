@@ -3,9 +3,9 @@ package de.heinerion.betriebe.view.latex;
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.Constants;
-import de.heinerion.betriebe.util.DateUtil;
-import de.heinerion.betriebe.util.FormatUtil;
+import de.heinerion.util.Constants;
+import de.heinerion.util.DateUtil;
+import de.heinerion.util.FormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

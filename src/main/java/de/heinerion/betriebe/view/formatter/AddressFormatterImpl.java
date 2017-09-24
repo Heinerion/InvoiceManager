@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.view.formatter;
 
 import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.util.Constants;
+import de.heinerion.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

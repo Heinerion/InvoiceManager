@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.util;
+package de.heinerion.util;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

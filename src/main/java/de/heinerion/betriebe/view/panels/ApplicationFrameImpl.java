@@ -6,8 +6,8 @@ import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.DateUtil;
-import de.heinerion.betriebe.util.DimensionUtil;
+import de.heinerion.util.DateUtil;
+import de.heinerion.util.DimensionUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

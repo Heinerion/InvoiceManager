@@ -5,7 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.view.panels.ApplicationFrame;
 import de.heinerion.betriebe.view.panels.PanelFactory;
-import de.heinerion.betriebe.util.LookAndFeelUtil;
+import de.heinerion.util.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

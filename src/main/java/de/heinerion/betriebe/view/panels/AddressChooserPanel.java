@@ -5,8 +5,8 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.Constants;
-import de.heinerion.betriebe.util.DimensionUtil;
+import de.heinerion.util.Constants;
+import de.heinerion.util.DimensionUtil;
 
 import javax.swing.*;
 import java.awt.*;

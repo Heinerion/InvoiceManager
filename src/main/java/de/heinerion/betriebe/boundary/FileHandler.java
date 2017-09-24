@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.boundary;
 
-import de.heinerion.exceptions.HeinerionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;

@@ -7,9 +7,9 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.Constants;
-import de.heinerion.betriebe.util.ParsingUtil;
-import de.heinerion.betriebe.util.StringUtil;
+import de.heinerion.util.Constants;
+import de.heinerion.util.ParsingUtil;
+import de.heinerion.util.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

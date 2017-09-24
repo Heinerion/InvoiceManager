@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.view.panels.PanelSides;
 import de.heinerion.betriebe.view.panels.PanelFactory;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.DateUtil;
+import de.heinerion.util.DateUtil;
 
 import javax.swing.*;
 import java.awt.*;

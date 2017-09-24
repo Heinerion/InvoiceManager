@@ -9,7 +9,7 @@ import de.heinerion.betriebe.view.panels.ProgressIndicator;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.Translator;
-import de.heinerion.betriebe.util.FormatUtil;
+import de.heinerion.util.FormatUtil;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.betriebe.util.PathUtil;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-import static de.heinerion.exceptions.HeinerionException.handleException;
+import static de.heinerion.betriebe.HeinerionException.handleException;
 
 class IOImpl implements IO, LoadListener {
   private static final Logger logger = LogManager.getLogger(IOImpl.class);

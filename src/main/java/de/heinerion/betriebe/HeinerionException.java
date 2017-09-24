@@ -1,4 +1,4 @@
-package de.heinerion.exceptions;
+package de.heinerion.betriebe;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
