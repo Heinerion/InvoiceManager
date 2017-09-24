@@ -1,12 +1,15 @@
 package de.heinerion.betriebe.util;
 
-import de.heinerion.exceptions.HeinerionException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 public final class ParsingUtil {
+  private static Logger logger = LogManager.getLogger(ParsingUtil.class);
+
   private ParsingUtil() {
   }
 
@@ -19,7 +22,10 @@ public final class ParsingUtil {
       try {
         result = parseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
-        HeinerionException.handleException(ParsingUtil.class, exe);
+        if (logger.isErrorEnabled()) {
+          logger.error(exe);
+        }
+        throw new ParsingException(exe);
       }
     }
 
@@ -41,5 +47,11 @@ public final class ParsingUtil {
       }
     }
     return result;
+  }
+
+  static class ParsingException extends RuntimeException {
+    ParsingException(Throwable cause) {
+      super(cause);
+    }
   }
 }

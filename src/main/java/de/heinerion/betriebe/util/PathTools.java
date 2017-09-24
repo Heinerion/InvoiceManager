@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.util;
 
-import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.interfaces.Storable;
 
 import java.io.File;
@@ -75,7 +74,7 @@ public final class PathTools {
     final Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
 
     if (details == null) {
-      throw new HeinerionException(getNoFileInfoMessage(clazz));
+      throw new NoFileInfoException(clazz);
     } else {
       return details.get(key);
     }
@@ -85,15 +84,17 @@ public final class PathTools {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
       return PathUtil.getSystemPath() + File.separator + determineFolderName(clazz);
     } else {
-      throw new HeinerionException(getNoFileInfoMessage(clazz));
+      throw new NoFileInfoException(clazz);
     }
-  }
-
-  private static String getNoFileInfoMessage(Class<?> clazz) {
-    return "no file info has been defined for " + clazz.getSimpleName();
   }
 
   public static String getPath(Storable storable) {
     return generatePath(PathUtil.getSystemPath(), storable);
+  }
+
+  static class NoFileInfoException extends RuntimeException {
+    NoFileInfoException(Class<?> clazz) {
+      super("no file info has been defined for " + clazz.getSimpleName());
+    }
   }
 }

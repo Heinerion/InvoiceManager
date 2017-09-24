@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.util;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.exceptions.HeinerionException;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
@@ -52,7 +51,7 @@ public class PathUtil {
     } else if (itemClass.isAssignableFrom(Letter.class)) {
       folder = ConfigurationService.get("folder.letters");
     } else {
-      throw new HeinerionException("The given itemClass is no valid letter or invoice class");
+      throw new NoValidLetterException(itemClass);
     }
 
     return folder;
@@ -72,5 +71,11 @@ public class PathUtil {
 
   private static String generateFileName(String path, String name, String ending) {
     return path + File.separator + name + "." + ending;
+  }
+
+  static class NoValidLetterException extends RuntimeException {
+    NoValidLetterException(Class<?> clazz) {
+      super(clazz.getSimpleName() + " is no valid letter extending class");
+    }
   }
 }
