@@ -106,7 +106,16 @@ final class InvoiceManager {
     try {
       Thread.sleep(ONE_SECOND);
     } catch (final InterruptedException e) {
-      HeinerionException.handleException(InvoiceManager.class, e);
+      if (LOGGER.isErrorEnabled()) {
+        LOGGER.error(e);
+      }
+      throw new ThreadWaitException(e);
+    }
+  }
+
+  private static class ThreadWaitException extends RuntimeException {
+    ThreadWaitException(Throwable t) {
+      super(t);
     }
   }
 }
