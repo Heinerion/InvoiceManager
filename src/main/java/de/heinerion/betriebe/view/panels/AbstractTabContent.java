@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.view.panels;
 
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 
 import javax.swing.*;
 

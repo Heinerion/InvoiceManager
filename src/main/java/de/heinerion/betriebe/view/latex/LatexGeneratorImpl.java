@@ -2,7 +2,7 @@ package de.heinerion.betriebe.view.latex;
 
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.util.DateUtil;
 import de.heinerion.util.FormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;

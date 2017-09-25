@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.view.panels;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.util.DimensionUtil;
 import de.heinerion.money.Euro;
 import de.heinerion.money.Money;

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.boundary;
 
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

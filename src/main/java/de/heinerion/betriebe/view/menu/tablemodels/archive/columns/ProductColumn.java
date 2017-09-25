@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.view.menu.tablemodels.archive.columns;
 
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 
 public final class ProductColumn implements InvoiceColumn {
 

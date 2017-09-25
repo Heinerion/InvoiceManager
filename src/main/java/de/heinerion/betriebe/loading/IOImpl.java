@@ -6,7 +6,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.betriebe.util.PathUtil;
 import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;

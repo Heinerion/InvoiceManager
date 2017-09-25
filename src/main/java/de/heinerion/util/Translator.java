@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.services;
+package de.heinerion.util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

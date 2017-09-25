@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.view.menu;
 
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

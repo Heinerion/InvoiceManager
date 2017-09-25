@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

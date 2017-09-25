@@ -3,7 +3,7 @@ package de.heinerion.betriebe.view.menu;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.view.panels.PanelSides;
 import de.heinerion.betriebe.view.panels.PanelFactory;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.util.DateUtil;
 
 import javax.swing.*;

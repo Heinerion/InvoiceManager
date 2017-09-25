@@ -1,6 +1,7 @@
 package de.heinerion.betriebe.services;
 
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.util.Translator;
 
 import javax.swing.*;
 

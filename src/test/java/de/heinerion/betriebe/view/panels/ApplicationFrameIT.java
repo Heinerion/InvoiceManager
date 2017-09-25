@@ -7,7 +7,7 @@ import de.heinerion.betriebe.builder.InvoiceBuilder;
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.betriebe.util.PathUtil;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.AfterClass;

@@ -3,7 +3,7 @@ package de.heinerion.betriebe.view.panels;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.services.Translator;
+import de.heinerion.util.Translator;
 import de.heinerion.util.FormatUtil;
 
 import javax.swing.*;
