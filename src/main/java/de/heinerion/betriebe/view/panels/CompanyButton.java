@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.view.panels;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.models.Company;
 
 import javax.swing.*;
