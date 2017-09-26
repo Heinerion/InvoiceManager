@@ -32,7 +32,7 @@ public class ConfigurationService {
 
   private static AbstractApplicationContext getContext() {
     if (context == null) {
-      context = new ClassPathXmlApplicationContext("applicationContext.xml");
+      context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
     }
 
     return context;
