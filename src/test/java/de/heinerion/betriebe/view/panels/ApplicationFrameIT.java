@@ -7,26 +7,30 @@ import de.heinerion.betriebe.builder.InvoiceBuilder;
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.util.Translator;
+import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.util.Translator;
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.swing.*;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ApplicationFrameIT {
-  private static FrameFixture demo;
+  private FrameFixture demo;
 
-  @BeforeClass
-  public static void setUp() {
-    JFrame frame = new JFrame();
-    PanelFactory.createApplicationFrame(frame);
+  @Before
+  public void setUp() {
+    ApplicationFrame applicationFrame = ConfigurationService.getBean(ApplicationFrame.class);
 
+    JFrame frame = applicationFrame.getFrame();
     frame.setVisible(true);
     demo = new FrameFixture(frame);
 
@@ -48,8 +52,8 @@ public class ApplicationFrameIT {
         .prepare();
   }
 
-  @AfterClass
-  public static void tearDown() {
+  @After
+  public void tearDown() {
     demo.cleanUp();
   }
 

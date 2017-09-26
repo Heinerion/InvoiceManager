@@ -19,7 +19,7 @@ import static org.mockito.Matchers.anyString;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(TextFileWriter.class)
-@PowerMockIgnore("javax.management.*")
+@PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 public class TextFileLoaderTest {
 
   private TextFileLoader loader;

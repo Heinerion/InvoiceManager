@@ -5,11 +5,10 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.loading.Loadable;
-import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoiceTable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoiceTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,11 +30,11 @@ public final class DataBase {
 
   private static IO io;
 
-  static {
-    io = ConfigurationService.getBean(IO.class);
+  private DataBase() {
   }
 
-  private DataBase() {
+  public static void setIo(IO io) {
+    DataBase.io = io;
   }
 
   public static Optional<Address> getAddress(Company company, String recipient) {

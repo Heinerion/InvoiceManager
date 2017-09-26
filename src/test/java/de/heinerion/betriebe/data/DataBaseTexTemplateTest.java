@@ -17,7 +17,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IO.class})
-@PowerMockIgnore("javax.management.*")
+@PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 public class DataBaseTexTemplateTest {
   private Company company;
   private TexTemplate template;

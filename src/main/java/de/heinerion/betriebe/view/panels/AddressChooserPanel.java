@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.util.Translator;
 import de.heinerion.util.DimensionUtil;
 
@@ -35,7 +36,11 @@ class AddressChooserPanel extends AbstractGridPanel {
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel() {
+  private transient Formatter formatter;
+
+  AddressChooserPanel(Formatter formatter) {
+    this.formatter = formatter;
+
     init();
 
     addAddressChooser();
@@ -137,7 +142,19 @@ class AddressChooserPanel extends AbstractGridPanel {
   private void useGivenAddress() {
     final Address address = (Address) this.addressBox.getSelectedItem();
     Session.setActiveAddress(address);
-    final String addressText = PanelControl.useGivenAddress(address);
+    String result = null;
+
+    if (address != null) {
+      List<String> out = formatter.formatAddress(address);
+      StringBuilder addressAsText = new StringBuilder();
+      for (String line : out) {
+        addressAsText.append(line)
+            .append("\n");
+      }
+      result = addressAsText.toString();
+    }
+
+    final String addressText = result;
     this.addressArea.setText(addressText);
   }
 }

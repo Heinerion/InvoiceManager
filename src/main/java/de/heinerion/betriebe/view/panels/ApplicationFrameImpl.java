@@ -9,6 +9,7 @@ import de.heinerion.util.DateUtil;
 import de.heinerion.util.DimensionUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,10 +35,12 @@ class ApplicationFrameImpl implements
   private JProgressBar progressBar;
   private ContentTabPane contentTabPane;
 
-  ApplicationFrameImpl(JFrame jFrame, JPanel glassPane, JProgressBar jProgressBar, ContentTabPane tabPane) {
+  @Autowired
+  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel) {
     contentTabPane = tabPane;
-    progressBar = jProgressBar;
-    frame = jFrame;
+    this.receiverPanel = receiverPanel;
+    progressBar = new JProgressBar();
+    frame = new JFrame();
 
     frame.setGlassPane(glassPane);
     frame.setResizable(true);
@@ -70,15 +73,10 @@ class ApplicationFrameImpl implements
   private void addWidgets() {
     frame.setLayout(new BorderLayout());
     frame.setJMenuBar(MenuFactory.createMenuBar(frame));
-    frame.add(createReceiverPanel().getPanel(), BorderLayout.LINE_START);
+    frame.add(receiverPanel.getPanel(), BorderLayout.LINE_START);
 
     frame.add(contentTabPane.getPane(), BorderLayout.CENTER);
     frame.add(progressBar, BorderLayout.PAGE_END);
-  }
-
-  private Refreshable createReceiverPanel() {
-    receiverPanel = PanelFactory.createReveiverPanel();
-    return receiverPanel;
   }
 
   private void setupInteractions() {

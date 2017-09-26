@@ -1,5 +1,8 @@
 package de.heinerion.betriebe.view.panels;
 
+import de.heinerion.betriebe.view.formatter.Formatter;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -10,15 +13,20 @@ class ReceiverPanel implements Refreshable {
 
   private Refreshable addressPanel;
   private Refreshable companyChooserPanel;
+  private Formatter formatter;
+  private PrintButtonPanel printButtonPanel;
 
-  ReceiverPanel() {
+  @Autowired
+  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel) {
+    this.formatter = formatter;
+    this.printButtonPanel = printButtonPanel;
     createWidgets();
     addWidgets();
   }
 
   private void createWidgets() {
     panel = new FancyPanel();
-    addressPanel = SidePanelFactory.createAddressPanel();
+    addressPanel = SidePanelFactory.createAddressPanel(formatter);
     companyChooserPanel = SidePanelFactory.createCompanyChooserPanel();
   }
 
@@ -29,7 +37,7 @@ class ReceiverPanel implements Refreshable {
     panel.add(companyChooserPanel.getPanel());
     panel.add(addressPanel.getPanel());
 
-    panel.add(SidePanelFactory.createPrintButtonPanel());
+    panel.add(printButtonPanel);
 
     panel.add(Box.createVerticalGlue());
     panel.add(SidePanelFactory.createCalculatorSidePanel());

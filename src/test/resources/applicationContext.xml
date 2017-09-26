@@ -7,12 +7,19 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
+    <bean class="de.heinerion.betriebe.listener.PrintAction"/>
+    <bean class="de.heinerion.betriebe.view.panels.PrintButtonPanel"/>
+
+    <bean class="de.heinerion.betriebe.view.panels.GlassPaneImpl"/>
+    <bean class="de.heinerion.betriebe.view.panels.ContentTabPaneImpl"/>
+    <bean class="de.heinerion.betriebe.view.panels.ReceiverPanel"/>
+    <bean class="de.heinerion.betriebe.view.panels.ApplicationFrameImpl"/>
+
     <bean class="de.heinerion.betriebe.InvoiceManager"/>
     <bean class="de.heinerion.betriebe.listener.LatexWriter"/>
     <bean class="de.heinerion.betriebe.view.formatter.AddressFormatterMock"/>
     <bean class="de.heinerion.betriebe.view.formatter.FormatterImpl"/>
     <bean class="de.heinerion.betriebe.view.latex.LatexGeneratorMock"/>
-    <bean class="de.heinerion.betriebe.services.SwingService"/>
     <bean class="de.heinerion.betriebe.loading.IOImpl"/>
     <bean id="mainOperations" class="de.heinerion.betriebe.listener.MainOperations"/>
 

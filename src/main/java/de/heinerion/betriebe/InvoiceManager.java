@@ -2,6 +2,7 @@ package de.heinerion.betriebe;
 
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.services.ConfigurationService;
@@ -23,20 +24,29 @@ final class InvoiceManager {
 
   private static final long ONE_SECOND = 1000L;
 
+  private final ApplicationFrame applicationFrame;
   private IO io;
 
   @Autowired
-  private InvoiceManager(IO io) {
+  InvoiceManager(IO io, ApplicationFrame applicationFrame) {
     this.io = io;
+    this.applicationFrame = applicationFrame;
+
+    DataBase.setIo(io);
   }
 
   @LogMethod
   public static void main(String... args) {
+    LookAndFeelUtil.setNimbus();
     InvoiceManager application = ConfigurationService.getBean(InvoiceManager.class);
 
-    application.parseArguments(args);
-    application.setup();
-    application.start();
+    application.invoke(args);
+  }
+
+  void invoke(String[] args) {
+    parseArguments(args);
+    setup();
+    start();
   }
 
   private void parseArguments(String... args) {
@@ -61,13 +71,12 @@ final class InvoiceManager {
 
   @LogBefore
   private void setup() {
-    LookAndFeelUtil.setNimbus();
   }
 
   @LogBefore
   private void start() {
-    prepareApplicationFrame(Session.getFrame());
-    startDataThread(Session.getApplicationFrame());
+    prepareApplicationFrame(applicationFrame.getFrame());
+    startDataThread(applicationFrame);
   }
 
   private void prepareApplicationFrame(JFrame frame) {
@@ -81,7 +90,7 @@ final class InvoiceManager {
   }
 
   private void collectData(ApplicationFrame applicationFrame) {
-    ProgressIndicator progress = getProgressBarIndicator(applicationFrame);
+    ProgressIndicator progress = PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
 
     // registerListenersAndLoaders needs to be called explicitly here
     // instead of in its constructor to avoid multiple registrations

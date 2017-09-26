@@ -2,14 +2,16 @@ package de.heinerion.betriebe;
 
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.view.panels.ApplicationFrame;
 import de.heinerion.betriebe.view.panels.PanelFactory;
+import de.heinerion.betriebe.view.panels.PanelSides;
 import de.heinerion.util.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PanelFactory.class, LookAndFeelUtil.class, IO.class})
+@PrepareForTest({PanelFactory.class, LookAndFeelUtil.class})
 @PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 public class InvoiceManagerTest {
   @Mock
@@ -33,41 +35,44 @@ public class InvoiceManagerTest {
   @Mock
   private JProgressBar progressBar;
 
+  @Mock
+  private ApplicationFrame applicationFrame;
+
+  @InjectMocks
+  private InvoiceManager manager;
+
   @Before
   public void setUp() {
-    mockStatic(IO.class);
-
-    ApplicationFrame applicationFrame = PanelFactory.createApplicationFrame(frame, progressBar);
-
     mockStatic(PanelFactory.class);
-    when(PanelFactory.createApplicationFrame()).thenReturn(applicationFrame);
+    when(PanelFactory.createBackgroundPanel(Matchers.<PanelSides>anyVararg())).thenReturn(new JPanel());
 
     mockStatic(LookAndFeelUtil.class);
 
+    when(applicationFrame.getFrame()).thenReturn(frame);
+
     new SessionPreparer()
-        .withApplicationFrame(applicationFrame)
         .prepare();
   }
 
   @Test
   public void testMainSetDebugMode() {
-    InvoiceManager.main("debug");
+    manager.invoke(new String[]{"debug"});
 
     assertTrue(Session.isDebugMode());
   }
 
   @Test
   public void testMainNotSetDebugMode() {
-    InvoiceManager.main();
+    manager.invoke(new String[]{});
 
     assertFalse(Session.isDebugMode());
   }
 
   @Test
   public void testMainSetFrameVisible() {
-    InvoiceManager.main("debug");
+    manager.invoke(new String[]{"debug"});
 
-    verify(Session.getFrame()).setVisible(true);
+    verify(frame).setVisible(true);
   }
 
   @Test

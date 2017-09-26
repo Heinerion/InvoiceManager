@@ -4,18 +4,23 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.services.ConfigurationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public final class PrintAction implements ActionListener {
+public class PrintAction implements ActionListener {
   private static final Logger logger = LogManager.getLogger(PrintAction.class);
   private Letter letter;
 
-  private MainOperations mainOperations = ConfigurationService.getBean("mainOperations");
+  private MainOperations mainOperations;
+
+  @Autowired
+  PrintAction(MainOperations mainOperations) {
+    this.mainOperations = mainOperations;
+  }
 
   @Override
   public void actionPerformed(ActionEvent arg0) {

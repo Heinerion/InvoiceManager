@@ -1,13 +1,11 @@
 package de.heinerion.betriebe.view.panels;
 
+import de.heinerion.betriebe.view.formatter.Formatter;
+
 import javax.swing.*;
 
 public class SidePanelFactory {
   private SidePanelFactory() {
-  }
-
-  static JPanel createPrintButtonPanel() {
-    return new PrintButtonPanel();
   }
 
   static JPanel createCalculatorSidePanel() {
@@ -18,8 +16,8 @@ public class SidePanelFactory {
     return new CalculatorPanel();
   }
 
-  static Refreshable createAddressPanel() {
-    return new AddressPanel();
+  static Refreshable createAddressPanel(Formatter formatter) {
+    return new AddressPanel(formatter);
   }
 
   static Refreshable createCompanyChooserPanel() {

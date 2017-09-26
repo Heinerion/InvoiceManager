@@ -2,28 +2,28 @@ package de.heinerion.betriebe.view.panels;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
-import de.heinerion.betriebe.services.ConfigurationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @SuppressWarnings("serial")
 class ContentTabPaneImpl implements ContentTabPane {
-  private static ContentTabPaneImpl instance;
-
+  private final List<TabContent> tabContents;
   private JTabbedPane pane;
 
-  private final List<TabContent> tabContents;
-
-  private ContentTabPaneImpl() {
-    pane = new JTabbedPane();
+  @Autowired
+  ContentTabPaneImpl(IO io) {
+    LetterTabContent letterTabContent = new LetterTabContent();
+    InvoiceTabContent invoiceTabContent = new InvoiceTabContent(io);
 
     tabContents = new ArrayList<>();
+    tabContents.add(letterTabContent);
+    tabContents.add(invoiceTabContent);
 
-    tabContents.add(new LetterTabContent());
-    tabContents.add(new InvoiceTabContent(ConfigurationService.getBean(IO.class)));
-
+    pane = new JTabbedPane();
     for (TabContent abstractTabContent : tabContents) {
       pane.addTab(abstractTabContent.getTitle(), abstractTabContent.getPanel());
     }
@@ -40,18 +40,16 @@ class ContentTabPaneImpl implements ContentTabPane {
   }
 
   private TabContent getSelectedTabContent() {
-    return tabContents
-        .stream()
-        .filter(tabContent -> tabContent.getPanel().equals(pane.getSelectedComponent()))
+    Stream<TabContent> tabContentStream = tabContents
+        .stream();
+
+    if (pane.getSelectedComponent() != null) {
+      tabContentStream = tabContentStream.filter(tabContent -> tabContent.getPanel().equals(pane.getSelectedComponent()));
+    }
+
+    return tabContentStream
         .findFirst()
         .orElseThrow(() -> new GuiPanelException("This Tab is not registered in 'tabContents'"));
-  }
-
-  static ContentTabPaneImpl getInstance() {
-    if (instance == null) {
-      instance = new ContentTabPaneImpl();
-    }
-    return instance;
   }
 
   @Override

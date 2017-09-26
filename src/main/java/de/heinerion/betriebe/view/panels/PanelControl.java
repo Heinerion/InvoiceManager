@@ -17,13 +17,7 @@ class PanelControl {
   private static final String DEFAULT_COMPANY = null;
   private static final String DEFAULT_DISTRICT = null;
 
-  private static final Formatter formatter;
-
   private PanelControl() {
-  }
-
-  static {
-    formatter = ConfigurationService.getBean(Formatter.class);
   }
 
   /**
@@ -84,22 +78,6 @@ class PanelControl {
 
   private static boolean notEmpty(String address) {
     return address != null && !"".equals(address.trim());
-  }
-
-  static String useGivenAddress(Address address) {
-    String result = null;
-
-    if (address != null) {
-      List<String> out = formatter.formatAddress(address);
-      StringBuilder addressAsText = new StringBuilder();
-      for (String line : out) {
-        addressAsText.append(line)
-            .append("\n");
-      }
-      result = addressAsText.toString();
-    }
-
-    return result;
   }
 
   static ImageIcon loadImage(String path) {

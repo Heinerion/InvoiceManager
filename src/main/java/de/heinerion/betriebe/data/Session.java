@@ -1,18 +1,16 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.view.panels.ApplicationFrame;
-import de.heinerion.betriebe.view.panels.PanelFactory;
-import de.heinerion.betriebe.view.panels.CompanyListener;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.view.panels.ApplicationFrame;
+import de.heinerion.betriebe.view.panels.CompanyListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,19 +188,8 @@ public final class Session {
     getDateListeners().forEach(DateListener::notifyDate);
   }
 
-  public static JFrame getFrame() {
-    return getApplicationFrame().getFrame();
-  }
-
   public static void setApplicationFrame (ApplicationFrame frame) {
     applicationFrame = frame;
   }
 
-  public static ApplicationFrame getApplicationFrame() {
-    if (applicationFrame == null) {
-      applicationFrame = PanelFactory.createApplicationFrame();
-    }
-
-    return applicationFrame;
-  }
 }

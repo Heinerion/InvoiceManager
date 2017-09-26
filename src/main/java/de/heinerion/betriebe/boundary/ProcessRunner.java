@@ -1,21 +1,15 @@
 package de.heinerion.betriebe.boundary;
 
-import de.heinerion.betriebe.services.ViewService;
+import de.heinerion.betriebe.data.Session;
+import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.swing.*;
 import java.io.IOException;
 
 class ProcessRunner {
   private Logger logger = LogManager.getLogger(ProcessRunner.class);
-
-  private final ViewService viewService;
-
-  @Autowired
-  ProcessRunner(ViewService viewService) {
-    this.viewService = viewService;
-  }
 
   String quote(String string) {
     return "\"" + string + "\"";
@@ -34,11 +28,30 @@ class ProcessRunner {
 
       String program = command[0];
       String message = "command could not be executed.\n" + "Is " + program + " installed?";
-      viewService.showExceptionMessage(e, message);
+      showExceptionMessage(e, message);
     } catch (InterruptedException e) {
       logException(e, errorLogMessage);
 
       Thread.currentThread().interrupt();
+    }
+  }
+
+  private void showExceptionMessage(Exception exception, String message) {
+    JOptionPane.showMessageDialog(null, message,
+        Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
+    if (Session.isDebugMode()) {
+      StringBuilder out = new StringBuilder();
+      for (StackTraceElement ste : exception.getStackTrace()) {
+        out.append(ste.getMethodName())
+            .append(" : ")
+            .append(ste.getFileName())
+            .append(" (")
+            .append(ste.getLineNumber())
+            .append(")\n");
+      }
+      JOptionPane.showMessageDialog(null,
+          exception.getLocalizedMessage() + "\n" + out,
+          Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
     }
   }
 
