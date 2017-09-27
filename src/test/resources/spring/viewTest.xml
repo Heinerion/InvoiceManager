@@ -7,6 +7,8 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
+    <import resource="viewPanels.xml"/>
+
     <bean class="de.heinerion.betriebe.view.formatter.AddressFormatterMock"/>
     <bean class="de.heinerion.betriebe.view.formatter.FormatterImpl"/>
 

@@ -8,7 +8,6 @@
     <context:property-placeholder location="classpath:configuration.properties"/>
 
     <import resource="boundaries.xml"/>
-    <import resource="panels.xml"/>
     <import resource="view.xml"/>
 
     <bean class="de.heinerion.betriebe.InvoiceManager"/>
