@@ -1,12 +1,15 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.view.menu.MenuFactory;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.util.Translator;
+import de.heinerion.betriebe.view.menu.MenuFactory;
+import de.heinerion.betriebe.view.panels.ApplicationFrame;
+import de.heinerion.betriebe.view.panels.CompanyListener;
+import de.heinerion.betriebe.view.panels.ContentTabPane;
 import de.heinerion.util.DateUtil;
 import de.heinerion.util.DimensionUtil;
+import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

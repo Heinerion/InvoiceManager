@@ -1,4 +1,6 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
+
+import de.heinerion.betriebe.view.panels.PositionCoordinates;
 
 import javax.swing.*;
 import java.awt.*;

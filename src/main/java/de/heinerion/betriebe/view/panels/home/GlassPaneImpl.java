@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home;
 
 import java.awt.*;
 

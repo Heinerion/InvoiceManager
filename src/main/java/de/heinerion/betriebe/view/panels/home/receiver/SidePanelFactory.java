@@ -1,6 +1,7 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 import de.heinerion.betriebe.view.formatter.Formatter;
+import de.heinerion.betriebe.view.panels.home.Refreshable;
 
 import javax.swing.*;
 

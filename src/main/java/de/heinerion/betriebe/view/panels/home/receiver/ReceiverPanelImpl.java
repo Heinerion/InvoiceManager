@@ -1,6 +1,8 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 import de.heinerion.betriebe.view.formatter.Formatter;
+import de.heinerion.betriebe.view.panels.home.ReceiverPanel;
+import de.heinerion.betriebe.view.panels.home.Refreshable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 @SuppressWarnings("serial")
-class ReceiverPanel implements Refreshable {
+class ReceiverPanelImpl implements ReceiverPanel {
   private JPanel panel;
 
   private Refreshable addressPanel;
@@ -17,7 +19,7 @@ class ReceiverPanel implements Refreshable {
   private PrintButtonPanel printButtonPanel;
 
   @Autowired
-  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel) {
+  ReceiverPanelImpl(Formatter formatter, PrintButtonPanel printButtonPanel) {
     this.formatter = formatter;
     this.printButtonPanel = printButtonPanel;
     createWidgets();

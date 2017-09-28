@@ -1,10 +1,11 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.view.formatter.Formatter;
+import de.heinerion.betriebe.view.panels.PositionCoordinates;
 import de.heinerion.util.Translator;
 import de.heinerion.util.DimensionUtil;
 

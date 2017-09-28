@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 @SuppressWarnings("serial")
 class CalculatorSidePanel extends SidePanel {

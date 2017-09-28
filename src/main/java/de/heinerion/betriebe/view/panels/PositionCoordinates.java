@@ -1,40 +1,40 @@
 package de.heinerion.betriebe.view.panels;
 
-class PositionCoordinates {
+public class PositionCoordinates {
   private int posX = 0;
   private int posY = 0;
   private int width = 0;
   private int height = 0;
 
-  int getPosX() {
+  public int getPosX() {
     return posX;
   }
 
-  int getPosY() {
+  public int getPosY() {
     return posY;
   }
 
-  int getWidth() {
+  public int getWidth() {
     return width;
   }
 
-  int getHeight() {
+  public int getHeight() {
     return height;
   }
 
-  void setPosX(int xPosition) {
+  public void setPosX(int xPosition) {
     this.posX = xPosition;
   }
 
-  void setPosY(int yPosition) {
+  public void setPosY(int yPosition) {
     this.posY = yPosition;
   }
 
-  void setWidth(int aWidth) {
+  public void setWidth(int aWidth) {
     this.width = aWidth;
   }
 
-  void setHeight(int aHeight) {
+  public void setHeight(int aHeight) {
     this.height = aHeight;
   }
 }

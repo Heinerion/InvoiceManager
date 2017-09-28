@@ -1,14 +1,11 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.services.ConfigurationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import java.util.List;
 
 class PanelControl {
   private static final Logger logger = LogManager.getLogger(PanelControl.class);

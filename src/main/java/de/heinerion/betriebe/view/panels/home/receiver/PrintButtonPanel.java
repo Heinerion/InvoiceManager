@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.home.receiver;
 
 import de.heinerion.betriebe.listener.PrintAction;
 import org.springframework.beans.factory.annotation.Autowired;
