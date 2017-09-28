@@ -11,6 +11,7 @@ import de.heinerion.util.ParsingUtil;
 import de.heinerion.util.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -43,6 +44,7 @@ class InvoiceTabContent extends AbstractTabContent {
 
   private IO io;
 
+  @Autowired
   InvoiceTabContent(IO io) {
     super(Translator.translate("invoice.title"));
 

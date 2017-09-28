@@ -15,13 +15,8 @@ class ContentTabPaneImpl implements ContentTabPane {
   private JTabbedPane pane;
 
   @Autowired
-  ContentTabPaneImpl(IO io) {
-    LetterTabContent letterTabContent = new LetterTabContent();
-    InvoiceTabContent invoiceTabContent = new InvoiceTabContent(io);
-
-    tabContents = new ArrayList<>();
-    tabContents.add(letterTabContent);
-    tabContents.add(invoiceTabContent);
+  ContentTabPaneImpl(List<TabContent> someTabContents) {
+    tabContents = someTabContents;
 
     pane = new JTabbedPane();
     for (TabContent abstractTabContent : tabContents) {
