@@ -46,10 +46,10 @@ public class PathUtil {
   private static String determineFolderName(Class<? extends Letter> itemClass) {
     String folder;
 
-    if (itemClass.isAssignableFrom(Invoice.class)) {
-      folder = ConfigurationService.get("folder.invoices");
-    } else if (itemClass.isAssignableFrom(Letter.class)) {
+    if (itemClass.isAssignableFrom(Letter.class)) {
       folder = ConfigurationService.get("folder.letters");
+    } else if (itemClass.isAssignableFrom(Invoice.class)) {
+      folder = ConfigurationService.get("folder.invoices");
     } else {
       throw new NoValidLetterException(itemClass);
     }
