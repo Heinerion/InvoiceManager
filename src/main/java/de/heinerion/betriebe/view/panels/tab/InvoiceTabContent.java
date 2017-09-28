@@ -134,6 +134,7 @@ class InvoiceTabContent extends AbstractTabContent {
   public void refresh() {
     List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
     if (!activeTemplates.equals(getTemplates())) {
+      clearPositions();
       clearTemplates();
       addTemplates(activeTemplates);
       setTemplates(activeTemplates);
