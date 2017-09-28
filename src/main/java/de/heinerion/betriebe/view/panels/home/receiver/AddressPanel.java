@@ -6,12 +6,15 @@ import de.heinerion.betriebe.view.panels.home.Refreshable;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-class AddressPanel extends SidePanel implements Refreshable {
+class AddressPanel implements Refreshable {
+  private SidePanel sidePanel;
   private final AddressChooserPanel addressChooser;
 
   AddressPanel(Formatter formatter) {
     this.addressChooser = new AddressChooserPanel(formatter);
-    add(addressChooser);
+    sidePanel = new SidePanel();
+
+    sidePanel.add(addressChooser);
   }
 
   @Override
@@ -21,6 +24,6 @@ class AddressPanel extends SidePanel implements Refreshable {
 
   @Override
   public JPanel getPanel() {
-    return this;
+    return sidePanel;
   }
 }

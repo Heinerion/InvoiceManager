@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
-class SidePanel extends JPanel {
+final class SidePanel extends JPanel {
   SidePanel() {
     setOpaque(false);
     setLayout(new FlowLayout());

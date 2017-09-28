@@ -39,7 +39,7 @@ class ReceiverPanelImpl implements ReceiverPanel {
     panel.add(companyChooserPanel.getPanel());
     panel.add(addressPanel.getPanel());
 
-    panel.add(printButtonPanel);
+    panel.add(printButtonPanel.getPanel());
 
     panel.add(Box.createVerticalGlue());
     panel.add(SidePanelFactory.createCalculatorSidePanel());

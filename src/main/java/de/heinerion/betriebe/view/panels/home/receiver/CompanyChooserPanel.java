@@ -7,25 +7,27 @@ import de.heinerion.betriebe.view.panels.home.Refreshable;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-class CompanyChooserPanel extends SidePanel implements Refreshable {
+class CompanyChooserPanel implements Refreshable {
+  private SidePanel sidePanel;
   private JPanel content = new JPanel();
 
   CompanyChooserPanel() {
+    sidePanel = new SidePanel();
     refresh();
   }
 
   public void refresh() {
-    remove(content);
+    sidePanel.remove(content);
     content = new JPanel();
     for (Company c : Session.getAvailableCompanies()) {
       final JButton btn = new CompanyButton(c);
       content.add(btn);
     }
-    add(content);
+    sidePanel.add(content);
   }
 
   @Override
   public JPanel getPanel() {
-    return this;
+    return sidePanel;
   }
 }

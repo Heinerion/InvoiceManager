@@ -10,11 +10,7 @@ public class SidePanelFactory {
   }
 
   static JPanel createCalculatorSidePanel() {
-    return new CalculatorSidePanel();
-  }
-
-  static CalculatorPanel createCalculatorPanel() {
-    return new CalculatorPanel();
+    return new CalculatorSidePanel().getPanel();
   }
 
   static Refreshable createAddressPanel(Formatter formatter) {

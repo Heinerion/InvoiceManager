@@ -1,9 +1,5 @@
 package de.heinerion.betriebe.view.panels.home;
 
-import javax.swing.*;
-
-public interface Refreshable {
+public interface Refreshable extends PanelHolder {
   void refresh();
-
-  JPanel getPanel();
 }
