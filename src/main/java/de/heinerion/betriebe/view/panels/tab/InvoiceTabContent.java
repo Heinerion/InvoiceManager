@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.tab;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
@@ -6,9 +6,9 @@ import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.*;
-import de.heinerion.util.Translator;
 import de.heinerion.util.ParsingUtil;
 import de.heinerion.util.StringUtil;
+import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

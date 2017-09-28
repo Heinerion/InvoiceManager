@@ -4,7 +4,7 @@ import de.heinerion.betriebe.models.Letter;
 
 import javax.swing.*;
 
-interface TabContent {
+public interface TabContent {
   Letter getContent();
 
   String getTitle();

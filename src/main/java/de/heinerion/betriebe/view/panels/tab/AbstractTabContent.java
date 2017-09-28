@@ -1,6 +1,9 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.tab;
 
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.betriebe.view.panels.PanelFactory;
+import de.heinerion.betriebe.view.panels.PanelSides;
+import de.heinerion.betriebe.view.panels.TabContent;
 import de.heinerion.util.Translator;
 
 import javax.swing.*;

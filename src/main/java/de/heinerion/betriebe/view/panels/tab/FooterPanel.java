@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.tab;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.ConveyableListener;

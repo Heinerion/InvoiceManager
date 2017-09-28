@@ -1,11 +1,11 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.tab;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.IO;
+import de.heinerion.betriebe.view.panels.ContentTabPane;
+import de.heinerion.betriebe.view.panels.TabContent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 

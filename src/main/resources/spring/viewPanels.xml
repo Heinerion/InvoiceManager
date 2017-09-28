@@ -9,11 +9,11 @@
 
     <bean class="de.heinerion.betriebe.view.panels.home.receiver.PrintButtonPanel"/>
     <bean class="de.heinerion.betriebe.view.panels.home.GlassPaneImpl"/>
-    <bean class="de.heinerion.betriebe.view.panels.ContentTabPaneImpl">
+    <bean class="de.heinerion.betriebe.view.panels.tab.ContentTabPaneImpl">
         <constructor-arg>
             <list value-type="de.heinerion.betriebe.view.panels.TabContent">
-                <bean class="de.heinerion.betriebe.view.panels.LetterTabContent"/>
-                <bean class="de.heinerion.betriebe.view.panels.InvoiceTabContent"/>
+                <bean class="de.heinerion.betriebe.view.panels.tab.LetterTabContent"/>
+                <bean class="de.heinerion.betriebe.view.panels.tab.InvoiceTabContent"/>
             </list>
         </constructor-arg>
     </bean>

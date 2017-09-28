@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.panels;
+package de.heinerion.betriebe.view.panels.tab;
 
 class GuiPanelException extends RuntimeException {
   GuiPanelException(String message) {
