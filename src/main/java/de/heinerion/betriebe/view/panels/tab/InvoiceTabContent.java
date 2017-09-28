@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.swing.*;
 import javax.swing.table.TableModel;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,24 +25,14 @@ import static java.awt.BorderLayout.*;
 
 @SuppressWarnings("serial")
 class InvoiceTabContent extends AbstractTabContent {
-  // TODO aus TableModel beziehen
-  private static final int COL_NAME = 0;
-  private static final int COL_UNIT = 1;
-  private static final int COL_PRICE = 2;
-  private static final int COL_COUNT = 3;
-
   private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
-
-  // TODO Reihen und Spalten dynamisch
-  private final static int ROWS = 7;
-  private final static int COLS = 4;
-
-  private final List<Item> contentPositions = new ArrayList<>();
-  private List<InvoiceTemplate> templates = new ArrayList<>();
-
+  // TODO rows and cols dynamic
+  private static final int ROWS = 7;
+  private static final int COLS = 4;
+  private List<Item> contentPositions;
+  private List<InvoiceTemplate> templates;
   private JTable tabPositions;
-  private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
-
+  private JComboBox<InvoiceTemplate> templateBox;
   private IO io;
 
   @Autowired
@@ -52,20 +43,22 @@ class InvoiceTabContent extends AbstractTabContent {
 
     initTabPositions();
 
-    JPanel panel = getPanel();
+    setupPanel(getPanel());
+    setUpInteractions();
+  }
+
+  private void initTabPositions() {
+    TableModel model = new InvoiceTableModel(getContentPositions());
+    model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
+    setTabPositions(new JTable(model));
+  }
+
+  private void setupPanel(JPanel panel) {
     panel.setLayout(new BorderLayout());
 
     panel.add(createTemplatePnl(), PAGE_START);
     panel.add(createTablePnl(), CENTER);
     panel.add(createFooterPnl(), PAGE_END);
-
-    setUpInteractions();
-  }
-
-  private void initTabPositions() {
-    TableModel model = new InvoiceTableModel(contentPositions);
-    model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
-    tabPositions = new JTable(model);
   }
 
   private JPanel createTemplatePnl() {
@@ -73,7 +66,7 @@ class InvoiceTabContent extends AbstractTabContent {
 
     templatePnl.setOpaque(false);
     templatePnl.add(createTemplateLbl(), LINE_START);
-    templatePnl.add(templateBox, CENTER);
+    templatePnl.add(getTemplateBox(), CENTER);
     templatePnl.add(createTemplateSaveBtn(), LINE_END);
 
     return templatePnl;
@@ -95,7 +88,7 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void saveTemplate() {
-    Item item = contentPositions.get(0);
+    Item item = getContentPositions().get(0);
     if (isNotEmpty(item)) {
       addToTemplates(item);
     }
@@ -124,8 +117,8 @@ class InvoiceTabContent extends AbstractTabContent {
   private InvoiceTemplate createTemplate() {
     InvoiceTemplate result = null;
 
-    if (tabPositions.getModel() instanceof InvoiceTableModel) {
-      TableModel tableModel = tabPositions.getModel();
+    TableModel tableModel = getTableModel();
+    if (tableModel instanceof InvoiceTableModel) {
       InvoiceTableModel model = (InvoiceTableModel) tableModel;
       result = model.createVorlage();
     }
@@ -133,19 +126,31 @@ class InvoiceTabContent extends AbstractTabContent {
     return result;
   }
 
+  private TableModel getTableModel() {
+    return getTabPositions().getModel();
+  }
+
   @Override
   public void refresh() {
     List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
-    if (!activeTemplates.equals(templates)) {
-      templateBox.removeAllItems();
-      activeTemplates.forEach(templateBox::addItem);
-      templates = activeTemplates;
+    if (!activeTemplates.equals(getTemplates())) {
+      clearTemplates();
+      addTemplates(activeTemplates);
+      setTemplates(activeTemplates);
     }
     Session.setActiveConveyable(getContent());
   }
 
+  private void clearTemplates() {
+    getTemplateBox().removeAllItems();
+  }
+
+  private void addTemplates(List<InvoiceTemplate> templates) {
+    templates.forEach(getTemplateBox()::addItem);
+  }
+
   private JScrollPane createTablePnl() {
-    return new JScrollPane(tabPositions);
+    return new JScrollPane(getTabPositions());
   }
 
   private JPanel createFooterPnl() {
@@ -153,13 +158,17 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void setUpInteractions() {
-    templateBox.addActionListener(e -> updateSelection());
+    addTemplateBoxListener(e -> updateSelection());
+  }
+
+  private void addTemplateBoxListener(ActionListener actionListener) {
+    getTemplateBox().addActionListener(actionListener);
   }
 
   private void updateSelection() {
-    int pos = templateBox.getSelectedIndex();
+    int pos = getTemplateBox().getSelectedIndex();
     if (pos >= 0) {
-      // Überschreibe Tabelleninhalt mit Vorlage
+      // replace table positions with those of the template
       String[][] table;
       List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
       table = activeTemplates.get(pos).getInhalt();
@@ -180,11 +189,12 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void fillCell(int row, int col, String content) {
-    Class<?> colClass = tabPositions.getColumnClass(col);
+    JTable positions = getTabPositions();
+    Class<?> colClass = positions.getColumnClass(col);
     if (String.class.equals(colClass)) {
-      tabPositions.setValueAt(content, row, col);
+      positions.setValueAt(content, row, col);
     } else if (Double.class.equals(colClass)) {
-      tabPositions.setValueAt(ParsingUtil.parseDouble(content), row, col);
+      positions.setValueAt(ParsingUtil.parseDouble(content), row, col);
     } else {
       throw new GuiPanelException("Invalid column class " + colClass.getSimpleName());
     }
@@ -192,31 +202,34 @@ class InvoiceTabContent extends AbstractTabContent {
 
   @Override
   protected void clear() {
-    for (int i = 0; i < ROWS; i++) {
-      for (int j = 0; j < COLS; j++) {
-        // Alle Zellen überschreiben
-        tabPositions.setValueAt("", i, j);
+    clearPositions();
+  }
+
+  private void clearPositions() {
+    for (int i = 0; i < getRows(); i++) {
+      for (int j = 0; j < getCols(); j++) {
+        // overwrite all rows
+        getTabPositions().setValueAt("", i, j);
       }
     }
   }
 
   /**
-   * Bestimmt den Index der gesuchten Eintrags in der gegebenen Liste TODO
-   * index(String, ArrayList) in DropListeable schieben
+   * Determines the entries' index in the given list
    *
-   * @param name Der Name des Eintrags
-   * @param list Die zu durchsuchende Liste
-   * @return Den Index des Eintrags oder -1, wenn nicht vorhanden
+   * @param name name of the entry
+   * @param list the list to search in
+   * @return the index of the entry or -1 if not found
    */
   private <T extends DropListable> int index(String name, List<T> list) {
     int index = -1;
 
-    for (T vorlage : list) {
-      if (vorlage.getName().equals(name)) {
+    for (T template : list) {
+      if (template.getName().equals(name)) {
         if (logger.isDebugEnabled()) {
-          logger.debug("{} = {}", vorlage.getName(), name);
+          logger.debug("{} = {}", template.getName(), name);
         }
-        index = list.indexOf(vorlage);
+        index = list.indexOf(template);
       }
     }
 
@@ -230,17 +243,16 @@ class InvoiceTabContent extends AbstractTabContent {
 
     Invoice invoice = new Invoice(Session.getDate(), company, receiver);
 
-    // TODO warum +1?
+    // TODO why +1?
     for (int row = 0; row < Invoice.getDefaultLineCount() + 1; row++) {
-      String name = stringAt(row, COL_NAME);
-      String unit = stringAt(row, COL_UNIT);
-      Double price = doubleAt(row, COL_PRICE);
-      Double count = doubleAt(row, COL_COUNT);
+      String name = stringAt(row, Col.NAME);
+      String unit = stringAt(row, Col.UNIT);
+      Double price = doubleAt(row, Col.PRICE);
+      Double count = doubleAt(row, Col.COUNT);
 
       if (StringUtil.isEmpty(unit)) {
         if (!StringUtil.isEmpty(name)) {
-          // Außer Bezeichnung alles leer →
-          // Multispalte
+          // Nothing but a description? → multi column
           invoice.add(name, null, 0, 0);
         }
       } else {
@@ -251,21 +263,87 @@ class InvoiceTabContent extends AbstractTabContent {
     return invoice;
   }
 
-  private String stringAt(int row, int col) {
+  private String stringAt(int row, Col col) {
     String result = null;
-    Object value = tabPositions.getValueAt(row, col);
+    Object value = getPositionAt(row, col);
     if (value instanceof String) {
       result = (String) value;
     }
     return result;
   }
 
-  private Double doubleAt(int row, int col) {
+  private Double doubleAt(int row, Col col) {
     Double result = null;
-    Object value = tabPositions.getValueAt(row, col);
+    Object value = getPositionAt(row, col);
     if (value instanceof Double) {
       result = (Double) value;
     }
     return result;
+  }
+
+  private Object getPositionAt(int row, Col col) {
+    return getTabPositions().getValueAt(row, col.pos);
+  }
+
+  private int getRows() {
+    return ROWS;
+  }
+
+  private int getCols() {
+    return COLS;
+  }
+
+  private List<Item> getContentPositions() {
+    if (contentPositions == null) {
+      contentPositions = new ArrayList<>();
+    }
+
+    return contentPositions;
+  }
+
+  private List<InvoiceTemplate> getTemplates() {
+    if (templates == null) {
+      setTemplates(new ArrayList<>());
+    }
+
+    return templates;
+  }
+
+  private void setTemplates(List<InvoiceTemplate> templates) {
+    this.templates = templates;
+  }
+
+  private JTable getTabPositions() {
+    return tabPositions;
+  }
+
+  private void setTabPositions(JTable tabPositions) {
+    this.tabPositions = tabPositions;
+  }
+
+  private JComboBox<InvoiceTemplate> getTemplateBox() {
+    if (templateBox == null) {
+      templateBox = new JComboBox<>();
+    }
+
+    return templateBox;
+  }
+
+  public IO getIo() {
+    return io;
+  }
+
+  public void setIo(IO io) {
+    this.io = io;
+  }
+
+  private enum Col {
+    NAME(0), UNIT(1), PRICE(2), COUNT(3);
+
+    protected final int pos;
+
+    Col(int pos) {
+      this.pos = pos;
+    }
   }
 }
