@@ -3,6 +3,7 @@ package de.heinerion.betriebe.view.panels.home;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.view.menu.MenuFactory;
 import de.heinerion.betriebe.view.panels.ApplicationFrame;
 import de.heinerion.betriebe.view.panels.CompanyListener;
@@ -10,8 +11,6 @@ import de.heinerion.betriebe.view.panels.ContentTabPane;
 import de.heinerion.util.DateUtil;
 import de.heinerion.util.DimensionUtil;
 import de.heinerion.util.Translator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
@@ -29,8 +28,6 @@ import java.util.List;
 @SuppressWarnings("serial")
 class ApplicationFrameImpl implements
     ApplicationFrame, CompanyListener, DateListener {
-  private static final Logger LOGGER = LogManager.getLogger(ApplicationFrameImpl.class);
-
   private JFrame frame;
 
   private Refreshable receiverPanel;
@@ -87,14 +84,14 @@ class ApplicationFrameImpl implements
     Session.addDateListener(this);
 
     frame.addWindowListener(getShutDownAdapter());
+    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
   }
 
   private WindowAdapter getShutDownAdapter() {
     return new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
-        LOGGER.info("Planmäßig heruntergefahren.");
-        java.lang.System.exit(0);
+        ConfigurationService.exitApplication();
       }
     };
   }

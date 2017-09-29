@@ -82,4 +82,13 @@ public class ConfigurationService {
       super("property file '" + fileName + "' could not be read", t);
     }
   }
+
+  private static void close() {
+    getContext().close();
+  }
+
+  public static void exitApplication() {
+    close();
+    LOGGER.info("Planmäßig heruntergefahren.");
+  }
 }
