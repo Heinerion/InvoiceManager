@@ -7,14 +7,9 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.util.LookAndFeelUtil;
-import de.heinerion.betriebe.view.panels.ApplicationFrame;
-import de.heinerion.betriebe.view.panels.PanelFactory;
-import de.heinerion.betriebe.view.panels.ProgressIndicator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.swing.*;
 
 /**
  * @author heiner
@@ -22,16 +17,13 @@ import javax.swing.*;
 final class InvoiceManager {
   private static final Logger LOGGER = LogManager.getLogger(InvoiceManager.class);
 
-  private static final long ONE_SECOND = 1000L;
-
-  private final ApplicationFrame applicationFrame;
-  private IO io;
+  private SwingStarter swingStarter;
+  private GuiStarter starter;
 
   @Autowired
-  InvoiceManager(IO io, ApplicationFrame applicationFrame) {
-    this.io = io;
-    this.applicationFrame = applicationFrame;
-
+  InvoiceManager(IO io, SwingStarter swingStarter) {
+    this.swingStarter = swingStarter;
+    this.starter = swingStarter;
     DataBase.setIo(io);
   }
 
@@ -45,7 +37,6 @@ final class InvoiceManager {
 
   void invoke(String[] args) {
     parseArguments(args);
-    setup();
     start();
   }
 
@@ -66,65 +57,14 @@ final class InvoiceManager {
       case "debug":
         Session.isDebugMode(true);
         break;
+      case "swing":
+        starter = swingStarter;
+        break;
     }
-  }
-
-  @LogBefore
-  private void setup() {
   }
 
   @LogBefore
   private void start() {
-    prepareApplicationFrame(applicationFrame.getFrame());
-    startDataThread(applicationFrame);
-  }
-
-  private void prepareApplicationFrame(JFrame frame) {
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-  }
-
-  @LogBefore
-  private void startDataThread(ApplicationFrame applicationFrame) {
-    new Thread(() -> collectData(applicationFrame)).start();
-  }
-
-  private void collectData(ApplicationFrame applicationFrame) {
-    ProgressIndicator progress = PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
-
-    // registerListenersAndLoaders needs to be called explicitly here
-    // instead of in its constructor to avoid multiple registrations
-    io.registerListenersAndLoaders();
-    io.load(progress);
-    applicationFrame.refresh();
-
-    waitASecond();
-    // only needed for testing.
-    // In tests the applicationFrame is disposed before {@code waitASecond} returns
-    if (progress != null)
-    {
-      progress.setEnabled(false);
-    }
-  }
-
-  private ProgressIndicator getProgressBarIndicator(ApplicationFrame applicationFrame) {
-    return PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
-  }
-
-  private void waitASecond() {
-    try {
-      Thread.sleep(ONE_SECOND);
-    } catch (final InterruptedException e) {
-      if (LOGGER.isErrorEnabled()) {
-        LOGGER.error(e);
-      }
-      throw new ThreadWaitException(e);
-    }
-  }
-
-  private static class ThreadWaitException extends RuntimeException {
-    ThreadWaitException(Throwable t) {
-      super(t);
-    }
+     starter.showInterface();
   }
 }

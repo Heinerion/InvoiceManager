@@ -2,6 +2,7 @@ package de.heinerion.betriebe;
 
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.view.panels.ApplicationFrame;
 import de.heinerion.betriebe.view.panels.PanelFactory;
 import de.heinerion.betriebe.view.panels.PanelSides;
@@ -33,16 +34,20 @@ public class InvoiceManagerTest {
   private JFrame frame;
 
   @Mock
-  private JProgressBar progressBar;
-
-  @Mock
   private ApplicationFrame applicationFrame;
 
+  @Mock
+  private IO io;
+
   @InjectMocks
+  private SwingStarter swingStarter;
+
   private InvoiceManager manager;
 
   @Before
   public void setUp() {
+    manager = new InvoiceManager(io, swingStarter);
+
     mockStatic(PanelFactory.class);
     when(PanelFactory.createBackgroundPanel(Matchers.<PanelSides>anyVararg())).thenReturn(new JPanel());
 

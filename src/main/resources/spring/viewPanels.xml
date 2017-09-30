@@ -7,6 +7,8 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
+    <bean class="de.heinerion.betriebe.SwingStarter"/>
+
     <bean class="de.heinerion.betriebe.view.panels.home.receiver.PrintButtonPanel"/>
     <bean class="de.heinerion.betriebe.view.panels.home.GlassPaneImpl"/>
     <bean class="de.heinerion.betriebe.view.panels.tab.ContentTabPaneImpl">
