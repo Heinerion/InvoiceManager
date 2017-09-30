@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Properties;
 
 public class ConfigurationService {
@@ -23,19 +24,22 @@ public class ConfigurationService {
   }
 
   public static <T> T getBean(Class<T> requiredType) {
-    return (T) getContext().getBean(requiredType);
+    return getContext()
+        .orElseGet(() -> context = createContext())
+        .getBean(requiredType);
+  }
+
+  private static ClassPathXmlApplicationContext createContext() {
+    LOGGER.info("create new application context");
+    return new ClassPathXmlApplicationContext("spring/applicationContext.xml");
   }
 
   public static String get(String key) {
     return getConfig().getProperty(key);
   }
 
-  private static AbstractApplicationContext getContext() {
-    if (context == null) {
-      context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
-    }
-
-    return context;
+  private static Optional<AbstractApplicationContext> getContext() {
+    return Optional.ofNullable(context);
   }
 
   private static Properties getConfig() {
@@ -52,7 +56,7 @@ public class ConfigurationService {
     loadPropertiesFile("configuration.properties");
     loadPropertiesFile("git.properties");
 
-    getContext().registerShutdownHook();
+    getContext().ifPresent(AbstractApplicationContext::registerShutdownHook);
   }
 
   private static void loadPropertiesFile(String propFileName) {
@@ -77,18 +81,18 @@ public class ConfigurationService {
     }
   }
 
-  private static class PropertiesCouldNotBeReadException extends RuntimeException {
-    PropertiesCouldNotBeReadException(String fileName, Throwable t) {
-      super("property file '" + fileName + "' could not be read", t);
-    }
-  }
-
   private static void close() {
-    getContext().close();
+    getContext().ifPresent(AbstractApplicationContext::close);
   }
 
   public static void exitApplication() {
     close();
     LOGGER.info("Planmäßig heruntergefahren.");
+  }
+
+  private static class PropertiesCouldNotBeReadException extends RuntimeException {
+    PropertiesCouldNotBeReadException(String fileName, Throwable t) {
+      super("property file '" + fileName + "' could not be read", t);
+    }
   }
 }
