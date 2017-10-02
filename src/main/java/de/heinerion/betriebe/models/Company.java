@@ -2,14 +2,12 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.Loadable;
-import de.heinerion.betriebe.models.interfaces.Addressable;
-import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.util.PathUtil;
 
 import java.io.File;
 import java.text.Collator;
 
-public final class Company implements Addressable, Storable, Loadable {
+public final class Company implements Storable, Loadable {
   private final String descriptiveName;
   private final String officialName;
   private final Address address;
@@ -47,7 +45,6 @@ public final class Company implements Addressable, Storable, Loadable {
     return account;
   }
 
-  @Override
   public Address getAddress() {
     return this.address;
   }

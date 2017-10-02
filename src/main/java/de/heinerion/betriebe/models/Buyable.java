@@ -1,10 +1,5 @@
-package de.heinerion.betriebe.models.interfaces;
+package de.heinerion.betriebe.models;
 
-/**
- * FCoI...
- *
- * @author heiner
- */
 public interface Buyable {
   String getName();
 

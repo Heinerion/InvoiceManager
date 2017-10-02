@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.models.interfaces.Buyable;
-
 public final class Item implements Buyable {
   private Product product;
   private double quantity;

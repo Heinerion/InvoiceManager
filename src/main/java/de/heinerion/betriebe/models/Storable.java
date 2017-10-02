@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.models.interfaces;
+package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.util.PathTools;
 

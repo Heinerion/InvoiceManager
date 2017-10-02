@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.models.interfaces.Addressable;
-import de.heinerion.betriebe.models.interfaces.Storable;
+import de.heinerion.betriebe.models.Addressable;
+import de.heinerion.betriebe.models.Storable;
 import de.heinerion.betriebe.util.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,8 +51,8 @@ public class TextFileLoader {
     setWriter(new TextFileWriter());
   }
 
-  private void addAddress(Addressable addressable) {
-    Address address = addressable.getAddress();
+  private void addAddress(Company company) {
+    Address address = company.getAddress();
 
     attributes.put(specify(ADDRESS, RECIPIENT), address.getRecipient());
     attributes.put(specify(ADDRESS, COMPANY), address.getCompany());

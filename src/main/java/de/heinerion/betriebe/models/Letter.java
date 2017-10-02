@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.models.interfaces.Storable;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.util.StringUtil;
 

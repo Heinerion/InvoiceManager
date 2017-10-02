@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.util;
 
-import de.heinerion.betriebe.models.interfaces.Storable;
+import de.heinerion.betriebe.models.Storable;
 
 import java.io.File;
 import java.util.Collections;
