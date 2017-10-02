@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.loading;
 
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 

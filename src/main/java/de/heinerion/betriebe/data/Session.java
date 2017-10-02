@@ -6,8 +6,8 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.view.panels.ApplicationFrame;
-import de.heinerion.betriebe.view.panels.CompanyListener;
+import de.heinerion.betriebe.view.swing.ApplicationFrame;
+import de.heinerion.betriebe.view.swing.CompanyListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

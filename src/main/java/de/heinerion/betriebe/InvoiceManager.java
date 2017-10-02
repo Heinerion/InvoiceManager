@@ -6,6 +6,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.view.swing.SwingStarter;
 import de.heinerion.util.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,11 +61,13 @@ final class InvoiceManager {
       case "swing":
         starter = swingStarter;
         break;
+      default:
+        break;
     }
   }
 
   @LogBefore
   private void start() {
-     starter.showInterface();
+    starter.showInterface();
   }
 }

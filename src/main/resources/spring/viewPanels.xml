@@ -7,18 +7,18 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <bean class="de.heinerion.betriebe.SwingStarter"/>
+    <bean class="de.heinerion.betriebe.view.swing.SwingStarter"/>
 
-    <bean class="de.heinerion.betriebe.view.panels.home.receiver.PrintButtonPanel"/>
-    <bean class="de.heinerion.betriebe.view.panels.home.GlassPaneImpl"/>
-    <bean class="de.heinerion.betriebe.view.panels.tab.ContentTabPaneImpl">
+    <bean class="de.heinerion.betriebe.view.swing.home.receiver.PrintButtonPanel"/>
+    <bean class="de.heinerion.betriebe.view.swing.home.GlassPaneImpl"/>
+    <bean class="de.heinerion.betriebe.view.swing.tab.ContentTabPaneImpl">
         <constructor-arg>
-            <list value-type="de.heinerion.betriebe.view.panels.TabContent">
-                <bean class="de.heinerion.betriebe.view.panels.tab.LetterTabContent"/>
-                <bean class="de.heinerion.betriebe.view.panels.tab.InvoiceTabContent"/>
+            <list value-type="de.heinerion.betriebe.view.swing.TabContent">
+                <bean class="de.heinerion.betriebe.view.swing.tab.LetterTabContent"/>
+                <bean class="de.heinerion.betriebe.view.swing.tab.InvoiceTabContent"/>
             </list>
         </constructor-arg>
     </bean>
-    <bean class="de.heinerion.betriebe.view.panels.home.receiver.ReceiverPanelImpl"/>
-    <bean class="de.heinerion.betriebe.view.panels.home.ApplicationFrameImpl"/>
+    <bean class="de.heinerion.betriebe.view.swing.home.receiver.ReceiverPanelImpl"/>
+    <bean class="de.heinerion.betriebe.view.swing.home.ApplicationFrameImpl"/>
 </beans>

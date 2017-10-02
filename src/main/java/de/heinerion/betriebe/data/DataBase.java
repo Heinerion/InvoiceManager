@@ -7,8 +7,8 @@ import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.loading.Loadable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.betriebe.view.menu.tablemodels.archive.ArchivedInvoiceTable;
+import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
