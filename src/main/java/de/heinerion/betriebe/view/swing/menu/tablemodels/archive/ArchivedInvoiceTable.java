@@ -1,8 +1,8 @@
 package de.heinerion.betriebe.view.swing.menu.tablemodels.archive;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.columns.*;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.columns.*;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -118,14 +118,17 @@ public final class ArchivedInvoiceTable implements TableModel {
         .stream()
         .map(ArchivedInvoice::getCompany)
         .distinct()
-        .forEach(c -> c
-            .setInvoiceNumber(getUnfilteredInvoiceList()
-                .stream()
-                .filter(filterByCompany(c))
-                .mapToInt(ArchivedInvoice::getInvoiceNumber)
-                .max()
-                .orElse(0)
-            )
+        .forEach(c -> {
+              c.setInvoiceNumber(getUnfilteredInvoiceList()
+                  .stream()
+                  .filter(filterByCompany(c))
+                  .mapToInt(ArchivedInvoice::getInvoiceNumber)
+                  .max()
+                  .orElse(0)
+              );
+
+              Session.notifyCompany();
+            }
         );
   }
 

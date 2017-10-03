@@ -79,6 +79,7 @@ class InvoiceNumbersMenu extends AbstractMenu {
     getBtnOk().addActionListener(arg0 -> {
       for (Company c : Session.getAvailableCompanies()) {
         c.setInvoiceNumber(calculateInvoiceNumber(numbers.get(c).getValue() + ""));
+        Session.notifyCompany();
       }
 
       getCloser().windowClosing(null);

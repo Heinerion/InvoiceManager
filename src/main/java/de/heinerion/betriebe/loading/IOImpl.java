@@ -6,12 +6,12 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.util.Translator;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.betriebe.util.PathUtil;
-import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.view.swing.ProgressIndicator;
+import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.util.FormatUtil;
+import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,7 +25,7 @@ class IOImpl implements IO, LoadListener {
   private static final Logger logger = LogManager.getLogger(IOImpl.class);
   private static final LoadingManager loadingManager = new LoadingManager();
   private static Serializer fileLoader = new TextFileLoader();
-  private static boolean registered;
+  private boolean registered;
   private ProgressIndicator progress;
 
   private String lastMessage;
@@ -148,6 +148,11 @@ class IOImpl implements IO, LoadListener {
    */
   @Override
   public void load(ProgressIndicator indicator) {
+    if (!registered) {
+      registerListenersAndLoaders();
+      registered = true;
+    }
+
     loadingManager.determineFileNumbers();
     progress = indicator;
     final int number = loadingManager.getFileNumber();
@@ -167,19 +172,14 @@ class IOImpl implements IO, LoadListener {
     }
   }
 
-  @Override
-  public void registerListenersAndLoaders() {
-    registerToLoadingManager();
-
-    addLoader(Address.class);
-    addLoader(Company.class, this::continueWithCompany);
-  }
-
-  private void registerToLoadingManager() {
+  private void registerListenersAndLoaders() {
     if (logger.isDebugEnabled()) {
       logger.debug("setup Loaders");
     }
     loadingManager.addListener(this);
+
+    addLoader(Company.class, this::continueWithCompany);
+    addLoader(Address.class);
   }
 
   private void continueWithCompany(Loadable loadable) {

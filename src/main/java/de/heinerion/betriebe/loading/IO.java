@@ -13,6 +13,4 @@ public interface IO {
   void load();
 
   void load(ProgressIndicator indicator);
-
-  void registerListenersAndLoaders();
 }

@@ -40,9 +40,6 @@ public class SwingStarter implements GuiStarter {
   private void collectData(ApplicationFrame applicationFrame) {
     ProgressIndicator progress = PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
 
-    // registerListenersAndLoaders needs to be called explicitly here
-    // instead of in its constructor to avoid multiple registrations
-    io.registerListenersAndLoaders();
     io.load(progress);
     applicationFrame.refresh();
 

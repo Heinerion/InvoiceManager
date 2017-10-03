@@ -12,6 +12,12 @@ public final class Address implements Storable, Loadable {
   private String recipient;
   private String street;
 
+
+  /**
+   * For persistence only
+   */
+  private Address(){}
+
   public Address(String company, String street, String number,
                  String postalCode, String location) {
     this("", company, "", street, number, "", postalCode, location);
