@@ -31,8 +31,6 @@ public final class Session {
   private static LocalDate date;
   private static boolean debugMode = false;
 
-  private static ApplicationFrame applicationFrame;
-
   /**
    * Hides the default public Constructor
    */
@@ -187,9 +185,4 @@ public final class Session {
     }
     getDateListeners().forEach(DateListener::notifyDate);
   }
-
-  public static void setApplicationFrame (ApplicationFrame frame) {
-    applicationFrame = frame;
-  }
-
 }

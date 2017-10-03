@@ -67,7 +67,5 @@ public class SessionPreparer {
             .withReceiver(Session.getActiveAddress())
             .build()
     ));
-
-    getApplicationFrame().ifPresent(Session::setApplicationFrame);
   }
 }
