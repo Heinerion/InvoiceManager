@@ -24,7 +24,7 @@ import java.util.function.Function;
 class IOImpl implements IO, LoadListener {
   private static final Logger logger = LogManager.getLogger(IOImpl.class);
   private static final LoadingManager loadingManager = new LoadingManager();
-  private static TextFileLoader fileLoader = new TextFileLoader();
+  private static Serializer fileLoader = new TextFileLoader();
   private static boolean registered;
   private ProgressIndicator progress;
 

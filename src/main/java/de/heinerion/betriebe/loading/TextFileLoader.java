@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Deprecated
-public class TextFileLoader {
+public class TextFileLoader implements Serializer {
   private static final String ADDRESS = "Address";
   private static final String ITEM = "Item";
   private static final String LINE = "Line";
@@ -144,6 +144,7 @@ public class TextFileLoader {
     writeAttributes(generatePath(address));
   }
 
+  @Override
   public void saveAddresses(List<Address> addresses)
       throws IOException {
     for (Address address : addresses) {
@@ -158,6 +159,7 @@ public class TextFileLoader {
     }
   }
 
+  @Override
   public void saveCompanies(List<Company> companies)
       throws IOException {
     for (Company company : companies) {
@@ -178,6 +180,7 @@ public class TextFileLoader {
     writeAttributes(generatePath(invoice));
   }
 
+  @Override
   public void saveInvoices(List<Invoice> invoices)
       throws IOException {
     for (Invoice invoice : invoices) {
@@ -192,6 +195,7 @@ public class TextFileLoader {
     writeAttributes(generatePath(letter));
   }
 
+  @Override
   public void saveLetters(List<Letter> letters)
       throws IOException {
     for (Letter letter : letters) {
