@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TemplateManagerTest {
-  TemplateManager manager;
-  List<InvoiceTemplate> templates;
+  private TemplateManager manager;
+  private List<InvoiceTemplate> templates;
 
   @Before
   public void setUp() throws Exception {
@@ -28,13 +28,15 @@ public class TemplateManagerTest {
   @Test
   public void roundTripBeauty() throws Exception {
     manager = new TemplateManager();
+    manager.setBeautify(true);
 
     File out = new File("templatesBeauty.xml");
-    manager.marshalTemplates(templates, out);
+    manager.marshal(templates, out);
 
     List<InvoiceTemplate> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(templates), map(result));
   }
 
@@ -49,11 +51,12 @@ public class TemplateManagerTest {
     manager = new TemplateManager();
 
     File out = new File("templatesUgly.xml");
-    manager.marshalTemplates(templates, out);
+    manager.marshal(templates, out);
 
     List<InvoiceTemplate> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(templates), map(result));
   }
 }

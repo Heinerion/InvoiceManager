@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CompanyManagerTest {
-  CompanyManager manager;
-  List<Company> companies;
+  private CompanyManager manager;
+  private List<Company> companies;
 
   @Before
   public void setUp() throws Exception {
@@ -28,14 +28,16 @@ public class CompanyManagerTest {
 
   @Test
   public void roundTripBeauty() throws Exception {
-    manager = new CompanyManager(true);
+    manager = new CompanyManager();
+    manager.setBeautify(true);
 
     File out = new File("companiesBeauty.xml");
-    manager.marshalCompanies(companies, out);
+    manager.marshal(companies, out);
 
     List<Company> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(companies), map(result));
   }
 
@@ -47,14 +49,15 @@ public class CompanyManagerTest {
 
   @Test
   public void roundTripUgly() throws Exception {
-    manager = new CompanyManager(false);
+    manager = new CompanyManager();
 
     File out = new File("companiesUgly.xml");
-    manager.marshalCompanies(companies, out);
+    manager.marshal(companies, out);
 
     List<Company> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(companies), map(result));
   }
 }

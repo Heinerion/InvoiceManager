@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AddressManagerTest {
-  AddressManager manager;
-  List<Address> addresses;
+  private AddressManager manager;
+  private List<Address> addresses;
 
   @Before
   public void setUp() throws Exception {
@@ -28,14 +28,16 @@ public class AddressManagerTest {
 
   @Test
   public void roundTripBeauty() throws Exception {
-    manager = new AddressManager(true);
+    manager = new AddressManager();
+    manager.setBeautify(true);
 
     File out = new File("addressesBeauty.xml");
-    manager.marshalAddresses(addresses, out);
+    manager.marshal(addresses, out);
 
     List<Address> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(addresses), map(result));
   }
 
@@ -47,14 +49,15 @@ public class AddressManagerTest {
 
   @Test
   public void roundTripUgly() throws Exception {
-    manager = new AddressManager(false);
+    manager = new AddressManager();
 
     File out = new File("addressesUgly.xml");
-    manager.marshalAddresses(addresses, out);
+    manager.marshal(addresses, out);
 
     List<Address> result = manager.unmarshal(out);
-    out.delete();
+    boolean deleted = out.delete();
 
+    Assert.assertTrue(deleted);
     Assert.assertEquals(map(addresses), map(result));
   }
 }
