@@ -73,7 +73,7 @@ public class ApplicationFrameIT {
 
     String baseDir = PathUtil.getBaseDir();
     String folder = Translator.translate("invoice.title");
-    expectedMessages.add("moveFile(\"" + baseDir + "/null/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
+    expectedMessages.add("moveFile(\"" + baseDir + "/System/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
     expectedMessages.add("moveFile(\"" + baseDir + "/" + folder + "/descriptiveName/1  01.05.2017.pdf\", \"1  01.05.2017.pdf\")");
 
     expectedMessages.add("deleteFile(\"1  01.05.2017.aux\")");

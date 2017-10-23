@@ -8,6 +8,7 @@
     <context:property-placeholder location="classpath:configuration.properties"/>
 
     <import resource="boundariesTest.xml"/>
+    <import resource="util.xml"/>
     <import resource="viewTest.xml"/>
 
     <bean class="de.heinerion.betriebe.InvoiceManager"/>
