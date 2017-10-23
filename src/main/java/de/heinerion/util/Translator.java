@@ -28,13 +28,9 @@ public class Translator {
 
     switch (prefix) {
       case "error":
-        resourceName = "error";
-        break;
       case "controls":
-        resourceName = "controls";
-        break;
       case "menu":
-        resourceName = "menu";
+        resourceName = prefix;
         break;
       default:
         resourceName = "base";
