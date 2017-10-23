@@ -2,7 +2,7 @@ package de.heinerion.betriebe.listener;
 
 import de.heinerion.betriebe.boundary.HostSystem;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.betriebe.view.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,11 +18,13 @@ class LatexWriter {
 
   private final HostSystem hostSystem;
   private final LatexGenerator latexGenerator;
+  private final PathUtilNG pathUtil;
 
   @Autowired
-  LatexWriter(LatexGenerator latexGenerator, HostSystem hostSystem) {
-    this.latexGenerator = latexGenerator;
+  LatexWriter(HostSystem hostSystem, LatexGenerator latexGenerator, PathUtilNG pathUtil) {
     this.hostSystem = hostSystem;
+    this.latexGenerator = latexGenerator;
+    this.pathUtil = pathUtil;
   }
 
   void writeFile(Letter letter, File parentFolder, String title) {
@@ -55,8 +57,8 @@ class LatexWriter {
   }
 
   private String changePathFromBaseToSystem(String temp) {
-    String oldRoot = PathUtil.getBaseDir() + File.separator;
-    String destinationRoot = PathUtil.getSystemPath() + File.separator;
+    String oldRoot = pathUtil.getBaseDir() + File.separator;
+    String destinationRoot = pathUtil.getSystemPath() + File.separator;
 
     return temp.replace(oldRoot, destinationRoot);
   }
