@@ -54,7 +54,7 @@ public class PathUtilNG {
     } else if (itemClass.isAssignableFrom(Invoice.class)) {
       folder = ConfigurationService.get("folder.invoices");
     } else {
-      throw new PathUtil.NoValidLetterException(itemClass);
+      throw new NoValidLetterException(itemClass);
     }
 
     return folder;
@@ -74,5 +74,11 @@ public class PathUtilNG {
 
   private String generateFileName(String path, String name, String ending) {
     return path + File.separator + name + "." + ending;
+  }
+
+  private static class NoValidLetterException extends RuntimeException {
+    NoValidLetterException(Class<?> clazz) {
+      super(clazz.getSimpleName() + " is no valid letter extending class");
+    }
   }
 }
