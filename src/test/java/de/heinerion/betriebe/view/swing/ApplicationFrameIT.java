@@ -8,7 +8,8 @@ import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.betriebe.util.PathUtilBuilder;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.util.Translator;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -71,7 +72,8 @@ public class ApplicationFrameIT {
 
     expectedMessages.add("pdflatex \"path\"");
 
-    String baseDir = PathUtil.getBaseDir();
+    PathUtilNG pathUtil = new PathUtilBuilder().build();
+    String baseDir = pathUtil.getBaseDir();
     String folder = Translator.translate("invoice.title");
     expectedMessages.add("moveFile(\"" + baseDir + "/System/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
     expectedMessages.add("moveFile(\"" + baseDir + "/" + folder + "/descriptiveName/1  01.05.2017.pdf\", \"1  01.05.2017.pdf\")");

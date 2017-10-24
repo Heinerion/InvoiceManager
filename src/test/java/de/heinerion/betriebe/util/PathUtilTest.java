@@ -27,7 +27,7 @@ public class PathUtilTest {
   public void setUp() throws Exception {
     baseDir = combine(java.lang.System.getProperty("user.home"), property("folder.data"));
 
-    pathUtil = new PathUtilNG();
+    pathUtil = new PathUtilBuilder().build();
   }
 
   @Test
