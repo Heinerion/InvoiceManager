@@ -3,8 +3,8 @@ package de.heinerion.betriebe.listener;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.util.DateUtil;
-import de.heinerion.betriebe.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
@@ -16,15 +16,19 @@ import java.io.File;
 class MainOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
-  private LatexWriter latexWriter;
+
   private IO io;
+  private LatexWriter latexWriter;
+  private PathUtilNG pathUtil;
+
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
   @Autowired
-  MainOperations(LatexWriter latexWriter, IO io) {
-    this.latexWriter = latexWriter;
+  MainOperations(IO io, LatexWriter latexWriter, PathUtilNG pathUtil) {
     this.io = io;
+    this.latexWriter = latexWriter;
+    this.pathUtil = pathUtil;
   }
 
   /**
@@ -94,7 +98,7 @@ class MainOperations {
 
     @Override
     public File getFolder(Letter conveyable) {
-      return new File(PathUtil.determinePath(Letter.class));
+      return new File(pathUtil.determinePath(Letter.class));
     }
   }
 
