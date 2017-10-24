@@ -1,6 +1,7 @@
 package de.heinerion.betriebe.util;
 
 import de.heinerion.betriebe.models.Storable;
+import de.heinerion.betriebe.services.ConfigurationService;
 
 import java.io.File;
 import java.util.Collections;
@@ -12,6 +13,8 @@ public final class PathTools {
   private static final String FOLDER = "folder";
 
   private static final String FILE_ENDING = "fileEnding";
+
+  private static PathUtilNG pathUtil = ConfigurationService.getBean(PathUtilNG.class);
 
   @SuppressWarnings("serial")
   private static final Map<String, Map<String, String>> FILE_INFOS = Collections.unmodifiableMap(generateInfoMap());
@@ -82,14 +85,14 @@ public final class PathTools {
 
   public static String getPath(Class<?> clazz) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
-      return PathUtil.getSystemPath() + File.separator + determineFolderName(clazz);
+      return pathUtil.getSystemPath() + File.separator + determineFolderName(clazz);
     } else {
       throw new NoFileInfoException(clazz);
     }
   }
 
   public static String getPath(Storable storable) {
-    return generatePath(PathUtil.getSystemPath(), storable);
+    return generatePath(pathUtil.getSystemPath(), storable);
   }
 
   static class NoFileInfoException extends RuntimeException {
