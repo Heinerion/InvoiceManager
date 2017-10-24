@@ -7,13 +7,14 @@ import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.util.PathTools;
-import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.betriebe.view.swing.ProgressIndicator;
 import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.util.FormatUtil;
 import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,20 +31,24 @@ class IOImpl implements IO, LoadListener {
 
   private String lastMessage;
 
-  private IOImpl() {
+  private PathUtilNG pathUtil;
+
+  @Autowired
+  private IOImpl(PathUtilNG pathUtil) {
+    this.pathUtil = pathUtil;
   }
 
-  private static String getTemplatePath(Company company) {
-    return PathUtil.getTemplateFileName(company.getDescriptiveName());
+  private String getTemplatePath(Company company) {
+    return pathUtil.getTemplateFileName(company.getDescriptiveName());
   }
 
   /**
    * Lädt die Namen der Vorlage LaTeX Dokumente und erstellt daraus ein
    * TexVorlagenliste
    */
-  private static void ladeSpezielle() {
+  private void ladeSpezielle() {
     List<TexTemplate> templates = new ArrayList<>();
-    File special = new File(PathUtil.getTexTemplatePath());
+    File special = new File(pathUtil.getTexTemplatePath());
     int count = 0;
     String[] specials = special.list();
     if (null != specials) {
@@ -65,11 +70,11 @@ class IOImpl implements IO, LoadListener {
     }
   }
 
-  private static void ladeVorlagen() {
-    Session.getAvailableCompanies().forEach(IOImpl::loadAllTemplates);
+  private void ladeVorlagen() {
+    Session.getAvailableCompanies().forEach(this::loadAllTemplates);
   }
 
-  private static void loadAllTemplates(Company company) {
+  private void loadAllTemplates(Company company) {
     for (InvoiceTemplate template : ladeVorlagen(company)) {
       DataBase.addTemplate(company, template);
     }
@@ -81,7 +86,7 @@ class IOImpl implements IO, LoadListener {
    * @param company Der Betrieb
    * @return Die Betriebsgebundene Vorlagenliste
    */
-  private static List<InvoiceTemplate> ladeVorlagen(Company company) {
+  private List<InvoiceTemplate> ladeVorlagen(Company company) {
     final List<InvoiceTemplate> result = FileHandler.load(new InvoiceTemplate(),
         getTemplatePath(company));
 
@@ -125,11 +130,11 @@ class IOImpl implements IO, LoadListener {
    * @param company  Gibt den betroffenen Betrieb an
    * @see #speichereListe(List, String)
    */
-  private static void speichereVorlagen(List<InvoiceTemplate> vorlagen, Company company) {
+  private void speichereVorlagen(List<InvoiceTemplate> vorlagen, Company company) {
     speichereListe(vorlagen, getTemplatePath(company));
   }
 
-  // TODO an der Effizienz arbeiten...
+  // TODO improve efficiency...
   @Override
   public void updateTemplates(List<InvoiceTemplate> vorlagen) {
     speichereVorlagen(vorlagen, Session.getActiveCompany());
@@ -164,8 +169,8 @@ class IOImpl implements IO, LoadListener {
     loadingManager.load();
     DataBase.getInvoices().determineHighestInvoiceNumbers();
 
-    IOImpl.ladeVorlagen();
-    IOImpl.ladeSpezielle();
+    ladeVorlagen();
+    ladeSpezielle();
 
     if (progress != null) {
       progress.setString(Translator.translate("progress.done"));
