@@ -5,7 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.util.PathUtil;
+import de.heinerion.betriebe.util.PathUtilNG;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -24,7 +24,17 @@ import java.util.function.Predicate;
 public class Migrator {
   private static final Logger logger = LogManager.getLogger(Migrator.class);
 
+  private PathUtilNG pathUtil;
+
+  private Migrator(PathUtilNG pathUtil) {
+    this.pathUtil = pathUtil;
+  }
+
   public static void main(String... args) {
+    new Migrator(new PathUtilNG()).run();
+  }
+
+  private void run() {
     IO io = ConfigurationService.getBean(IO.class);
     io.load();
 
@@ -32,7 +42,7 @@ public class Migrator {
     List<Company> availableCompanies = Session.getAvailableCompanies();
     logger.info("Companies found: " + availableCompanies);
 
-    File appBase = new File(PathUtil.getBaseDir());
+    File appBase = new File(pathUtil.getBaseDir());
     File companiesXmlFile = new File(appBase, "companies.xml");
     new CompanyManager().marshal(availableCompanies, companiesXmlFile);
 
@@ -44,8 +54,8 @@ public class Migrator {
     ConfigurationService.exitApplication();
   }
 
-  private static void migrateCompanyInfo(Company company) {
-    File companyDir = createDir(PathUtil.getBaseDir(), company.getDescriptiveName());
+  private void migrateCompanyInfo(Company company) {
+    File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
     logger.info("created " + companyDir);
 
     transferTemplatesAndAddresses(company, companyDir);
@@ -53,7 +63,7 @@ public class Migrator {
     copyLettersAndInvoices(company, companyDir);
   }
 
-  private static void transferTemplatesAndAddresses(Company company, File companyDir) {
+  private void transferTemplatesAndAddresses(Company company, File companyDir) {
     File templatesXmlFile = new File(companyDir, "templates.xml");
     new TemplateManager().marshal(DataBase.getTemplates(company), templatesXmlFile);
     logger.info("created " + templatesXmlFile);
@@ -63,8 +73,8 @@ public class Migrator {
     logger.info("created " + addressesXmlFile);
   }
 
-  private static void copyLettersAndInvoices(Company company, File companyDir) {
-    File home = new File(PathUtil.getBaseDir());
+  private void copyLettersAndInvoices(Company company, File companyDir) {
+    File home = new File(pathUtil.getBaseDir());
 
     // move letters
     String letterDirName = ConfigurationService.get("folder.letters");
@@ -97,7 +107,7 @@ public class Migrator {
     copyFiles(company, oldInvoiceSrcDir, newInvoiceSrcDir);
   }
 
-  private static void copyFiles(Company company, File oldLetterDir, File newLetterDir) {
+  private void copyFiles(Company company, File oldLetterDir, File newLetterDir) {
     File[] letterPDFs = oldLetterDir.listFiles();
     if (letterPDFs != null) {
       Predicate<File> fileBelongsToCompany = pdf -> isOfCompany(company, pdf);
@@ -109,7 +119,7 @@ public class Migrator {
     }
   }
 
-  private static boolean isOfCompany(Company company, File file) {
+  private boolean isOfCompany(Company company, File file) {
     String author = company.getOfficialName();
 
     if (file.getName().endsWith("pdf")) {
@@ -143,7 +153,7 @@ public class Migrator {
     return false;
   }
 
-  private static void copy(File src, File dest) {
+  private void copy(File src, File dest) {
     try {
       logger.info("\n copy " + src + "\n to   " + dest);
       FileSystemUtils.copyRecursively(src, dest);
@@ -152,11 +162,11 @@ public class Migrator {
     }
   }
 
-  private static File createDir(String parentPath, String name) {
+  private File createDir(String parentPath, String name) {
     return createDir(new File(parentPath), name);
   }
 
-  private static File createDir(File parent, String name) {
+  private File createDir(File parent, String name) {
     File companyFolder = new File(parent, name);
     if (!companyFolder.exists() || !companyFolder.isDirectory()) {
       companyFolder.mkdir();
