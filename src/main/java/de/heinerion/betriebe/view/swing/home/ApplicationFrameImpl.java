@@ -4,10 +4,12 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.view.swing.menu.MenuFactory;
+import de.heinerion.betriebe.view.common.StatusComponent;
 import de.heinerion.betriebe.view.swing.ApplicationFrame;
 import de.heinerion.betriebe.view.swing.CompanyListener;
 import de.heinerion.betriebe.view.swing.ContentTabPane;
+import de.heinerion.betriebe.view.swing.PanelFactory;
+import de.heinerion.betriebe.view.swing.menu.MenuFactory;
 import de.heinerion.util.DateUtil;
 import de.heinerion.util.DimensionUtil;
 import de.heinerion.util.Translator;
@@ -32,14 +34,14 @@ class ApplicationFrameImpl implements
 
   private Refreshable receiverPanel;
 
-  private JProgressBar progressBar;
+  private StatusComponent<JPanel> statusComponent;
   private ContentTabPane contentTabPane;
 
   @Autowired
   ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel) {
     contentTabPane = tabPane;
     this.receiverPanel = receiverPanel;
-    progressBar = new JProgressBar();
+    statusComponent = PanelFactory.createStatusComponent();
     frame = new JFrame();
 
     frame.setGlassPane(glassPane);
@@ -60,14 +62,13 @@ class ApplicationFrameImpl implements
   }
 
   private void createWidgets() {
-    initProgressBar(progressBar);
+    initProgressBar(statusComponent);
   }
 
-  private void initProgressBar(JProgressBar progressBar) {
-    progressBar.setString("Laden der Oberfläche wird vorbereitet");
-    progressBar.setStringPainted(true);
-    progressBar.setOpaque(false);
-    progressBar.setPreferredSize(DimensionUtil.PROGRESS_BAR);
+  private void initProgressBar(StatusComponent progressBar) {
+    progressBar.initProgress();
+    progressBar.setMessage("Laden der Oberfläche wird vorbereitet");
+    progressBar.setSize(DimensionUtil.PROGRESS_BAR);
   }
 
   private void addWidgets() {
@@ -76,7 +77,7 @@ class ApplicationFrameImpl implements
     frame.add(receiverPanel.getPanel(), BorderLayout.LINE_START);
 
     frame.add(contentTabPane.getPane(), BorderLayout.CENTER);
-    frame.add(progressBar, BorderLayout.PAGE_END);
+    frame.add(statusComponent.getContainer(), BorderLayout.PAGE_END);
   }
 
   private void setupInteractions() {
@@ -97,8 +98,8 @@ class ApplicationFrameImpl implements
   }
 
   @Override
-  public JProgressBar getProgressBar() {
-    return progressBar;
+  public StatusComponent getStatusComponent() {
+    return statusComponent;
   }
 
   @Override

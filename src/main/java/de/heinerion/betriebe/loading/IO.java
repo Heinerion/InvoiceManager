@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.view.swing.ProgressIndicator;
+import de.heinerion.betriebe.view.common.StatusComponent;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface IO {
 
   void load();
 
-  void load(ProgressIndicator indicator);
+  void load(StatusComponent<?> indicator);
 }

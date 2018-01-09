@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.view.swing;
 
+import de.heinerion.betriebe.view.common.StatusComponent;
+
 import javax.swing.*;
 
 public class PanelFactory {
@@ -10,7 +12,7 @@ public class PanelFactory {
     return BGPanel.createBackgroundPanel(coloredSides);
   }
 
-  public static ProgressIndicator getProgressIndicator(JProgressBar progressBar) {
-    return new ProgressIndicatorImpl(progressBar);
+  public static StatusComponent<JPanel> createStatusComponent() {
+    return new StatusComponentSwingImpl();
   }
 }

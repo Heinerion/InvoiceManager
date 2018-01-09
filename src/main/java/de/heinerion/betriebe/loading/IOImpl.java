@@ -8,7 +8,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.util.PathTools;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.betriebe.view.swing.ProgressIndicator;
+import de.heinerion.betriebe.view.common.StatusComponent;
 import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.util.FormatUtil;
 import de.heinerion.util.Translator;
@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -27,7 +28,7 @@ class IOImpl implements IO, LoadListener {
   private static final LoadingManager loadingManager = new LoadingManager();
   private static Serializer fileLoader = new TextFileLoader();
   private boolean registered;
-  private ProgressIndicator progress;
+  private StatusComponent<?> progress;
 
   private String lastMessage;
 
@@ -36,6 +37,16 @@ class IOImpl implements IO, LoadListener {
   @Autowired
   private IOImpl(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
+  }
+
+  /**
+   * Speichert übergebene Liste
+   *
+   * @param liste Die zu speichernde Liste
+   * @param pfad  Das Speicherziel
+   */
+  private static void speichereListe(List<?> liste, String pfad) {
+    FileHandler.writeObject(liste, pfad);
   }
 
   private String getTemplatePath(Company company) {
@@ -113,16 +124,6 @@ class IOImpl implements IO, LoadListener {
   }
 
   /**
-   * Speichert übergebene Liste
-   *
-   * @param liste Die zu speichernde Liste
-   * @param pfad  Das Speicherziel
-   */
-  private static void speichereListe(List<?> liste, String pfad) {
-    FileHandler.writeObject(liste, pfad);
-  }
-
-  /**
    * Schreibt die Vorlagen f&uuml;r Dienstleistungen betriebsabh&auml;ngig auf
    * die Festplatte
    *
@@ -152,7 +153,7 @@ class IOImpl implements IO, LoadListener {
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
   @Override
-  public void load(ProgressIndicator indicator) {
+  public void load(StatusComponent<?> indicator) {
     if (!registered) {
       registerListenersAndLoaders();
       registered = true;
@@ -164,7 +165,7 @@ class IOImpl implements IO, LoadListener {
 
     DataBase.removeAllInvoices();
     if (progress != null) {
-      progress.setMaximum(number);
+      progress.setProgressMax(number);
     }
     loadingManager.load();
     DataBase.getInvoices().determineHighestInvoiceNumbers();
@@ -173,7 +174,7 @@ class IOImpl implements IO, LoadListener {
     ladeSpezielle();
 
     if (progress != null) {
-      progress.setString(Translator.translate("progress.done"));
+      progress.setMessage(Translator.translate("progress.done"));
     }
   }
 
@@ -240,15 +241,11 @@ class IOImpl implements IO, LoadListener {
     }
 
     if (progress != null) {
-      int maxValue = progress.getMaximum();
-      int oldValue = progress.getValue();
-      int newValue = oldValue + 1;
-      progress.setValue(newValue);
+      progress.incrementProgress();
 
-      double percentage = (double) newValue / maxValue;
-      String status = message + " ("
-          + FormatUtil.formatPercentage(percentage) + ")";
-      progress.setString(status);
+      double percentage = progress.getProgressPercentage();
+      String status = MessageFormat.format("{0} ({1})", message, FormatUtil.formatPercentage(percentage));
+      progress.setMessage(status);
     }
 
     DataBase.addLoadable(loadable);

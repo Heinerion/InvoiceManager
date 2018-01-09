@@ -3,6 +3,7 @@ package de.heinerion.betriebe.view.swing;
 import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.betriebe.GuiStarter;
 import de.heinerion.betriebe.loading.IO;
+import de.heinerion.betriebe.view.common.StatusComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,7 +39,7 @@ public class SwingStarter implements GuiStarter {
   }
 
   private void collectData(ApplicationFrame applicationFrame) {
-    ProgressIndicator progress = PanelFactory.getProgressIndicator(applicationFrame.getProgressBar());
+    StatusComponent<?> progress = applicationFrame.getStatusComponent();
 
     io.load(progress);
     applicationFrame.refresh();
@@ -47,7 +48,7 @@ public class SwingStarter implements GuiStarter {
     // only needed for testing.
     // In tests the applicationFrame is disposed before {@code waitASecond} returns
     if (progress != null) {
-      progress.setEnabled(false);
+      progress.disposeProgress();
     }
   }
 
