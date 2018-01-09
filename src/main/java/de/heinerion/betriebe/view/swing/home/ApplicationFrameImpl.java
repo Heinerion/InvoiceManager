@@ -67,7 +67,7 @@ class ApplicationFrameImpl implements
 
   private void initProgressBar(StatusComponent progressBar) {
     progressBar.initProgress();
-    progressBar.setMessage("Laden der Oberfläche wird vorbereitet");
+    progressBar.setMessage(Translator.translate("progress.start"));
     progressBar.setSize(DimensionUtil.PROGRESS_BAR);
   }
 
