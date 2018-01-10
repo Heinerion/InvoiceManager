@@ -3,6 +3,7 @@ package de.heinerion.betriebe;
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.loading.IO;
+import de.heinerion.betriebe.view.common.StatusComponent;
 import de.heinerion.betriebe.view.swing.ApplicationFrame;
 import de.heinerion.betriebe.view.swing.PanelFactory;
 import de.heinerion.betriebe.view.swing.PanelSides;
@@ -40,6 +41,9 @@ public class InvoiceManagerTest {
   @Mock
   private IO io;
 
+  @Mock
+  private StatusComponent<JPanel> statusComponent;
+
   @InjectMocks
   private SwingStarter swingStarter;
 
@@ -49,8 +53,11 @@ public class InvoiceManagerTest {
   public void setUp() {
     manager = new InvoiceManager(io, swingStarter);
 
+    when(statusComponent.getContainer()).thenReturn(new JPanel());
+
     mockStatic(PanelFactory.class);
     when(PanelFactory.createBackgroundPanel(Matchers.<PanelSides>anyVararg())).thenReturn(new JPanel());
+    when(PanelFactory.createStatusComponent()).thenReturn(statusComponent);
 
     mockStatic(LookAndFeelUtil.class);
 
