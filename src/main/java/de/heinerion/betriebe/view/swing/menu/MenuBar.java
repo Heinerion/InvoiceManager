@@ -22,6 +22,7 @@ class MenuBar extends JMenuBar {
     menuItems.add(createItem(new ArchiveMenu()));
     menuItems.add(createItem(new InvoiceNumbersMenu()));
     menuItems.add(createItem(new InvoiceDateMenu()));
+    menuItems.add(createItem(new InfoMenu()));
   }
 
   private JMenuItem createItem(Menu menu) {

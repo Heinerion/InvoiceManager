@@ -30,6 +30,7 @@ public class Translator {
       case "error":
       case "controls":
       case "menu":
+      case "info":
         resourceName = prefix;
         break;
       default:
