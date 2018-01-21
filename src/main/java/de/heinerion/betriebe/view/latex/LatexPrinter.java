@@ -1,9 +1,9 @@
-package de.heinerion.betriebe.listener;
+package de.heinerion.betriebe.view.latex;
 
 import de.heinerion.betriebe.boundary.HostSystem;
+import de.heinerion.betriebe.listener.Printer;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.betriebe.view.latex.LatexGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
