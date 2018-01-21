@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
-class LatexWriter {
-  private Logger logger = LogManager.getLogger(LatexWriter.class);
+class LatexPrinter implements Printer {
+  private Logger logger = LogManager.getLogger(LatexPrinter.class);
 
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
@@ -21,13 +21,14 @@ class LatexWriter {
   private final PathUtilNG pathUtil;
 
   @Autowired
-  LatexWriter(HostSystem hostSystem, LatexGenerator latexGenerator, PathUtilNG pathUtil) {
+  LatexPrinter(HostSystem hostSystem, LatexGenerator latexGenerator, PathUtilNG pathUtil) {
     this.hostSystem = hostSystem;
     this.latexGenerator = latexGenerator;
     this.pathUtil = pathUtil;
   }
 
-  void writeFile(Letter letter, File parentFolder, String title) {
+  @Override
+  public void writeFile(Letter letter, File parentFolder, String title) {
     String pathname = determineFilename(title);
     String content = latexGenerator.generateSourceContent(letter);
     File tex = hostSystem.writeToFile(pathname, content);

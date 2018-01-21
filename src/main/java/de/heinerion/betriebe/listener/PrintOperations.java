@@ -18,16 +18,16 @@ class PrintOperations {
   private static final int STATE_INVOICE = 1;
 
   private IO io;
-  private LatexWriter latexWriter;
+  private Printer printer;
   private PathUtilNG pathUtil;
 
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
   @Autowired
-  PrintOperations(IO io, LatexWriter latexWriter, PathUtilNG pathUtil) {
+  PrintOperations(IO io, Printer printer, PathUtilNG pathUtil) {
     this.io = io;
-    this.latexWriter = latexWriter;
+    this.printer = printer;
     this.pathUtil = pathUtil;
   }
 
@@ -47,7 +47,7 @@ class PrintOperations {
     updateState(letter);
 
     SwingUtilities.invokeLater(() -> {
-      latexWriter.writeFile(letter, generatePath(letter), generateTitle(letter));
+      printer.writeFile(letter, generatePath(letter), generateTitle(letter));
 
       io.load();
     });
