@@ -16,6 +16,6 @@
     <bean class="de.heinerion.betriebe.loading.IOImpl"/>
 
     <bean class="de.heinerion.betriebe.listener.LatexWriter"/>
-    <bean class="de.heinerion.betriebe.listener.MainOperations"/>
+    <bean class="de.heinerion.betriebe.listener.PrintOperations"/>
     <bean class="de.heinerion.betriebe.listener.PrintAction"/>
 </beans>

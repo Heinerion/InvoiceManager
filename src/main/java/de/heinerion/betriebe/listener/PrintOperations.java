@@ -13,7 +13,7 @@ import java.io.File;
 /**
  * @author heiner
  */
-class MainOperations {
+class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
@@ -25,7 +25,7 @@ class MainOperations {
   private int state = STATE_LETTER;
 
   @Autowired
-  MainOperations(IO io, LatexWriter latexWriter, PathUtilNG pathUtil) {
+  PrintOperations(IO io, LatexWriter latexWriter, PathUtilNG pathUtil) {
     this.io = io;
     this.latexWriter = latexWriter;
     this.pathUtil = pathUtil;

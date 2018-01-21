@@ -15,11 +15,11 @@ public class PrintAction implements ActionListener {
   private static final Logger logger = LogManager.getLogger(PrintAction.class);
   private Letter letter;
 
-  private MainOperations mainOperations;
+  private PrintOperations printOperations;
 
   @Autowired
-  PrintAction(MainOperations mainOperations) {
-    this.mainOperations = mainOperations;
+  PrintAction(PrintOperations printOperations) {
+    this.printOperations = printOperations;
   }
 
   @Override
@@ -43,7 +43,7 @@ public class PrintAction implements ActionListener {
     }
 
     if (letter.isPrintable()) {
-      mainOperations.createDocument(letter);
+      printOperations.createDocument(letter);
     }
   }
 }
