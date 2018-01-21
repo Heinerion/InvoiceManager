@@ -24,54 +24,54 @@ public class PathUtilTest {
   private static PathUtilNG pathUtil;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     baseDir = combine(java.lang.System.getProperty("user.home"), property("folder.data"));
 
     pathUtil = new PathUtilBuilder().build();
   }
 
   @Test
-  public void getSystemPath() throws Exception {
+  public void getSystemPath() {
     String expected = combine(baseDir, property("folder.system"));
     assertEquals(expected, pathUtil.getSystemPath());
   }
 
   @Test
-  public void getTemplatePath() throws Exception {
+  public void getTemplatePath() {
     String expected = combine(baseDir, property("folder.system"), property("folder.templates"));
     assertEquals(expected, pathUtil.getTemplatePath());
   }
 
   @Test
-  public void getTemplateFolderName() throws Exception {
+  public void getTemplateFolderName() {
     assertEquals(property("folder.templates"), pathUtil.getTemplateFolderName());
   }
 
   @Test
-  public void getTexTemplatePath() throws Exception {
+  public void getTexTemplatePath() {
     String expected = combine(baseDir, property("folder.texTemplates"));
     assertEquals(expected, pathUtil.getTexTemplatePath());
   }
 
   @Test
-  public void determineLetterPath() throws Exception {
+  public void determineLetterPath() {
     String expected = combine(baseDir, property("folder.letters"));
     assertEquals(expected, pathUtil.determinePath(Letter.class));
   }
 
   @Test
-  public void determineInvoicePath() throws Exception {
+  public void determineInvoicePath() {
     String expected = combine(baseDir, property("folder.invoices"));
     assertEquals(expected, pathUtil.determinePath(Invoice.class));
   }
 
   @Test
-  public void getBaseDir() throws Exception {
+  public void getBaseDir() {
     assertEquals(baseDir, pathUtil.getBaseDir());
   }
 
   @Test
-  public void getTemplateFileName() throws Exception {
+  public void getTemplateFileName() {
     String descriptiveName = "descriptiveName";
     String expected = combine(baseDir, property("folder.system"), property("folder.templates"), descriptiveName + ".sav");
     assertEquals(expected, pathUtil.getTemplateFileName(descriptiveName));
