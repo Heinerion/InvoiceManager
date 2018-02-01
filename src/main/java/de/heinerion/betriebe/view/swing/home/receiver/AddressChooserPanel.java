@@ -6,8 +6,8 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.view.swing.PositionCoordinates;
-import de.heinerion.util.Translator;
 import de.heinerion.util.DimensionUtil;
+import de.heinerion.util.Translator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,22 +30,18 @@ class AddressChooserPanel extends AbstractGridPanel {
   private static final int ANY = 0;
   private static final int INSET = 3;
 
-  private JTextArea addressArea;
+  private AddressForm addressForm;
 
   /**
    * ComboBox für Adressen
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  private transient Formatter formatter;
-
   AddressChooserPanel(Formatter formatter) {
-    this.formatter = formatter;
-
     init();
 
     addAddressChooser();
-    addAddressField();
+    addAddressField(formatter);
     addButtons();
   }
 
@@ -104,28 +100,29 @@ class AddressChooserPanel extends AbstractGridPanel {
     this.addressBox.addActionListener(e -> this.useGivenAddress());
   }
 
-  private void addAddressField() {
+  private void addAddressField(Formatter formatter) {
     PositionCoordinates position;
     position = new PositionCoordinates();
     position.setPosY(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    this.addressArea = this.myTextArea(position, ADDRESSFIELD_ROWS,
+    this.addressForm = new AddressForm(formatter);
+    JTextArea addressArea = this.myTextArea(position, ADDRESSFIELD_ROWS,
         ADDRESSFIELD_COLS);
-    // TODO dynamische Größe für die Adressfläche?
-    setSizes(this.addressArea, DimensionUtil.ADDRESS_AREA);
-    this.addressArea.setBackground(Color.WHITE);
+    setSizes(addressArea, DimensionUtil.ADDRESS_AREA);
+    addressArea.setBackground(Color.WHITE);
     // Undurchsichtig (sollte schon so sein)
-    this.addressArea.setOpaque(true);
-    this.addressArea.setBorder(BorderFactory.createEtchedBorder());
+    addressArea.setOpaque(true);
+    addressArea.setBorder(BorderFactory.createEtchedBorder());
+    this.addressForm.setAddressArea(addressArea);
   }
 
   private void clearAddress() {
-    this.addressArea.setText("");
+    this.addressForm.clear();
   }
 
   private void saveAddress() {
-    PanelControl.saveAddress(this.addressArea.getText());
+    PanelControl.saveAddress(this.addressForm.getText());
     this.refreshBoxes();
   }
 
@@ -143,19 +140,6 @@ class AddressChooserPanel extends AbstractGridPanel {
   private void useGivenAddress() {
     final Address address = (Address) this.addressBox.getSelectedItem();
     Session.setActiveAddress(address);
-    String result = null;
-
-    if (address != null) {
-      List<String> out = formatter.formatAddress(address);
-      StringBuilder addressAsText = new StringBuilder();
-      for (String line : out) {
-        addressAsText.append(line)
-            .append("\n");
-      }
-      result = addressAsText.toString();
-    }
-
-    final String addressText = result;
-    this.addressArea.setText(addressText);
+    addressForm.setAddress(address);
   }
 }
