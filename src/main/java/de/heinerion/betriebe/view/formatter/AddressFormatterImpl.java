@@ -17,10 +17,10 @@ class AddressFormatterImpl implements AddressFormatter {
     output = new ArrayList<>();
 
     out(address.getRecipient());
-    optionalOut(address.getCompany());
-    optionalOut(address.getDistrict());
+    address.getCompany().ifPresent(this::out);
+    address.getDistrict().ifPresent(this::out);
     out(address.getStreet() + " " + address.getNumber());
-    optionalOut(address.getApartment());
+    address.getApartment().ifPresent(this::out);
     out(address.getPostalCode() + " " + address.getLocation());
 
     return this;
@@ -28,15 +28,5 @@ class AddressFormatterImpl implements AddressFormatter {
 
   private void out(String message) {
     output.add(message);
-  }
-
-  private void optionalOut(String message) {
-    if (isValidMessage(message)) {
-      out(message);
-    }
-  }
-
-  private boolean isValidMessage(String message) {
-    return null != message && !message.trim().isEmpty();
   }
 }

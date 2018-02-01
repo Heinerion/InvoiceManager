@@ -84,13 +84,13 @@ public final class AddressModel extends AbstractTableModel {
 
     switch (columnId) {
       case APARTMENT:
-        result = address.getApartment();
+        result = address.getApartment().orElse("");
         break;
       case COMPANY:
-        result = address.getCompany();
+        result = address.getCompany().orElse("");
         break;
       case DISTRICT:
-        result = address.getDistrict();
+        result = address.getDistrict().orElse("");
         break;
       case LOCATION:
         result = address.getLocation();

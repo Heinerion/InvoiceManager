@@ -73,17 +73,21 @@ class CompanyLoader extends AbstractTextFileLoader {
         wagesPerHour, bankAccount);
   }
 
+  /*
+   * TODO almost exact copy of de.heinerion.betriebe.loading.AddressLoader.parse
+   */
   private Address getAddress(Map<String, String> attributes) {
-    String recipient = getAddressPart(attributes, RECIPIENT);
-    String company = getAddressPart(attributes, COMPANY);
-    String district = getAddressPart(attributes, DISTRICT);
-    String street = getAddressPart(attributes, STREET);
-    String number = getAddressPart(attributes, NUMBER);
-    String apartment = getAddressPart(attributes, APARTMENT);
-    String postalCode = getAddressPart(attributes, POSTALCODE);
-    String location = getAddressPart(attributes, LOCATION);
+    Address address = new Address();
+    address.setRecipient(getAddressPart(attributes, RECIPIENT));
+    address.setCompany(getAddressPart(attributes, COMPANY));
+    address.setDistrict(getAddressPart(attributes, DISTRICT));
+    address.setStreet(getAddressPart(attributes, STREET));
+    address.setNumber(getAddressPart(attributes, NUMBER));
+    address.setApartment(getAddressPart(attributes, APARTMENT));
+    address.setPostalCode(getAddressPart(attributes, POSTALCODE));
+    address.setLocation(getAddressPart(attributes, LOCATION));
 
-    return new Address(recipient, company, district, street, number, apartment, postalCode, location);
+    return address;
   }
 
   private String getAddressPart(Map<String, String> attributes, String part) {

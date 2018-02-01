@@ -1,8 +1,6 @@
 package de.heinerion.betriebe.loading;
 
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.models.Addressable;
-import de.heinerion.betriebe.models.Storable;
 import de.heinerion.betriebe.util.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,7 +45,7 @@ public class TextFileLoader implements Serializer {
   private Writer writer;
   private Map<String, String> attributes;
 
-  public TextFileLoader() {
+  TextFileLoader() {
     setWriter(new TextFileWriter());
   }
 
@@ -55,11 +53,11 @@ public class TextFileLoader implements Serializer {
     Address address = company.getAddress();
 
     attributes.put(specify(ADDRESS, RECIPIENT), address.getRecipient());
-    attributes.put(specify(ADDRESS, COMPANY), address.getCompany());
-    attributes.put(specify(ADDRESS, DISTRICT), address.getDistrict());
+    attributes.put(specify(ADDRESS, COMPANY), address.getCompany().orElse(null));
+    attributes.put(specify(ADDRESS, DISTRICT), address.getDistrict().orElse(""));
     attributes.put(specify(ADDRESS, STREET), address.getStreet());
     attributes.put(specify(ADDRESS, NUMBER), address.getNumber());
-    attributes.put(specify(ADDRESS, APARTMENT), address.getApartment());
+    attributes.put(specify(ADDRESS, APARTMENT), address.getApartment().orElse(""));
     attributes.put(specify(ADDRESS, POSTCODE), address.getPostalCode());
     attributes.put(specify(ADDRESS, LOCATION), address.getLocation());
   }
@@ -91,11 +89,11 @@ public class TextFileLoader implements Serializer {
 
   private void prepareAddress(Address address) {
     attributes.put(RECIPIENT, address.getRecipient());
-    attributes.put(COMPANY, address.getCompany());
-    attributes.put(DISTRICT, address.getDistrict());
+    attributes.put(COMPANY, address.getCompany().orElse(""));
+    attributes.put(DISTRICT, address.getDistrict().orElse(""));
     attributes.put(STREET, address.getStreet());
     attributes.put(NUMBER, address.getNumber());
-    attributes.put(APARTMENT, address.getApartment());
+    attributes.put(APARTMENT, address.getApartment().orElse(""));
     attributes.put(POSTCODE, address.getPostalCode());
     attributes.put(LOCATION, address.getLocation());
   }

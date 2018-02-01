@@ -2,6 +2,8 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.loading.Loadable;
 
+import java.util.Optional;
+
 public final class Address implements Storable, Loadable {
   private String apartment;
   private String company;
@@ -12,45 +14,40 @@ public final class Address implements Storable, Loadable {
   private String recipient;
   private String street;
 
+  public Address(){}
 
   /**
-   * For persistence only
+   * @deprecated use default constructor and setters instead
    */
-  private Address(){}
-
-  public Address(String company, String street, String number,
-                 String postalCode, String location) {
-    this("", company, "", street, number, "", postalCode, location);
-  }
-
+  @Deprecated
   public Address(String recipient, String company, String district,
                  String street, String number, String apartment, String postalCode,
                  String location) {
-    this.apartment = apartment;
-    this.company = company;
-    this.district = district;
-    this.location = location;
-    this.number = number;
-    this.postalCode = postalCode;
-    this.recipient = recipient;
-    this.street = street;
+    setApartment(apartment);
+    setCompany(company);
+    setDistrict(district);
+    setLocation(location);
+    setNumber(number);
+    setPostalCode(postalCode);
+    setRecipient(recipient);
+    setStreet(street);
   }
 
-  public String getApartment() {
-    return this.apartment;
+  public Optional<String> getApartment() {
+    return Optional.ofNullable(apartment);
   }
 
-  public String getCompany() {
-    return this.company;
+  public Optional<String> getCompany() {
+    return Optional.ofNullable(company);
   }
 
-  public String getDistrict() {
-    return this.district;
+  public Optional<String> getDistrict() {
+    return Optional.ofNullable(district);
   }
 
   @Override
   public String getEntryName() {
-    return this.getRecipient();
+    return getRecipient();
   }
 
   public String getLocation() {
@@ -74,15 +71,24 @@ public final class Address implements Storable, Loadable {
   }
 
   public void setApartment(String apartment) {
-    this.apartment = apartment;
+    if (isValidMessage(apartment))
+    {
+      this.apartment = apartment;
+    }
   }
 
   public void setCompany(String company) {
-    this.company = company;
+    if (isValidMessage(company))
+    {
+      this.company = company;
+    }
   }
 
   public void setDistrict(String district) {
-    this.district = district;
+    if (isValidMessage(district))
+    {
+      this.district = district;
+    }
   }
 
   public void setLocation(String location) {
@@ -103,6 +109,10 @@ public final class Address implements Storable, Loadable {
 
   public void setStreet(String street) {
     this.street = street;
+  }
+
+  private boolean isValidMessage(String message) {
+    return null != message && !message.trim().isEmpty();
   }
 
   @Override

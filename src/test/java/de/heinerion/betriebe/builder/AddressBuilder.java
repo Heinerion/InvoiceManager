@@ -101,15 +101,16 @@ public class AddressBuilder implements TestDataBuilder<Address> {
 
   @Override
   public Address build() {
-    return new Address(
-        getRecipient().orElse("recipient"),
-        getCompany().orElse("company"),
-        getDistrict().orElse("district"),
-        getStreet().orElse("street"),
-        getNumber().orElse("number"),
-        getApartment().orElse("apartment"),
-        getPostalCode().orElse("postalCode"),
-        getLocation().orElse("location")
-    );
+    Address address = new Address();
+    address.setApartment(getApartment().orElse("apartment"));
+    address.setCompany(getCompany().orElse("company"));
+    address.setDistrict(getDistrict().orElse("district"));
+    address.setLocation(getLocation().orElse("location"));
+    address.setNumber(getNumber().orElse("number"));
+    address.setPostalCode(getPostalCode().orElse("postalCode"));
+    address.setRecipient(getRecipient().orElse("recipient"));
+    address.setStreet(getStreet().orElse("street"));
+
+    return address;
   }
 }

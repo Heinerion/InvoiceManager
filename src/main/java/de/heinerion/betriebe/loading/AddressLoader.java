@@ -33,16 +33,17 @@ class AddressLoader extends AbstractTextFileLoader {
   @Override
   // TODO new class DataStore instead of Map<S, S>
   protected Address parse(Map<String, String> attributes) {
-    String recipient = readAttribute(attributes, RECIPIENT);
-    String company = readAttribute(attributes, COMPANY);
-    String district = readAttribute(attributes, DISTRICT);
-    String street = readAttribute(attributes, STREET);
-    String number = readAttribute(attributes, NUMBER);
-    String apartment = readAttribute(attributes, APARTMENT);
-    String postalCode = readAttribute(attributes, POSTALCODE);
-    String location = readAttribute(attributes, LOCATION);
+    Address address = new Address();
+    address.setRecipient(readAttribute(attributes, RECIPIENT));
+    address.setCompany(readAttribute(attributes, COMPANY));
+    address.setDistrict(readAttribute(attributes, DISTRICT));
+    address.setStreet(readAttribute(attributes, STREET));
+    address.setNumber(readAttribute(attributes, NUMBER));
+    address.setApartment(readAttribute(attributes, APARTMENT));
+    address.setPostalCode(readAttribute(attributes, POSTALCODE));
+    address.setLocation(readAttribute(attributes, LOCATION));
 
-    return new Address(recipient, company, district, street, number, apartment, postalCode, location);
+    return address;
   }
 
   private String readAttribute(Map<String, String> attributes, String key) {
