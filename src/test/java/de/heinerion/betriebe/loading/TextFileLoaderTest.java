@@ -1,5 +1,6 @@
 package de.heinerion.betriebe.loading;
 
+import de.heinerion.betriebe.builder.AddressBuilder;
 import de.heinerion.betriebe.models.Address;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class TextFileLoaderTest {
   @Test
   public void testSaveAddresses() throws Exception {
     List<Address> addresses = new ArrayList<>();
-    addresses.add(new Address("company", "street", "number", "postCode", "location"));
+    addresses.add(new AddressBuilder().build());
     loader.saveAddresses(addresses);
   }
 
@@ -47,7 +48,7 @@ public class TextFileLoaderTest {
     PowerMockito.doThrow(new IOException(exceptionText)).when(writer).write(anyString(), anyString());
 
     List<Address> addresses = new ArrayList<>();
-    addresses.add(new Address("company", "street", "number", "postCode", "location"));
+    addresses.add(new AddressBuilder().build());
     try {
       loader.saveAddresses(addresses);
     } catch(CouldNotWriteException e) {
