@@ -7,9 +7,9 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <import resource="boundariesTest.xml"/>
-    <import resource="util.xml"/>
-    <import resource="viewTest.xml"/>
+    <import resource="boundary/boundary.xml"/>
+    <import resource="util/util.xml"/>
+    <import resource="view/view.xml"/>
 
     <bean class="de.heinerion.betriebe.InvoiceManager"/>
 
