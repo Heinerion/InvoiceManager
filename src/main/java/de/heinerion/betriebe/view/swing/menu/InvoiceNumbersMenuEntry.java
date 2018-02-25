@@ -15,8 +15,8 @@ import java.util.Map;
  * @author heiner
  */
 @SuppressWarnings("serial")
-class InvoiceNumbersMenu extends AbstractMenu {
-  private static final String NAME = Translator.translate("menu.invoiceNumbers");
+class InvoiceNumbersMenuEntry extends AbstractMenuEntry {
+  private static final String NAME = Menu.translate("invoiceNumbers");
   private JPanel pnlNumbers;
 
   private Map<Company, JSpinner> numbers;
@@ -57,7 +57,7 @@ class InvoiceNumbersMenu extends AbstractMenu {
 
   @Override
   protected void createWidgets() {
-    header = new JLabel(Translator.translate("menu.invoiceNumbers.lastIssuedNumber"),
+    header = new JLabel(Menu.translate("invoiceNumbers.lastIssuedNumber"),
         SwingConstants.CENTER);
 
     pnlNumbers = PanelFactory.createBackgroundPanel(PanelSides.ALL);

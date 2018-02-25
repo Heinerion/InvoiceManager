@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-abstract class AbstractMenu implements Menu {
+public abstract class AbstractMenuEntry implements MenuEntry {
   /**
    * window adapter, responsible for closing
    */
@@ -49,11 +49,11 @@ abstract class AbstractMenu implements Menu {
 
   protected abstract void createWidgets();
 
-  final JButton getBtnOk() {
+  protected final JButton getBtnOk() {
     return btnOk;
   }
 
-  final DisposeAdapter getCloser() {
+  protected final DisposeAdapter getCloser() {
     return closer;
   }
 
@@ -70,7 +70,7 @@ abstract class AbstractMenu implements Menu {
 
   protected abstract void setupInteractions(JDialog dialog);
 
-  class DisposeAdapter extends WindowAdapter {
+  protected final class DisposeAdapter extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e) {
       dialog.dispose();

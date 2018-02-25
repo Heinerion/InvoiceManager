@@ -17,8 +17,8 @@ import java.io.IOException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-class ArchiveMenu extends AbstractMenu {
-  private static final String NAME = Translator.translate("menu.archive");
+class ArchiveMenuEntry extends AbstractMenuEntry {
+  private static final String NAME = Menu.translate("archive");
 
   private ArchivedInvoiceTable model;
 

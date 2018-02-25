@@ -1,20 +1,19 @@
-package de.heinerion.betriebe.view.swing.menu;
+package de.heinerion.betriebe.view.swing.menu.info;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.view.swing.menu.AbstractMenuEntry;
+import de.heinerion.betriebe.view.swing.menu.Menu;
 import de.heinerion.util.Translator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-public class InfoMenu extends AbstractMenu {
-  private static final String NAME = translate("menu.info");
+public class InfoMenuEntry extends AbstractMenuEntry {
+  private static final String NAME = Menu.translate("info");
 
   private JScrollPane spInfos;
 
@@ -39,15 +38,16 @@ public class InfoMenu extends AbstractMenu {
   }
 
   private void fillInfoComponent(InfoTextComponent editor) {
-    editor.addHTML(bold(translate("info.available.companies")));
+    editor.addHTML(bold(Info.translate("available.companies")));
 
     Map<String, String> compInfos = new HashMap<>();
     for (Company company: Session.getAvailableCompanies()) {
+      // TODO use template
       String valueMarkup = new StringBuilder()
           .append("<p>")
-          .append(format("info.company.invoice.number", company.getInvoiceNumber()))
+          .append(format("company.invoice.number", company.getInvoiceNumber()))
           .append("<br />")
-          .append(format("info.company.vat", company.getValueAddedTax()))
+          .append(format("company.vat", company.getValueAddedTax()))
           .append("<br />")
           .append(company.getFolderFile().getAbsolutePath())
           .append("</p>")
@@ -57,7 +57,7 @@ public class InfoMenu extends AbstractMenu {
     editor.addDefinitionList(compInfos);
 
     editor
-        .addLine(bold(translate("info.version")))
+        .addLine(bold(Info.translate("version")))
         .addLine(Session.getVersion());
   }
 
@@ -66,7 +66,7 @@ public class InfoMenu extends AbstractMenu {
   }
 
   private static String format(String key, Object... replacements) {
-    return MessageFormat.format(translate(key), replacements);
+    return MessageFormat.format(Info.translate(key), replacements);
   }
 
   private static String translate(String key) {

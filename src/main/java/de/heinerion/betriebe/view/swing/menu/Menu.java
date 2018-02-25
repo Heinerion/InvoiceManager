@@ -1,11 +1,11 @@
 package de.heinerion.betriebe.view.swing.menu;
 
-import javax.swing.*;
+import de.heinerion.util.Translator;
 
-interface Menu {
-  String getLinkText();
+public class Menu {
+  private Menu(){}
 
-  void showDialog();
-
-  void setBusyFrame(JFrame busyFrame);
+  public static String translate(String key) {
+    return Translator.translate(Menu.class, key);
+  }
 }

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.swing.menu;
+package de.heinerion.betriebe.view.swing.menu.info;
 
 import javax.swing.*;
 import java.awt.*;

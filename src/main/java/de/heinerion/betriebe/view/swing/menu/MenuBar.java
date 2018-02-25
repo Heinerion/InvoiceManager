@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.view.swing.menu;
 
+import de.heinerion.betriebe.view.swing.menu.info.InfoMenuEntry;
+
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +20,17 @@ class MenuBar extends JMenuBar {
 
   private void createWidgets() {
     menuItems = new ArrayList<>();
-    menuItems.add(createItem(new AddressBookMenu()));
-    menuItems.add(createItem(new ArchiveMenu()));
-    menuItems.add(createItem(new InvoiceNumbersMenu()));
-    menuItems.add(createItem(new InvoiceDateMenu()));
-    menuItems.add(createItem(new InfoMenu()));
+    menuItems.add(createItem(new AddressBookMenuEntry()));
+    menuItems.add(createItem(new ArchiveMenuEntry()));
+    menuItems.add(createItem(new InvoiceNumbersMenuEntry()));
+    menuItems.add(createItem(new InvoiceDateMenuEntry()));
+    menuItems.add(createItem(new InfoMenuEntry()));
   }
 
-  private JMenuItem createItem(Menu menu) {
-    menu.setBusyFrame(origin);
-    JMenuItem item = new JMenuItem(menu.getLinkText());
-    item.addActionListener(e -> menu.showDialog());
+  private JMenuItem createItem(MenuEntry menuEntry) {
+    menuEntry.setBusyFrame(origin);
+    JMenuItem item = new JMenuItem(menuEntry.getLinkText());
+    item.addActionListener(e -> menuEntry.showDialog());
     return item;
   }
 

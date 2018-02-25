@@ -24,7 +24,7 @@ class SystemCall {
       logger.info("command '{} {}'", program, fileArgument);
     }
 
-    String errorLogMessage = Translator.translate("error.pdflatex");
+    String errorLogMessage = Boundary.translate("error.pdflatex");
     processRunner.startProcess(errorLogMessage, program, fileArgument);
   }
 }

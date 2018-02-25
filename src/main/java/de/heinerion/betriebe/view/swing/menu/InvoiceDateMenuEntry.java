@@ -15,8 +15,8 @@ import java.time.format.DateTimeParseException;
  * @author heiner
  */
 @SuppressWarnings("serial")
-class InvoiceDateMenu extends AbstractMenu {
-  private static final String NAME = Translator.translate("menu.invoiceDate");
+class InvoiceDateMenuEntry extends AbstractMenuEntry {
+  private static final String NAME = Menu.translate("invoiceDate");
 
   private JSpinner fldYY;
   private JSpinner fldMM;

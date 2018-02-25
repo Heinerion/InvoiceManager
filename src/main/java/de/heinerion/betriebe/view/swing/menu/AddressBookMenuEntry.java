@@ -14,8 +14,8 @@ import java.util.List;
  * @author heiner
  */
 @SuppressWarnings("serial")
-class AddressBookMenu extends AbstractMenu {
-  private static final String NAME = Translator.translate("menu.addressBook");
+class AddressBookMenuEntry extends AbstractMenuEntry {
+  private static final String NAME = Menu.translate("addressBook");
   private JScrollPane spAddresses;
 
   @Override

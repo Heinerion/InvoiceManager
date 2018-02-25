@@ -29,8 +29,6 @@ public class Translator {
     switch (prefix) {
       case "error":
       case "controls":
-      case "menu":
-      case "info":
         resourceName = prefix;
         break;
       default:
@@ -38,6 +36,10 @@ public class Translator {
     }
 
     return "translation." + resourceName;
+  }
+
+  public static String translate(Class moduleClass, String key) {
+    return translate(ResourceBundle.getBundle(moduleClass.getCanonicalName()), key);
   }
 
   private static String translate(ResourceBundle resourceBundle, String key) {
