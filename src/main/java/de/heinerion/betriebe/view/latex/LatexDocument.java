@@ -59,8 +59,8 @@ class LatexDocument {
   }
 
   private String buildDoctype() {
-    String arguments = docTypeArguments.keySet().stream()
-        .map(key -> key + "=" + docTypeArguments.get(key))
+    String arguments = docTypeArguments.entrySet().stream()
+        .map(entry -> entry.getKey() + "=" + entry.getValue())
         .sorted()
         .reduce((a,b) -> a + DELIM + b)
         .orElse("");
