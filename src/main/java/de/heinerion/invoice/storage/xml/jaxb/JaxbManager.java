@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading.jaxb;
+package de.heinerion.invoice.storage.xml.jaxb;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

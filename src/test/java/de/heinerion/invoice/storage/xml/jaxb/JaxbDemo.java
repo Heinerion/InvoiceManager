@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading.jaxb;
+package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.builder.CompanyBuilder;
 import de.heinerion.betriebe.models.Company;
