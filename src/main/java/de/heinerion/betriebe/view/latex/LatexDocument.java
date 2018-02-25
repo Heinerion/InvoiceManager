@@ -59,13 +59,11 @@ class LatexDocument {
   }
 
   private String buildDoctype() {
-    List<String> argumentList = docTypeArguments.keySet().stream()
+    String arguments = docTypeArguments.keySet().stream()
         .map(key -> key + "=" + docTypeArguments.get(key))
-        .collect(Collectors.toList());
-
-    Collections.sort(argumentList);
-
-    String arguments = String.join(DELIM, argumentList);
+        .sorted()
+        .reduce((a,b) -> a + DELIM + b)
+        .orElse("");
 
     return "\\documentclass[" + arguments + "]"
         + Syntax.embrace(documentType);
