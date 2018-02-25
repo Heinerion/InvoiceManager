@@ -45,15 +45,19 @@ class ArchivedInvoiceLoader extends AbstractLoader {
       if (logger.isErrorEnabled()) {
         logger.error(e);
       }
-      throw new LoadArchivedInvoiceException(e);
+      throw new LoadArchivedInvoiceException(file, e);
     }
 
     return data;
   }
 
   private static class LoadArchivedInvoiceException extends RuntimeException {
-    public LoadArchivedInvoiceException(Throwable cause) {
-      super(cause);
+    LoadArchivedInvoiceException(File causingFile, Throwable cause) {
+      super(generateMessage(causingFile), cause);
+    }
+
+    private static String generateMessage(File file) {
+      return "Invoice '" + file.getName() + "' caused Problems\nPath: " + file.getAbsolutePath();
     }
   }
 }
