@@ -13,6 +13,7 @@ public class CompanyBuilder implements TestDataBuilder<Company> {
   private String signer;
   private String taxNumber;
   private String phoneNumber;
+  private int invoiceNumber;
 
   private Account account;
 
@@ -110,10 +111,18 @@ public class CompanyBuilder implements TestDataBuilder<Company> {
     return this;
   }
 
+  private Optional<Integer> getInvoiceNumber() {
+    return Optional.ofNullable(invoiceNumber == 0 ? null : invoiceNumber);
+  }
+
+  public CompanyBuilder withInvoiceNumber(int number) {
+    this.invoiceNumber = number;
+    return this;
+  }
 
   @Override
   public Company build() {
-    return new Company(
+    Company result = new Company(
         getDescriptiveName().orElse("descriptiveName"),
         getOfficialName().orElse("officialName"),
         getAddress().orElseGet(() -> new AddressBuilder().build()),
@@ -123,5 +132,7 @@ public class CompanyBuilder implements TestDataBuilder<Company> {
         getValueAddedTax().orElse(10d),
         getWagesPerHour().orElse(50d),
         getAccount().orElseGet(() -> new AccountBuilder().build()));
+    getInvoiceNumber().ifPresent(result::setInvoiceNumber);
+    return result;
   }
 }
