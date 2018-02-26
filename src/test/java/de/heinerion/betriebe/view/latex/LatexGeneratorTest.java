@@ -2,9 +2,7 @@ package de.heinerion.betriebe.view.latex;
 
 import de.heinerion.betriebe.builder.AddressBuilder;
 import de.heinerion.betriebe.builder.CompanyBuilder;
-import de.heinerion.betriebe.view.formatter.Formatter;
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.services.ConfigurationService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -13,7 +11,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class LatexGeneratorTest {
+public abstract class LatexGeneratorTest {
   private static final Month MONTH = Month.JUNE;
   private static final int YEAR = 2010;
   private static final int DAY = 25;
@@ -37,7 +35,7 @@ public class LatexGeneratorTest {
       + "\\setkomavar{fromphone}{123-456}\n"
       + "\\setkomavar{fromname}{{officialName}\\tiny}\n";
   private static final String DATE_START = "\\date{\n"
-      + "\t\\footnotesize \n"
+      + "\t\\footnotesize\n"
       + "\t\\begin{tabular}{ll}\n"
       + "\t\\textsc Datum & : "
       + String.join(".", DAY + "", (MONTH.getValue() < DOUBLE_DIGIT ? "0" : "")
@@ -179,9 +177,10 @@ public class LatexGeneratorTest {
     invoice = new Invoice(date, sender, receiverAddress);
     invoice.add("Artikel 1", "Stück", 1.50, 2);
 
-    Formatter formatter = ConfigurationService.getBean(Formatter.class);
-    latexGenerator = new LatexGeneratorImpl(formatter);
+    latexGenerator = getLatexGenerator();
   }
+
+  protected abstract LatexGenerator getLatexGenerator();
 
   @Test
   public final void generateLatexSourcesTestEmptyLetter() {

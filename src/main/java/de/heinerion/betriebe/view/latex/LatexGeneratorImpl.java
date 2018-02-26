@@ -160,7 +160,7 @@ public class LatexGeneratorImpl implements LatexGenerator {
     LatexTable dateTable = new LatexTable("ll");
     dateTable.setContent(String.join("\\\\" + Syntax.EOL, fields));
 
-    String dateString = String.join(Syntax.EOL, "\\footnotesize ", dateTable.toString());
+    String dateString = String.join(Syntax.EOL, "\\footnotesize", dateTable.toString());
 
     latexLetter.setDate(dateString);
   }
