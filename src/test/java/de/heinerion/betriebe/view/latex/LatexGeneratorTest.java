@@ -2,7 +2,10 @@ package de.heinerion.betriebe.view.latex;
 
 import de.heinerion.betriebe.builder.AddressBuilder;
 import de.heinerion.betriebe.builder.CompanyBuilder;
-import de.heinerion.betriebe.models.*;
+import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.betriebe.models.Letter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -44,7 +47,7 @@ public abstract class LatexGeneratorTest {
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
-      + HLINE + Syntax.EOL;
+      + HLINE + "\n";
 
   private static final String LETTER_START = "\\begin{letter}{formatted\\\\\n"
       + "address}\n\n" + "\\opening{}\\vspace{-25pt}\n";
@@ -55,11 +58,11 @@ public abstract class LatexGeneratorTest {
       + "\\hypersetup{pdftitle={Brief}, pdfauthor={officialName}, "
       + "pdfsubject={Test}, pdfkeywords={0.00}}\n" + RENEW + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Test}\n" + KOMA_FROMADDRESS + DATE_START
-      + Syntax.EOL + DATE_END + DOC_START + LETTER_START;
+      + "\n" + DATE_END + DOC_START + LETTER_START;
   private static final String EXPECTATION_LETTER_END = LETTER_END + DOC_END;
 
   private static final String BANK_ACCOUNT = DATE_START
-      + Syntax.NEWLINE
+      + "\\\\\n"
       + "\t\\textsc Rechnungs-Nr. & : 0\\\\\n"
       + "\t\\textsc Steuernummer & : taxNumber\\\\\n"
       + "\t\\textsc BIC & : bic\\\\\n"
@@ -80,18 +83,18 @@ public abstract class LatexGeneratorTest {
       + LETTER_START
       + "\\begin{tabular}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
       + "\\multicolumn{1}{c|}{\\textsc Einzelpreis}&"
       + "\\multicolumn{1}{c|}{\\textsc Gesamt}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
       + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + EMPTY_LINE
       + EMPTY_LINE
       + EMPTY_LINE
@@ -99,10 +102,10 @@ public abstract class LatexGeneratorTest {
       + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
       + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{1}{|l}{Netto}&&&&\\EUR{3,00}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{0,30}\\\\\\cline{4-5}\n"
       + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{3,30}\\\\\\cline{4-5}\n"
       + "\\end{tabular}\n" + LETTER_END + DOC_END;
@@ -120,32 +123,32 @@ public abstract class LatexGeneratorTest {
       + LETTER_START
       + "\\begin{tabular}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
       + "\\multicolumn{1}{c|}{\\textsc Einzelpreis}&"
       + "\\multicolumn{1}{c|}{\\textsc Gesamt}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
       + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{1}{|l}{Artikel 2}&\\multicolumn{1}{r}{3,00}&Stück&"
       + "\\hspace{12pt} á \\EUR{3,44}&\\EUR{10,32}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + EMPTY_LINE
       + EMPTY_LINE
       + EMPTY_LINE
       + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
       + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "\\multicolumn{1}{|l}{Netto}&&&&\\EUR{13,32}\\\\\n"
       + HLINE
-      + Syntax.EOL
+      + "\n"
       + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{1,33}\\\\\\cline{4-5}\n"
       + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{14,65}\\\\\\cline{4-5}\n"
       + "\\end{tabular}\n" + LETTER_END + DOC_END;
@@ -201,8 +204,8 @@ public abstract class LatexGeneratorTest {
 
     Assert.assertEquals(
         EXPECTATION_LETTER_START
-            + String.join(Syntax.NEWLINE, content, content, content, content)
-            + Syntax.EOL + EXPECTATION_LETTER_END, result);
+            + String.join("\\\\\n", content, content, content, content)
+            + "\n" + EXPECTATION_LETTER_END, result);
   }
 
   @Test
