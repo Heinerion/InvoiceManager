@@ -199,6 +199,12 @@
             <artifactId>spring-context</artifactId>
             <version>4.3.10.RELEASE</version>
         </dependency>
+        <!-- FreeMarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
         <!-- test dependencies -->
         <dependency>
