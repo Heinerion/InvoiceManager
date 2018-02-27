@@ -3,7 +3,12 @@
 \usepackage[ngermanb]{babel}
 \usepackage[right]{eurosym}
 \usepackage{hyperref}
-\hypersetup{pdftitle={${labels.title}}, pdfauthor={${letter.company.officialName}}, pdfsubject={${letter.subject}}, pdfkeywords={0.00}}
+\hypersetup{
+  pdftitle={${labels.title}},
+  pdfauthor={${letter.company.officialName}},
+  pdfsubject={${letter.subject}},
+  pdfkeywords={0.00}
+}
 \renewcommand{\raggedsignature}{\raggedright}
 \setkomavar{signature}{\underline{${labels.signature}:\hspace{10cm}}}
 \setkomavar{subject}{${letter.subject}}
@@ -11,10 +16,10 @@
 \setkomavar{fromphone}{${letter.company.phoneNumber}}
 \setkomavar{fromname}{{${letter.company.officialName}}\tiny}
 \date{
-	\footnotesize
-	\begin{tabular}{ll}
-	\textsc ${labels.date} & : ${letter.date?date("yyyy-MM-dd")}
-	\end{tabular}
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc ${labels.date} & : ${letter.date?date("yyyy-MM-dd")}
+  \end{tabular}
 }
 \begin{document}
 \begin{letter}{<#list address as line>${line}<#sep>\\

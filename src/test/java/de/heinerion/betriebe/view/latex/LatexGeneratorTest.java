@@ -38,12 +38,12 @@ public abstract class LatexGeneratorTest {
       + "\\setkomavar{fromphone}{123-456}\n"
       + "\\setkomavar{fromname}{{officialName}\\tiny}\n";
   private static final String DATE_START = "\\date{\n"
-      + "\t\\footnotesize\n"
-      + "\t\\begin{tabular}{ll}\n"
-      + "\t\\textsc Datum & : "
+      + "  \\footnotesize\n"
+      + "  \\begin{tabular}{ll}\n"
+      + "  \\textsc Datum & : "
       + String.join(".", DAY + "", (MONTH.getValue() < DOUBLE_DIGIT ? "0" : "")
       + MONTH.getValue(), YEAR + "");
-  private static final String DATE_END = "\t\\end{tabular}\n" + "}\n";
+  private static final String DATE_END = "  \\end{tabular}\n" + "}\n";
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
@@ -55,25 +55,25 @@ public abstract class LatexGeneratorTest {
       + "\\end{letter}\n";
 
   private static final String EXPECTATION_LETTER_START = DOCCLASS + PACKAGES
-      + "\\hypersetup{pdftitle={Brief}, pdfauthor={officialName}, "
-      + "pdfsubject={Test}, pdfkeywords={0.00}}\n" + RENEW + KOMA_SIGNATURE
+      + "\\hypersetup{\n  pdftitle={Brief},\n  pdfauthor={officialName},\n  "
+      + "pdfsubject={Test},\n  pdfkeywords={0.00}\n}\n" + RENEW + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Test}\n" + KOMA_FROMADDRESS + DATE_START
       + "\n" + DATE_END + DOC_START + LETTER_START;
   private static final String EXPECTATION_LETTER_END = LETTER_END + DOC_END;
 
   private static final String BANK_ACCOUNT = DATE_START
       + "\\\\\n"
-      + "\t\\textsc Rechnungs-Nr. & : 0\\\\\n"
-      + "\t\\textsc Steuernummer & : taxNumber\\\\\n"
-      + "\t\\textsc BIC & : bic\\\\\n"
-      + "\t\\textsc IBAN & : iban\\\\\n"
-      + "\t\\multicolumn{2}{l}{institute}\n"
+      + "  \\textsc Rechnungs-Nr. & : 0\\\\\n"
+      + "  \\textsc Steuernummer & : taxNumber\\\\\n"
+      + "  \\textsc BIC & : bic\\\\\n"
+      + "  \\textsc IBAN & : iban\\\\\n"
+      + "  \\multicolumn{2}{l}{institute}\n"
       + DATE_END;
 
   private static final String EXPECTATION_INVOICE = DOCCLASS
       + PACKAGES
-      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={officialName}, "
-      + "pdfsubject={Artikel 1}, pdfkeywords={3.30}}\n"
+      + "\\hypersetup{\n  pdftitle={Rechnung},\n  pdfauthor={officialName},\n  "
+      + "pdfsubject={Artikel 1},\n  pdfkeywords={3.30}\n}\n"
       + RENEW
       + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Rechnung}\n"
@@ -112,8 +112,8 @@ public abstract class LatexGeneratorTest {
 
   private static final String EXPECTATION_INVOICE_OF_TWO = DOCCLASS
       + PACKAGES
-      + "\\hypersetup{pdftitle={Rechnung}, pdfauthor={officialName}, "
-      + "pdfsubject={Artikel 1, Artikel 2}, pdfkeywords={14.65}}\n"
+      + "\\hypersetup{\n  pdftitle={Rechnung},\n  pdfauthor={officialName},\n  "
+      + "pdfsubject={Artikel 1, Artikel 2},\n  pdfkeywords={14.65}\n}\n"
       + RENEW
       + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Rechnung}\n"

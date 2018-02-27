@@ -5,7 +5,14 @@
 \usepackage[ngermanb]{babel}
 \usepackage[right]{eurosym}
 \usepackage{hyperref}
-\hypersetup{pdftitle={${labels.title}}, pdfauthor={${invoice.company.officialName}}, pdfsubject={<#list invoice.items as item>${item.name}<#sep>, </#list>}, <#setting locale="en_US">pdfkeywords={${invoice.gross}}<#setting locale="de_DE">}
+\hypersetup{
+  pdftitle={${labels.title}},
+  pdfauthor={${invoice.company.officialName}},
+  pdfsubject={<#list invoice.items as item>${item.name}<#sep>, </#list>},
+  <#setting locale="en_US">
+  pdfkeywords={${invoice.gross}}
+  <#setting locale="de_DE">
+}
 \renewcommand{\raggedsignature}{\raggedright}
 \setkomavar{signature}{\underline{${labels.signature}:\hspace{10cm}}}
 \setkomavar{subject}{${invoice.subject}}
@@ -13,15 +20,15 @@
 \setkomavar{fromphone}{${invoice.company.phoneNumber}}
 \setkomavar{fromname}{{${invoice.company.officialName}}\tiny}
 \date{
-	\footnotesize
-	\begin{tabular}{ll}
-	\textsc ${labels.date} & : ${invoice.date?date("yyyy-MM-dd")}\\
-	\textsc ${labels.number} & : ${invoice.number?string["0"]}\\
-	\textsc ${labels.taxNumber} & : ${invoice.company.taxNumber}\\
-	\textsc BIC & : ${invoice.company.account.bic}\\
-	\textsc IBAN & : ${invoice.company.account.iban}\\
-	\multicolumn{2}{l}{${invoice.company.account.name}}
-	\end{tabular}
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc ${labels.date} & : ${invoice.date?date("yyyy-MM-dd")}\\
+  \textsc ${labels.number} & : ${invoice.number?string["0"]}\\
+  \textsc ${labels.taxNumber} & : ${invoice.company.taxNumber}\\
+  \textsc BIC & : ${invoice.company.account.bic}\\
+  \textsc IBAN & : ${invoice.company.account.iban}\\
+  \multicolumn{2}{l}{${invoice.company.account.name}}
+  \end{tabular}
 }
 \begin{document}
 \begin{letter}{<#list address as line>${line}<#sep>\\
