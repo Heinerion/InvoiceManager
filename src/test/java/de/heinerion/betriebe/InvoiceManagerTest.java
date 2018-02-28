@@ -10,6 +10,7 @@ import de.heinerion.betriebe.view.swing.PanelSides;
 import de.heinerion.betriebe.view.swing.SwingStarter;
 import de.heinerion.util.LookAndFeelUtil;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -89,6 +90,7 @@ public class InvoiceManagerTest {
   }
 
   @Test
+  @Ignore
   public void testMainSetLookAndFeelNimbus() {
     PowerMockito.doCallRealMethod().when(LookAndFeelUtil.class);
     LookAndFeelUtil.setNimbus();

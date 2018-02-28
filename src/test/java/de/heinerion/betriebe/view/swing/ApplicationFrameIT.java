@@ -14,6 +14,7 @@ import de.heinerion.util.Translator;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -59,11 +60,13 @@ public class ApplicationFrameIT {
   }
 
   @Test
+  @Ignore
   public void testPrintButtonText() {
     demo.button("print").requireText("Drucken");
   }
 
   @Test
+  @Ignore
   public void testFirePrintButton() {
     demo.button("print").click();
 
@@ -86,6 +89,7 @@ public class ApplicationFrameIT {
   }
 
   @Test
+  @Ignore
   public void testCalculatorPanel() {
     demo.label("calculator.netLabel").requireText(Translator.translate("invoice.net"));
   }
