@@ -1,5 +1,6 @@
 package de.heinerion.util;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,6 +19,17 @@ public class MathUtilTest {
 
   @Test
   public void testProductThreeArgs() throws Exception {
-    assertEquals(6, MathUtil.product(1,2,3));
+    assertEquals(6, MathUtil.product(1, 2, 3));
+  }
+
+  @Test
+  public void product() {
+    SoftAssertions softly = new SoftAssertions();
+
+    softly.assertThat(MathUtil.product()).as("No Argument").isEqualTo(1);
+    softly.assertThat(MathUtil.product(5)).as("Single Argument 5").isEqualTo(5);
+    softly.assertThat(MathUtil.product(1, 2, 3)).as("1 * 2 * 3").isEqualTo(6);
+
+    softly.assertAll();
   }
 }
