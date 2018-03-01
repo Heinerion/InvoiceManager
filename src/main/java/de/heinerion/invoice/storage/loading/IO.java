@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.view.common.StatusComponent;

@@ -2,7 +2,7 @@ package de.heinerion.betriebe.view.swing.menu.tablemodels.archive;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.Loadable;
+import de.heinerion.invoice.storage.loading.Loadable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.util.DateUtil;

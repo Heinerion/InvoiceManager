@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 import org.junit.Assert;
 import org.junit.Test;

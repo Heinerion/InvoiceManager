@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.loading.Loadable;
+import de.heinerion.invoice.storage.loading.Loadable;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.util.Translator;

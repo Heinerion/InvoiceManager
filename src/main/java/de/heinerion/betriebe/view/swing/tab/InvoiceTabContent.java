@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.loading.IO;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.util.ParsingUtil;
 import de.heinerion.util.StringUtil;

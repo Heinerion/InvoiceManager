@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 class LoadingException extends RuntimeException {
   <T> LoadingException(Class<T> message) {

@@ -40,7 +40,7 @@
             <AppenderRef ref="RootFile"/>
             <Level>INFO</Level>
         </Root>
-        <Logger name="de.heinerion.betriebe.loading.LoadingManager">
+        <Logger name="de.heinerion.invoice.storage.loading.LoadingManager">
             <Level>INFO</Level>
         </Logger>
         <Logger name="de.heinerion.betriebe.view.swing.home.receiver.SidePanelFactory.InvoiceTabContent">

@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.aspects.annotations.LogMethod;
 import org.apache.logging.log4j.LogManager;

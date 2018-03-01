@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.listener;
 
-import de.heinerion.betriebe.loading.IO;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;

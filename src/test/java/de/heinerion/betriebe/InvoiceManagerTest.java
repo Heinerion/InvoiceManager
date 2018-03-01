@@ -2,7 +2,7 @@ package de.heinerion.betriebe;
 
 import de.heinerion.betriebe.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.IO;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.view.common.StatusComponent;
 import de.heinerion.betriebe.view.swing.ApplicationFrame;
 import de.heinerion.betriebe.view.swing.PanelFactory;

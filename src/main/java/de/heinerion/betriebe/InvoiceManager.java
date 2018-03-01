@@ -4,7 +4,7 @@ import de.heinerion.aspects.annotations.LogBefore;
 import de.heinerion.aspects.annotations.LogMethod;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.IO;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.view.swing.SwingStarter;
 import de.heinerion.util.LookAndFeelUtil;

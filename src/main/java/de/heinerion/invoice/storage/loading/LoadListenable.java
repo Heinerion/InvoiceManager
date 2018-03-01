@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 interface LoadListenable {
   void addListener(LoadListener listener);

@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.loading.Loadable;
+import de.heinerion.invoice.storage.loading.Loadable;
 import de.heinerion.betriebe.util.PathUtil;
 
 import java.io.File;

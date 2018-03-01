@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.loading;
+package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
@@ -74,7 +74,7 @@ class CompanyLoader extends AbstractTextFileLoader {
   }
 
   /*
-   * TODO almost exact copy of de.heinerion.betriebe.loading.AddressLoader.parse
+   * TODO almost exact copy of de.heinerion.invoice.storage.loading.AddressLoader.parse
    */
   private Address getAddress(Map<String, String> attributes) {
     Address address = new Address();
