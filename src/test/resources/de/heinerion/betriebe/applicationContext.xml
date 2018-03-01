@@ -7,7 +7,7 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <import resource="boundary/boundaryTest.xml"/>
+    <import resource="../invoice/print/pdf/boundary/boundaryTest.xml"/>
     <import resource="util/util.xml"/>
     <import resource="view/viewTest.xml"/>
 
