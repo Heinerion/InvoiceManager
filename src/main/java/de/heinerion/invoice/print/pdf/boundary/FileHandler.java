@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.boundary;
+package de.heinerion.invoice.print.pdf.boundary;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

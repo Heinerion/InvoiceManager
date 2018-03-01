@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.view.latex;
+package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.betriebe.models.Letter;
 

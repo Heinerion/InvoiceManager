@@ -7,8 +7,8 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <bean class="de.heinerion.betriebe.boundary.FileHandler"/>
-    <bean class="de.heinerion.betriebe.boundary.HostSystemImpl"/>
-    <bean class="de.heinerion.betriebe.boundary.ProcessRunner"/>
-    <bean class="de.heinerion.betriebe.boundary.SystemCall"/>
+    <bean class="de.heinerion.invoice.print.pdf.boundary.FileHandler"/>
+    <bean class="de.heinerion.invoice.print.pdf.boundary.HostSystemImpl"/>
+    <bean class="de.heinerion.invoice.print.pdf.boundary.ProcessRunner"/>
+    <bean class="de.heinerion.invoice.print.pdf.boundary.SystemCall"/>
 </beans>

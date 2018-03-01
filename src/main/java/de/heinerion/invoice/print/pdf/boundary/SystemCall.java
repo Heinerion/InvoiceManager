@@ -1,6 +1,5 @@
-package de.heinerion.betriebe.boundary;
+package de.heinerion.invoice.print.pdf.boundary;
 
-import de.heinerion.util.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
