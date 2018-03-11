@@ -1,4 +1,4 @@
-package de.heinerion.betriebe;
+package de.heinerion.invoice.view;
 
 public interface GuiStarter {
   void showInterface();

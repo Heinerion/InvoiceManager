@@ -1,6 +1,5 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import de.heinerion.betriebe.TestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;

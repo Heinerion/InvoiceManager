@@ -1,6 +1,6 @@
-package de.heinerion.betriebe;
+package de.heinerion.invoice;
 
-import de.heinerion.betriebe.builder.SessionPreparer;
+import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.common.StatusComponent;

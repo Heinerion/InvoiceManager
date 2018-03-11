@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.formatter;
 
-import de.heinerion.betriebe.builder.AddressBuilder;
+import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.betriebe.services.ConfigurationService;
 import org.junit.Before;
 import org.junit.Test;

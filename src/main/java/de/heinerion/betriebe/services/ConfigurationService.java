@@ -31,7 +31,7 @@ public class ConfigurationService {
 
   private static ClassPathXmlApplicationContext createContext() {
     LOGGER.info("create new application context");
-    return new ClassPathXmlApplicationContext("de/heinerion/betriebe/applicationContext.xml");
+    return new ClassPathXmlApplicationContext("de/heinerion/invoice/applicationContext.xml");
   }
 
   public static String get(String key) {

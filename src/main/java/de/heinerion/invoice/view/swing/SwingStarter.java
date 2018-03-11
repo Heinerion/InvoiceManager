@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.aspects.annotations.LogBefore;
-import de.heinerion.betriebe.GuiStarter;
+import de.heinerion.invoice.aspects.annotations.LogBefore;
+import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.common.StatusComponent;
 import org.apache.logging.log4j.LogManager;

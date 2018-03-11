@@ -1,4 +1,4 @@
-package de.heinerion.betriebe;
+package de.heinerion.invoice.print.pdf.boundary;
 
 import java.util.ArrayList;
 import java.util.List;

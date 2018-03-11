@@ -1,4 +1,4 @@
-package de.heinerion.aspects;
+package de.heinerion.invoice.aspects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +10,7 @@ import org.aspectj.lang.annotation.Before;
 
 @Aspect
 public class LoggingAspect {
-  @Around("execution(* *(..)) && @annotation(de.heinerion.aspects.annotations.LogMethod)")
+  @Around("execution(* *(..)) && @annotation(de.heinerion.invoice.aspects.annotations.LogMethod)")
   public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
     Logger logger = getLogger(joinPoint);
 
@@ -28,7 +28,7 @@ public class LoggingAspect {
     return LogManager.getLogger(joinPoint.getSignature().getDeclaringType());
   }
 
-  @Before("execution(* *(..)) && @annotation(de.heinerion.aspects.annotations.LogBefore)")
+  @Before("execution(* *(..)) && @annotation(de.heinerion.invoice.aspects.annotations.LogBefore)")
   public void before(JoinPoint joinPoint) {
     Logger logger = getLogger(joinPoint);
 

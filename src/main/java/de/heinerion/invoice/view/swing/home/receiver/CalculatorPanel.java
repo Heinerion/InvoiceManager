@@ -5,8 +5,8 @@ import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.PanelSides;
 import de.heinerion.util.Translator;
 import de.heinerion.util.DimensionUtil;
-import de.heinerion.money.Euro;
-import de.heinerion.money.Money;
+import de.heinerion.invoice.view.swing.home.receiver.money.Euro;
+import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,11 +7,11 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <import resource="../invoice/print/pdf/boundary/boundary.xml"/>
-    <import resource="util/util.xml"/>
-    <import resource="../invoice/view/view.xml"/>
+    <import resource="print/pdf/boundary/boundaryTest.xml"/>
+    <import resource="../betriebe/util/utilTest.xml"/>
+    <import resource="view/viewTest.xml"/>
 
-    <bean class="de.heinerion.betriebe.InvoiceManager"/>
+    <bean class="de.heinerion.invoice.InvoiceManager"/>
 
     <bean class="de.heinerion.invoice.storage.loading.IOImpl"/>
 

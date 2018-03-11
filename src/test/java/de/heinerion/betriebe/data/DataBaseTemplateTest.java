@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.builder.CompanyBuilder;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Company;

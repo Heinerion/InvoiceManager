@@ -1,4 +1,4 @@
-package de.heinerion.money;
+package de.heinerion.invoice.view.swing.home.receiver.money;
 
 public final class Euro extends AbstractMoney {
   protected Euro(double aValue) {

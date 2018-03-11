@@ -1,7 +1,8 @@
-package de.heinerion.betriebe;
+package de.heinerion.invoice;
 
-import de.heinerion.aspects.annotations.LogBefore;
-import de.heinerion.aspects.annotations.LogMethod;
+import de.heinerion.invoice.aspects.annotations.LogBefore;
+import de.heinerion.invoice.aspects.annotations.LogMethod;
+import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.IO;

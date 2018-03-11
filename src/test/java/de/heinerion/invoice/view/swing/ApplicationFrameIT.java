@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.betriebe.TestContext;
-import de.heinerion.betriebe.builder.AddressBuilder;
-import de.heinerion.betriebe.builder.CompanyBuilder;
-import de.heinerion.betriebe.builder.InvoiceBuilder;
-import de.heinerion.betriebe.builder.SessionPreparer;
+import de.heinerion.invoice.print.pdf.boundary.TestContext;
+import de.heinerion.invoice.testsupport.builder.AddressBuilder;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
+import de.heinerion.invoice.testsupport.builder.InvoiceBuilder;
+import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;

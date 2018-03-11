@@ -1,4 +1,4 @@
-package de.heinerion.money;
+package de.heinerion.invoice.view.swing.home.receiver.money;
 
 import de.heinerion.util.ParsingUtil;
 
