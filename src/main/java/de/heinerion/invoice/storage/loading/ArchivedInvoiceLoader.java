@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.view.swing.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.util.Translator;
 import de.heinerion.util.ParsingUtil;
 import org.apache.logging.log4j.LogManager;

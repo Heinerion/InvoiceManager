@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.builder;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;

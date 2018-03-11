@@ -9,7 +9,7 @@
 
     <import resource="../invoice/print/pdf/boundary/boundary.xml"/>
     <import resource="util/util.xml"/>
-    <import resource="view/view.xml"/>
+    <import resource="../invoice/view/view.xml"/>
 
     <bean class="de.heinerion.betriebe.InvoiceManager"/>
 

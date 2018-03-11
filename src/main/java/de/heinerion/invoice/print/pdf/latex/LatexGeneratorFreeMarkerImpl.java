@@ -2,7 +2,7 @@ package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.view.formatter.Formatter;
+import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.util.Translator;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
