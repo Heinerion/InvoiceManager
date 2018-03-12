@@ -100,7 +100,7 @@ class ApplicationFrameImpl implements
   }
 
   @Override
-  public StatusComponent getStatusComponent() {
+  public StatusComponent<JPanel> getStatusComponent() {
     return statusComponent;
   }
 

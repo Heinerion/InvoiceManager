@@ -135,7 +135,7 @@ public class Migrator {
     if (file.getName().endsWith("tex")) {
       boolean authorFound = false;
 
-      try (Scanner scanner = new Scanner(file);) {
+      try (Scanner scanner = new Scanner(file)) {
         while (scanner.hasNextLine()) {
           String line = scanner.nextLine();
           if (line.contains("pdfauthor={" + author + "}")) {

@@ -4,9 +4,9 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.menu.AbstractMenuEntry;
 import de.heinerion.invoice.view.swing.menu.Menu;
-import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,16 +49,11 @@ public class InfoMenuEntry extends AbstractMenuEntry {
 
     Map<String, String> compInfos = new HashMap<>();
     for (Company company: Session.getAvailableCompanies()) {
-      // TODO use template
-      String valueMarkup = new StringBuilder()
-          .append("<p>")
-          .append(format("company.invoice.number", company.getInvoiceNumber()))
-          .append("<br />")
-          .append(format("company.vat", company.getValueAddedTax()))
-          .append("<br />")
-          .append(company.getFolderFile(pathUtil.determinePath(Invoice.class)).getAbsolutePath())
-          .append("</p>")
-          .toString();
+      String template = "<p>%s<br />%s<br />%s</p>";
+      String valueMarkup = String.format(template,
+          format("company.invoice.number", company.getInvoiceNumber()),
+          format("company.vat", company.getValueAddedTax()),
+          company.getFolderFile(pathUtil.determinePath(Invoice.class)).getAbsolutePath());
       compInfos.put(company.toString(), valueMarkup);
     }
     editor.addDefinitionList(compInfos);
