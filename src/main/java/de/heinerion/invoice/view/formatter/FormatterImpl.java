@@ -21,7 +21,7 @@ class FormatterImpl implements Formatter {
   @Override
   public List<String> formatAddress(Address address) {
     AddressFormatter formatter = getAddressFormatter()
-        .orElseThrow(() -> new FormatterException("formatter is not configured properly"));
+        .orElseThrow(FormatterException::new);
     formatter.format(address);
     return formatter.getOutput();
   }

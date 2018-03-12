@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.formatter;
 
 class FormatterException extends RuntimeException {
-  FormatterException(String message) {
-    super(message);
+  FormatterException() {
+    super("formatter is not configured properly");
   }
 }

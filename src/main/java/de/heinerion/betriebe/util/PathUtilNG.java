@@ -69,11 +69,11 @@ public class PathUtilNG {
   }
 
   public String getTemplateFileName(String descriptiveName) {
-    return generateFileName(getTemplatePath(), descriptiveName, "sav");
+    return generateSavFileName(getTemplatePath(), descriptiveName);
   }
 
-  private String generateFileName(String path, String name, String ending) {
-    return path + File.separator + name + "." + ending;
+  private String generateSavFileName(String path, String name) {
+    return path + File.separator + name + ".sav";
   }
 
   private static class NoValidLetterException extends RuntimeException {
