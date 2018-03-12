@@ -1,7 +1,7 @@
 package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.util.PathTools;
+import de.heinerion.invoice.storage.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

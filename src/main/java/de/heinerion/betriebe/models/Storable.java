@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.util.PathTools;
+import de.heinerion.invoice.storage.PathTools;
 
 public interface Storable {
   default String[] getClassification() {

@@ -1,7 +1,8 @@
-package de.heinerion.betriebe.util;
+package de.heinerion.invoice.storage;
 
 import de.heinerion.betriebe.models.Storable;
 import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.util.PathUtilNG;
 
 import java.io.File;
 import java.util.Collections;
