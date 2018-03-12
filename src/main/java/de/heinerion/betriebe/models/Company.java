@@ -2,7 +2,6 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.Loadable;
-import de.heinerion.betriebe.util.PathUtil;
 
 import java.io.File;
 import java.text.Collator;
@@ -87,9 +86,8 @@ public final class Company implements Storable, Loadable {
     this.officialName = officialName;
   }
 
-  public File getFolderFile() {
-    return new File(PathUtil.determinePath(Invoice.class) + File.separator
-        + this.getDescriptiveName());
+  public File getFolderFile(String basePath) {
+    return new File(basePath + File.separator + this.getDescriptiveName());
   }
 
   public String getPhoneNumber() {

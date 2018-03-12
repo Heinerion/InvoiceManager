@@ -6,6 +6,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.invoice.storage.PathTools;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.common.StatusComponent;
@@ -68,7 +69,7 @@ class IOImpl implements IO, LoadListener {
         if (logger.isDebugEnabled()) {
           logger.debug("load special template {}", s);
         }
-        templates.add(new TexTemplate(s));
+        templates.add(new TexTemplate(pathUtil.getTexTemplatePath(), s));
       }
     }
 
@@ -195,7 +196,8 @@ class IOImpl implements IO, LoadListener {
       logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
     }
 
-    Loader loader = LoaderFactory.getLoader(ArchivedInvoice.class, company.getFolderFile());
+    String basePath = pathUtil.determinePath(Invoice.class);
+    Loader loader = LoaderFactory.getLoader(ArchivedInvoice.class, company.getFolderFile(basePath));
     loader.init();
     loader.addListener(loadingManager);
     loadingManager.loadClass(ArchivedInvoice.class, loader);

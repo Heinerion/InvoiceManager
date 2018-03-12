@@ -2,6 +2,8 @@ package de.heinerion.invoice.view.swing.menu.info;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.AbstractMenuEntry;
 import de.heinerion.invoice.view.swing.menu.Menu;
 import de.heinerion.invoice.Translator;
@@ -14,8 +16,13 @@ import java.util.Map;
 
 public class InfoMenuEntry extends AbstractMenuEntry {
   private static final String NAME = Menu.translate("info");
+  private final PathUtilNG pathUtil;
 
   private JScrollPane spInfos;
+
+  public InfoMenuEntry (PathUtilNG pathUtil) {
+    this.pathUtil = pathUtil;
+  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -49,7 +56,7 @@ public class InfoMenuEntry extends AbstractMenuEntry {
           .append("<br />")
           .append(format("company.vat", company.getValueAddedTax()))
           .append("<br />")
-          .append(company.getFolderFile().getAbsolutePath())
+          .append(company.getFolderFile(pathUtil.determinePath(Invoice.class)).getAbsolutePath())
           .append("</p>")
           .toString();
       compInfos.put(company.toString(), valueMarkup);

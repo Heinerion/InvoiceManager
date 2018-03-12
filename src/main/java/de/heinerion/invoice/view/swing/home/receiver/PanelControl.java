@@ -27,14 +27,13 @@ class PanelControl {
   private static Address parseAddress(String address) {
     int token;
 
-    String location = null;
-    String number = null;
-    String postalCode = null;
-    String recipient = null;
-    String street = null;
+    Address parsedAddress = new Address();
+    parsedAddress.setApartment(DEFAULT_APARTMENT);
+    parsedAddress.setCompany(DEFAULT_COMPANY);
+    parsedAddress.setDistrict(DEFAULT_DISTRICT);
 
     if (address != null) {
-      recipient = address.split("\n")[0];
+      parsedAddress.setRecipient(address.split("\n")[0]);
 
       String[] stringToken = address.split("\\n");
       token = stringToken.length;
@@ -46,8 +45,8 @@ class PanelControl {
         streetTemp.append(numberToken[i].trim())
             .append(" ");
       }
-      street = streetTemp.toString().trim();
-      number = numberToken[numberToken.length - 1].trim();
+      parsedAddress.setStreet(streetTemp.toString().trim());
+      parsedAddress.setNumber(numberToken[numberToken.length - 1].trim());
 
       String codeAndLocation = stringToken[token - 1].trim();
       String[] locationToken = codeAndLocation.split(" ");
@@ -56,12 +55,11 @@ class PanelControl {
         locationTemp.append(locationToken[i].trim())
             .append(" ");
       }
-      location = locationTemp.toString().trim();
-      postalCode = locationToken[0].trim();
+      parsedAddress.setLocation(locationTemp.toString().trim());
+      parsedAddress.setPostalCode(locationToken[0].trim());
     }
 
-    return new Address(recipient, DEFAULT_COMPANY, DEFAULT_DISTRICT, street, number, DEFAULT_APARTMENT,
-        postalCode, location);
+    return parsedAddress;
   }
 
   static void saveAddress(String address) {

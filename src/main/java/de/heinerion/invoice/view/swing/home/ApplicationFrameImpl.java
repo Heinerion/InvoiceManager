@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.CompanyListener;
@@ -35,9 +36,11 @@ class ApplicationFrameImpl implements
 
   private StatusComponent<JPanel> statusComponent;
   private ContentTabPane contentTabPane;
+  private PathUtilNG pathUtil;
 
   @Autowired
-  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel) {
+  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, PathUtilNG pathUtil) {
+    this.pathUtil = pathUtil;
     contentTabPane = tabPane;
     this.receiverPanel = receiverPanel;
     statusComponent = PanelFactory.createStatusComponent();
@@ -72,7 +75,7 @@ class ApplicationFrameImpl implements
 
   private void addWidgets() {
     frame.setLayout(new BorderLayout());
-    frame.setJMenuBar(MenuFactory.createMenuBar(frame));
+    frame.setJMenuBar(MenuFactory.createMenuBar(frame, pathUtil));
     frame.add(receiverPanel.getPanel(), BorderLayout.LINE_START);
 
     frame.add(contentTabPane.getPane(), BorderLayout.CENTER);

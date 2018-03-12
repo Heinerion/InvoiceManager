@@ -111,7 +111,7 @@ class PrintOperations {
 
     @Override
     public File getFolder(Letter conveyable) {
-      return conveyable.getCompany().getFolderFile();
+      return conveyable.getCompany().getFolderFile(pathUtil.determinePath(conveyable.getClass()));
     }
   }
 }

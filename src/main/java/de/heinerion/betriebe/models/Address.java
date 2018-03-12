@@ -14,25 +14,6 @@ public final class Address implements Storable, Loadable {
   private String recipient;
   private String street;
 
-  public Address(){}
-
-  /**
-   * @deprecated use default constructor and setters instead
-   */
-  @Deprecated
-  public Address(String recipient, String company, String district,
-                 String street, String number, String apartment, String postalCode,
-                 String location) {
-    setApartment(apartment);
-    setCompany(company);
-    setDistrict(district);
-    setLocation(location);
-    setNumber(number);
-    setPostalCode(postalCode);
-    setRecipient(recipient);
-    setStreet(street);
-  }
-
   public Optional<String> getApartment() {
     return Optional.ofNullable(apartment);
   }

@@ -27,7 +27,7 @@ public class DataBaseTexTemplateTest {
     mockStatic(IO.class);
     DataBase.clearAllLists();
     company = new CompanyBuilder().build();
-    template = new TexTemplate("template");
+    template = new TexTemplate("basePath","template");
   }
 
   @Test

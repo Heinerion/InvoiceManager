@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.data.listable;
 
-import de.heinerion.betriebe.util.PathUtil;
-
 import java.io.File;
 import java.io.Serializable;
 
@@ -13,9 +11,9 @@ public final class TexTemplate implements DropListable, Serializable {
 
   private final String path;
 
-  public TexTemplate(String aName) {
+  public TexTemplate(String basePath, String aName) {
     this.name = aName.split("\\.", 2)[0];
-    this.path = PathUtil.getTexTemplatePath() + File.separator + aName;
+    this.path = basePath + File.separator + aName;
   }
 
   @Override
