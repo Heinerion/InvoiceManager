@@ -17,7 +17,7 @@ class CompanyButton extends JButton implements CompanyListener {
     registerListeners();
   }
 
-  public void setCompany(Company aCompany) {
+  private void setCompany(Company aCompany) {
     this.company = aCompany;
   }
 

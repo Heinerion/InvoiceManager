@@ -15,7 +15,7 @@ public final class LookAndFeelUtil {
     return UIManager.getLookAndFeel().getName();
   }
 
-  protected static void setLook(String look) {
+  private static void setLook(String look) {
     try {
       UIManager.setLookAndFeel(look);
     } catch (ClassNotFoundException | InstantiationException
@@ -37,7 +37,7 @@ public final class LookAndFeelUtil {
     setLookByName("Nimbus");
   }
 
-  public static void setSystem() {
+  private static void setSystem() {
     setLook(UIManager.getSystemLookAndFeelClassName());
   }
 

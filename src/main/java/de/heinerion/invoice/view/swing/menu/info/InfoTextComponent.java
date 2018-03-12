@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
-public class InfoTextComponent {
+class InfoTextComponent {
   private StringBuilder content;
   private JEditorPane pane;
 
@@ -26,7 +26,7 @@ public class InfoTextComponent {
           .addNewline();
   }
 
-  InfoTextComponent addNewline() {
+  private InfoTextComponent addNewline() {
     content.append("<br />");
     return this;
   }

@@ -326,7 +326,7 @@ public final class DataBase {
       company = null;
     }
 
-    public Optional<Company> getCompany() {
+    Optional<Company> getCompany() {
       return Optional.ofNullable(company);
     }
 

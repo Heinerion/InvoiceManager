@@ -171,7 +171,7 @@ public final class Session {
     getCompanyListeners().forEach(CompanyListener::notifyCompany);
   }
 
-  public static void notifyConveyable() {
+  private static void notifyConveyable() {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("notifyConveyable");
     }

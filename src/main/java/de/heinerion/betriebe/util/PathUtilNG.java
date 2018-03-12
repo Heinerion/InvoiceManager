@@ -14,7 +14,7 @@ public class PathUtilNG {
 
   }
 
-  public String getSystemFolderName() {
+  private String getSystemFolderName() {
     return ConfigurationService.get("folder.system");
   }
 
@@ -22,7 +22,7 @@ public class PathUtilNG {
     return ConfigurationService.get("folder.templates");
   }
 
-  public String getTexTemplateFolderName() {
+  private String getTexTemplateFolderName() {
     return ConfigurationService.get("folder.texTemplates");
   }
 

@@ -6,7 +6,7 @@ import de.heinerion.invoice.view.formatter.Formatter;
 import javax.swing.*;
 import java.util.List;
 
-public class AddressForm {
+class AddressForm {
   private JTextArea addressArea;
 
   private Formatter formatter;

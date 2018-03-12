@@ -341,7 +341,7 @@ class InvoiceTabContent extends AbstractTabContent {
   private enum Col {
     NAME(0), UNIT(1), PRICE(2), COUNT(3);
 
-    protected final int pos;
+    final int pos;
 
     Col(int pos) {
       this.pos = pos;

@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.models;
 
-public interface Buyable {
+interface Buyable {
   String getName();
 
   double getPricePerUnit();

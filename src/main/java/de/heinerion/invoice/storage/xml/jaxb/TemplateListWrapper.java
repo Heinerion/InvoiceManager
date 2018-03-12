@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement(name = "templates")
-public class TemplateListWrapper {
+class TemplateListWrapper {
   private List<InvoiceTemplate> templates;
 
   @XmlElement(name = "template")

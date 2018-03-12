@@ -2,7 +2,7 @@ package de.heinerion.invoice.print.pdf.boundary;
 
 import de.heinerion.invoice.Translator;
 
-public class Boundary {
+class Boundary {
   private Boundary() {
   }
 

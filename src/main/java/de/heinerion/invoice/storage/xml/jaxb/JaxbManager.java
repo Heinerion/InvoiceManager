@@ -51,7 +51,7 @@ abstract class JaxbManager<T> {
   protected abstract JAXBContext getContext() throws JAXBException;
 
   private static class MarshallingException extends RuntimeException {
-    public MarshallingException(Throwable cause) {
+    MarshallingException(Throwable cause) {
       super(cause);
     }
   }

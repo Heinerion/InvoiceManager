@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Letter implements Storable {
-  protected final Company company;
-  protected final LocalDate date;
+  private final Company company;
+  private final LocalDate date;
 
   String subject;
 

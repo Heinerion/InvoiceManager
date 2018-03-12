@@ -71,7 +71,7 @@ abstract class AbstractTextFileLoader extends AbstractLoader {
   }
 
   private static class ParseAttributeException extends RuntimeException {
-    public ParseAttributeException(Throwable cause) {
+    ParseAttributeException(Throwable cause) {
       super(cause);
     }
   }

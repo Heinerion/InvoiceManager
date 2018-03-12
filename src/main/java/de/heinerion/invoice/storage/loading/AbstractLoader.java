@@ -98,7 +98,7 @@ abstract class AbstractLoader implements Loader {
     return resultList;
   }
 
-  public abstract Loadable loopAction(File file);
+  protected abstract Loadable loopAction(File file);
 
   private boolean matchFiles(File file, Pattern fileNamePattern) {
     boolean result = false;
@@ -133,7 +133,7 @@ abstract class AbstractLoader implements Loader {
   }
 
   private static class MatchFilesException extends RuntimeException {
-    public MatchFilesException(Throwable cause) {
+    MatchFilesException(Throwable cause) {
       super(cause);
     }
   }

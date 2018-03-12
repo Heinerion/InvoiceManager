@@ -8,7 +8,7 @@ import de.heinerion.betriebe.models.Letter;
 import java.io.IOException;
 import java.util.List;
 
-public interface Serializer {
+interface Serializer {
   void saveAddresses(List<Address> addresses)
       throws IOException;
 

@@ -68,7 +68,7 @@ public final class ArchivedInvoiceTable implements TableModel {
     return getInvoiceList().contains(data);
   }
 
-  public ArchivedInvoice get(int index) {
+  private ArchivedInvoice get(int index) {
     return getInvoiceList().get(index);
   }
 
