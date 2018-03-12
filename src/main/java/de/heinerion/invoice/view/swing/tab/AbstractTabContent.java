@@ -4,7 +4,7 @@ import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.PanelSides;
 import de.heinerion.invoice.view.swing.TabContent;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 

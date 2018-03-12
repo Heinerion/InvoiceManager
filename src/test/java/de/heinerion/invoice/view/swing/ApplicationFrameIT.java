@@ -10,7 +10,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilBuilder;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;

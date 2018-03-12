@@ -1,4 +1,4 @@
-package de.heinerion.util;
+package de.heinerion.invoice;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

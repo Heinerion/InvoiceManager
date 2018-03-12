@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

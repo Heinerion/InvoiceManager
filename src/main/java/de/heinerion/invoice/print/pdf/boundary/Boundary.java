@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 public class Boundary {
   private Boundary() {

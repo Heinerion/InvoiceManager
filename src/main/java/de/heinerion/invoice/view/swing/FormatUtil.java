@@ -1,4 +1,4 @@
-package de.heinerion.util;
+package de.heinerion.invoice.view.swing;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

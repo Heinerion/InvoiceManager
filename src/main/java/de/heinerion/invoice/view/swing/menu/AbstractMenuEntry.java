@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.menu;
 
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

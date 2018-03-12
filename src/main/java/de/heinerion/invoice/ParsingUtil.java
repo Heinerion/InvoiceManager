@@ -1,4 +1,4 @@
-package de.heinerion.util;
+package de.heinerion.invoice;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

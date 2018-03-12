@@ -1,4 +1,4 @@
-package de.heinerion.util;
+package de.heinerion.invoice;
 
 public final class StringUtil {
   private StringUtil() {

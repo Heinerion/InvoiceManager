@@ -4,7 +4,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.PanelSides;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.util.Translator;
 
 import javax.swing.*;
 import java.awt.*;

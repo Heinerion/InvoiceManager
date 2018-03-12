@@ -10,9 +10,8 @@ import de.heinerion.invoice.view.swing.CompanyListener;
 import de.heinerion.invoice.view.swing.ContentTabPane;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
-import de.heinerion.util.DateUtil;
-import de.heinerion.util.DimensionUtil;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.view.DateUtil;
+import de.heinerion.invoice.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;

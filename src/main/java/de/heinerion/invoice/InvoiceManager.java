@@ -8,7 +8,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.SwingStarter;
-import de.heinerion.util.LookAndFeelUtil;
+import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

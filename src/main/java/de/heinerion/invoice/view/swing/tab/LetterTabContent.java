@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.*;

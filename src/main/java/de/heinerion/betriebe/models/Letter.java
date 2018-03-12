@@ -1,7 +1,7 @@
 package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.util.PathTools;
-import de.heinerion.util.StringUtil;
+import de.heinerion.invoice.StringUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

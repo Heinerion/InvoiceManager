@@ -4,7 +4,7 @@ import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.util.DateUtil;
+import de.heinerion.invoice.view.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;

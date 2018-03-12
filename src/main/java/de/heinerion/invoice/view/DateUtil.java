@@ -1,4 +1,4 @@
-package de.heinerion.util;
+package de.heinerion.invoice.view;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

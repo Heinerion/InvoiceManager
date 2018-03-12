@@ -3,8 +3,8 @@ package de.heinerion.invoice.view.swing.tab;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.ConveyableListener;
 import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.util.Translator;
-import de.heinerion.util.FormatUtil;
+import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.swing.FormatUtil;
 
 import javax.swing.*;
 import java.awt.*;

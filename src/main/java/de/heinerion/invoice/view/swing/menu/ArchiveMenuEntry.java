@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
-import de.heinerion.util.Translator;
-import de.heinerion.util.FormatUtil;
+import de.heinerion.invoice.view.swing.FormatUtil;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;

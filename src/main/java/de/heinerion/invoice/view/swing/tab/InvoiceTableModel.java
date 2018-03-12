@@ -3,7 +3,7 @@ package de.heinerion.invoice.view.swing.tab;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
-import de.heinerion.util.ParsingUtil;
+import de.heinerion.invoice.ParsingUtil;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;

@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.menu.info;
 
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 public class Info {
   private Info(){}

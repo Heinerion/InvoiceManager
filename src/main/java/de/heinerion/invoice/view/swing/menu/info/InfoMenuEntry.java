@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.view.swing.menu.AbstractMenuEntry;
 import de.heinerion.invoice.view.swing.menu.Menu;
-import de.heinerion.util.Translator;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.*;

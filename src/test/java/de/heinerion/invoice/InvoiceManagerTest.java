@@ -8,7 +8,7 @@ import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.PanelSides;
 import de.heinerion.invoice.view.swing.SwingStarter;
-import de.heinerion.util.LookAndFeelUtil;
+import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
