@@ -2,10 +2,10 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.storage.loading.IO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -56,21 +56,25 @@ public class Migrator {
 
   private void migrateCompanyInfo(Company company) {
     File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
-    logger.info("created " + companyDir);
+    logCreation(companyDir);
 
     transferTemplatesAndAddresses(company, companyDir);
 
     copyLettersAndInvoices(company, companyDir);
   }
 
+  private void logCreation(File createdFile) {
+    logger.info("created " + createdFile);
+  }
+
   private void transferTemplatesAndAddresses(Company company, File companyDir) {
     File templatesXmlFile = new File(companyDir, "templates.xml");
     new TemplateManager().marshal(DataBase.getTemplates(company), templatesXmlFile);
-    logger.info("created " + templatesXmlFile);
+    logCreation(templatesXmlFile);
 
     File addressesXmlFile = new File(companyDir, "addresses.xml");
     new AddressManager().marshal(DataBase.getAddresses(), addressesXmlFile);
-    logger.info("created " + addressesXmlFile);
+    logCreation(addressesXmlFile);
   }
 
   private void copyLettersAndInvoices(Company company, File companyDir) {
@@ -121,36 +125,38 @@ public class Migrator {
 
   private boolean isOfCompany(Company company, File file) {
     String author = company.getOfficialName();
+    String fileName = file.getName();
 
-    if (file.getName().endsWith("pdf")) {
-      try (PDDocument pdf = PDDocument.load(file)) {
-        PDDocumentInformation info = pdf.getDocumentInformation();
+    return fileName.endsWith("pdf") && pdfHasAuthor(file, author)
+        || fileName.endsWith("tex") && texHasAuthor(file, author);
+  }
 
-        return author.equals(info.getAuthor());
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+  private boolean pdfHasAuthor(File file, String author) {
+    try (PDDocument pdf = PDDocument.load(file)) {
+      PDDocumentInformation info = pdf.getDocumentInformation();
+
+      return author.equals(info.getAuthor());
+    } catch (IOException e) {
+      throw new MigrationException(e);
     }
+  }
 
-    if (file.getName().endsWith("tex")) {
-      boolean authorFound = false;
+  private boolean texHasAuthor(File file, String author) {
+    boolean authorFound = false;
 
-      try (Scanner scanner = new Scanner(file)) {
-        while (scanner.hasNextLine()) {
-          String line = scanner.nextLine();
-          if (line.contains("pdfauthor={" + author + "}")) {
-            authorFound = true;
-            break;
-          }
+    try (Scanner scanner = new Scanner(file)) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if (line.contains("pdfauthor={" + author + "}")) {
+          authorFound = true;
+          break;
         }
-      } catch (FileNotFoundException e) {
-        e.printStackTrace();
       }
-
-      return authorFound;
+    } catch (FileNotFoundException e) {
+      throw new MigrationException(e);
     }
 
-    return false;
+    return authorFound;
   }
 
   private void copy(File src, File dest) {
@@ -158,7 +164,7 @@ public class Migrator {
       logger.info("\n copy " + src + "\n to   " + dest);
       FileSystemUtils.copyRecursively(src, dest);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new MigrationException(e);
     }
   }
 
@@ -168,9 +174,19 @@ public class Migrator {
 
   private File createDir(File parent, String name) {
     File companyFolder = new File(parent, name);
-    if (!companyFolder.exists() || !companyFolder.isDirectory()) {
-      companyFolder.mkdir();
+    if ((companyFolder.exists() && companyFolder.isDirectory()) || companyFolder.mkdir()) {
+      return companyFolder;
     }
-    return companyFolder;
+    throw new MigrationException("the folder " + companyFolder + " could not be created!");
+  }
+
+  private class MigrationException extends RuntimeException {
+    MigrationException(Throwable e) {
+      super("Exception whilst migrating", e);
+    }
+
+    MigrationException(String reason) {
+      super(reason);
+    }
   }
 }
