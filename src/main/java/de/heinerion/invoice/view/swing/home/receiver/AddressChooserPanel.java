@@ -11,10 +11,9 @@ import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 @SuppressWarnings("serial")
-class AddressChooserPanel extends AbstractGridPanel {
+class AddressChooserPanel extends JPanel {
   private static final String FLOPPY_SYM = "FileChooser.floppyDriveIcon";
   private static final String DELETE_SYM = "images/delete.png";
 
@@ -30,10 +29,12 @@ class AddressChooserPanel extends AbstractGridPanel {
   private static final int ANY = 0;
   private static final int INSET = 3;
 
-  private AddressForm addressForm;
+  private final GridBagLayout gridLayout = new GridBagLayout();
+  private transient AddressForm addressForm;
+  private GridBagConstraints gridConstraints = new GridBagConstraints();
 
   /**
-   * ComboBox für Adressen
+   * ComboBox for addresses
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
@@ -46,16 +47,14 @@ class AddressChooserPanel extends AbstractGridPanel {
   }
 
   private void init() {
-    this.setOpaque(false);
+    setOpaque(false);
 
-    setGridConstraints(new GridBagConstraints());
+    gridConstraints = new GridBagConstraints();
+    setLayout(gridLayout);
 
-    this.setLayout(getGridLayout());
-
-    final GridBagConstraints constraints = getGridConstraints();
-    // Größe der Elemente passt sich an Container an (X & Y → BOTH)
-    constraints.fill = GridBagConstraints.BOTH;
-    constraints.insets = new Insets(INSET, INSET, INSET, INSET);
+    // size of elements adapts to container (X & Y → BOTH)
+    gridConstraints.fill = GridBagConstraints.BOTH;
+    gridConstraints.insets = new Insets(INSET, INSET, INSET, INSET);
   }
 
   private void addButtons() {
@@ -65,7 +64,8 @@ class AddressChooserPanel extends AbstractGridPanel {
     position.setPosY(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    final JPanel pnlButtons = this.myPanel(position);
+
+    final JPanel pnlButtons = create(new JPanel(), position);
     pnlButtons.setLayout(new GridLayout(ANY, 1));
 
     final JButton btnSave = new JButton(UIManager.getIcon(FLOPPY_SYM));
@@ -83,21 +83,28 @@ class AddressChooserPanel extends AbstractGridPanel {
 
   private void addAddressChooser() {
     PositionCoordinates position;
-    // Adressboxen links NEBEN die Labels platzieren
+    // place address boxes left to their labels
     position = new PositionCoordinates();
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    addressBox = myComboBox(position, new Address[1]);
+    Address[] liste = new Address[1];
+
+    addressBox = create(new JComboBox<>(liste), position);
 
     position = new PositionCoordinates();
     position.setPosX(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    final JLabel l = this.myLabel("Adresse", position, BOLD, CENTER);
+
+    final JLabel newLabel = new JLabel("Adresse");
+    newLabel.setFont(this.getFont().deriveFont(BOLD));
+    newLabel.setHorizontalAlignment(CENTER);
+
+    final JLabel l = create(newLabel, position);
     l.setLabelFor(addressBox);
 
-    // Adresse übernehmen
-    this.addressBox.addActionListener(e -> this.useGivenAddress());
+    // apply address
+    addressBox.addActionListener(e -> useGivenAddress());
   }
 
   private void addAddressField(Formatter formatter) {
@@ -106,40 +113,61 @@ class AddressChooserPanel extends AbstractGridPanel {
     position.setPosY(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    this.addressForm = new AddressForm(formatter);
-    JTextArea addressArea = this.myTextArea(position, ADDRESSFIELD_ROWS,
-        ADDRESSFIELD_COLS);
-    setSizes(addressArea, DimensionUtil.ADDRESS_AREA);
+    addressForm = new AddressForm(formatter);
+    JTextArea addressArea = create(new JTextArea(ADDRESSFIELD_ROWS, ADDRESSFIELD_COLS), position);
+    addressArea.setPreferredSize(DimensionUtil.ADDRESS_AREA);
+    addressArea.setMinimumSize(DimensionUtil.ADDRESS_AREA);
+    addressArea.setMaximumSize(DimensionUtil.ADDRESS_AREA);
     addressArea.setBackground(Color.WHITE);
-    // Undurchsichtig (sollte schon so sein)
+    // set opacity (although it should already be set to true)
     addressArea.setOpaque(true);
     addressArea.setBorder(BorderFactory.createEtchedBorder());
-    this.addressForm.setAddressArea(addressArea);
+    addressForm.setAddressArea(addressArea);
   }
 
   private void clearAddress() {
-    this.addressForm.clear();
+    addressForm.clear();
   }
 
   private void saveAddress() {
-    PanelControl.saveAddress(this.addressForm.getText());
-    this.refreshBoxes();
+    PanelControl.saveAddress(addressForm.getText());
+    refreshBoxes();
   }
 
   void refreshBoxes() {
-    // Alte Adressen werden gelöscht
-    this.addressBox.removeAllItems();
+    // delete old addresses
+    addressBox.removeAllItems();
 
     final Company activeCompany = Session.getActiveCompany();
-    final List<Address> knownAddresses = DataBase.getAddresses(activeCompany);
-    for (final Address adresse : knownAddresses) {
-      this.addressBox.addItem(adresse);
-    }
+    DataBase.getAddresses(activeCompany).forEach(addressBox::addItem);
   }
 
   private void useGivenAddress() {
     final Address address = (Address) this.addressBox.getSelectedItem();
     Session.setActiveAddress(address);
     addressForm.setAddress(address);
+  }
+
+  /**
+   * Creates a new component for the grid.<br>
+   *   This method is to be called internally only and is used to streamline the creation of distinct components
+   *
+   * @param component the component to be placed in the grid
+   * @return the created component for further customization
+   */
+  private <X extends JComponent> X create(X component,
+                    PositionCoordinates coordinates) {
+    gridConstraints.weightx = 0;
+    gridConstraints.weighty = 0;
+    gridConstraints.gridx = coordinates.getPosX();
+    gridConstraints.gridy = coordinates.getPosY();
+    gridConstraints.gridwidth = coordinates.getWidth();
+    gridConstraints.gridheight = coordinates.getHeight();
+
+    gridLayout.setConstraints(component, gridConstraints);
+    component.setOpaque(false);
+    component.setForeground(getForeground());
+    add(component);
+    return component;
   }
 }
