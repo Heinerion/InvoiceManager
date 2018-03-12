@@ -1,11 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.heinerion</groupId>
     <artifactId>invoice-manager</artifactId>
-    <version>1.0.0</version>
     <name>InvoiceManager</name>
+    <version>1.0.0</version>
 
     <scm>
         <connection>scm:git:git://github.com/Heinerion/InvoiceManager.git</connection>
@@ -33,12 +34,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.7</version>
-                <configuration>
-                    <complianceLevel>1.8</complianceLevel>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
+                <version>1.11</version>
                 <executions>
                     <execution>
                         <goals>
@@ -46,6 +42,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <complianceLevel>1.8</complianceLevel>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
             <!-- maven compiler plugin -->
             <plugin>
@@ -148,15 +149,7 @@
                 <!-- We generate package-info.java-files to get information from Jdepend in Sonar -->
                 <groupId>de.shadowhunt.maven.plugins</groupId>
                 <artifactId>package-info-maven-plugin</artifactId>
-                <configuration>
-                    <packages>
-                        <package>
-                        </package>
-                    </packages>
-                    <!-- Sonar doesn't like the files to be in generated-sources :-(
-                         so we have to put them in src-folder - however we don't check them in -->
-                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
-                </configuration>
+                <version>2.0.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -165,6 +158,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <packages>
+                        <package />
+                    </packages>
+                    <!-- Sonar doesn't like the files to be in generated-sources :-(
+                         so we have to put them in src-folder - however we don't check them in -->
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
 
@@ -206,7 +207,7 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.8.10</version>
+            <version>1.8.13</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
