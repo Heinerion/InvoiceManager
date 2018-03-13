@@ -26,7 +26,6 @@ class FileHandler {
       out.write(content);
 
       out.flush();
-      out.close();
     } catch (IOException e) {
       BoundaryException.rethrow(e);
     }

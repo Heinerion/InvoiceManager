@@ -20,7 +20,7 @@ class CompanyChooserPanel implements Refreshable {
     sidePanel.remove(content);
     content = new JPanel();
     for (Company c : Session.getAvailableCompanies()) {
-      final JButton btn = new CompanyButton(c);
+      final JButton btn = new CompanyButton(c).getButton();
       content.add(btn);
     }
     sidePanel.add(content);

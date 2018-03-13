@@ -71,10 +71,6 @@ public class InfoMenuEntry extends AbstractMenuEntry {
     return MessageFormat.format(Info.translate(key), replacements);
   }
 
-  private static String translate(String key) {
-    return Translator.translate(key);
-  }
-
   @Override
   protected void setTitle(JDialog dialog) {
     dialog.setTitle(NAME);

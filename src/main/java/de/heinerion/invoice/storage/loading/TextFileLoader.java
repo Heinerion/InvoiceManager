@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @deprecated this class will eventually be replaced
+ */
 @Deprecated
 public class TextFileLoader implements Serializer {
   private static final String ADDRESS = "Address";

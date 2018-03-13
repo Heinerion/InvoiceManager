@@ -7,11 +7,12 @@ import de.heinerion.invoice.view.swing.CompanyListener;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-class CompanyButton extends JButton implements CompanyListener {
-  private transient Company company;
+class CompanyButton implements CompanyListener {
+  private Company company;
+  private JButton button;
 
   CompanyButton(Company aCompany) {
-    super(aCompany.getDescriptiveName());
+    button = new JButton(aCompany.getDescriptiveName());
     setCompany(aCompany);
     updateEnabledState();
     registerListeners();
@@ -22,7 +23,7 @@ class CompanyButton extends JButton implements CompanyListener {
   }
 
   private void updateEnabledState() {
-    setEnabled(!isCurrentlySelected());
+    button.setEnabled(!isCurrentlySelected());
   }
 
   private boolean isCurrentlySelected() {
@@ -31,7 +32,11 @@ class CompanyButton extends JButton implements CompanyListener {
 
   private void registerListeners() {
     Session.addCompanyListener(this);
-    addActionListener(e -> Session.setActiveCompany(this.company));
+    button.addActionListener(e -> Session.setActiveCompany(this.company));
+  }
+
+  public JButton getButton() {
+    return button;
   }
 
   @Override

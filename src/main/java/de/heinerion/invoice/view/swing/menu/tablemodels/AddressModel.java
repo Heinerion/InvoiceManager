@@ -11,7 +11,7 @@ public final class AddressModel extends AbstractTableModel {
     RECIPIENT, COMPANY, DISTRICT, STREET, NUMBER, APARTMENT, POSTCODE, LOCATION
   }
 
-  private final List<Address> addresses;
+  private final transient List<Address> addresses;
 
   public AddressModel(List<Address> someAddresses) {
     this.addresses = someAddresses;

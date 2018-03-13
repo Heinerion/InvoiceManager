@@ -57,7 +57,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
       temp.process(root, writer);
       return writer.toString();
     } catch (IOException | TemplateException e) {
-      throw new RuntimeException(e);
+      throw new LatexGeneratorException(e);
     }
   }
 
@@ -93,6 +93,12 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
       this.rootElement = key;
       this.template = key + ".tex";
       this.title = key + ".title";
+    }
+  }
+
+  private class LatexGeneratorException extends RuntimeException {
+    LatexGeneratorException(Throwable e) {
+      super ("The template could not be processed", e);
     }
   }
 }

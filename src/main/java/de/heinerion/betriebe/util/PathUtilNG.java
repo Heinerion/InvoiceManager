@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 
 public class PathUtilNG {
-  @Autowired
-  public PathUtilNG() {
-
-  }
+//  @Autowired
+//  public PathUtilNG() {
+//
+//  }
 
   private String getSystemFolderName() {
     return ConfigurationService.get("folder.system");

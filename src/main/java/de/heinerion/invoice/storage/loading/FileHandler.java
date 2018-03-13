@@ -134,7 +134,6 @@ class FileHandler {
     try (FileOutputStream fOut = new FileOutputStream(path);
          ObjectOutputStream objOut = new ObjectOutputStream(fOut)) {
       objOut.writeObject(obj);
-      objOut.close();
     }
   }
 

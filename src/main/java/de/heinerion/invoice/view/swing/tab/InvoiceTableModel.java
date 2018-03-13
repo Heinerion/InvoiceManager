@@ -16,7 +16,7 @@ class InvoiceTableModel extends AbstractTableModel {
   private static final int PPU = 2;
   private static final int COUNT = 3;
 
-  private List<Item> contents;
+  private transient List<Item> contents;
 
   InvoiceTableModel(List<Item> items) {
     contents = items;
