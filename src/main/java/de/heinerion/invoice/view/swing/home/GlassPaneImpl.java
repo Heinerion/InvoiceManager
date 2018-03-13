@@ -1,5 +1,6 @@
 package de.heinerion.invoice.view.swing.home;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -9,28 +10,30 @@ import java.awt.*;
  *
  * @author heiner
  */
-class GlassPaneImpl extends GlassPane {
-  private static final long serialVersionUID = -7600133123674600410L;
+class GlassPaneImpl implements GlassPane {
   private static final int ALPHA = 150;
+  private final JPanel basePanel;
 
   /**
    * Creates a new GlassPane with wait cursor, invisible for now
    */
   GlassPaneImpl() {
-    setLayout(new BorderLayout());
-    setVisible(false);
-    setOpaque(false);
+    basePanel = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        Color bgColor = getBackground();
+
+        g.setColor(getTransparentColor(bgColor));
+        g.fillRect(0, 0, getWidth(), getHeight());
+      }
+    };
+
+    basePanel.setLayout(new BorderLayout());
+    basePanel.setVisible(false);
+    basePanel.setOpaque(false);
 
     // "hour glass"
-    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-  }
-
-  @Override
-  protected void paintComponent(Graphics g) {
-    Color bgColor = getBackground();
-
-    g.setColor(getTransparentColor(bgColor));
-    g.fillRect(0, 0, getWidth(), getHeight());
+    basePanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
   }
 
   private Color getTransparentColor(Color bgColor) {
@@ -38,5 +41,10 @@ class GlassPaneImpl extends GlassPane {
     int blue = bgColor.getBlue();
     int green = bgColor.getGreen();
     return new Color(red, blue, green, ALPHA);
+  }
+
+  @Override
+  public JComponent getComponent() {
+    return basePanel;
   }
 }

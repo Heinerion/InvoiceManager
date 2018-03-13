@@ -46,7 +46,7 @@ class ApplicationFrameImpl implements
     statusComponent = PanelFactory.createStatusComponent();
     frame = new JFrame();
 
-    frame.setGlassPane(glassPane);
+    frame.setGlassPane(glassPane.getComponent());
     frame.setResizable(true);
 
     createWidgets();
