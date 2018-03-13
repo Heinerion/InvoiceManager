@@ -6,20 +6,20 @@ import org.junit.Test;
 public class EuroTest {
   @Test
   public void testAdd() {
-    Euro a = new Euro(2.5);
-    Euro b = new Euro(1.25);
+    Euro a = Euro.of(2.5);
+    Euro b = Euro.of(1.25);
     Euro c = a.add(b);
-    Euro expected = new Euro(3.75);
+    Euro expected = Euro.of(3.75);
 
     Assert.assertEquals(expected, c);
   }
 
   @Test
   public void testDivideBy() {
-    Euro a = new Euro(2.75);
+    Euro a = Euro.of(2.75);
     double b = 2d;
     Euro c = a.divideBy(b);
-    Euro expected = new Euro(1.38);
+    Euro expected = Euro.of(1.38);
 
     Assert.assertEquals(expected, c);
   }
