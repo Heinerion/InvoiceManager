@@ -4,10 +4,10 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
 import de.heinerion.invoice.view.swing.home.DimensionUtil;
-import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 import java.awt.*;

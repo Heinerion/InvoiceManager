@@ -2,8 +2,8 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.view.swing.PanelSides;
-import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
+import de.heinerion.invoice.view.swing.PanelFactory;
+import de.heinerion.invoice.view.swing.PanelSides;
 
 import javax.swing.*;
 import java.awt.*;

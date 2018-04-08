@@ -1,11 +1,11 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.invoice.testsupport.builder.AddressBuilder;
-import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.testsupport.builder.AddressBuilder;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;

@@ -2,9 +2,9 @@ package de.heinerion.invoice.view.swing.menu.tablemodels.archive;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.storage.loading.Loadable;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.storage.loading.Loadable;
 import de.heinerion.invoice.view.DateUtil;
 
 import java.io.File;

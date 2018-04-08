@@ -1,8 +1,8 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 
 import java.io.File;
 import java.util.HashMap;

@@ -1,14 +1,10 @@
 package de.heinerion.invoice;
 
-import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.invoice.view.common.StatusComponent;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
-import de.heinerion.invoice.view.swing.PanelFactory;
-import de.heinerion.invoice.view.swing.PanelSides;
-import de.heinerion.invoice.view.swing.SwingStarter;
-import de.heinerion.invoice.view.swing.LookAndFeelUtil;
+import de.heinerion.invoice.view.swing.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

@@ -1,9 +1,9 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,7 +1,7 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

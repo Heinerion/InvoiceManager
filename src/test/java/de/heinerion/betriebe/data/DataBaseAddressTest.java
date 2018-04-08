@@ -1,10 +1,10 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.invoice.testsupport.builder.AddressBuilder;
-import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.testsupport.builder.AddressBuilder;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IO.class})

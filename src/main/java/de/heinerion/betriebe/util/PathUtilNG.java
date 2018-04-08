@@ -4,7 +4,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 

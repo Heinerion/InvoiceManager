@@ -1,8 +1,8 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.ParsingUtil;
+import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;

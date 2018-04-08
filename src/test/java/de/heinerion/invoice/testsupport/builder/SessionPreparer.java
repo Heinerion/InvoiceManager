@@ -1,10 +1,10 @@
 package de.heinerion.invoice.testsupport.builder;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.view.swing.ApplicationFrame;
 
 import java.util.Optional;
 
