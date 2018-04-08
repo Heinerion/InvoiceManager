@@ -32,6 +32,7 @@ class AddressChooserPanel extends JPanel {
   private final GridBagLayout gridLayout = new GridBagLayout();
   private transient AddressForm addressForm;
   private GridBagConstraints gridConstraints = new GridBagConstraints();
+  private DataBase dataBase = DataBase.getInstance();
 
   /**
    * ComboBox for addresses
@@ -139,7 +140,7 @@ class AddressChooserPanel extends JPanel {
     addressBox.removeAllItems();
 
     final Company activeCompany = Session.getActiveCompany();
-    DataBase.getAddresses(activeCompany).forEach(addressBox::addItem);
+    dataBase.getAddresses(activeCompany).forEach(addressBox::addItem);
   }
 
   private void useGivenAddress() {

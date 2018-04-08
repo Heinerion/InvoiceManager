@@ -34,6 +34,7 @@ class InvoiceTabContent extends AbstractTabContent {
   private JTable tabPositions;
   private JComboBox<InvoiceTemplate> templateBox;
   private IO io;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Autowired
   InvoiceTabContent(IO io) {
@@ -99,7 +100,7 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void addToTemplates(Item item) {
-    List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
     InvoiceTemplate template = createTemplate();
 
     int index = index(item.getName(), activeTemplates);
@@ -132,7 +133,7 @@ class InvoiceTabContent extends AbstractTabContent {
 
   @Override
   public void refresh() {
-    List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+    List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
     if (!activeTemplates.equals(getTemplates())) {
       clearPositions();
       clearTemplates();
@@ -171,7 +172,7 @@ class InvoiceTabContent extends AbstractTabContent {
     if (pos >= 0) {
       // replace table positions with those of the template
       String[][] table;
-      List<InvoiceTemplate> activeTemplates = DataBase.getTemplates(Session.getActiveCompany());
+      List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
       table = activeTemplates.get(pos).getInhalt();
       fillTable(table);
     }

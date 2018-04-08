@@ -21,31 +21,32 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class DataBaseTemplateTest {
   private Company company;
   private InvoiceTemplate template;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Before
   public void setUp() throws Exception {
     mockStatic(IO.class);
-    DataBase.clearAllLists();
+    dataBase.clearAllLists();
     company = new CompanyBuilder().build();
     template = new InvoiceTemplate();
   }
 
   @Test
   public void testAddTemplateWithCompany() {
-    DataBase.addTemplate(company, template);
+    dataBase.addTemplate(company, template);
 
-    assertTrue(DataBase.getTemplates(company).contains(template));
+    assertTrue(dataBase.getTemplates(company).contains(template));
   }
 
   @Test
   public void testAddTemplatesMultipleTimes() {
-    int baseSize = DataBase.getTemplates(company).size();
+    int baseSize = dataBase.getTemplates(company).size();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addTemplate(company, template);
-    DataBase.addTemplate(company, template);
+    dataBase.addTemplate(company, template);
+    dataBase.addTemplate(company, template);
 
-    assertEquals(expectedSize, DataBase.getTemplates(company).size());
+    assertEquals(expectedSize, dataBase.getTemplates(company).size());
   }
 }

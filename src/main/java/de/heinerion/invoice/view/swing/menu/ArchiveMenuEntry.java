@@ -18,6 +18,7 @@ import java.io.IOException;
 @SuppressWarnings("serial")
 class ArchiveMenuEntry extends AbstractMenuEntry {
   private static final String NAME = Menu.translate("archive");
+  private DataBase dataBase = DataBase.getInstance();
 
   private ArchivedInvoiceTable model;
 
@@ -33,7 +34,7 @@ class ArchiveMenuEntry extends AbstractMenuEntry {
 
   @Override
   protected void createWidgets() {
-    model = DataBase.getInvoices();
+    model = dataBase.getInvoices();
     tblInvoices = new JTable(model);
     tblInvoices.setAutoCreateRowSorter(true);
     tblInvoices.setRowSelectionAllowed(true);

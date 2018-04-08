@@ -20,50 +20,51 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("javax.management.*")
 public class DataBaseCompanyTest {
   private Company company;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Before
   public void setUp() throws Exception {
     mockStatic(IO.class);
     mockStatic(Session.class);
-    DataBase.clearAllLists();
+    dataBase.clearAllLists();
     company = new CompanyBuilder().build();
   }
 
   @Test
   public void testAddCompany() {
-    DataBase.addCompany(company);
+    dataBase.addCompany(company);
 
-    assertTrue(DataBase.getCompanies().contains(company));
+    assertTrue(dataBase.getCompanies().contains(company));
   }
 
   @Test
   public void testAddCompanyAsLoadable() {
-    DataBase.addLoadable(company);
+    dataBase.addLoadable(company);
 
-    assertTrue(DataBase.getCompanies().contains(company));
+    assertTrue(dataBase.getCompanies().contains(company));
   }
 
   @Test
   public void testAddCompanyMultipleTimes() {
-    int baseSize = DataBase.getCompanies().size();
+    int baseSize = dataBase.getCompanies().size();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addCompany(company);
-    DataBase.addCompany(company);
+    dataBase.addCompany(company);
+    dataBase.addCompany(company);
 
-    assertEquals(expectedSize, DataBase.getCompanies().size());
+    assertEquals(expectedSize, dataBase.getCompanies().size());
   }
 
   @Test
   public void testDoNotFindAddressByCompany() {
-    assertFalse(DataBase.getCompany("dummy").isPresent());
+    assertFalse(dataBase.getCompany("dummy").isPresent());
   }
 
   @Test
   public void testFindAddressByCompany() {
-    DataBase.addCompany(company);
-    Optional<Company> result = DataBase.getCompany(company.getDescriptiveName());
+    dataBase.addCompany(company);
+    Optional<Company> result = dataBase.getCompany(company.getDescriptiveName());
     assertTrue(result.isPresent());
     assertEquals(company, result.get());
   }

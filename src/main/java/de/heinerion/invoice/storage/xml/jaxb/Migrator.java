@@ -25,6 +25,7 @@ public class Migrator {
   private static final Logger logger = LogManager.getLogger(Migrator.class);
 
   private PathUtilNG pathUtil;
+  private DataBase dataBase = DataBase.getInstance();
 
   private Migrator(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
@@ -69,11 +70,11 @@ public class Migrator {
 
   private void transferTemplatesAndAddresses(Company company, File companyDir) {
     File templatesXmlFile = new File(companyDir, "templates.xml");
-    new TemplateManager().marshal(DataBase.getTemplates(company), templatesXmlFile);
+    new TemplateManager().marshal(dataBase.getTemplates(company), templatesXmlFile);
     logCreation(templatesXmlFile);
 
     File addressesXmlFile = new File(companyDir, "addresses.xml");
-    new AddressManager().marshal(DataBase.getAddresses(), addressesXmlFile);
+    new AddressManager().marshal(dataBase.getAddresses(), addressesXmlFile);
     logCreation(addressesXmlFile);
   }
 

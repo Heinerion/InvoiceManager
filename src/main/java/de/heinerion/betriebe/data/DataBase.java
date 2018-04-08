@@ -21,23 +21,35 @@ import java.util.stream.Collectors;
 public final class DataBase {
   private static final Logger logger = LogManager.getLogger(DataBase.class);
 
-  private static List<ListEntry<Address>> addressEntries;
-  private static List<ListEntry<Company>> companyEntries;
-  private static List<ListEntry<InvoiceTemplate>> templateEntries;
-  private static List<ListEntry<TexTemplate>> texTemplateEntries;
+  private List<ListEntry<Address>> addressEntries;
+  private List<ListEntry<Company>> companyEntries;
+  private List<ListEntry<InvoiceTemplate>> templateEntries;
+  private List<ListEntry<TexTemplate>> texTemplateEntries;
 
-  private static ArchivedInvoiceTable invoices;
+  private ArchivedInvoiceTable invoices;
 
-  private static IO io;
+  private IO io;
+
+  private static DataBase instance = new DataBase();
 
   private DataBase() {
   }
 
-  public static void setIo(IO io) {
-    DataBase.io = io;
+  public static DataBase getInstance() {
+    return instance;
   }
 
-  public static Optional<Address> getAddress(Company company, String recipient) {
+  public List<Address> getAddresses(Company company) {
+    List<Address> ret = getEntries(getAddressEntries(), company);
+    ret.sort((a, b) -> Collator.getInstance().compare(a.getRecipient(), b.getRecipient()));
+    return ret;
+  }
+
+  public void setIo(IO io) {
+    this.io = io;
+  }
+
+  public Optional<Address> getAddress(Company company, String recipient) {
     Optional<Address> result = Optional.empty();
 
     if (logger.isDebugEnabled()) {
@@ -52,7 +64,7 @@ public final class DataBase {
     return result;
   }
 
-  private static ListEntry<Address> getAddressEntry(Company company, String recipient) {
+  private ListEntry<Address> getAddressEntry(Company company, String recipient) {
     ListEntry<Address> result = null;
 
     for (ListEntry<Address> address : getAddressEntries()) {
@@ -65,29 +77,23 @@ public final class DataBase {
     return result;
   }
 
-  public static List<Address> getAddresses() {
+  public List<Address> getAddresses() {
     return getAddresses(null);
   }
 
-  public static List<Address> getAddresses(Company company) {
-    List<Address> ret = getEntries(getAddressEntries(), company);
-    ret.sort((a, b) -> Collator.getInstance().compare(a.getRecipient(), b.getRecipient()));
-    return ret;
-  }
-
-  private static List<ListEntry<Address>> getAddressEntries() {
-    if (DataBase.addressEntries == null) {
+  private List<ListEntry<Address>> getAddressEntries() {
+    if (addressEntries == null) {
       setAddressEntries(new ArrayList<>());
     }
 
-    return DataBase.addressEntries;
+    return addressEntries;
   }
 
-  private static void setAddressEntries(ArrayList<ListEntry<Address>> addresses) {
-    DataBase.addressEntries = addresses;
+  private void setAddressEntries(ArrayList<ListEntry<Address>> addresses) {
+    this.addressEntries = addresses;
   }
 
-  static void addAddress(Company company, Address address) {
+  void addAddress(Company company, Address address) {
     ListEntry<Address> oldAddress = getAddressEntry(company, address.getRecipient());
 
     if (oldAddress == null) {
@@ -97,13 +103,13 @@ public final class DataBase {
     }
   }
 
-  public static void addAddress(Address address) {
+  public void addAddress(Address address) {
     addAddress(null, address);
 
-    io.saveAddresses();
+    io.saveAddresses(getAddresses());
   }
 
-  static Optional<Company> getCompany(String descriptiveName) {
+  Optional<Company> getCompany(String descriptiveName) {
     Optional<Company> result = Optional.empty();
 
     if (logger.isDebugEnabled()) {
@@ -118,7 +124,7 @@ public final class DataBase {
     return result;
   }
 
-  private static ListEntry<Company> getCompanyEntry(String descriptiveName) {
+  private ListEntry<Company> getCompanyEntry(String descriptiveName) {
     ListEntry<Company> result = null;
 
     for (ListEntry<Company> company : getCompanyEntries()) {
@@ -131,13 +137,13 @@ public final class DataBase {
     return result;
   }
 
-  static List<Company> getCompanies() {
+  List<Company> getCompanies() {
     List<Company> result = getEntries(getCompanyEntries(), null);
     result.sort((a, b) -> Collator.getInstance().compare(a.getDescriptiveName(), b.getDescriptiveName()));
     return result;
   }
 
-  private static List<ListEntry<Company>> getCompanyEntries() {
+  private List<ListEntry<Company>> getCompanyEntries() {
     if (companyEntries == null) {
       setCompanyEntries(new ArrayList<>());
     }
@@ -145,11 +151,11 @@ public final class DataBase {
     return companyEntries;
   }
 
-  private static void setCompanyEntries(List<ListEntry<Company>> companies) {
+  private void setCompanyEntries(List<ListEntry<Company>> companies) {
     companyEntries = companies;
   }
 
-  static void addCompany(Company company) {
+  void addCompany(Company company) {
     Session.addAvailableCompany(company);
 
     ListEntry<Company> oldCompany = getCompanyEntry(company.getDescriptiveName());
@@ -161,7 +167,7 @@ public final class DataBase {
     }
   }
 
-  public static ArchivedInvoiceTable getInvoices() {
+  public ArchivedInvoiceTable getInvoices() {
     if (invoices == null) {
       setInvoices(new ArchivedInvoiceTable());
     }
@@ -169,25 +175,25 @@ public final class DataBase {
     return invoices;
   }
 
-  private static void setInvoices(ArchivedInvoiceTable archivedInvoices) {
+  private void setInvoices(ArchivedInvoiceTable archivedInvoices) {
     invoices = archivedInvoices;
   }
 
-  static void addInvoice(ArchivedInvoice archivedInvoice) {
+  void addInvoice(ArchivedInvoice archivedInvoice) {
     if (isEntryNotInList(archivedInvoice, getInvoices())) {
       getInvoices().add(archivedInvoice);
     }
   }
 
-  private static ListEntry<InvoiceTemplate> getTemplateEntry(Company company, String templateName) {
+  private ListEntry<InvoiceTemplate> getTemplateEntry(Company company, String templateName) {
     return getTemplateEntry(company, templateName, getTemplateEntries());
   }
 
-  public static List<InvoiceTemplate> getTemplates(Company company) {
+  public List<InvoiceTemplate> getTemplates(Company company) {
     return getEntries(getTemplateEntries(), company);
   }
 
-  private static List<ListEntry<InvoiceTemplate>> getTemplateEntries() {
+  private List<ListEntry<InvoiceTemplate>> getTemplateEntries() {
     if (templateEntries == null) {
       setTemplateEntries(new ArrayList<>());
     }
@@ -195,11 +201,11 @@ public final class DataBase {
     return templateEntries;
   }
 
-  private static void setTemplateEntries(List<ListEntry<InvoiceTemplate>> templates) {
+  private void setTemplateEntries(List<ListEntry<InvoiceTemplate>> templates) {
     templateEntries = templates;
   }
 
-  public static void addTemplate(Company company, InvoiceTemplate template) {
+  public void addTemplate(Company company, InvoiceTemplate template) {
     ListEntry<InvoiceTemplate> oldAddress = getTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
@@ -209,15 +215,15 @@ public final class DataBase {
     }
   }
 
-  private static ListEntry<TexTemplate> getTexTemplateEntry(Company company, String templateName) {
+  private ListEntry<TexTemplate> getTexTemplateEntry(Company company, String templateName) {
     return getTemplateEntry(company, templateName, getTexTemplateEntries());
   }
 
-  static List<TexTemplate> getTexTemplates(Company company) {
+  List<TexTemplate> getTexTemplates(Company company) {
     return getEntries(getTexTemplateEntries(), company);
   }
 
-  private static List<ListEntry<TexTemplate>> getTexTemplateEntries() {
+  private List<ListEntry<TexTemplate>> getTexTemplateEntries() {
     if (texTemplateEntries == null) {
       setTexTemplateEntries(new ArrayList<>());
     }
@@ -225,11 +231,11 @@ public final class DataBase {
     return texTemplateEntries;
   }
 
-  private static void setTexTemplateEntries(List<ListEntry<TexTemplate>> templates) {
+  private void setTexTemplateEntries(List<ListEntry<TexTemplate>> templates) {
     texTemplateEntries = templates;
   }
 
-  public static void addTexTemplate(Company company, TexTemplate template) {
+  public void addTexTemplate(Company company, TexTemplate template) {
     ListEntry<TexTemplate> oldAddress = getTexTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
@@ -239,7 +245,7 @@ public final class DataBase {
     }
   }
 
-  static void clearAllLists() {
+  void clearAllLists() {
     setAddressEntries(new ArrayList<>());
     setCompanyEntries(new ArrayList<>());
     setTemplateEntries(new ArrayList<>());
@@ -247,43 +253,43 @@ public final class DataBase {
     setInvoices(new ArchivedInvoiceTable());
   }
 
-  private static boolean isEntryNotInList(ArchivedInvoice archivedInvoice, ArchivedInvoiceTable list) {
+  private boolean isEntryNotInList(ArchivedInvoice archivedInvoice, ArchivedInvoiceTable list) {
     return list != null && !list.contains(archivedInvoice);
   }
 
-  private static boolean hasFittingCompany(ListEntry<Address> addressEntry, Company company) {
+  private boolean hasFittingCompany(ListEntry<Address> addressEntry, Company company) {
     return hasNoCompany(addressEntry) || hasThisCompany(addressEntry, company);
   }
 
-  private static boolean hasNoCompany(ListEntry<Address> addressEntry) {
+  private boolean hasNoCompany(ListEntry<Address> addressEntry) {
     return !addressEntry.getCompany().isPresent();
   }
 
-  private static <T> boolean hasThisCompany(ListEntry<T> entry, Company company) {
+  private <T> boolean hasThisCompany(ListEntry<T> entry, Company company) {
     return company.equals(entry.getCompany().orElse(null));
   }
 
-  private static boolean hasThisRecipient(ListEntry<Address> addressEntry, String recipient) {
+  private boolean hasThisRecipient(ListEntry<Address> addressEntry, String recipient) {
     return addressEntry.getEntry().getRecipient().equals(recipient);
   }
 
-  private static boolean hasThisDescriptiveName(ListEntry<Company> company, String descriptiveName) {
+  private boolean hasThisDescriptiveName(ListEntry<Company> company, String descriptiveName) {
     return descriptiveName.equals(company.getEntry().getDescriptiveName());
   }
 
-  private static <T> List<T> getEntries(List<ListEntry<T>> list, Company company) {
+  private <T> List<T> getEntries(List<ListEntry<T>> list, Company company) {
     return list.stream()
         .filter(entry -> isValidForCompany(entry, company))
         .map(ListEntry::getEntry)
         .collect(Collectors.toList());
   }
 
-  private static <T> boolean isValidForCompany(ListEntry<T> entry, Company company) {
+  private <T> boolean isValidForCompany(ListEntry<T> entry, Company company) {
     return !entry.getCompany().isPresent()
         || hasThisCompany(entry, company);
   }
 
-  private static <T extends DropListable> ListEntry<T> getTemplateEntry(Company company, String templateName, List<ListEntry<T>> list) {
+  private <T extends DropListable> ListEntry<T> getTemplateEntry(Company company, String templateName, List<ListEntry<T>> list) {
     ListEntry<T> result = null;
     for (ListEntry<T> templateEntry : list) {
       if (isValidForCompany(templateEntry, company) && hasSameName(templateEntry, templateName)) {
@@ -294,7 +300,7 @@ public final class DataBase {
     return result;
   }
 
-  public static void addLoadable(Loadable loadable) {
+  public void addLoadable(Loadable loadable) {
     if (loadable instanceof Address) {
       addAddress(null, (Address) loadable);
     } else if (loadable instanceof ArchivedInvoice) {
@@ -304,15 +310,15 @@ public final class DataBase {
     }
   }
 
-  private static boolean hasSameName(ListEntry<? extends DropListable> templateEntry, String templateName) {
+  private boolean hasSameName(ListEntry<? extends DropListable> templateEntry, String templateName) {
     return templateEntry.getEntry().getName().equals(templateName);
   }
 
-  public static void removeAllInvoices() {
+  public void removeAllInvoices() {
     setInvoices(new ArchivedInvoiceTable());
   }
 
-  private static class ListEntry<T> {
+  private class ListEntry<T> {
     private final Company company;
     private T entry;
 

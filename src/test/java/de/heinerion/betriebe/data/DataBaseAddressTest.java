@@ -23,62 +23,63 @@ import static org.junit.Assert.*;
 public class DataBaseAddressTest {
   private Company company;
   private Address address;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Mock
   private IO io;
 
   @Before
   public void setUp() throws Exception{
-    DataBase.setIo(io);
-    DataBase.clearAllLists();
+    dataBase.setIo(io);
+    dataBase.clearAllLists();
     company = new CompanyBuilder().build();
     address = new AddressBuilder().build();
   }
 
   @Test
   public void testAddAddressWithCompany() {
-    DataBase.addAddress(company, address);
+    dataBase.addAddress(company, address);
 
-    assertTrue(DataBase.getAddresses(company).contains(address));
+    assertTrue(dataBase.getAddresses(company).contains(address));
   }
 
   @Test
   public void testAddAddressAsLoadable() {
-    DataBase.addLoadable(address);
+    dataBase.addLoadable(address);
 
-    assertTrue(DataBase.getAddresses(null).contains(address));
+    assertTrue(dataBase.getAddresses(null).contains(address));
   }
 
   @Test
   public void testAddAddressMultipleTimes() {
-    int baseSize = DataBase.getAddresses(company).size();
+    int baseSize = dataBase.getAddresses(company).size();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addAddress(company, address);
-    DataBase.addAddress(company, address);
+    dataBase.addAddress(company, address);
+    dataBase.addAddress(company, address);
 
-    assertEquals(expectedSize, DataBase.getAddresses(company).size());
+    assertEquals(expectedSize, dataBase.getAddresses(company).size());
   }
 
   @Test
   public void testAddAdresseWithoutCompany() {
-    DataBase.addAddress(address);
+    dataBase.addAddress(address);
 
-    assertTrue(DataBase.getAddresses().contains(address));
+    assertTrue(dataBase.getAddresses().contains(address));
   }
 
   @Test
   public void testDoNotFindAddressByCompany() {
-    assertFalse(DataBase.getAddress(company, "Charlie").isPresent());
+    assertFalse(dataBase.getAddress(company, "Charlie").isPresent());
   }
 
   @Test
   public void testFindAddressByCompany() {
     String recipient = "Charlie";
     address.setRecipient(recipient);
-    DataBase.addAddress(company, address);
-    Optional<Address> result = DataBase.getAddress(company, recipient);
+    dataBase.addAddress(company, address);
+    Optional<Address> result = dataBase.getAddress(company, recipient);
     assertTrue(result.isPresent());
     assertEquals(address, result.get());
   }

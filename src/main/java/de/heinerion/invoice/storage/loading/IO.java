@@ -34,10 +34,17 @@ public class IO implements LoadListener {
   private String lastMessage;
 
   private PathUtilNG pathUtil;
+  private DataBase dataBase;
 
   @Autowired
-  private IO(PathUtilNG pathUtil) {
+  IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
+    dataBase = DataBase.getInstance();
+  }
+
+  IO(PathUtilNG pathUtil, DataBase dataBase) {
+    this.pathUtil = pathUtil;
+    this.dataBase = dataBase;
   }
 
   /**
@@ -78,7 +85,7 @@ public class IO implements LoadListener {
     }
 
     for (TexTemplate template : templates) {
-      DataBase.addTexTemplate(null, template);
+      dataBase.addTexTemplate(null, template);
     }
   }
 
@@ -88,7 +95,7 @@ public class IO implements LoadListener {
 
   private void loadAllTemplates(Company company) {
     for (InvoiceTemplate template : ladeVorlagen(company)) {
-      DataBase.addTemplate(company, template);
+      dataBase.addTemplate(company, template);
     }
   }
 
@@ -109,9 +116,7 @@ public class IO implements LoadListener {
     return result;
   }
 
-  public void saveAddresses() {
-    final List<Address> addresses = DataBase.getAddresses();
-
+  public void saveAddresses(List<Address> addresses) {
     try {
       fileLoader.saveAddresses(addresses);
     } catch (final IOException e) {
@@ -160,12 +165,12 @@ public class IO implements LoadListener {
     progress = indicator;
     final int number = loadingManager.getFileNumber();
 
-    DataBase.removeAllInvoices();
+    dataBase.removeAllInvoices();
     if (progress != null) {
       progress.setProgressMax(number);
     }
     loadingManager.load();
-    DataBase.getInvoices().determineHighestInvoiceNumbers();
+    dataBase.getInvoices().determineHighestInvoiceNumbers();
 
     ladeVorlagen();
     ladeSpezielle();
@@ -246,7 +251,6 @@ public class IO implements LoadListener {
       progress.setMessage(status);
     }
 
-    DataBase.addLoadable(loadable);
+    dataBase.addLoadable(loadable);
   }
-
 }

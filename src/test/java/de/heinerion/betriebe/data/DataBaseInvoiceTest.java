@@ -24,6 +24,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore("javax.management.*")
 public class DataBaseInvoiceTest {
   private ArchivedInvoice archivedInvoice;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Mock
   private File file;
@@ -40,10 +41,10 @@ public class DataBaseInvoiceTest {
     when(file.getParentFile()).thenReturn(parent);
     when(parent.getName()).thenReturn("officialName");
 
-    DataBase.clearAllLists();
+    dataBase.clearAllLists();
     Company company = new CompanyBuilder().build();
 
-    DataBase.addCompany(company);
+    dataBase.addCompany(company);
     Session.setActiveCompany(company);
 
     archivedInvoice = new ArchivedInvoice(file);
@@ -51,27 +52,27 @@ public class DataBaseInvoiceTest {
 
   @Test
   public void testAddInvoice() {
-    DataBase.addInvoice(archivedInvoice);
+    dataBase.addInvoice(archivedInvoice);
 
-    assertTrue(DataBase.getInvoices().contains(archivedInvoice));
+    assertTrue(dataBase.getInvoices().contains(archivedInvoice));
   }
 
   @Test
   public void testAddInvoiceAsLoadable() {
-    DataBase.addLoadable(archivedInvoice);
+    dataBase.addLoadable(archivedInvoice);
 
-    assertTrue(DataBase.getInvoices().contains(archivedInvoice));
+    assertTrue(dataBase.getInvoices().contains(archivedInvoice));
   }
 
   @Test
   public void testAddInvoiceMultipleTimes() {
-    int baseSize = DataBase.getInvoices().getItemCount();
+    int baseSize = dataBase.getInvoices().getItemCount();
     int expectedGrowth = 1;
     int expectedSize = baseSize + expectedGrowth;
 
-    DataBase.addInvoice(archivedInvoice);
-    DataBase.addInvoice(archivedInvoice);
+    dataBase.addInvoice(archivedInvoice);
+    dataBase.addInvoice(archivedInvoice);
 
-    assertEquals(expectedSize, DataBase.getInvoices().getItemCount());
+    assertEquals(expectedSize, dataBase.getInvoices().getItemCount());
   }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 class AddressBookMenuEntry extends AbstractMenuEntry {
   private static final String NAME = Menu.translate("addressBook");
   private JScrollPane spAddresses;
+  private DataBase dataBase = DataBase.getInstance();
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -26,7 +27,7 @@ class AddressBookMenuEntry extends AbstractMenuEntry {
 
   @Override
   protected void createWidgets() {
-    List<Address> addresses = DataBase.getAddresses(Session.getActiveCompany());
+    List<Address> addresses = dataBase.getAddresses(Session.getActiveCompany());
     final AddressModel model = new AddressModel(addresses);
 
     final JTable tblAddresses = new JTable(model);

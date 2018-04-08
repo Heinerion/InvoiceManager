@@ -39,6 +39,7 @@ public final class ArchivedInvoice implements Loadable {
   private final File pdf;
 
   private Map<String, Address> addressCache;
+  private DataBase dataBase = DataBase.getInstance();
 
   // TODO parsing der Daten unbedingt überarbeiten
   // TODO pdf-Properties auslesen?
@@ -71,7 +72,7 @@ public final class ArchivedInvoice implements Loadable {
   }
 
   private Address getAddress(final String recipientsName) {
-    return addressCache.computeIfAbsent(recipientsName, n -> DataBase.getAddress(company, n).orElse(null));
+    return addressCache.computeIfAbsent(recipientsName, n -> dataBase.getAddress(company, n).orElse(null));
   }
 
   public double getAmount() {
