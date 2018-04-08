@@ -1,21 +1,21 @@
 package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.view.swing.ContentTabPane;
 import de.heinerion.invoice.view.swing.TabContent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Stream;
 
 @SuppressWarnings("serial")
-class ContentTabPaneImpl implements ContentTabPane {
+public class ContentTabPane {
   private final List<TabContent> tabContents;
   private JTabbedPane pane;
 
   @Autowired
-  ContentTabPaneImpl(List<TabContent> someTabContents) {
+  ContentTabPane(List<TabContent> someTabContents) {
     tabContents = someTabContents;
 
     pane = new JTabbedPane();
@@ -29,7 +29,6 @@ class ContentTabPaneImpl implements ContentTabPane {
     });
   }
 
-  @Override
   public JTabbedPane getPane() {
     return pane;
   }
@@ -38,8 +37,9 @@ class ContentTabPaneImpl implements ContentTabPane {
     Stream<TabContent> tabContentStream = tabContents
         .stream();
 
-    if (pane.getSelectedComponent() != null) {
-      tabContentStream = tabContentStream.filter(tabContent -> tabContent.getPanel().equals(pane.getSelectedComponent()));
+    Component selectedComponent = pane.getSelectedComponent();
+    if (selectedComponent != null) {
+      tabContentStream = tabContentStream.filter(content -> content.getPanel().equals(selectedComponent));
     }
 
     return tabContentStream
@@ -47,7 +47,6 @@ class ContentTabPaneImpl implements ContentTabPane {
         .orElseThrow(() -> new GuiPanelException("This Tab is not registered in 'tabContents'"));
   }
 
-  @Override
   public void refreshVorlagen() {
     tabContents.forEach(TabContent::refresh);
   }

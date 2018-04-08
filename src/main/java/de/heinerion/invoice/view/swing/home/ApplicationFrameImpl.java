@@ -5,14 +5,14 @@ import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.CompanyListener;
-import de.heinerion.invoice.view.swing.ContentTabPane;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
-import de.heinerion.invoice.view.DateUtil;
-import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.swing.tab.ContentTabPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
