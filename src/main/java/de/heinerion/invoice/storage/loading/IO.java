@@ -18,32 +18,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class IO  {
+public class IO {
   private static final Logger logger = LogManager.getLogger(IO.class);
   private static final LoadingManager loadingManager = new LoadingManager();
   private static Serializer fileLoader = new TextFileLoader();
-  private boolean registered;
+  private boolean listenersAndLoadersRegistered;
 
   private PathUtilNG pathUtil;
 
   @Autowired
   IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
-  }
-
-  /**
-   * Speichert übergebene Liste
-   *
-   * @param liste Die zu speichernde Liste
-   * @param pfad  Das Speicherziel
-   */
-  private static void speichereListe(List<?> liste, String pfad) {
-    FileHandler.writeObject(liste, pfad);
   }
 
   private String getTemplatePath(Company company) {
@@ -56,24 +47,31 @@ public class IO  {
    */
   public List<TexTemplate> loadTexTemplates() {
     List<TexTemplate> templates = new ArrayList<>();
-    File special = new File(pathUtil.getTexTemplatePath());
-    int count = 0;
-    String[] specials = special.list();
-    if (null != specials) {
-      for (String s : specials) {
-        count++;
-        if (logger.isDebugEnabled()) {
-          logger.debug("load special template {}", s);
-        }
-        templates.add(new TexTemplate(pathUtil.getTexTemplatePath(), s));
-      }
-    }
+    appendTexTemplates(templates, new File(pathUtil.getTexTemplatePath()));
 
     if (logger.isInfoEnabled()) {
-      logger.info(count + " tex templates loaded");
+      logger.info(templates.size() + " tex templates loaded");
     }
 
     return templates;
+  }
+
+  private void appendTexTemplates(List<TexTemplate> templates, File specialFolder) {
+    String[] specialFiles = specialFolder.list();
+    if (null != specialFiles) {
+      appendTexTemplates(templates, Arrays.asList(specialFiles));
+    }
+  }
+
+  private void appendTexTemplates(List<TexTemplate> templates, List<String> specialFiles) {
+    specialFiles.forEach(fileName -> templates.add(createTexTemplate(fileName)));
+  }
+
+  private TexTemplate createTexTemplate(String fileName) {
+    if (logger.isDebugEnabled()) {
+      logger.debug("load special template {}", fileName);
+    }
+    return new TexTemplate(pathUtil.getTexTemplatePath(), fileName);
   }
 
   public Map<Company, List<InvoiceTemplate>> loadInvoiceTemplates() {
@@ -116,10 +114,9 @@ public class IO  {
    *
    * @param vorlagen Rechnungsvorlagen
    * @param company  Gibt den betroffenen Betrieb an
-   * @see #speichereListe(List, String)
    */
   public void saveInvoiceTemplates(List<InvoiceTemplate> vorlagen, Company company) {
-    speichereListe(vorlagen, getTemplatePath(company));
+    FileHandler.writeObject(vorlagen, getTemplatePath(company));
   }
 
   /*
@@ -128,32 +125,48 @@ public class IO  {
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
   public void load(StatusComponent<?> progress, LoadListener listener) {
-    if (!registered) {
-      registerListenersAndLoaders(listener);
-      registered = true;
+    if (!listenersAndLoadersRegistered) {
+      listenersAndLoadersRegistered = registerListenersAndLoaders(listener);
     }
 
     loadingManager.determineFileNumbers();
-    final int number = loadingManager.getFileNumber();
 
-    if (progress != null) {
-      progress.setProgressMax(number);
-    }
+    setProgressMax(progress, loadingManager.getFileNumber());
     loadingManager.load();
-
-    if (progress != null) {
-      progress.setMessage(Translator.translate("progress.done"));
-    }
+    setProgressMessage(progress);
   }
 
-  private void registerListenersAndLoaders(LoadListener listener) {
+  private boolean registerListenersAndLoaders(LoadListener listener) {
+    registerListener(listener);
+    registerLoaders();
+
+    return true;
+  }
+
+  private void registerListener(LoadListener listener) {
+    loadingManager.addListener(listener);
+  }
+
+  private void registerLoaders() {
     if (logger.isDebugEnabled()) {
       logger.debug("setup Loaders");
     }
-    loadingManager.addListener(listener);
 
     addLoader(Company.class, this::continueWithCompany);
-    addLoader(Address.class, whatever -> {});
+    addLoader(Address.class, whatever -> {
+    });
+  }
+
+  private void setProgressMax(StatusComponent<?> progress, int number) {
+    if (progress != null) {
+      progress.setProgressMax(number);
+    }
+  }
+
+  private void setProgressMessage(StatusComponent<?> progress) {
+    if (progress != null) {
+      progress.setMessage(Translator.translate("progress.done"));
+    }
   }
 
   private void continueWithCompany(Loadable loadable) {
