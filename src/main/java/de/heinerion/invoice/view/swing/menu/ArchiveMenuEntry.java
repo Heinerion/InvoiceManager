@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * @author heiner
@@ -38,16 +39,8 @@ class ArchiveMenuEntry extends AbstractMenuEntry {
     tblInvoices = new JTable(model);
     tblInvoices.setAutoCreateRowSorter(true);
     tblInvoices.setRowSelectionAllowed(true);
-    // Set column widths
     final TableColumnModel cols = tblInvoices.getColumnModel();
-    cols.getColumn(ArchivedInvoiceTable.INDEX_NUMBER).setMaxWidth(50);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_RECEIVER).setPreferredWidth(150);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_PRODUCT).setPreferredWidth(150);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMinWidth(90);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMaxWidth(90);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_SENDER).setPreferredWidth(100);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMinWidth(80);
-    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMaxWidth(80);
+    setColumnWidths(cols);
     // order by number
     tblInvoices.getRowSorter().toggleSortOrder(
         ArchivedInvoiceTable.INDEX_NUMBER);
@@ -60,11 +53,26 @@ class ArchiveMenuEntry extends AbstractMenuEntry {
     spInvoices.setPreferredSize(getBusyFrame().getSize());
   }
 
+  private void setColumnWidths(TableColumnModel cols) {
+    cols.getColumn(ArchivedInvoiceTable.INDEX_NUMBER).setMaxWidth(50);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_RECEIVER).setPreferredWidth(150);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_PRODUCT).setPreferredWidth(150);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMinWidth(90);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_DATE).setMaxWidth(90);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_SENDER).setPreferredWidth(100);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMinWidth(80);
+    cols.getColumn(ArchivedInvoiceTable.INDEX_AMOUNT).setMaxWidth(80);
+  }
+
   @Override
   protected void setTitle(JDialog dialog) {
-    dialog.setTitle(NAME + " - Gesamtsumme: "
-        + FormatUtil.formatLocaleDecimal(model.calculateRevenues())
-        + " €");
+    String revenues = FormatUtil.formatLocaleDecimal(model.calculateRevenues());
+    String title = format("archiveHeader", NAME, revenues, "€");
+    dialog.setTitle(title);
+  }
+
+  private static String format(String key, Object... replacements) {
+    return MessageFormat.format(Menu.translate(key), replacements);
   }
 
   @Override
