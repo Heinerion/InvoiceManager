@@ -1,6 +1,5 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.data.listable.TexTemplate;
@@ -11,7 +10,6 @@ import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.storage.PathTools;
 import de.heinerion.invoice.view.common.StatusComponent;
-import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,32 +17,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class IO implements LoadListener {
+public class IO  {
   private static final Logger logger = LogManager.getLogger(IO.class);
   private static final LoadingManager loadingManager = new LoadingManager();
   private static Serializer fileLoader = new TextFileLoader();
   private boolean registered;
-  private StatusComponent<?> progress;
-
-  private String lastMessage;
 
   private PathUtilNG pathUtil;
-  private DataBase dataBase;
 
   @Autowired
   IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
-    dataBase = DataBase.getInstance();
-  }
-
-  IO(PathUtilNG pathUtil, DataBase dataBase) {
-    this.pathUtil = pathUtil;
-    this.dataBase = dataBase;
   }
 
   /**
@@ -65,7 +55,7 @@ public class IO implements LoadListener {
    * Lädt die Namen der Vorlage LaTeX Dokumente und erstellt daraus ein
    * TexVorlagenliste
    */
-  private void ladeSpezielle() {
+  public List<TexTemplate> loadTexTemplates() {
     List<TexTemplate> templates = new ArrayList<>();
     File special = new File(pathUtil.getTexTemplatePath());
     int count = 0;
@@ -84,19 +74,18 @@ public class IO implements LoadListener {
       logger.info(count + " tex templates loaded");
     }
 
-    for (TexTemplate template : templates) {
-      dataBase.addTexTemplate(null, template);
-    }
+    return templates;
   }
 
-  private void ladeVorlagen() {
-    Session.getAvailableCompanies().forEach(this::loadAllTemplates);
-  }
+  public Map<Company, List<InvoiceTemplate>> loadInvoiceTemplates() {
+    Map<Company, List<InvoiceTemplate>> companyToTemplates = new HashMap<>();
 
-  private void loadAllTemplates(Company company) {
-    for (InvoiceTemplate template : ladeVorlagen(company)) {
-      dataBase.addTemplate(company, template);
+    List<Company> companies = Session.getAvailableCompanies();
+    for (Company company : companies) {
+      companyToTemplates.put(company, loadInvoiceTemplates(company));
     }
+
+    return companyToTemplates;
   }
 
   /**
@@ -105,7 +94,7 @@ public class IO implements LoadListener {
    * @param company Der Betrieb
    * @return Die Betriebsgebundene Vorlagenliste
    */
-  private List<InvoiceTemplate> ladeVorlagen(Company company) {
+  private List<InvoiceTemplate> loadInvoiceTemplates(Company company) {
     final List<InvoiceTemplate> result = FileHandler.load(new InvoiceTemplate(),
         getTemplatePath(company));
 
@@ -136,18 +125,8 @@ public class IO implements LoadListener {
    * @param company  Gibt den betroffenen Betrieb an
    * @see #speichereListe(List, String)
    */
-  private void speichereVorlagen(List<InvoiceTemplate> vorlagen, Company company) {
+  public void saveInvoiceTemplates(List<InvoiceTemplate> vorlagen, Company company) {
     speichereListe(vorlagen, getTemplatePath(company));
-  }
-
-  // TODO improve efficiency...
-  public void updateTemplates(List<InvoiceTemplate> vorlagen) {
-    speichereVorlagen(vorlagen, Session.getActiveCompany());
-    ladeVorlagen();
-  }
-
-  public void load() {
-    load(progress);
   }
 
   /*
@@ -155,36 +134,30 @@ public class IO implements LoadListener {
    * This method is decoupled from the view, so the progress indicator could become null anytime.
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
-  public void load(StatusComponent<?> indicator) {
+  public void load(StatusComponent<?> progress, LoadListener listener) {
     if (!registered) {
-      registerListenersAndLoaders();
+      registerListenersAndLoaders(listener);
       registered = true;
     }
 
     loadingManager.determineFileNumbers();
-    progress = indicator;
     final int number = loadingManager.getFileNumber();
 
-    dataBase.removeAllInvoices();
     if (progress != null) {
       progress.setProgressMax(number);
     }
     loadingManager.load();
-    dataBase.getInvoices().determineHighestInvoiceNumbers();
-
-    ladeVorlagen();
-    ladeSpezielle();
 
     if (progress != null) {
       progress.setMessage(Translator.translate("progress.done"));
     }
   }
 
-  private void registerListenersAndLoaders() {
+  private void registerListenersAndLoaders(LoadListener listener) {
     if (logger.isDebugEnabled()) {
       logger.debug("setup Loaders");
     }
-    loadingManager.addListener(this);
+    loadingManager.addListener(listener);
 
     addLoader(Company.class, this::continueWithCompany);
     addLoader(Address.class);
@@ -235,22 +208,5 @@ public class IO implements LoadListener {
     }
 
     return loader;
-  }
-
-  @Override
-  public void notifyLoading(String message, Loadable loadable) {
-    if (!message.equals(lastMessage)) {
-      lastMessage = message;
-    }
-
-    if (progress != null) {
-      progress.incrementProgress();
-
-      double percentage = progress.getProgressPercentage();
-      String status = MessageFormat.format("{0} ({1})", message, FormatUtil.formatPercentage(percentage));
-      progress.setMessage(status);
-    }
-
-    dataBase.addLoadable(loadable);
   }
 }

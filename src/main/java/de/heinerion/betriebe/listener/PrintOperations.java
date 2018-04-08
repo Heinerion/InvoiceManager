@@ -1,9 +1,9 @@
 package de.heinerion.betriebe.listener;
 
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +17,7 @@ class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
-  private IO io;
+  private DataBase dataBase = DataBase.getInstance();
   private Printer printer;
   private PathUtilNG pathUtil;
 
@@ -25,8 +25,7 @@ class PrintOperations {
   private int state = STATE_LETTER;
 
   @Autowired
-  PrintOperations(IO io, Printer printer, PathUtilNG pathUtil) {
-    this.io = io;
+  PrintOperations(Printer printer, PathUtilNG pathUtil) {
     this.printer = printer;
     this.pathUtil = pathUtil;
   }
@@ -49,7 +48,7 @@ class PrintOperations {
     SwingUtilities.invokeLater(() -> {
       printer.writeFile(letter, generatePath(letter), generateTitle(letter));
 
-      io.load();
+      dataBase.load();
     });
   }
 

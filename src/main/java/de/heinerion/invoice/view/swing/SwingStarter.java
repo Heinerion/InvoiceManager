@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing;
 
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.aspects.annotations.LogBefore;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.common.StatusComponent;
 import org.apache.logging.log4j.LogManager;
@@ -16,11 +16,9 @@ public class SwingStarter implements GuiStarter {
   private static final long ONE_SECOND = 1000L;
 
   private final ApplicationFrame applicationFrame;
-  private final IO io;
 
   @Autowired
-  SwingStarter(ApplicationFrame applicationFrame, IO io) {
-    this.io = io;
+  SwingStarter(ApplicationFrame applicationFrame) {
     this.applicationFrame = applicationFrame;
   }
 
@@ -43,7 +41,8 @@ public class SwingStarter implements GuiStarter {
   private void collectData(ApplicationFrame applicationFrame) {
     StatusComponent<?> progress = applicationFrame.getStatusComponent();
 
-    io.load(progress);
+    DataBase.getInstance().load(progress);
+
     applicationFrame.refresh();
 
     waitASecond();

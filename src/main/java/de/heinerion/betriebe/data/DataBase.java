@@ -6,19 +6,23 @@ import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.storage.loading.LoadListener;
 import de.heinerion.invoice.storage.loading.Loadable;
+import de.heinerion.invoice.view.common.StatusComponent;
+import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.Collator;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public final class DataBase {
+public final class DataBase implements LoadListener {
   private static final Logger logger = LogManager.getLogger(DataBase.class);
 
   private List<ListEntry<Address>> addressEntries;
@@ -29,6 +33,9 @@ public final class DataBase {
   private ArchivedInvoiceTable invoices;
 
   private IO io;
+  private StatusComponent<?> progress;
+
+  private String lastMessage;
 
   private static DataBase instance = new DataBase();
 
@@ -47,6 +54,22 @@ public final class DataBase {
 
   public void setIo(IO io) {
     this.io = io;
+  }
+
+  public void load() {
+    load(progress);
+  }
+
+  public void load(StatusComponent<?> indicator) {
+    progress = indicator;
+
+    removeAllInvoices();
+
+    io.load(progress, this);
+    getInvoices().determineHighestInvoiceNumbers();
+
+    io.loadInvoiceTemplates().forEach(this::addTemplates);
+    io.loadTexTemplates().forEach(this::addTexTemplate);
   }
 
   public Optional<Address> getAddress(Company company, String recipient) {
@@ -205,7 +228,7 @@ public final class DataBase {
     templateEntries = templates;
   }
 
-  public void addTemplate(Company company, InvoiceTemplate template) {
+  void addTemplate(Company company, InvoiceTemplate template) {
     ListEntry<InvoiceTemplate> oldAddress = getTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
@@ -213,6 +236,15 @@ public final class DataBase {
     } else {
       oldAddress.setEntry(template);
     }
+  }
+
+  public void updateTemplates(List<InvoiceTemplate> templates) {
+    io.saveInvoiceTemplates(templates, Session.getActiveCompany());
+    io.loadInvoiceTemplates().forEach(this::addTemplates);
+  }
+
+  private void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {
+    invoiceTemplates.forEach(template -> addTemplate(company, template));
   }
 
   private ListEntry<TexTemplate> getTexTemplateEntry(Company company, String templateName) {
@@ -235,7 +267,11 @@ public final class DataBase {
     texTemplateEntries = templates;
   }
 
-  public void addTexTemplate(Company company, TexTemplate template) {
+  private void addTexTemplate(TexTemplate template) {
+    addTexTemplate(null, template);
+  }
+
+  void addTexTemplate(Company company, TexTemplate template) {
     ListEntry<TexTemplate> oldAddress = getTexTemplateEntry(company, template.getName());
 
     if (oldAddress == null) {
@@ -300,7 +336,7 @@ public final class DataBase {
     return result;
   }
 
-  public void addLoadable(Loadable loadable) {
+  void addLoadable(Loadable loadable) {
     if (loadable instanceof Address) {
       addAddress(null, (Address) loadable);
     } else if (loadable instanceof ArchivedInvoice) {
@@ -314,8 +350,25 @@ public final class DataBase {
     return templateEntry.getEntry().getName().equals(templateName);
   }
 
-  public void removeAllInvoices() {
+  private void removeAllInvoices() {
     setInvoices(new ArchivedInvoiceTable());
+  }
+
+  @Override
+  public void notifyLoading(String message, Loadable loadable) {
+    if (!message.equals(lastMessage)) {
+      lastMessage = message;
+    }
+
+    if (progress != null) {
+      progress.incrementProgress();
+
+      double percentage = progress.getProgressPercentage();
+      String status = MessageFormat.format("{0} ({1})", message, FormatUtil.formatPercentage(percentage));
+      progress.setMessage(status);
+    }
+
+    addLoadable(loadable);
   }
 
   private class ListEntry<T> {

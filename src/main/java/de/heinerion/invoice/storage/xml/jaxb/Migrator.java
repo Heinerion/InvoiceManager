@@ -5,7 +5,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.invoice.storage.loading.IO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -36,8 +35,7 @@ public class Migrator {
   }
 
   private void run() {
-    IO io = ConfigurationService.getBean(IO.class);
-    io.load();
+    dataBase.load();
 
     // transfer companies to new approach
     List<Company> availableCompanies = Session.getAvailableCompanies();

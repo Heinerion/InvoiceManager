@@ -8,7 +8,6 @@ import de.heinerion.betriebe.models.*;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.StringUtil;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.storage.loading.IO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,11 @@ class InvoiceTabContent extends AbstractTabContent {
   private List<InvoiceTemplate> templates;
   private JTable tabPositions;
   private JComboBox<InvoiceTemplate> templateBox;
-  private IO io;
   private DataBase dataBase = DataBase.getInstance();
 
   @Autowired
-  InvoiceTabContent(IO io) {
+  InvoiceTabContent() {
     super(Translator.translate("invoice.title"));
-
-    this.io = io;
 
     initTabPositions();
 
@@ -111,7 +107,7 @@ class InvoiceTabContent extends AbstractTabContent {
     }
 
     Collections.sort(activeTemplates);
-    io.updateTemplates(activeTemplates);
+    dataBase.updateTemplates(activeTemplates);
     refresh();
   }
 
@@ -329,14 +325,6 @@ class InvoiceTabContent extends AbstractTabContent {
     }
 
     return templateBox;
-  }
-
-  public IO getIo() {
-    return io;
-  }
-
-  public void setIo(IO io) {
-    this.io = io;
   }
 
   private enum Col {

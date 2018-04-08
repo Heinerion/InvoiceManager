@@ -21,13 +21,12 @@ final class InvoiceManager {
 
   private SwingStarter swingStarter;
   private GuiStarter starter;
-  private DataBase dataBase = DataBase.getInstance();
 
   @Autowired
   InvoiceManager(IO io, SwingStarter swingStarter) {
     this.swingStarter = swingStarter;
     this.starter = swingStarter;
-    dataBase.setIo(io);
+    DataBase.getInstance().setIo(io);
   }
 
   @LogMethod
