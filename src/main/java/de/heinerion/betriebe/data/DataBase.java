@@ -15,9 +15,9 @@ import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceT
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,7 +48,7 @@ public final class DataBase implements LoadListener {
 
   public List<Address> getAddresses(Company company) {
     List<Address> ret = getEntries(getAddressEntries(), company);
-    ret.sort((a, b) -> Collator.getInstance().compare(a.getRecipient(), b.getRecipient()));
+    ret.sort(Comparator.comparing(Address::getRecipient));
     return ret;
   }
 
@@ -162,7 +162,7 @@ public final class DataBase implements LoadListener {
 
   List<Company> getCompanies() {
     List<Company> result = getEntries(getCompanyEntries(), null);
-    result.sort((a, b) -> Collator.getInstance().compare(a.getDescriptiveName(), b.getDescriptiveName()));
+    result.sort(Comparator.comparing(Company::getDescriptiveName));
     return result;
   }
 

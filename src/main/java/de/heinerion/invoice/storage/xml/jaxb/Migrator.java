@@ -5,6 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.storage.loading.IO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -14,9 +15,7 @@ import org.springframework.util.FileSystemUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -35,25 +34,26 @@ public class Migrator {
   }
 
   private void run() {
+    IO io = ConfigurationService.getBean(IO.class);
+    dataBase.setIo(io);
     dataBase.load();
 
     // transfer companies to new approach
-    List<Company> availableCompanies = Session.getAvailableCompanies();
+    List<Company> availableCompanies = new ArrayList<>(Session.getAvailableCompanies());
+    availableCompanies.sort(Company::compareTo);
     logger.info("Companies found: " + availableCompanies);
 
     File appBase = new File(pathUtil.getBaseDir());
     File companiesXmlFile = new File(appBase, "companies.xml");
     new CompanyManager().marshal(availableCompanies, companiesXmlFile);
 
-    for (Company company : availableCompanies) {
-      logger.info("Migrate " + company);
-      migrateCompanyInfo(company);
-    }
+    availableCompanies.forEach(this::migrateCompanyInfo);
 
     ConfigurationService.exitApplication();
   }
 
   private void migrateCompanyInfo(Company company) {
+    logger.info("Migrate " + company);
     File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
     logCreation(companyDir);
 

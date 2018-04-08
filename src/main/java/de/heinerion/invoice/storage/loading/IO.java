@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -78,14 +77,8 @@ public class IO  {
   }
 
   public Map<Company, List<InvoiceTemplate>> loadInvoiceTemplates() {
-    Map<Company, List<InvoiceTemplate>> companyToTemplates = new HashMap<>();
-
-    List<Company> companies = Session.getAvailableCompanies();
-    for (Company company : companies) {
-      companyToTemplates.put(company, loadInvoiceTemplates(company));
-    }
-
-    return companyToTemplates;
+    return Session.getAvailableCompanies().stream()
+        .collect(Collectors.toMap(company -> company, this::loadInvoiceTemplates, (oldValue, newValue) -> newValue));
   }
 
   /**
@@ -160,7 +153,7 @@ public class IO  {
     loadingManager.addListener(listener);
 
     addLoader(Company.class, this::continueWithCompany);
-    addLoader(Address.class);
+    addLoader(Address.class, whatever -> {});
   }
 
   private void continueWithCompany(Loadable loadable) {
@@ -175,10 +168,6 @@ public class IO  {
     loader.init();
     loader.addListener(loadingManager);
     loadingManager.loadClass(ArchivedInvoice.class, loader);
-  }
-
-  private <T extends Loadable> void addLoader(Class<T> classToLoad) {
-    addLoader(classToLoad, null);
   }
 
   private <T extends Loadable> void addLoader(Class<T> classToLoad, LoadableCallback callback) {

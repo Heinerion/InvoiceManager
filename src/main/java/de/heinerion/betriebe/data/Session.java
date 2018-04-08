@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class Session {
   private static final Logger LOGGER = LogManager.getLogger(Session.class);
@@ -22,7 +24,7 @@ public final class Session {
   private static List<CompanyListener> companyListeners;
   private static List<ConveyableListener> conveyableListeners;
   private static List<DateListener> dateListeners;
-  private static List<Company> availableCompanies;
+  private static Set<Company> availableCompanies;
   private static Company activeCompany;
   private static Address activeAddress;
   private static Letter activeConveyable;
@@ -70,11 +72,10 @@ public final class Session {
   }
 
   static void addAvailableCompany(Company company) {
-    List<Company> companies = getAvailableCompanies();
+    Set<Company> companies = getAvailableCompanies();
 
-    if (!companies.contains(company)) {
-      companies.add(company);
-    }
+    companies.add(company);
+
     if (companies.size() == 1) {
       setActiveCompany(company);
     }
@@ -124,9 +125,9 @@ public final class Session {
     notifyConveyable();
   }
 
-  public static List<Company> getAvailableCompanies() {
+  public static Set<Company> getAvailableCompanies() {
     if (availableCompanies == null) {
-      availableCompanies = new ArrayList<>();
+      availableCompanies = new HashSet<>();
     }
 
     return availableCompanies;
