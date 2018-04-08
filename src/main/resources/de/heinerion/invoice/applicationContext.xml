@@ -13,7 +13,7 @@
 
     <bean class="de.heinerion.invoice.InvoiceManager"/>
 
-    <bean class="de.heinerion.invoice.storage.loading.IOImpl"/>
+    <bean class="de.heinerion.invoice.storage.loading.IO"/>
 
     <bean class="de.heinerion.invoice.print.pdf.latex.LatexPrinter"/>
     <bean class="de.heinerion.betriebe.listener.PrintOperations"/>
