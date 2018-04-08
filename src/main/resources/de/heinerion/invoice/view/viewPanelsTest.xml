@@ -10,7 +10,7 @@
     <bean class="de.heinerion.invoice.view.swing.SwingStarter"/>
 
     <bean class="de.heinerion.invoice.view.swing.home.receiver.PrintButtonPanel"/>
-    <bean class="de.heinerion.invoice.view.swing.home.GlassPaneImpl"/>
+    <bean class="de.heinerion.invoice.view.swing.home.GlassPane"/>
     <bean class="de.heinerion.invoice.view.swing.tab.ContentTabPaneImpl">
         <constructor-arg>
             <list value-type="de.heinerion.invoice.view.swing.TabContent">
