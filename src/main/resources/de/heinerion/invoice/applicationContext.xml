@@ -15,7 +15,15 @@
 
     <bean class="de.heinerion.invoice.storage.loading.IO"/>
 
-    <bean class="de.heinerion.invoice.print.pdf.latex.LatexPrinter"/>
+    <bean class="de.heinerion.invoice.print.pdf.latex.DoublePrinter">
+        <constructor-arg>
+            <bean class="de.heinerion.invoice.print.pdf.latex.LatexPrinter"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="de.heinerion.invoice.print.xml.XmlPrinter"/>
+        </constructor-arg>
+    </bean>
+
     <bean class="de.heinerion.betriebe.listener.PrintOperations"/>
     <bean class="de.heinerion.betriebe.listener.PrintAction"/>
 </beans>

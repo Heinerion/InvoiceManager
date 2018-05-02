@@ -231,6 +231,12 @@
             <artifactId>freemarker</artifactId>
             <version>LATEST</version>
         </dependency>
+        <!-- xstream -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.10</version>
+        </dependency>
 
         <!-- test dependencies -->
         <dependency>

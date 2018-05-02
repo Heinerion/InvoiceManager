@@ -1,0 +1,36 @@
+package de.heinerion.invoice.print.xml;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.NoTypePermission;
+import com.thoughtworks.xstream.security.NullPermission;
+import com.thoughtworks.xstream.security.PrimitiveTypePermission;
+import de.heinerion.betriebe.models.*;
+
+import java.util.Collection;
+
+class XmlConfigurator {
+  private final XStream xstream;
+
+  XmlConfigurator(XStream xstream) {
+    this.xstream = xstream;
+  }
+
+  void setAliases() {
+    xstream.alias("invoice", Invoice.class);
+    xstream.alias("item", Item.class);
+    xstream.alias("company", Company.class);
+    xstream.alias("address", Address.class);
+    xstream.alias("account", Account.class);
+  }
+
+  void setSecurityOptions() {
+    XStream.setupDefaultSecurity(xstream);
+    xstream.addPermission(NoTypePermission.NONE);
+    xstream.addPermission(NullPermission.NULL);
+    xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
+    xstream.allowTypeHierarchy(Collection.class);
+    xstream.allowTypesByWildcard(new String[] {
+        "de.heinerion.**"
+    });
+  }
+}
