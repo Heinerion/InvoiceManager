@@ -1,12 +1,11 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.XmlArchivedInvoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,21 +25,19 @@ class ArchivedInvoiceLoader extends AbstractLoader {
 
   @Override
   protected Pattern getPattern() {
-    return Pattern.compile(".*\\.pdf$");
+    return Pattern.compile("(.*\\.pdf$)|(.*\\.xml$)");
   }
 
   @Override
   public Loadable loopAction(final File file) {
-    ArchivedInvoice data = new ArchivedInvoice(file);
-    try (PDDocument pdf = PDDocument.load(file)) {
-      PDDocumentInformation info = pdf.getDocumentInformation();
-      // Ausgelesene Informationen in den Datensatz speichern
-      data.setCompany(info.getAuthor());
-      data.setItem(info.getSubject());
-      String keywords = info.getKeywords();
-      if (keywords != null && !"".equals(keywords)) {
-        data.setAmount(ParsingUtil.parseDouble(keywords));
-      }
+    ArchivedInvoice data;
+    if (file.getPath().endsWith("xml"))
+      data = new XmlArchivedInvoice(file);
+    else
+      data = new PdfArchivedInvoice(file);
+
+    try {
+      data.loadFile();
     } catch (IOException e) {
       if (logger.isErrorEnabled()) {
         logger.error(e);

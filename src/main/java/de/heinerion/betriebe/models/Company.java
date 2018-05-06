@@ -24,7 +24,8 @@ public final class Company implements Storable, Loadable {
   /**
    * For persistence only
    */
-  private Company(){ }
+  private Company() {
+  }
 
   public Company(String descriptiveName, String officialName, Address address,
                  String signer, String phoneNumber, String taxNumber,
@@ -76,6 +77,10 @@ public final class Company implements Storable, Loadable {
 
   public int getInvoiceNumber() {
     return this.invoiceNumber;
+  }
+
+  public void setInvoiceNumber(int nextInvoiceNumber) {
+    this.invoiceNumber = nextInvoiceNumber;
   }
 
   public String getOfficialName() {
@@ -135,12 +140,27 @@ public final class Company implements Storable, Loadable {
     Session.notifyCompany();
   }
 
-  public void setInvoiceNumber(int nextInvoiceNumber) {
-    this.invoiceNumber = nextInvoiceNumber;
-  }
-
   @Override
   public String toString() {
     return this.descriptiveName;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    if (obj == this) return true;
+    if (!(obj instanceof Company)) return false;
+
+    Company other = (Company) obj;
+
+    return other.hashCode() == hashCode()
+        && other.descriptiveName.equals(descriptiveName)
+        && other.officialName.equals(officialName)
+        && other.taxNumber.equals(taxNumber);
+  }
+
+  @Override
+  public int hashCode() {
+    return descriptiveName.hashCode() + officialName.hashCode() + taxNumber.hashCode();
   }
 }

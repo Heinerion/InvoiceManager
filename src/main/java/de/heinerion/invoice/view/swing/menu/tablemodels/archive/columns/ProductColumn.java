@@ -19,11 +19,4 @@ public final class ProductColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getItem();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    if (value instanceof String) {
-      data.setItem((String) value);
-    }
-  }
 }

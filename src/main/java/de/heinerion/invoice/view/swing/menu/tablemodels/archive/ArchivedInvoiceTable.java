@@ -29,7 +29,7 @@ public final class ArchivedInvoiceTable implements TableModel {
 
   private static final int COLUMN_COUNT = COLUMNS.length;
 
-  private List<ArchivedInvoice> invoiceList;
+  private final List<ArchivedInvoice> invoiceList;
   private final List<TableModelListener> tableListener = new ArrayList<>();
 
   public ArchivedInvoiceTable() {
@@ -134,7 +134,7 @@ public final class ArchivedInvoiceTable implements TableModel {
 
   public File getPdfAt(int rowIndex) {
     final ArchivedInvoice data = this.get(rowIndex);
-    return data.getPdf();
+    return data.getFile();
   }
 
   @Override
@@ -166,7 +166,6 @@ public final class ArchivedInvoiceTable implements TableModel {
 
   @Override
   public void setValueAt(Object value, int rowIndex, int columnIndex) {
-    final ArchivedInvoice data = this.get(rowIndex);
-    COLUMNS[columnIndex].setValue(data, value);
+    throw new RuntimeException("not to be used");
   }
 }

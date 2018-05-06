@@ -3,6 +3,7 @@ package de.heinerion.betriebe.data;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
+import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +41,7 @@ public class DataBaseInvoiceTest {
     dataBase.addCompany(company);
     Session.setActiveCompany(company);
 
-    archivedInvoice = new ArchivedInvoice(file);
+    archivedInvoice = new PdfArchivedInvoice(file);
   }
 
   @Test

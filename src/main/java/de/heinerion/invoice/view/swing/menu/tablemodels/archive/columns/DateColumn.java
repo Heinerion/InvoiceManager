@@ -20,9 +20,4 @@ public final class DateColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getDate();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    // Nicht setzbar
-  }
 }

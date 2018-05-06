@@ -18,9 +18,4 @@ public final class NumberColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getInvoiceNumber();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    // Nicht setzbar
-  }
 }

@@ -3,7 +3,9 @@ package de.heinerion.invoice.view;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,5 +47,13 @@ public final class DateUtil {
 
   public static LocalDate parse(String source) {
     return LocalDate.parse(source, PARSE_FORMATTER);
+  }
+
+  public static Optional<LocalDate> parseOptional(String source) {
+    try {
+      return Optional.ofNullable(parse(source));
+    } catch (final DateTimeParseException e) {
+      return Optional.empty();
+    }
   }
 }

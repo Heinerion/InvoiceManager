@@ -8,14 +8,14 @@ import de.heinerion.betriebe.models.*;
 
 import java.util.Collection;
 
-class XmlConfigurator {
+public class XmlConfigurator {
   private final XStream xstream;
 
-  XmlConfigurator(XStream xstream) {
+  public XmlConfigurator(XStream xstream) {
     this.xstream = xstream;
   }
 
-  void setAliases() {
+  public void setAliases() {
     xstream.alias("invoice", Invoice.class);
     xstream.alias("item", Item.class);
     xstream.alias("company", Company.class);
@@ -23,7 +23,7 @@ class XmlConfigurator {
     xstream.alias("account", Account.class);
   }
 
-  void setSecurityOptions() {
+  public void setSecurityOptions() {
     XStream.setupDefaultSecurity(xstream);
     xstream.addPermission(NoTypePermission.NONE);
     xstream.addPermission(NullPermission.NULL);

@@ -19,9 +19,4 @@ public final class ReceiverColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getRecipient();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    // Nicht setzbar
-  }
 }

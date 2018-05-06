@@ -19,11 +19,4 @@ public final class SenderColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getCompany();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    if (value instanceof Company) {
-      data.setCompany((Company) value);
-    }
-  }
 }

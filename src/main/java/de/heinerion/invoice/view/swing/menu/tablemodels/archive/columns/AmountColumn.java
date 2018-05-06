@@ -18,11 +18,4 @@ public final class AmountColumn implements InvoiceColumn {
   public Object getValue(ArchivedInvoice data) {
     return data.getAmount();
   }
-
-  @Override
-  public void setValue(ArchivedInvoice data, Object value) {
-    if (value instanceof Double) {
-      data.setAmount((double) value);
-    }
-  }
 }

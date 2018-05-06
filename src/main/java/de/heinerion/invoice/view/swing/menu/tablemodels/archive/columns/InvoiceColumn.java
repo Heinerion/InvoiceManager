@@ -8,6 +8,4 @@ public interface InvoiceColumn {
   String getName();
 
   Object getValue(ArchivedInvoice data);
-
-  void setValue(ArchivedInvoice data, Object value);
 }
