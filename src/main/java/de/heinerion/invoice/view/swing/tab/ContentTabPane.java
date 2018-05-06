@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.TabContent;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,6 @@ public class ContentTabPane {
   private final List<TabContent> tabContents;
   private JTabbedPane pane;
 
-  @Autowired
   ContentTabPane(List<TabContent> someTabContents) {
     tabContents = someTabContents;
 

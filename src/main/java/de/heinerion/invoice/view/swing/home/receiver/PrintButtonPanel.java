@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.betriebe.listener.PrintAction;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 
@@ -10,7 +9,6 @@ import javax.swing.*;
 class PrintButtonPanel implements PanelHolder {
   private SidePanel sidePanel;
 
-  @Autowired
   PrintButtonPanel(PrintAction printAction) {
     sidePanel = new SidePanel();
 

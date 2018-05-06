@@ -1,11 +1,8 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.File;
 
 class HostSystemMock implements HostSystem {
-  @Autowired
   public HostSystemMock() {
   }
 

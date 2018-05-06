@@ -8,7 +8,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -24,7 +23,6 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
 
   private final Formatter formatter;
 
-  @Autowired
   LatexGeneratorFreeMarkerImpl(Formatter formatter) {
     this.formatter = formatter;
   }

@@ -6,7 +6,6 @@ import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -16,7 +15,6 @@ public class XmlPrinter implements Printer {
   private final HostSystem hostSystem;
   private final XStream xstream;
 
-  @Autowired
   XmlPrinter(HostSystem hostSystem){
     this.hostSystem = hostSystem;
     this.xstream = new XStream();

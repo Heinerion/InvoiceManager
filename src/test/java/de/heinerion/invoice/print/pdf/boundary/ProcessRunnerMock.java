@@ -1,9 +1,6 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class ProcessRunnerMock extends ProcessRunner {
-  @Autowired
   ProcessRunnerMock() {
     super();
   }

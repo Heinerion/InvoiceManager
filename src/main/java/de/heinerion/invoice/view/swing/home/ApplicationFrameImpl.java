@@ -13,7 +13,6 @@ import de.heinerion.invoice.view.swing.CompanyListener;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
 import de.heinerion.invoice.view.swing.tab.ContentTabPane;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +37,6 @@ class ApplicationFrameImpl implements
   private ContentTabPane contentTabPane;
   private PathUtilNG pathUtil;
 
-  @Autowired
   ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
     contentTabPane = tabPane;

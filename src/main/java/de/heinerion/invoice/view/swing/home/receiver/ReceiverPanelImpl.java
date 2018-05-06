@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.ReceiverPanel;
 import de.heinerion.invoice.view.swing.home.Refreshable;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +17,6 @@ class ReceiverPanelImpl implements ReceiverPanel {
   private Formatter formatter;
   private PrintButtonPanel printButtonPanel;
 
-  @Autowired
   ReceiverPanelImpl(Formatter formatter, PrintButtonPanel printButtonPanel) {
     this.formatter = formatter;
     this.printButtonPanel = printButtonPanel;

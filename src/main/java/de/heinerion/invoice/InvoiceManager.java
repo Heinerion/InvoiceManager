@@ -11,7 +11,6 @@ import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import de.heinerion.invoice.view.swing.SwingStarter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author heiner
@@ -22,7 +21,6 @@ final class InvoiceManager {
   private SwingStarter swingStarter;
   private GuiStarter starter;
 
-  @Autowired
   InvoiceManager(IO io, SwingStarter swingStarter) {
     this.swingStarter = swingStarter;
     this.starter = swingStarter;

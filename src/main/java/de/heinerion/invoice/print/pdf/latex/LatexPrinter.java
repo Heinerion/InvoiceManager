@@ -6,7 +6,6 @@ import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 
@@ -20,7 +19,6 @@ class LatexPrinter implements Printer {
   private final LatexGenerator latexGenerator;
   private final PathUtilNG pathUtil;
 
-  @Autowired
   LatexPrinter(HostSystem hostSystem, LatexGenerator latexGenerator, PathUtilNG pathUtil) {
     this.hostSystem = hostSystem;
     this.latexGenerator = latexGenerator;

@@ -13,7 +13,6 @@ import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +31,6 @@ public class IO {
 
   private PathUtilNG pathUtil;
 
-  @Autowired
   IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
   }

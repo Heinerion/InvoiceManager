@@ -6,7 +6,6 @@ import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.common.StatusComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 
@@ -17,7 +16,6 @@ public class SwingStarter implements GuiStarter {
 
   private final ApplicationFrame applicationFrame;
 
-  @Autowired
   SwingStarter(ApplicationFrame applicationFrame) {
     this.applicationFrame = applicationFrame;
   }

@@ -10,7 +10,6 @@ import de.heinerion.invoice.StringUtil;
 import de.heinerion.invoice.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -34,7 +33,6 @@ class InvoiceTabContent extends AbstractTabContent {
   private JComboBox<InvoiceTemplate> templateBox;
   private DataBase dataBase = DataBase.getInstance();
 
-  @Autowired
   InvoiceTabContent() {
     super(Translator.translate("invoice.title"));
 

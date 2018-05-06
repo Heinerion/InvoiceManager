@@ -6,7 +6,6 @@ import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,6 @@ public class PrintAction implements ActionListener {
 
   private PrintOperations printOperations;
 
-  @Autowired
   PrintAction(PrintOperations printOperations) {
     this.printOperations = printOperations;
   }

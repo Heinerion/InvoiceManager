@@ -1,14 +1,11 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.File;
 
 class HostSystemImpl implements HostSystem {
   private final FileHandler fileHandler;
   private final SystemCall systemCall;
 
-  @Autowired
   HostSystemImpl(FileHandler fileHandler, SystemCall systemCall) {
     this.fileHandler = fileHandler;
     this.systemCall = systemCall;
