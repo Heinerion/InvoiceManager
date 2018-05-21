@@ -35,5 +35,33 @@ pipeline {
                 }
             }
         }
+
+        stage('Integrate') {
+            steps {
+                sh 'mvn verify'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+            }
+        }
+
+        stage('SonarQube') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                sh 'mvn install'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+            }
+        }
     }
 }
