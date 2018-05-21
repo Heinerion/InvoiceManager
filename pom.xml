@@ -229,7 +229,7 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>LATEST</version>
+            <version>2.3.28</version>
         </dependency>
         <!-- xstream -->
         <dependency>
