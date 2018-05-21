@@ -7,25 +7,13 @@ pipeline {
 
     stages {
         stage('Build') {
-            steps {
-                withMaven {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                withMaven {
-                    sh 'mv test'
-                    junit '**/target/surefire-reports/*.xml'
-                }
-            }
-        }
-        stage('Install') {
-            steps {
-                withMaven {
-                    sh 'mv install'
-                }
+            git url: 'https://github.com/Heinerion/InvoiceManager/'
+
+            withMaven(maven: 'mvn') {
+
+              // Run the maven build
+              sh "mvn clean install"
+
             }
         }
     }
