@@ -1,3 +1,5 @@
+#!groovy
+
 pipeline {
     agent any
 
@@ -11,8 +13,6 @@ pipeline {
     }
 
     stages {
-
-    for (int i = 0; i < 2; i++) {
         stage ('Initialize') {
             steps {
                 sh '''
@@ -21,7 +21,6 @@ pipeline {
                 '''
             }
         }
-    }
 
         stage('Build') {
             steps {
@@ -60,11 +59,6 @@ pipeline {
         stage('Install') {
             steps {
                 sh 'mvn install'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/**/*.xml'
-                }
             }
         }
     }
