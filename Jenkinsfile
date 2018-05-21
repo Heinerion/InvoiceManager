@@ -7,14 +7,14 @@ pipeline {
 
     stages {
         stage('Build') {
-            step {
+            steps {
                 withMaven {
                     sh 'mvn clean compile'
                 }
             }
         }
         stage('Test') {
-            step {
+            steps {
                 withMaven {
                     sh 'mv test'
                     junit '**/target/surefire-reports/*.xml'
@@ -22,7 +22,7 @@ pipeline {
             }
         }
         stage('Install') {
-            step {
+            steps {
                 withMaven {
                     sh 'mv install'
                 }
