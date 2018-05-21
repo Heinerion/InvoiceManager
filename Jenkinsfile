@@ -3,6 +3,7 @@ pipeline {
 
     options {
         timestamps()
+        skipStagesAfterUnstable()
     }
 
     tools {
@@ -10,6 +11,8 @@ pipeline {
     }
 
     stages {
+
+    for (int i = 0; i < 2; i++) {
         stage ('Initialize') {
             steps {
                 sh '''
@@ -18,6 +21,7 @@ pipeline {
                 '''
             }
         }
+    }
 
         stage('Build') {
             steps {
