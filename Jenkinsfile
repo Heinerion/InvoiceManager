@@ -7,19 +7,25 @@ pipeline {
 
     stages {
         stage('Build') {
-            withMaven {
-                sh 'mvn clean compile'
+            step {
+                withMaven {
+                    sh 'mvn clean compile'
+                }
             }
         }
         stage('Test') {
-            withMaven {
-                sh 'mv test'
-                junit '**/target/surefire-reports/*.xml'
+            step {
+                withMaven {
+                    sh 'mv test'
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
         stage('Install') {
-            withMaven {
-                sh 'mv install'
+            step {
+                withMaven {
+                    sh 'mv install'
+                }
             }
         }
     }
