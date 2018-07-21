@@ -7,18 +7,20 @@ import de.heinerion.betriebe.services.ConfigurationService;
 
 import java.io.File;
 
+import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
+
 public class PathUtilNG {
 
   private String getSystemFolderName() {
-    return ConfigurationService.get("folder.system");
+    return ConfigurationService.get(FOLDER_SYSTEM);
   }
 
   public String getTemplateFolderName() {
-    return ConfigurationService.get("folder.templates");
+    return ConfigurationService.get(FOLDER_TEMPLATES);
   }
 
   private String getTexTemplateFolderName() {
-    return ConfigurationService.get("folder.texTemplates");
+    return ConfigurationService.get(FOLDER_TEX_TEMPLATES);
   }
 
   public String getSystemPath() {
@@ -38,16 +40,16 @@ public class PathUtilNG {
   }
 
   public String getBaseDir() {
-    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get("folder.data");
+    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get(FOLDER_DATA);
   }
 
   private String determineFolderName(Class<? extends Letter> itemClass) {
     String folder;
 
     if (itemClass.isAssignableFrom(Letter.class)) {
-      folder = ConfigurationService.get("folder.letters");
+      folder = ConfigurationService.get(FOLDER_LETTERS);
     } else if (itemClass.isAssignableFrom(Invoice.class)) {
-      folder = ConfigurationService.get("folder.invoices");
+      folder = ConfigurationService.get(FOLDER_INVOICES);
     } else {
       throw new NoValidLetterException(itemClass);
     }

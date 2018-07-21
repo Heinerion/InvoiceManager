@@ -19,6 +19,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
+
 public class Migrator {
   private static final Logger logger = LogManager.getLogger(Migrator.class);
 
@@ -80,24 +82,24 @@ public class Migrator {
     File home = new File(pathUtil.getBaseDir());
 
     // move letters
-    String letterDirName = ConfigurationService.get("folder.letters");
+    String letterDirName = ConfigurationService.get(FOLDER_LETTERS);
     File oldLetterDir = new File(home, letterDirName);
     File newLetterDir = createDir(companyDir, letterDirName);
 
     copyFiles(company, oldLetterDir, newLetterDir);
 
     // move letter sources
-    String systemDirName = ConfigurationService.get("folder.system");
+    String systemDirName = ConfigurationService.get(FOLDER_SYSTEM);
     File systemDir = new File(home, systemDirName);
     File oldLetterSrcDir = new File(systemDir, letterDirName);
 
-    String srcDirName = ConfigurationService.get("folder.sources");
+    String srcDirName = ConfigurationService.get(FOLDER_SOURCES);
     File newLetterSrcDir = createDir(newLetterDir, srcDirName);
 
     copyFiles(company, oldLetterSrcDir, newLetterSrcDir);
 
     // move invoices
-    String invoiceDirName = ConfigurationService.get("folder.invoices");
+    String invoiceDirName = ConfigurationService.get(FOLDER_INVOICES);
     String invoiceIdentifier = invoiceDirName + File.separator + company.getDescriptiveName();
     File oldInvoiceDir = new File(home, invoiceIdentifier);
     File newInvoiceDir = createDir(companyDir, invoiceDirName);

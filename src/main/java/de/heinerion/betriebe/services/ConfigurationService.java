@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -34,8 +35,8 @@ public class ConfigurationService {
     return new ClassPathXmlApplicationContext("de/heinerion/invoice/applicationContext.xml");
   }
 
-  public static String get(String key) {
-    return getConfig().getProperty(key);
+  public static String get(PropertyKey key) {
+    return getConfig().getProperty(Objects.requireNonNull(key).key);
   }
 
   private static Optional<AbstractApplicationContext> getContext() {
@@ -93,6 +94,23 @@ public class ConfigurationService {
   private static class PropertiesCouldNotBeReadException extends RuntimeException {
     PropertiesCouldNotBeReadException(String fileName, Throwable t) {
       super("property file '" + fileName + "' could not be read", t);
+    }
+  }
+
+  public enum PropertyKey {
+    FOLDER_DATA("folder.data"),
+    FOLDER_INVOICES("folder.invoices"),
+    FOLDER_LETTERS("folder.letters"),
+    FOLDER_SOURCES("folder.sources"),
+    FOLDER_SYSTEM("folder.system"),
+    FOLDER_TEMPLATES("folder.templates"),
+    FOLDER_TEX_TEMPLATES("folder.texTemplates"),
+    REVISION("git.commit.id.describe-short");
+
+    final String key;
+
+    PropertyKey(String key) {
+      this.key = key;
     }
   }
 }

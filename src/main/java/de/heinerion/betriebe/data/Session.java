@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.REVISION;
+
 public final class Session {
   private static final Logger LOGGER = LogManager.getLogger(Session.class);
 
@@ -159,7 +161,7 @@ public final class Session {
 
   public static String getVersion() {
     if (version == null) {
-      version = ConfigurationService.get("git.commit.id.describe-short");
+      version = ConfigurationService.get(REVISION);
     }
 
     return version;
