@@ -16,12 +16,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The DataBase is used for all storing and loading of any business class.
+ * <p>
+ * Only one DataBase exists at a time, which can be retrieved by {@link #getInstance()}
+ * </p>
+ * <p>
+ * Entities are held in this class' only instance, thus in memory
+ * </p>
+ */
 public final class DataBase implements LoadListener {
   private static final Logger logger = LogManager.getLogger(DataBase.class);
 
@@ -42,24 +48,50 @@ public final class DataBase implements LoadListener {
   private DataBase() {
   }
 
+  /**
+   * @return the only instance of this class, used for all business class storage and loading
+   */
   public static DataBase getInstance() {
     return instance;
   }
 
+  /**
+   * Collects all {@link Address}es valid for the given {@link Company}
+   *
+   * @param company to be filtered by
+   * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
+   */
   public List<Address> getAddresses(Company company) {
     List<Address> ret = getEntries(getAddressEntries(), company);
     ret.sort(Comparator.comparing(Address::getRecipient));
     return ret;
   }
 
+  /**
+   * Sets the {@link IO} instance to be used for {@link #load(StatusComponent)}, {@link #load()},
+   * {@link #addAddress(Address)} and {@link #updateTemplates(List)}.
+   *
+   * @param io the instance to be used for loading and saving
+   */
   public void setIo(IO io) {
-    this.io = io;
+    this.io = Objects.requireNonNull(io);
   }
 
+  /**
+   * Removes and loads every business class from the file system via {@link IO}
+   * <p>
+   * Calls {@link #load(StatusComponent)} with the last used {@link StatusComponent} or {@code null}, if none was used before.
+   * </p>
+   */
   public void load() {
     load(progress);
   }
 
+  /**
+   * Removes and loads every business class from the file system via {@link IO}
+   *
+   * @param indicator will be used for {@link IO#load(StatusComponent, LoadListener)} and for later calls via {@link #load()}
+   */
   public void load(StatusComponent<?> indicator) {
     progress = indicator;
 
@@ -72,6 +104,13 @@ public final class DataBase implements LoadListener {
     io.loadTexTemplates().forEach(this::addTexTemplate);
   }
 
+  /**
+   * Looks for the given recipients {@link Address} in the addresses valid for the given {@link Company}.
+   *
+   * @param company   to be filtered by
+   * @param recipient to be looked for
+   * @return an {@link Address} with the given recipient
+   */
   public Optional<Address> getAddress(Company company, String recipient) {
     Optional<Address> result = Optional.empty();
 
@@ -100,6 +139,9 @@ public final class DataBase implements LoadListener {
     return result;
   }
 
+  /**
+   * @return all available Addresses
+   */
   public List<Address> getAddresses() {
     return getAddresses(null);
   }
