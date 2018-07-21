@@ -35,7 +35,7 @@ public final class ParsingUtil {
   private static double parseByLocale(String input, Locale locale)
       throws ParseException {
     double result;
-    if (input == null || StringUtil.isEmpty(input)) {
+    if (input == null || input.trim().isEmpty()) {
       result = 0;
     } else {
       final NumberFormat format = NumberFormat.getInstance(locale);

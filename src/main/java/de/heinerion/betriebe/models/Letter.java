@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.invoice.StringUtil;
 import de.heinerion.invoice.storage.PathTools;
 
 import java.time.LocalDate;
@@ -61,7 +60,7 @@ public class Letter implements Storable {
   }
 
   public boolean isPrintable() {
-    final boolean hasSubject = !StringUtil.isEmpty(subject);
+    final boolean hasSubject = !(subject == null || subject.trim().isEmpty());
     final boolean hasContent = !messageLines.isEmpty();
     return hasSubject && hasContent;
   }

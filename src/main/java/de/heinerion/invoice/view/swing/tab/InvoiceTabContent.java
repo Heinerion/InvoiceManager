@@ -6,7 +6,6 @@ import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.invoice.ParsingUtil;
-import de.heinerion.invoice.StringUtil;
 import de.heinerion.invoice.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -246,8 +245,8 @@ class InvoiceTabContent extends AbstractTabContent {
       Double price = doubleAt(row, Col.PRICE);
       Double count = doubleAt(row, Col.COUNT);
 
-      if (StringUtil.isEmpty(unit)) {
-        if (!StringUtil.isEmpty(name)) {
+      if (isEmpty(unit)) {
+        if (!isEmpty(name)) {
           // Nothing but a description? → multi column
           invoice.add(name, null, 0, 0);
         }
@@ -257,6 +256,10 @@ class InvoiceTabContent extends AbstractTabContent {
     }
 
     return invoice;
+  }
+
+  private boolean isEmpty(String givenString) {
+    return givenString == null || givenString.trim().isEmpty();
   }
 
   private String stringAt(int row, Col col) {
