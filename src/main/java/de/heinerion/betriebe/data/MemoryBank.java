@@ -41,9 +41,7 @@ final class MemoryBank {
   }
 
   List<Address> getAllAddresses() {
-    List<Address> ret = getAllEntries(addressEntries);
-    ret.sort(Comparator.comparing(Address::getRecipient));
-    return ret;
+    return getAllSortedEntries(addressEntries, Address::getRecipient);
   }
 
   /**
@@ -77,9 +75,7 @@ final class MemoryBank {
   }
 
   List<Company> getAllCompanies() {
-    List<Company> result = getAllEntries(companyEntries);
-    result.sort(Comparator.comparing(Company::getDescriptiveName));
-    return result;
+    return getAllSortedEntries(companyEntries, Company::getDescriptiveName);
   }
 
   Optional<Company> getCompany(String descriptiveName) {
@@ -103,10 +99,6 @@ final class MemoryBank {
     return getSortedEntries(templateEntries, company, InvoiceTemplate::getName);
   }
 
-  Optional<InvoiceTemplate> getTemplate(Company company, String name) {
-    return getTemplateEntry(company, name).map(ListEntry::getEntry);
-  }
-
   private Optional<ListEntry<InvoiceTemplate>> getTemplateEntry(Company company, String name) {
     return templateEntries.stream()
         .filter(template -> template.belongsTo(company).orElse(true))
@@ -123,10 +115,6 @@ final class MemoryBank {
 
   List<TexTemplate> getTexTemplates(Company company) {
     return getSortedEntries(texTemplateEntries, company, TexTemplate::getName);
-  }
-
-  Optional<TexTemplate> getTexTemplate(Company company, String name) {
-    return getTexTemplateEntry(company, name).map(ListEntry::getEntry);
   }
 
   private Optional<ListEntry<TexTemplate>> getTexTemplateEntry(Company company, String name) {
@@ -153,7 +141,14 @@ final class MemoryBank {
   List<T> getSortedEntries(List<ListEntry<T>> entriesList, Company company, Function<T, U> keyExtractor) {
     List<T> belongingEntries = getEntries(entriesList, Objects.requireNonNull(company));
     belongingEntries.sort(Comparator.comparing(keyExtractor));
-    return belongingEntries;
+    return Collections.unmodifiableList(belongingEntries);
+  }
+
+  private <T, U extends Comparable<U>>
+  List<T> getAllSortedEntries(List<ListEntry<T>> entriesList, Function<T, U> keyExtractor) {
+    List<T> belongingEntries = getAllEntries(entriesList);
+    belongingEntries.sort(Comparator.comparing(keyExtractor));
+    return Collections.unmodifiableList(belongingEntries);
   }
 
   void reset() {
