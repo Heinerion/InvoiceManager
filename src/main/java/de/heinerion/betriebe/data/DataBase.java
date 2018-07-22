@@ -36,7 +36,7 @@ public final class DataBase implements LoadListener {
 
   private String lastMessage;
 
-  private static DataBase instance = new DataBase();
+  private static final DataBase instance = new DataBase();
 
   private DataBase() {
     this.memory = new MemoryBank();
@@ -93,6 +93,7 @@ public final class DataBase implements LoadListener {
     progress = indicator;
 
     removeAllInvoices();
+    memory.reset();
 
     io.load(progress, this);
     getInvoices().determineHighestInvoiceNumbers();
@@ -122,18 +123,10 @@ public final class DataBase implements LoadListener {
     return memory.getAllAddresses();
   }
 
-  void addAddress(Company company, Address address) {
-    memory.addAddress(company, address);
-  }
-
   public void addAddress(Address address) {
-    addAddress(null, address);
+    memory.addAddress(address);
 
     io.saveAddresses(getAddresses());
-  }
-
-  Optional<Company> getCompany(String descriptiveName) {
-    return memory.getCompany(descriptiveName);
   }
 
   List<Company> getCompanies() {
@@ -203,7 +196,7 @@ public final class DataBase implements LoadListener {
 
   void addLoadable(Loadable loadable) {
     if (loadable instanceof Address) {
-      addAddress(null, (Address) loadable);
+      addAddress((Address) loadable);
     } else if (loadable instanceof ArchivedInvoice) {
       addInvoice((ArchivedInvoice) loadable);
     } else if (loadable instanceof Company) {

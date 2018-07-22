@@ -26,11 +26,11 @@ final class MemoryBank {
     texTemplateEntries = new ArrayList<>();
   }
 
-  void addAddress(Company company, Address address) {
-    Optional<ListEntry<Address>> oldAddress = getAddressEntry(company, address.getRecipient());
+  void addAddress(Address address) {
+    Optional<ListEntry<Address>> oldAddress = getAddressEntry(null, address.getRecipient());
 
     oldAddress.ifPresent(addressEntries::remove);
-    addressEntries.add(new ListEntry<>(company, address));
+    addressEntries.add(new ListEntry<>(null, address));
   }
 
   /**
@@ -80,10 +80,6 @@ final class MemoryBank {
 
   List<Company> getAllCompanies() {
     return getAllSortedEntries(companyEntries, Company::getDescriptiveName);
-  }
-
-  Optional<Company> getCompany(String descriptiveName) {
-    return getCompanyEntry(descriptiveName).map(ListEntry::getEntry);
   }
 
   private Optional<ListEntry<Company>> getCompanyEntry(String descriptiveName) {

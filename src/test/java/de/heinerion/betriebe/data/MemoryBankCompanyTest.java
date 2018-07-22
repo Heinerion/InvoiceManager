@@ -40,17 +40,4 @@ public class MemoryBankCompanyTest {
 
     assertEquals(expectedSize, memoryBank.getAllCompanies().size());
   }
-
-  @Test
-  public void testDoNotFindAddressByCompany() {
-    assertFalse(memoryBank.getCompany("dummy").isPresent());
-  }
-
-  @Test
-  public void testFindAddressByCompany() {
-    memoryBank.addCompany(company);
-    Optional<Company> result = memoryBank.getCompany(company.getDescriptiveName());
-    assertTrue(result.isPresent());
-    assertEquals(company, result.get());
-  }
 }
