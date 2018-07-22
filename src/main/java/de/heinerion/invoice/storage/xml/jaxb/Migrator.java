@@ -15,12 +15,60 @@ import org.springframework.util.FileSystemUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 
+/**
+ * This class is to be used as stand alone tool for migrating one folder layout to another.
+ * <p>It creates xml files containing addresses, companies and templates along the way</p>
+ * <p>
+ * <strong>Initial structure</strong> (with translation properties in square brackets)
+ * <pre>
+ *   [application base]
+ *   |-- [invoice]
+ *   |   `-- &lt;company>
+ *   |       `-- &lt;invoice>.pdf
+ *   |
+ *   |-- [letter]
+ *   |   `-- &lt;letter>.pdf
+ *   |
+ *   `-- [system]
+ *       |-- [invoice]
+ *       |   `-- &lt;company>
+ *       |       `-- &lt;invoice>.tex
+ *       |
+ *       `-- [letter]
+ *           `-- &lt;letter>.tex
+ * </pre>
+ * <strong>Migrated structure</strong> (with translation properties in square brackets)
+ * <pre>
+ *   [application base]
+ *   |-- &lt;company>
+ *   |   |-- [invoice]
+ *   |   |   |-- [sources]
+ *   |   |   |   `-- &lt;invoice>.tex
+ *   |   |   |
+ *   |   |   `-- &lt;invoice>.pdf
+ *   |   |
+ *   |   |-- [letter]
+ *   |   |   |-- [sources]
+ *   |   |   |   `-- &lt;letter>.tex
+ *   |   |   |
+ *   |   |   `-- &lt;letter>.pdf
+ *   |   |
+ *   |   |-- addresses.xml
+ *   |   `-- templates.xml
+ *   |
+ *   `-- companies.xml
+ * </pre>
+ * </p>
+ */
 public class Migrator {
   private static final Logger logger = LogManager.getLogger(Migrator.class);
 
@@ -48,10 +96,15 @@ public class Migrator {
     File appBase = new File(pathUtil.getBaseDir());
     File companiesXmlFile = new File(appBase, "companies.xml");
     new CompanyManager().marshal(availableCompanies, companiesXmlFile);
+    print(String.format("Available companies written to %s", companiesXmlFile.getAbsolutePath()));
 
     availableCompanies.forEach(this::migrateCompanyInfo);
 
     ConfigurationService.exitApplication();
+  }
+
+  private void print(String message) {
+    System.out.println(message);
   }
 
   private void migrateCompanyInfo(Company company) {
@@ -81,14 +134,14 @@ public class Migrator {
   private void copyLettersAndInvoices(Company company, File companyDir) {
     File home = new File(pathUtil.getBaseDir());
 
-    // move letters
+    logger.info("Move letters");
     String letterDirName = ConfigurationService.get(FOLDER_LETTERS);
     File oldLetterDir = new File(home, letterDirName);
     File newLetterDir = createDir(companyDir, letterDirName);
 
     copyFiles(company, oldLetterDir, newLetterDir);
 
-    // move letter sources
+    logger.info("Move letter sources");
     String systemDirName = ConfigurationService.get(FOLDER_SYSTEM);
     File systemDir = new File(home, systemDirName);
     File oldLetterSrcDir = new File(systemDir, letterDirName);
@@ -98,14 +151,14 @@ public class Migrator {
 
     copyFiles(company, oldLetterSrcDir, newLetterSrcDir);
 
-    // move invoices
+    logger.info("Move invoices");
     String invoiceDirName = ConfigurationService.get(FOLDER_INVOICES);
     String invoiceIdentifier = invoiceDirName + File.separator + company.getDescriptiveName();
     File oldInvoiceDir = new File(home, invoiceIdentifier);
     File newInvoiceDir = createDir(companyDir, invoiceDirName);
     copy(oldInvoiceDir, newInvoiceDir);
 
-    // move invoice sources
+    logger.info("Move invoice sources");
     File oldInvoiceSrcDir = new File(systemDir, invoiceIdentifier);
     File newInvoiceSrcDir = createDir(newInvoiceDir, srcDirName);
 
@@ -162,7 +215,7 @@ public class Migrator {
 
   private void copy(File src, File dest) {
     try {
-      logger.info("\n copy " + src + "\n to   " + dest);
+      print(String.format("copy %s\n  to %s", src, dest));
       FileSystemUtils.copyRecursively(src, dest);
     } catch (IOException e) {
       throw new MigrationException(e);
