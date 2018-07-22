@@ -9,6 +9,10 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Representation of the business class entities in memory.
+ * <p>Is (for now) only to be used by {@link DataBase}.</p>
+ */
 final class MemoryBank {
   private final List<ListEntry<Address>> addressEntries;
   private final List<ListEntry<Company>> companyEntries;
