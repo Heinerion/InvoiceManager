@@ -1,6 +1,5 @@
-package de.heinerion.invoice.print.pdf.latex;
+package de.heinerion.betriebe.listener;
 
-import de.heinerion.betriebe.listener.Printer;
 import de.heinerion.betriebe.models.Letter;
 
 import java.io.File;
