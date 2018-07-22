@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ class FileHandler {
 
       out.flush();
     } catch (IOException e) {
-      BoundaryException.rethrow(e);
+      throw new UncheckedIOException(e);
     }
 
     return target;
