@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.models;
 
+import java.util.Objects;
+
 public final class Account {
   private String bic;
   private String iban;
@@ -8,7 +10,8 @@ public final class Account {
   /**
    * For persistence only
    */
-  private Account(){}
+  private Account() {
+  }
 
   public Account(String aName, String aBic, String anIban) {
     this.name = aName;
@@ -38,5 +41,29 @@ public final class Account {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Account account = (Account) o;
+    return Objects.equals(bic, account.bic) &&
+        Objects.equals(iban, account.iban) &&
+        Objects.equals(name, account.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bic, iban, name);
+  }
+
+  @Override
+  public String toString() {
+    return "Account{" +
+        "bic='" + bic + '\'' +
+        ", iban='" + iban + '\'' +
+        ", name='" + name + '\'' +
+        '}';
   }
 }

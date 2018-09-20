@@ -5,6 +5,7 @@ import de.heinerion.invoice.storage.loading.Loadable;
 
 import java.io.File;
 import java.text.Collator;
+import java.util.Objects;
 
 public final class Company implements Storable, Loadable {
   private String descriptiveName;
@@ -146,21 +147,24 @@ public final class Company implements Storable, Loadable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj == null) return false;
-    if (obj == this) return true;
-    if (!(obj instanceof Company)) return false;
-
-    Company other = (Company) obj;
-
-    return other.hashCode() == hashCode()
-        && other.descriptiveName.equals(descriptiveName)
-        && other.officialName.equals(officialName)
-        && other.taxNumber.equals(taxNumber);
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Company company = (Company) o;
+    return Double.compare(company.valueAddedTax, valueAddedTax) == 0 &&
+        Double.compare(company.wagesPerHour, wagesPerHour) == 0 &&
+        invoiceNumber == company.invoiceNumber &&
+        Objects.equals(descriptiveName, company.descriptiveName) &&
+        Objects.equals(officialName, company.officialName) &&
+        Objects.equals(address, company.address) &&
+        Objects.equals(signer, company.signer) &&
+        Objects.equals(taxNumber, company.taxNumber) &&
+        Objects.equals(phoneNumber, company.phoneNumber) &&
+        Objects.equals(account, company.account);
   }
 
   @Override
   public int hashCode() {
-    return descriptiveName.hashCode() + officialName.hashCode() + taxNumber.hashCode();
+    return Objects.hash(descriptiveName, officialName, address, signer, taxNumber, phoneNumber, account, valueAddedTax, wagesPerHour, invoiceNumber);
   }
 }

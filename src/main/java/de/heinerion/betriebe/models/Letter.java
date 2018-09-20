@@ -5,6 +5,7 @@ import de.heinerion.invoice.storage.PathTools;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Letter implements Storable {
   private final Company company;
@@ -67,5 +68,33 @@ public class Letter implements Storable {
 
   public void setSubject(String subject) {
     this.subject = subject;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Letter letter = (Letter) o;
+    return Objects.equals(company, letter.company) &&
+        Objects.equals(date, letter.date) &&
+        Objects.equals(subject, letter.subject) &&
+        Objects.equals(messageLines, letter.messageLines) &&
+        Objects.equals(receiver, letter.receiver);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(company, date, subject, messageLines, receiver);
+  }
+
+  @Override
+  public String toString() {
+    return "Letter{" +
+        "company=" + company +
+        ", date=" + date +
+        ", subject='" + subject + '\'' +
+        ", messageLines=" + messageLines +
+        ", receiver=" + receiver +
+        '}';
   }
 }

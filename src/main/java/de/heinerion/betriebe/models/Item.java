@@ -1,5 +1,7 @@
 package de.heinerion.betriebe.models;
 
+import java.util.Objects;
+
 public final class Item implements Buyable {
   private Product product;
   private double quantity;
@@ -68,5 +70,20 @@ public final class Item implements Buyable {
   private void updateValues() {
     final double pricePerUnit = this.getPricePerUnit();
     this.total = pricePerUnit * this.quantity;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Item item = (Item) o;
+    return Double.compare(item.quantity, quantity) == 0 &&
+        Double.compare(item.total, total) == 0 &&
+        Objects.equals(product, item.product);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(product, quantity, total);
   }
 }

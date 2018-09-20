@@ -5,6 +5,7 @@ import de.heinerion.invoice.Translator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Invoice extends Letter {
   private static final int INVOICE_LINE_COUNT = 6;
@@ -87,5 +88,37 @@ public class Invoice extends Letter {
     }
     this.tax = this.net * this.vat / PERCENT;
     this.gross = this.net + this.tax;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Invoice invoice = (Invoice) o;
+    return number == invoice.number &&
+        Double.compare(invoice.net, net) == 0 &&
+        Double.compare(invoice.vat, vat) == 0 &&
+        Double.compare(invoice.tax, tax) == 0 &&
+        Double.compare(invoice.gross, gross) == 0 &&
+        Objects.equals(items, invoice.items);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(number, items, net, vat, tax, gross);
+  }
+
+  @Override
+  public String toString() {
+    return "Invoice{" +
+        "number=" + number +
+        ", items=" + items +
+        ", net=" + net +
+        ", vat=" + vat +
+        ", tax=" + tax +
+        ", gross=" + gross +
+        ", subject='" + subject + '\'' +
+        ", receiver=" + receiver +
+        '}';
   }
 }

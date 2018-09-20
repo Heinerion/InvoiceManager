@@ -2,6 +2,7 @@ package de.heinerion.betriebe.models;
 
 import de.heinerion.invoice.storage.loading.Loadable;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public final class Address implements Storable, Loadable {
@@ -97,6 +98,27 @@ public final class Address implements Storable, Loadable {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Address address = (Address) o;
+    return Objects.equals(apartment, address.apartment) &&
+        Objects.equals(company, address.company) &&
+        Objects.equals(district, address.district) &&
+        Objects.equals(location, address.location) &&
+        Objects.equals(number, address.number) &&
+        Objects.equals(postalCode, address.postalCode) &&
+        Objects.equals(recipient, address.recipient) &&
+        Objects.equals(street, address.street);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(apartment, company, district, location, number, postalCode, recipient, street);
+  }
+
+  @Override
+  // TODO where used? Should something like "description" be used instead?
   public String toString() {
     return this.recipient;
   }
