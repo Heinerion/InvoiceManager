@@ -28,7 +28,10 @@ public abstract class LatexGeneratorTest {
       + "{scrlttr2}\n";
   private static final String PACKAGES = "\\usepackage[utf8]{inputenc}\n"
       + "\\usepackage[ngermanb]{babel}\n" + "\\usepackage[right]{eurosym}\n"
-      + "\\usepackage{hyperref}\n";
+      + "\\usepackage{longtable}\n"
+      + "\\usepackage{lastpage}             % determine last page\n"
+      + "\\usepackage{scrlayer-scrpage}     % scr-Styling\n"
+      + "\\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting\n";
   private static final String RENEW = "\\renewcommand{\\raggedsignature}"
       + "{\\raggedright}\n";
   private static final String KOMA_SIGNATURE = "\\setkomavar{signature}"
@@ -37,13 +40,46 @@ public abstract class LatexGeneratorTest {
       + "{street number, postalCode location}\n"
       + "\\setkomavar{fromphone}{123-456}\n"
       + "\\setkomavar{fromname}{{officialName}\\tiny}\n";
-  private static final String DATE_START = "\\date{\n"
+  private static final String DATE_START = "\\date{}\n"
+      + "\\setkomavar{location}{\n"
+      + "  \\vfill\n"
+      + "  \\raggedright\n"
       + "  \\footnotesize\n"
       + "  \\begin{tabular}{ll}\n"
       + "  \\textsc Datum & : "
       + String.join(".", DAY + "", (MONTH.getValue() < DOUBLE_DIGIT ? "0" : "")
       + MONTH.getValue(), YEAR + "");
   private static final String DATE_END = "  \\end{tabular}\n" + "}\n";
+  private static final String FOOTER_DECLARATION_START = "\n"
+      + "\\setkomavar{firstfoot}{\n"
+      + "  \\usekomafont{pageheadfoot}\n"
+      + "  \\parbox{\\useplength{firstfootwidth}}{\n"
+      + "    \\rule{\\linewidth}{.4pt}\\\\\n"
+      + "    \\parbox[t]{0.8\\linewidth}{\n";
+
+  private static final String FOOTER_DECLARATION_END = "    }\n"
+      + "    \\hfill\n"
+      + "    \\parbox[t]{0.1\\linewidth}{\n"
+      + "      Seite \\thepage \\hspace{1pt} von \\pageref{LastPage}\n"
+      + "    }\n"
+      + "  }\n"
+      + "}\n"
+      + "\\setkomafont{pageheadfoot}{\\scriptsize}\n"
+      + "\n"
+      + "% Use the footer-style of the first page in following pages\n"
+      + "\\DeclareNewLayer[\n"
+      + "  foreground,\n"
+      + "  textarea,\n"
+      + "  voffset=\\useplength{firstfootvpos},\n"
+      + "  hoffset=\\dimexpr.5\\paperwidth-.5\\useplength{firstfootwidth}\\relax,\n"
+      + "  width=\\useplength{firstfootwidth},\n"
+      + "  mode=picture,\n"
+      + "  contents=\\putUL{\\raisebox{\\dimexpr-\\height}{\\usekomavar{firstfoot}}}\n"
+      + "]{likefirstpage.foot}\n"
+      + "\n"
+      + "\\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}\n"
+      + "\\clearpairofpagestyles\n"
+      + "\n";
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
@@ -58,7 +94,13 @@ public abstract class LatexGeneratorTest {
       + "\\hypersetup{\n  pdftitle={Brief},\n  pdfauthor={officialName},\n  "
       + "pdfsubject={Test},\n  pdfkeywords={0.00}\n}\n" + RENEW + KOMA_SIGNATURE
       + "\\setkomavar{subject}{Test}\n" + KOMA_FROMADDRESS + DATE_START
-      + "\n" + DATE_END + DOC_START + LETTER_START;
+      + "\n"
+      + DATE_END
+      + FOOTER_DECLARATION_START
+      + "      officialName, Test, 25.06.2010\n"
+      + FOOTER_DECLARATION_END
+      + DOC_START
+      + LETTER_START;
   private static final String EXPECTATION_LETTER_END = LETTER_END + DOC_END;
 
   private static final String BANK_ACCOUNT = DATE_START
@@ -79,9 +121,12 @@ public abstract class LatexGeneratorTest {
       + "\\setkomavar{subject}{Rechnung}\n"
       + KOMA_FROMADDRESS
       + BANK_ACCOUNT
+      + FOOTER_DECLARATION_START
+      + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
+      + FOOTER_DECLARATION_END
       + DOC_START
       + LETTER_START
-      + "\\begin{tabular}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
+      + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
       + HLINE
       + "\n"
       + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
@@ -108,7 +153,9 @@ public abstract class LatexGeneratorTest {
       + "\n"
       + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{0,30}\\\\\\cline{4-5}\n"
       + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{3,30}\\\\\\cline{4-5}\n"
-      + "\\end{tabular}\n" + LETTER_END + DOC_END;
+      + "\\end{longtable}\n"
+      + LETTER_END
+      + DOC_END;
 
   private static final String EXPECTATION_INVOICE_OF_TWO = DOCCLASS
       + PACKAGES
@@ -119,9 +166,12 @@ public abstract class LatexGeneratorTest {
       + "\\setkomavar{subject}{Rechnung}\n"
       + KOMA_FROMADDRESS
       + BANK_ACCOUNT
+      + FOOTER_DECLARATION_START
+      + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
+      + FOOTER_DECLARATION_END
       + DOC_START
       + LETTER_START
-      + "\\begin{tabular}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
+      + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
       + HLINE
       + "\n"
       + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
@@ -151,7 +201,9 @@ public abstract class LatexGeneratorTest {
       + "\n"
       + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{1,33}\\\\\\cline{4-5}\n"
       + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{14,65}\\\\\\cline{4-5}\n"
-      + "\\end{tabular}\n" + LETTER_END + DOC_END;
+      + "\\end{longtable}\n"
+      + LETTER_END
+      + DOC_END;
 
   private static Company sender;
   private static Address receiverAddress;

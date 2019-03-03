@@ -4,7 +4,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage[ngermanb]{babel}
 \usepackage[right]{eurosym}
-\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{lastpage}             % determine last page
+\usepackage{scrlayer-scrpage}     % scr-Styling
+\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting
 \hypersetup{
   pdftitle={${labels.title}},
   pdfauthor={${invoice.company.officialName}},
@@ -19,7 +22,10 @@
 \setkomavar{fromaddress}{${invoice.company.address.street} ${invoice.company.address.number}, ${invoice.company.address.postalCode} ${invoice.company.address.location}}
 \setkomavar{fromphone}{${invoice.company.phoneNumber}}
 \setkomavar{fromname}{{${invoice.company.officialName}}\tiny}
-\date{
+\date{}
+\setkomavar{location}{
+  \vfill
+  \raggedright
   \footnotesize
   \begin{tabular}{ll}
   \textsc ${labels.date} & : ${invoice.date?date("yyyy-MM-dd")}\\
@@ -30,13 +36,43 @@
   \multicolumn{2}{l}{${invoice.company.account.name}}
   \end{tabular}
 }
+
+\setkomavar{firstfoot}{
+  \usekomafont{pageheadfoot}
+  \parbox{\useplength{firstfootwidth}}{
+    \rule{\linewidth}{.4pt}\\
+    \parbox[t]{0.8\linewidth}{
+      ${invoice.company.officialName}, ${labels.number}: ${invoice.number?string["0"]}, ${invoice.date?date("yyyy-MM-dd")}
+    }
+    \hfill
+    \parbox[t]{0.1\linewidth}{
+      Seite \thepage \hspace{1pt} von \pageref{LastPage}
+    }
+  }
+}
+\setkomafont{pageheadfoot}{\scriptsize}
+
+% Use the footer-style of the first page in following pages
+\DeclareNewLayer[
+  foreground,
+  textarea,
+  voffset=\useplength{firstfootvpos},
+  hoffset=\dimexpr.5\paperwidth-.5\useplength{firstfootwidth}\relax,
+  width=\useplength{firstfootwidth},
+  mode=picture,
+  contents=\putUL{\raisebox{\dimexpr-\height}{\usekomavar{firstfoot}}}
+]{likefirstpage.foot}
+
+\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
+\clearpairofpagestyles
+
 \begin{document}
 \begin{letter}{<#list address as line>${line}<#sep>\\
 </#list>
 }
 
 \opening{}\vspace{-25pt}
-\begin{tabular}{p{5cm}p{1cm}p{3cm}|r|r|}
+\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}
 \hline
 \multicolumn{3}{|c|}{\textsc ${labels.description}}&\multicolumn{1}{c|}{\textsc ${labels.pricePerUnit}}&\multicolumn{1}{c|}{\textsc ${labels.sum}}\\
 \hline
@@ -62,7 +98,7 @@
 \hline
 &&&\multicolumn{1}{|c|}{${invoice.vat}\% ${labels.vat}}&\EUR{${invoice.tax}}\\\cline{4-5}
 &&&\multicolumn{1}{|l|}{\textsc ${labels.sum}}&\EUR{${invoice.gross}}\\\cline{4-5}
-\end{tabular}
+\end{longtable}
 \vfill
 \closing{}
 
