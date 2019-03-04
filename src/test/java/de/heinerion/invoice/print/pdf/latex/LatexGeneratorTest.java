@@ -80,6 +80,23 @@ public abstract class LatexGeneratorTest {
       + "\\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}\n"
       + "\\clearpairofpagestyles\n"
       + "\n";
+  private static final String TWEAKS = "\\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox\n"
+      + "\\makeatletter\n"
+      + "\n"
+      + "% allows for more horizontal space in the location\n"
+      + "\\@setplength{lochpos}{\\oddsidemargin}\n"
+      + "\\@addtoplength{lochpos}{6cm}\n"
+      + "\n"
+      + "% pull signature closer to the table\n"
+      + "\\patchcmd{\\closing}% <cmd>\n"
+      + "  {\\parbox}% <search>\n"
+      + "  {\\parbox{\\linewidth}{\\raggedsignature\\strut\\ignorespaces\\let\\\\\\relax%\n"
+      + "      #1 \\usekomavar{signature}}%\n"
+      + "   \\@gobbletwo}%< <replace>\n"
+      + "  {}{}% <success><failure>\n"
+      + "\\makeatother"
+      + "\n"
+      + "\n";
   private static final String DOC_START = "\\begin{document}\n";
   private static final String DOC_END = "\\end{document}";
   private static final String EMPTY_LINE = "\\multicolumn{1}{|l}{$\\phantom{sth}$}&&&&\\\\\n"
@@ -124,6 +141,7 @@ public abstract class LatexGeneratorTest {
       + FOOTER_DECLARATION_START
       + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
       + FOOTER_DECLARATION_END
+      + TWEAKS
       + DOC_START
       + LETTER_START
       + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
@@ -169,6 +187,7 @@ public abstract class LatexGeneratorTest {
       + FOOTER_DECLARATION_START
       + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
       + FOOTER_DECLARATION_END
+      + TWEAKS
       + DOC_START
       + LETTER_START
       + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"

@@ -66,6 +66,22 @@
 \AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
 \clearpairofpagestyles
 
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+
+% allows for more horizontal space in the location
+\@setplength{lochpos}{\oddsidemargin}
+\@addtoplength{lochpos}{6cm}
+
+% pull signature closer to the table
+\patchcmd{\closing}% <cmd>
+  {\parbox}% <search>
+  {\parbox{\linewidth}{\raggedsignature\strut\ignorespaces\let\\\relax%
+      #1 \usekomavar{signature}}%
+   \@gobbletwo}%< <replace>
+  {}{}% <success><failure>
+\makeatother
+
 \begin{document}
 \begin{letter}{<#list address as line>${line}<#sep>\\
 </#list>
