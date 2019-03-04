@@ -190,7 +190,7 @@ class InvoiceTabContent extends AbstractTabContent {
       if (isEmpty(unit)) {
         if (!isEmpty(name)) {
           // Nothing but a description? → multi column
-          invoice.add(name, null, 0, 0);
+          invoice.addMessageLine(name);
         }
       } else {
         invoice.add(name, unit, price, count);

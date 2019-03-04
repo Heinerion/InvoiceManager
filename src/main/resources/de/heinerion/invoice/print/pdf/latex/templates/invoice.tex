@@ -1,5 +1,11 @@
 <#assign invoiceItems=invoice.items?size >
 <#assign invoiceItemsMax=5 >
+<#assign itemsWithUnit = [] />
+<#list invoice.items as item>
+    <#if item.unit??>
+        <#assign itemsWithUnit = itemsWithUnit + [item.name] />
+    </#if>
+</#list>
 \documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}
 \usepackage[utf8]{inputenc}
 \usepackage[ngermanb]{babel}
@@ -11,7 +17,7 @@
 \hypersetup{
   pdftitle={${labels.title}},
   pdfauthor={${invoice.company.officialName}},
-  pdfsubject={<#list invoice.items as item>${item.name}<#sep>, </#list>},
+  pdfsubject={<#list itemsWithUnit as item>${item}<#sep>, </#list>},
   <#setting locale="en_US">
   pdfkeywords={${invoice.gross}}
   <#setting locale="de_DE">
@@ -94,7 +100,11 @@
 \hline
 <#list invoice.items as item>
 \hline
+    <#if item.unit??>
 \multicolumn{1}{|l}{${item.name}}&\multicolumn{1}{r}{${item.quantity}}&${item.unit}&\hspace{12pt} á \EUR{${item.pricePerUnit}}&\EUR{${item.total}}\\
+    <#else>
+\multicolumn{2}{|l}{${item.name}}&&&\\
+    </#if>
 </#list>
 <#if invoiceItems < invoiceItemsMax>
   <#list invoiceItems..invoiceItemsMax as number>

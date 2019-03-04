@@ -129,100 +129,27 @@ public abstract class LatexGeneratorTest {
       + "  \\multicolumn{2}{l}{institute}\n"
       + DATE_END;
 
-  private static final String EXPECTATION_INVOICE = DOCCLASS
-      + PACKAGES
-      + "\\hypersetup{\n  pdftitle={Rechnung},\n  pdfauthor={officialName},\n  "
-      + "pdfsubject={Artikel 1},\n  pdfkeywords={3.30}\n}\n"
-      + RENEW
-      + KOMA_SIGNATURE
-      + "\\setkomavar{subject}{Rechnung}\n"
-      + KOMA_FROMADDRESS
-      + BANK_ACCOUNT
-      + FOOTER_DECLARATION_START
-      + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
-      + FOOTER_DECLARATION_END
-      + TWEAKS
-      + DOC_START
-      + LETTER_START
-      + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
-      + "\\multicolumn{1}{c|}{\\textsc Einzelpreis}&"
-      + "\\multicolumn{1}{c|}{\\textsc Gesamt}\\\\\n"
-      + HLINE
-      + "\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
-      + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n"
-      + HLINE
-      + "\n"
-      + EMPTY_LINE
-      + EMPTY_LINE
-      + EMPTY_LINE
-      + EMPTY_LINE
-      + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
-      + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{1}{|l}{Netto}&&&&\\EUR{3,00}\\\\\n"
-      + HLINE
-      + "\n"
-      + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{0,30}\\\\\\cline{4-5}\n"
-      + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{3,30}\\\\\\cline{4-5}\n"
-      + "\\end{longtable}\n"
-      + LETTER_END
-      + DOC_END;
+  private static final String EXPECTATION_INVOICE = LatexTestBuilder.builder()
+      .withArticles("Artikel 1")
+      .withNet("3,00")
+      .withTax("0,30")
+      .withGross("3,30")
+      .withSum("3.30")
+      .withLine("\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
+          + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n")
+      .build();
 
-  private static final String EXPECTATION_INVOICE_OF_TWO = DOCCLASS
-      + PACKAGES
-      + "\\hypersetup{\n  pdftitle={Rechnung},\n  pdfauthor={officialName},\n  "
-      + "pdfsubject={Artikel 1, Artikel 2},\n  pdfkeywords={14.65}\n}\n"
-      + RENEW
-      + KOMA_SIGNATURE
-      + "\\setkomavar{subject}{Rechnung}\n"
-      + KOMA_FROMADDRESS
-      + BANK_ACCOUNT
-      + FOOTER_DECLARATION_START
-      + "      officialName, Rechnungs-Nr.: 0, 25.06.2010\n"
-      + FOOTER_DECLARATION_END
-      + TWEAKS
-      + DOC_START
-      + LETTER_START
-      + "\\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{3}{|c|}{\\textsc Bezeichnung}&"
-      + "\\multicolumn{1}{c|}{\\textsc Einzelpreis}&"
-      + "\\multicolumn{1}{c|}{\\textsc Gesamt}\\\\\n"
-      + HLINE
-      + "\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
-      + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{1}{|l}{Artikel 2}&\\multicolumn{1}{r}{3,00}&Stück&"
-      + "\\hspace{12pt} á \\EUR{3,44}&\\EUR{10,32}\\\\\n"
-      + HLINE
-      + "\n"
-      + EMPTY_LINE
-      + EMPTY_LINE
-      + EMPTY_LINE
-      + "\\multicolumn{1}{|l}{$\\phantom{sth}$}&"
-      + "\\multicolumn{1}{r}{\\phantom{(\\hfill000,00}}&&&\\\\\n"
-      + HLINE
-      + "\n"
-      + "\\multicolumn{1}{|l}{Netto}&&&&\\EUR{13,32}\\\\\n"
-      + HLINE
-      + "\n"
-      + "&&&\\multicolumn{1}{|c|}{10,00\\% MwSt}&\\EUR{1,33}\\\\\\cline{4-5}\n"
-      + "&&&\\multicolumn{1}{|l|}{\\textsc Gesamt}&\\EUR{14,65}\\\\\\cline{4-5}\n"
-      + "\\end{longtable}\n"
-      + LETTER_END
-      + DOC_END;
+  private static final String EXPECTATION_INVOICE_OF_TWO = LatexTestBuilder.builder()
+      .withArticles("Artikel 1, Artikel 2")
+      .withNet("13,32")
+      .withTax("1,33")
+      .withGross("14,65")
+      .withSum("14.65")
+      .withLine("\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
+          + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n")
+      .withLine("\\multicolumn{1}{|l}{Artikel 2}&\\multicolumn{1}{r}{3,00}&Stück&"
+          + "\\hspace{12pt} á \\EUR{3,44}&\\EUR{10,32}\\\\\n")
+      .build();
 
   private static Company sender;
   private static Address receiverAddress;
@@ -292,5 +219,23 @@ public abstract class LatexGeneratorTest {
     final String result = latexGenerator.generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE_OF_TWO, result);
+  }
+
+  @Test
+  public final void invoiceWithTextLine() {
+    invoice.addMessageLine("Message");
+
+    final String result = latexGenerator.generateSourceContent(invoice);
+
+    Assert.assertEquals(LatexTestBuilder.builder()
+        .withArticles("Artikel 1")
+        .withNet("3,00")
+        .withTax("0,30")
+        .withGross("3,30")
+        .withSum("3.30")
+        .withLine("\\multicolumn{1}{|l}{Artikel 1}&\\multicolumn{1}{r}{2,00}&Stück&"
+            + "\\hspace{12pt} á \\EUR{1,50}&\\EUR{3,00}\\\\\n")
+        .withLine("\\multicolumn{2}{|l}{Message}&&&\\\\\n")
+        .build(), result);
   }
 }

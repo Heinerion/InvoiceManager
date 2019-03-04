@@ -35,6 +35,11 @@ public class Invoice extends Letter {
     this.addItem(new Item(new Product(artikel, einheit, preis), anzahl));
   }
 
+  @Override
+  public void addMessageLine(String messageLine) {
+    add(messageLine, null, 0, 0);
+  }
+
   private void addItem(Item item) {
     this.items.add(item);
     this.updateValues();
