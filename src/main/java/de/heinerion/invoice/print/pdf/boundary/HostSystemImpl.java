@@ -14,6 +14,8 @@ class HostSystemImpl implements HostSystem {
   @Override
   public void pdfLatex(File tex) {
     systemCall.pdfLatex(tex);
+    // twice, for page numbering
+    systemCall.pdfLatex(tex);
   }
 
   @Override
