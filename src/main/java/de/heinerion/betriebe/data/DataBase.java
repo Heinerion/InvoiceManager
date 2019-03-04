@@ -13,6 +13,7 @@ import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
 
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,8 +64,7 @@ public final class DataBase implements LoadListener {
   }
 
   /**
-   * Sets the {@link IO} instance to be used for {@link #load(StatusComponent)}, {@link #load()},
-   * {@link #addAddress(Address)} and {@link #updateTemplates(List)}.
+   * Sets the {@link IO} instance
    *
    * @param io the instance to be used for loading and saving
    */
@@ -157,17 +157,12 @@ public final class DataBase implements LoadListener {
     }
   }
 
-  public List<InvoiceTemplate> getTemplates(Company company) {
-    return memory.getTemplates(company);
+ public List<InvoiceTemplate> getTemplates(Company company) {
+    return Collections.unmodifiableList(memory.getTemplates(company));
   }
 
-  void addTemplate(Company company, InvoiceTemplate template) {
+  public void addTemplate(Company company, InvoiceTemplate template) {
     memory.addTemplate(company, template);
-  }
-
-  public void updateTemplates(List<InvoiceTemplate> templates) {
-    io.saveInvoiceTemplates(templates, Session.getActiveCompany());
-    io.loadInvoiceTemplates().forEach(this::addTemplates);
   }
 
   private void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {

@@ -15,8 +15,9 @@ class InvoiceTableModel extends AbstractTableModel {
   private static final int UNIT = 1;
   private static final int PPU = 2;
   private static final int COUNT = 3;
+  private static final int COLS = 4;
 
-  private transient List<Item> contents;
+  private List<Item> contents;
 
   InvoiceTableModel(List<Item> items) {
     contents = items;
@@ -65,14 +66,13 @@ class InvoiceTableModel extends AbstractTableModel {
 
   @Override
   public int getRowCount() {
-    // TODO contents.size()?
-    return 7;
+    // Always keep two more lines in view
+    return contents.size() + 2;
   }
 
   @Override
   public int getColumnCount() {
-    // TODO magic number
-    return 4;
+    return COLS;
   }
 
   @Override
@@ -160,7 +160,7 @@ class InvoiceTableModel extends AbstractTableModel {
     return result;
   }
 
-  InvoiceTemplate createVorlage() {
+  InvoiceTemplate createTemplate() {
     InvoiceTemplate result = new InvoiceTemplate();
 
     result.setName(contents.get(0).getName());

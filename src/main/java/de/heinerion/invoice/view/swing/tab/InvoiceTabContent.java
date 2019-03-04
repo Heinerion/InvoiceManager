@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.data.listable.DropListable;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.invoice.ParsingUtil;
@@ -11,11 +10,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.awt.BorderLayout.*;
@@ -23,14 +19,12 @@ import static java.awt.BorderLayout.*;
 @SuppressWarnings("serial")
 class InvoiceTabContent extends AbstractTabContent {
   private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
-  // TODO rows and cols dynamic
-  private static final int ROWS = 7;
-  private static final int COLS = 4;
-  private List<Item> contentPositions;
-  private List<InvoiceTemplate> templates;
-  private JTable tabPositions;
-  private JComboBox<InvoiceTemplate> templateBox;
+  private List<Item> contentPositions = new ArrayList<>();
+  private List<InvoiceTemplate> templates = new ArrayList<>();
+  private JTable tabPositions = null;
+  private JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
   private DataBase dataBase = DataBase.getInstance();
+  private InvoiceTableModel model = null;
 
   InvoiceTabContent() {
     super(Translator.translate("invoice.title"));
@@ -42,9 +36,9 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void initTabPositions() {
-    TableModel model = new InvoiceTableModel(getContentPositions());
+    model = new InvoiceTableModel(contentPositions);
     model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
-    setTabPositions(new JTable(model));
+    tabPositions = new JTable(model);
   }
 
   private void setupPanel(JPanel panel) {
@@ -60,7 +54,7 @@ class InvoiceTabContent extends AbstractTabContent {
 
     templatePnl.setOpaque(false);
     templatePnl.add(createTemplateLbl(), LINE_START);
-    templatePnl.add(getTemplateBox(), CENTER);
+    templatePnl.add(templateBox, CENTER);
     templatePnl.add(createTemplateSaveBtn(), LINE_END);
 
     return templatePnl;
@@ -82,9 +76,8 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void saveTemplate() {
-    Item item = getContentPositions().get(0);
-    if (isNotEmpty(item)) {
-      addToTemplates(item);
+    if (isNotEmpty(contentPositions.get(0))) {
+      addToTemplates();
     }
   }
 
@@ -92,60 +85,37 @@ class InvoiceTabContent extends AbstractTabContent {
     return !(item == null || item.getName() == null || "".equals(item.getName().trim()));
   }
 
-  private void addToTemplates(Item item) {
-    List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
-    InvoiceTemplate template = createTemplate();
-
-    int index = index(item.getName(), activeTemplates);
-    if (index == -1) {
-      activeTemplates.add(template);
-    } else {
-      activeTemplates.set(index, template);
-    }
-
-    Collections.sort(activeTemplates);
-    dataBase.updateTemplates(activeTemplates);
+  private void addToTemplates() {
+    dataBase.addTemplate(Session.getActiveCompany(), createTemplate());
     refresh();
   }
 
   private InvoiceTemplate createTemplate() {
-    InvoiceTemplate result = null;
-
-    TableModel tableModel = getTableModel();
-    if (tableModel instanceof InvoiceTableModel) {
-      InvoiceTableModel model = (InvoiceTableModel) tableModel;
-      result = model.createVorlage();
-    }
-
-    return result;
-  }
-
-  private TableModel getTableModel() {
-    return getTabPositions().getModel();
+    return model != null ? model.createTemplate() : null;
   }
 
   @Override
   public void refresh() {
     List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
-    if (!activeTemplates.equals(getTemplates())) {
+    if (!activeTemplates.equals(templates)) {
       clearPositions();
       clearTemplates();
       addTemplates(activeTemplates);
-      setTemplates(activeTemplates);
+      templates = activeTemplates;
     }
     Session.setActiveConveyable(getContent());
   }
 
   private void clearTemplates() {
-    getTemplateBox().removeAllItems();
+    templateBox.removeAllItems();
   }
 
   private void addTemplates(List<InvoiceTemplate> templates) {
-    templates.forEach(getTemplateBox()::addItem);
+    templates.forEach(templateBox::addItem);
   }
 
   private JScrollPane createTablePnl() {
-    return new JScrollPane(getTabPositions());
+    return new JScrollPane(tabPositions);
   }
 
   private JPanel createFooterPnl() {
@@ -153,27 +123,22 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void setUpInteractions() {
-    addTemplateBoxListener(e -> updateSelection());
-  }
-
-  private void addTemplateBoxListener(ActionListener actionListener) {
-    getTemplateBox().addActionListener(actionListener);
+    templateBox.addActionListener(e -> updateSelection());
   }
 
   private void updateSelection() {
-    int pos = getTemplateBox().getSelectedIndex();
+    int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // replace table positions with those of the template
-      String[][] table;
       List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
-      table = activeTemplates.get(pos).getInhalt();
-      fillTable(table);
+      fillTable(activeTemplates.get(pos).getInhalt());
+      model.fireTableDataChanged();
     }
   }
 
-  private void fillTable(String[][] tabelle) {
-    for (int row = 0; row < tabelle.length; row++) {
-      fillRow(tabelle[row], row);
+  private void fillTable(String[][] table) {
+    for (int row = 0; row < table.length; row++) {
+      fillRow(table[row], row);
     }
   }
 
@@ -184,12 +149,11 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void fillCell(int row, int col, String content) {
-    JTable positions = getTabPositions();
-    Class<?> colClass = positions.getColumnClass(col);
+    Class<?> colClass = tabPositions.getColumnClass(col);
     if (String.class.equals(colClass)) {
-      positions.setValueAt(content, row, col);
+      tabPositions.setValueAt(content, row, col);
     } else if (Double.class.equals(colClass)) {
-      positions.setValueAt(ParsingUtil.parseDouble(content), row, col);
+      tabPositions.setValueAt(ParsingUtil.parseDouble(content), row, col);
     } else {
       throw new GuiPanelException("Invalid column class " + colClass.getSimpleName());
     }
@@ -201,34 +165,13 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private void clearPositions() {
-    for (int i = 0; i < getRows(); i++) {
-      for (int j = 0; j < getCols(); j++) {
+    for (int i = 0; i < contentPositions.size(); i++) {
+      for (int j = 0; j < tabPositions.getColumnCount(); j++) {
         // overwrite all rows
-        getTabPositions().setValueAt("", i, j);
+        logger.info(i + ":" + j);
+        tabPositions.setValueAt("", i, j);
       }
     }
-  }
-
-  /**
-   * Determines the entries' index in the given list
-   *
-   * @param name name of the entry
-   * @param list the list to search in
-   * @return the index of the entry or -1 if not found
-   */
-  private <T extends DropListable> int index(String name, List<T> list) {
-    int index = -1;
-
-    for (T template : list) {
-      if (template.getName().equals(name)) {
-        if (logger.isDebugEnabled()) {
-          logger.debug("{} = {}", template.getName(), name);
-        }
-        index = list.indexOf(template);
-      }
-    }
-
-    return index;
   }
 
   @Override
@@ -238,8 +181,7 @@ class InvoiceTabContent extends AbstractTabContent {
 
     Invoice invoice = new Invoice(Session.getDate(), company, receiver);
 
-    // TODO why +1?
-    for (int row = 0; row < Invoice.getDefaultLineCount() + 1; row++) {
+    for (int row = 0; row < tabPositions.getRowCount(); row++) {
       String name = stringAt(row, Col.NAME);
       String unit = stringAt(row, Col.UNIT);
       Double price = doubleAt(row, Col.PRICE);
@@ -281,51 +223,7 @@ class InvoiceTabContent extends AbstractTabContent {
   }
 
   private Object getPositionAt(int row, Col col) {
-    return getTabPositions().getValueAt(row, col.pos);
-  }
-
-  private int getRows() {
-    return ROWS;
-  }
-
-  private int getCols() {
-    return COLS;
-  }
-
-  private List<Item> getContentPositions() {
-    if (contentPositions == null) {
-      contentPositions = new ArrayList<>();
-    }
-
-    return contentPositions;
-  }
-
-  private List<InvoiceTemplate> getTemplates() {
-    if (templates == null) {
-      setTemplates(new ArrayList<>());
-    }
-
-    return templates;
-  }
-
-  private void setTemplates(List<InvoiceTemplate> templates) {
-    this.templates = templates;
-  }
-
-  private JTable getTabPositions() {
-    return tabPositions;
-  }
-
-  private void setTabPositions(JTable tabPositions) {
-    this.tabPositions = tabPositions;
-  }
-
-  private JComboBox<InvoiceTemplate> getTemplateBox() {
-    if (templateBox == null) {
-      templateBox = new JComboBox<>();
-    }
-
-    return templateBox;
+    return tabPositions.getValueAt(row, col.pos);
   }
 
   private enum Col {
