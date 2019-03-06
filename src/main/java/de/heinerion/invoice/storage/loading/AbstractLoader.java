@@ -101,13 +101,11 @@ abstract class AbstractLoader implements Loader {
   protected abstract Loadable loopAction(File file);
 
   private boolean matchFiles(File file, Pattern fileNamePattern) {
-    boolean result = false;
-
     try {
       String filename = file.getCanonicalPath();
       Matcher matcher = fileNamePattern.matcher(filename);
 
-      result = matcher.matches();
+      boolean result = matcher.matches();
 
       if (logger.isDebugEnabled() && result) {
         logger.debug(VALID, filename, getClass().getSimpleName());
@@ -115,14 +113,14 @@ abstract class AbstractLoader implements Loader {
       if (logger.isInfoEnabled() && !result) {
         logger.info(INVALID, filename, getClass().getSimpleName());
       }
+
+      return result;
     } catch (IOException e) {
       if(logger.isErrorEnabled()) {
         logger.error(e);
       }
       throw new MatchFilesException(e);
     }
-
-    return result;
   }
 
   @Override

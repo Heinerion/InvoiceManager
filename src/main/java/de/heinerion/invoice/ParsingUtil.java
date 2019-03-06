@@ -14,13 +14,11 @@ public final class ParsingUtil {
   }
 
   public static double parseDouble(String input) {
-    double result = 0;
-
     try {
-      result = parseByLocale(input, Locale.US);
+      return parseByLocale(input, Locale.US);
     } catch (ParseException ex) {
       try {
-        result = parseByLocale(input, Locale.GERMANY);
+        return parseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
         if (logger.isErrorEnabled()) {
           logger.error(exe);
@@ -28,8 +26,6 @@ public final class ParsingUtil {
         throw new ParsingException(exe);
       }
     }
-
-    return result;
   }
 
   private static double parseByLocale(String input, Locale locale)

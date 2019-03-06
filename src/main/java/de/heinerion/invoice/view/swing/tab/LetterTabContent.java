@@ -7,6 +7,7 @@ import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
 import java.awt.*;
 
 import static java.awt.BorderLayout.*;
@@ -73,8 +74,12 @@ class LetterTabContent extends AbstractTabContent {
   }
 
   private void setupInteraction() {
-    subjectFld.addCaretListener(e -> Session.setActiveConveyable(getContent()));
-    contentArea.addCaretListener(e -> Session.setActiveConveyable(getContent()));
+    subjectFld.addCaretListener(this::setConveyableOnSession);
+    contentArea.addCaretListener(this::setConveyableOnSession);
+  }
+
+  private void setConveyableOnSession(CaretEvent e) {
+    Session.setActiveConveyable(getContent());
   }
 
   @Override

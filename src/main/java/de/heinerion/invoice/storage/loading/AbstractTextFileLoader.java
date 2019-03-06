@@ -47,13 +47,7 @@ abstract class AbstractTextFileLoader extends AbstractLoader {
     return attributes;
   }
 
-  /**
-   * @param path
-   * @param attributes
-   * @throws IOException
-   */
-  private void readAttributesFromFile(String path,
-                                      Map<String, String> attributes) throws IOException {
+  private void readAttributesFromFile(String path, Map<String, String> attributes) throws IOException {
     this.reader.prepareFile(path);
 
     Map<String, String> current;
