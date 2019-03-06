@@ -5,6 +5,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.swing.TabContent;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
@@ -12,7 +13,7 @@ import java.awt.*;
 
 import static java.awt.BorderLayout.*;
 
-class LetterTabContent extends AbstractTabContent {
+class LetterTabContent extends TabContent {
   private JTextField subjectFld;
   private JPanel subjectPnl;
   private JLabel subjectLbl;

@@ -6,6 +6,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.view.swing.TabContent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static java.awt.BorderLayout.*;
 
-class InvoiceTabContent extends AbstractTabContent {
+class InvoiceTabContent extends TabContent {
   private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
   private List<Item> contentPositions = new ArrayList<>();
   private List<InvoiceTemplate> templates = new ArrayList<>();
