@@ -57,9 +57,8 @@ class CalculatorPanel {
     lblVat = generateLabel("invoice.vat", "calculator.vatLabel");
     lblGross = generateLabel("invoice.gross", "calculator.grossLabel");
 
-    String vat = Translator.translate("invoice.vat");
-    btnPlus = generateButton("+ " + vat);
-    btnMinus = generateButton("- " + vat);
+    btnPlus = generateButton(Translator.translate("invoice.vat.add"));
+    btnMinus = generateButton(Translator.translate("invoice.vat.sub"));
   }
 
   private JTextField generateTextField() {
