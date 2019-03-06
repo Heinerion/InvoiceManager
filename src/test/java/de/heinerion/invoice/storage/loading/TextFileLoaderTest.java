@@ -19,14 +19,14 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(TextFileWriter.class)
+@PrepareForTest(Writer.class)
 @PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 public class TextFileLoaderTest {
 
   private TextFileLoader loader;
 
   @Mock
-  private TextFileWriter writer;
+  private Writer writer;
 
   @Before
   public void setUp() throws Exception {

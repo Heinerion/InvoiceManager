@@ -31,7 +31,7 @@ public class TextFileLoader {
   private Map<String, String> attributes;
 
   TextFileLoader() {
-    setWriter(new TextFileWriter());
+    setWriter(new Writer());
   }
 
   private String generatePath(Storable storable) {
