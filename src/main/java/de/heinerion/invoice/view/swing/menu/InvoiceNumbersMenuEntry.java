@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author heiner
  */
-class InvoiceNumbersMenuEntry extends AbstractMenuEntry {
+class InvoiceNumbersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceNumbers");
   private JPanel pnlNumbers;
 

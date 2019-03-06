@@ -4,8 +4,8 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.invoice.view.swing.menu.AbstractMenuEntry;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import de.heinerion.invoice.view.swing.menu.MenuEntry;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InfoMenuEntry extends AbstractMenuEntry {
+public class InfoMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("info");
   private final PathUtilNG pathUtil;
 

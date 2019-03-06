@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 /**
  * @author heiner
  */
-class ArchiveMenuEntry extends AbstractMenuEntry {
+class ArchiveMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("archive");
   private DataBase dataBase = DataBase.getInstance();
 

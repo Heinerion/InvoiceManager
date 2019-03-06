@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author heiner
  */
-class AddressBookMenuEntry extends AbstractMenuEntry {
+class AddressBookMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("addressBook");
   private JScrollPane spAddresses;
   private DataBase dataBase = DataBase.getInstance();
