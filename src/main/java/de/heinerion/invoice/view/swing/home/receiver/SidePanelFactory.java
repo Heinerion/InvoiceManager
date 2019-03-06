@@ -9,15 +9,15 @@ public class SidePanelFactory {
   private SidePanelFactory() {
   }
 
-  static JPanel createCalculatorSidePanel() {
+  public static JPanel createCalculatorSidePanel() {
     return new CalculatorSidePanel().getPanel();
   }
 
-  static Refreshable createAddressPanel(Formatter formatter) {
+  public static Refreshable createAddressPanel(Formatter formatter) {
     return new AddressPanel(formatter);
   }
 
-  static Refreshable createCompanyChooserPanel() {
+  public static Refreshable createCompanyChooserPanel() {
     return new CompanyChooserPanel();
   }
 }

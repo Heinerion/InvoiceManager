@@ -19,6 +19,6 @@
             </list>
         </constructor-arg>
     </bean>
-    <bean class="de.heinerion.invoice.view.swing.home.receiver.ReceiverPanelImpl"/>
+    <bean class="de.heinerion.invoice.view.swing.home.ReceiverPanel"/>
     <bean class="de.heinerion.invoice.view.swing.home.ApplicationFrameDummy"/>
 </beans>
