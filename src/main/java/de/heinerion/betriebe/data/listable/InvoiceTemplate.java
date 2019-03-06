@@ -9,17 +9,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
    * Generierte ID
    */
   private static final long serialVersionUID = 5654884407643922708L;
-  private String name;
+  private String name = "";
   private String[][] inhalt;
-
-  public InvoiceTemplate() {
-    this("", new String[][]{{""}});
-  }
-
-  private InvoiceTemplate(String aName, String[][] content) {
-    this.name = aName;
-    this.inhalt = content;
-  }
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
