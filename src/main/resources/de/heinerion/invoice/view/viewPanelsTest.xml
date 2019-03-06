@@ -7,7 +7,7 @@
     <context:annotation-config/>
     <context:property-placeholder location="classpath:configuration.properties"/>
 
-    <bean class="de.heinerion.invoice.view.swing.SwingStarter"/>
+    <bean class="de.heinerion.invoice.view.GuiStarter"/>
 
     <bean class="de.heinerion.invoice.view.swing.home.receiver.PrintButtonPanel"/>
     <bean class="de.heinerion.invoice.view.swing.home.GlassPane"/>

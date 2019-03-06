@@ -3,6 +3,7 @@ package de.heinerion.invoice;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.testsupport.builder.SessionPreparer;
+import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.*;
 import org.junit.Before;
@@ -42,13 +43,13 @@ public class InvoiceManagerTest {
   private StatusComponent<JPanel> statusComponent;
 
   @InjectMocks
-  private SwingStarter swingStarter;
+  private GuiStarter guiStarter;
 
   private InvoiceManager manager;
 
   @Before
   public void setUp() {
-    manager = new InvoiceManager(io, swingStarter);
+    manager = new InvoiceManager(io, guiStarter);
 
     when(statusComponent.getContainer()).thenReturn(new JPanel());
 

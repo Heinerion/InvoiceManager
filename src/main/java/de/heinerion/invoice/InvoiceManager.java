@@ -8,7 +8,6 @@ import de.heinerion.invoice.aspects.annotations.LogMethod;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
-import de.heinerion.invoice.view.swing.SwingStarter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,11 +17,9 @@ import org.apache.logging.log4j.Logger;
 final class InvoiceManager {
   private static final Logger LOGGER = LogManager.getLogger(InvoiceManager.class);
 
-  private SwingStarter swingStarter;
   private GuiStarter starter;
 
-  InvoiceManager(IO io, SwingStarter swingStarter) {
-    this.swingStarter = swingStarter;
+  InvoiceManager(IO io, GuiStarter swingStarter) {
     this.starter = swingStarter;
     DataBase.getInstance().setIo(io);
   }
@@ -53,15 +50,8 @@ final class InvoiceManager {
   }
 
   private void evaluateArgument(String string) {
-    switch (string) {
-      case "debug":
-        Session.isDebugMode(true);
-        break;
-      case "swing":
-        starter = swingStarter;
-        break;
-      default:
-        break;
+    if ("debug".equals(string)) {
+      Session.isDebugMode(true);
     }
   }
 
