@@ -9,5 +9,5 @@ public interface ApplicationFrame {
 
   void refresh();
 
-  StatusComponent<JPanel> getStatusComponent();
+  StatusComponent getStatusComponent();
 }

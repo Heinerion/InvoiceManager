@@ -36,7 +36,7 @@ public class GuiStarter {
   }
 
   private void collectData(ApplicationFrame applicationFrame) {
-    StatusComponent<?> progress = applicationFrame.getStatusComponent();
+    StatusComponent progress = applicationFrame.getStatusComponent();
 
     DataBase.getInstance().load(progress);
 

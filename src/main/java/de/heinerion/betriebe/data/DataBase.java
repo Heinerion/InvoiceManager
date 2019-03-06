@@ -33,7 +33,7 @@ public final class DataBase implements LoadListener {
   private ArchivedInvoiceTable invoices;
 
   private IO io;
-  private StatusComponent<?> progress;
+  private StatusComponent progress;
 
   private String lastMessage;
 
@@ -89,7 +89,7 @@ public final class DataBase implements LoadListener {
    * @param indicator will be used for {@link IO#load(StatusComponent, LoadListener)} and for later calls via {@link
    *                  #load()}
    */
-  public void load(StatusComponent<?> indicator) {
+  public void load(StatusComponent indicator) {
     progress = indicator;
 
     removeAllInvoices();

@@ -17,7 +17,7 @@ public class ApplicationFrameDummy implements ApplicationFrame {
   }
 
   @Override
-  public StatusComponent<JPanel> getStatusComponent() {
+  public StatusComponent getStatusComponent() {
     return null;
   }
 }

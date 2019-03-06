@@ -122,7 +122,7 @@ public class IO {
    * This method is decoupled from the view, so the progress indicator could become null anytime.
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
-  public void load(StatusComponent<?> progress, LoadListener listener) {
+  public void load(StatusComponent progress, LoadListener listener) {
     if (!listenersAndLoadersRegistered) {
       listenersAndLoadersRegistered = registerListenersAndLoaders(listener);
     }
@@ -155,13 +155,13 @@ public class IO {
     });
   }
 
-  private void setProgressMax(StatusComponent<?> progress, int number) {
+  private void setProgressMax(StatusComponent progress, int number) {
     if (progress != null) {
       progress.setProgressMax(number);
     }
   }
 
-  private void setProgressMessage(StatusComponent<?> progress) {
+  private void setProgressMessage(StatusComponent progress) {
     if (progress != null) {
       progress.setMessage(Translator.translate("progress.done"));
     }

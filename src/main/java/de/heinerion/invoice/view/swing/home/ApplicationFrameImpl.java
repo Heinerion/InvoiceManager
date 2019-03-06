@@ -32,7 +32,7 @@ class ApplicationFrameImpl implements
 
   private Refreshable receiverPanel;
 
-  private StatusComponent<JPanel> statusComponent;
+  private StatusComponent statusComponent;
   private ContentTabPane contentTabPane;
   private PathUtilNG pathUtil;
 
@@ -97,7 +97,7 @@ class ApplicationFrameImpl implements
   }
 
   @Override
-  public StatusComponent<JPanel> getStatusComponent() {
+  public StatusComponent getStatusComponent() {
     return statusComponent;
   }
 

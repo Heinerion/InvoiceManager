@@ -40,7 +40,7 @@ public class InvoiceManagerTest {
   private IO io;
 
   @Mock
-  private StatusComponent<JPanel> statusComponent;
+  private StatusComponent statusComponent;
 
   @InjectMocks
   private GuiStarter guiStarter;

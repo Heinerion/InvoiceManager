@@ -12,7 +12,7 @@ public class PanelFactory {
     return BGPanel.createBackgroundPanel(coloredSides);
   }
 
-  public static StatusComponent<JPanel> createStatusComponent() {
-    return new StatusComponentSwingImpl();
+  public static StatusComponent createStatusComponent() {
+    return new StatusComponent();
   }
 }
