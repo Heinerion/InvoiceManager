@@ -1,29 +1,54 @@
 package de.heinerion.invoice.view.formatter;
 
-import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.betriebe.models.Address;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class FormatterTest {
-  private Formatter formatter;
+  private Formatter impl;
 
   @Before
-  public void setUp() throws Exception {
-    formatter = ConfigurationService.getBean(Formatter.class);
+  public void setUp() {
+    impl = new Formatter();
   }
 
   @Test
-  public void formatAddress() throws Exception {
-    List<String> expected = new ArrayList<>();
-    expected.add("formatted");
-    expected.add("address");
+  public void formatFullBlownAddress() {
+    Address address = new AddressBuilder().build();
 
-    assertEquals(expected, formatter.formatAddress(new AddressBuilder().build()));
+    ArrayList<String> expected = new ArrayList<>();
+    expected.add("recipient");
+    expected.add("company");
+    expected.add("district");
+    expected.add("street number");
+    expected.add("apartment");
+    expected.add("postalCode location");
+
+    assertEquals(expected, impl.formatAddress(address));
   }
+
+  @Test
+  public void formatSimpleAddress() {
+    Address address = new AddressBuilder()
+        .clear()
+        .withRecipient("recipient")
+        .withStreet("street")
+        .withNumber("number")
+        .withPostalCode("postalCode")
+        .withLocation("location")
+        .build();
+
+    ArrayList<String> expected = new ArrayList<>();
+    expected.add("recipient");
+    expected.add("street number");
+    expected.add("postalCode location");
+
+    assertEquals(expected, impl.formatAddress(address));
+  }
+
 }

@@ -9,8 +9,7 @@
 
     <import resource="viewPanelsTest.xml"/>
 
-    <bean class="de.heinerion.invoice.view.formatter.AddressFormatterMock"/>
-    <bean class="de.heinerion.invoice.view.formatter.FormatterImpl"/>
+    <bean class="de.heinerion.invoice.view.formatter.FormatterMock"/>
 
     <bean class="de.heinerion.invoice.print.pdf.latex.LatexGeneratorMock"/>
 </beans>

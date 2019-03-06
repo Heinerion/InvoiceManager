@@ -9,8 +9,7 @@
 
     <import resource="viewPanels.xml"/>
 
-    <bean class="de.heinerion.invoice.view.formatter.AddressFormatterImpl"/>
-    <bean class="de.heinerion.invoice.view.formatter.FormatterImpl"/>
+    <bean class="de.heinerion.invoice.view.formatter.Formatter"/>
 
     <bean class="de.heinerion.invoice.print.pdf.latex.LatexGeneratorFreeMarkerImpl"/>
 </beans>
