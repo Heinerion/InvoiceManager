@@ -1,12 +1,12 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.models.*;
+import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.models.Storable;
 import de.heinerion.invoice.storage.PathTools;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,25 +15,7 @@ import java.util.Map;
  * @deprecated this class will eventually be replaced
  */
 @Deprecated
-public class TextFileLoader implements Serializer {
-  private static final String ADDRESS = "Address";
-  private static final String ITEM = "Item";
-  private static final String LINE = "Line";
-  private static final String NAME = "Name";
-  private static final String PPU = "PricePerUnit";
-  private static final String QTTY = "Quantity";
-  private static final String TOTAL = "Total";
-  private static final String UNIT = "Unit";
-  private static final String DOT = ".";
-  private static final String CLIENT = "Client";
-  private static final String DATE = "Date";
-  private static final String DESCRIPTIVE_NAME = "DescriptiveName";
-  private static final String NET = "Net";
-  private static final String OFFICIAL_NAME = "OfficialName";
-  private static final String SIGNER = "Signer";
-  private static final String TAX_NUMBER = "TaxNumber";
-  private static final String VALUE_ADDED_TAX = "ValueAddedTax";
-  private static final String WAGES_PER_HOUR = "WagesPerHour";
+public class TextFileLoader {
   private static final String APARTMENT = "Apartment";
   private static final String COMPANY = "Company";
   private static final String DISTRICT = "District";
@@ -52,40 +34,6 @@ public class TextFileLoader implements Serializer {
     setWriter(new TextFileWriter());
   }
 
-  private void addAddress(Company company) {
-    Address address = company.getAddress();
-
-    attributes.put(specify(ADDRESS, RECIPIENT), address.getRecipient());
-    attributes.put(specify(ADDRESS, COMPANY), address.getCompany().orElse(null));
-    attributes.put(specify(ADDRESS, DISTRICT), address.getDistrict().orElse(""));
-    attributes.put(specify(ADDRESS, STREET), address.getStreet());
-    attributes.put(specify(ADDRESS, NUMBER), address.getNumber());
-    attributes.put(specify(ADDRESS, APARTMENT), address.getApartment().orElse(""));
-    attributes.put(specify(ADDRESS, POSTCODE), address.getPostalCode());
-    attributes.put(specify(ADDRESS, LOCATION), address.getLocation());
-  }
-
-  private String specify(String... token) {
-    return String.join(DOT, token);
-  }
-
-  private void addAttribute(String key, LocalDate value) {
-    attributes.put(key, value.toString());
-  }
-
-  private void addAttribute(String key, Number value) {
-    attributes.put(key, "" + value);
-  }
-
-  private void addItem(Item item, int number) {
-    attributes.put(specify(ITEM, Integer.toString(number), NAME), item.getName());
-    attributes.put(specify(ITEM, Integer.toString(number), UNIT), item.getUnit());
-
-    addAttribute(specify(ITEM, Integer.toString(number), PPU), item.getPricePerUnit());
-    addAttribute(specify(ITEM, Integer.toString(number), QTTY), item.getQuantity());
-    addAttribute(specify(ITEM, Integer.toString(number), TOTAL), item.getTotal());
-  }
-
   private String generatePath(Storable storable) {
     return PathTools.getPath(storable);
   }
@@ -101,42 +49,6 @@ public class TextFileLoader implements Serializer {
     attributes.put(LOCATION, address.getLocation());
   }
 
-  private void prepareCompany(Company company) {
-    attributes.put(DESCRIPTIVE_NAME, company.getDescriptiveName());
-    attributes.put(OFFICIAL_NAME, company.getOfficialName());
-    attributes.put(SIGNER, company.getSigner());
-    attributes.put(TAX_NUMBER, company.getTaxNumber());
-    attributes.put(VALUE_ADDED_TAX, Double.toString(company.getValueAddedTax()));
-    attributes.put(WAGES_PER_HOUR, Double.toString(company.getWagesPerHour()));
-
-    addAddress(company);
-  }
-
-  private void prepareInvoice(Invoice invoice) {
-    attributes.put(CLIENT, invoice.getReceiver().getRecipient());
-
-    addAttribute(NUMBER, invoice.getNumber());
-    addAttribute(DATE, invoice.getDate());
-
-    List<Item> items = invoice.getItems();
-    for (int i = 0; i < items.size(); i++) {
-      addItem(items.get(i), i);
-    }
-
-    addAttribute(NET, invoice.getNet());
-  }
-
-  private void prepareLetter(Letter letter) {
-    attributes.put(CLIENT, letter.getReceiver().getRecipient());
-
-    addAttribute(DATE, letter.getDate());
-
-    List<String> lines = letter.getMessageLines();
-    for (int i = 0; i < lines.size(); i++) {
-      attributes.put(LINE + i, lines.get(i));
-    }
-  }
-
   private void saveAddress(Address address) throws IOException {
     attributes = new HashMap<>();
 
@@ -145,8 +57,7 @@ public class TextFileLoader implements Serializer {
     writeAttributes(generatePath(address));
   }
 
-  @Override
-  public void saveAddresses(List<Address> addresses)
+  void saveAddresses(List<Address> addresses)
       throws IOException {
     for (Address address : addresses) {
       debug("save address " + address.getRecipient());
@@ -160,52 +71,7 @@ public class TextFileLoader implements Serializer {
     }
   }
 
-  @Override
-  public void saveCompanies(List<Company> companies)
-      throws IOException {
-    for (Company company : companies) {
-      debug("save company " + company.getDescriptiveName());
-      saveCompany(company);
-    }
-  }
-
-  private void saveCompany(Company company) throws IOException {
-    attributes = new HashMap<>();
-    prepareCompany(company);
-    writeAttributes(generatePath(company));
-  }
-
-  private void saveInvoice(Invoice invoice) throws IOException {
-    attributes = new HashMap<>();
-    prepareInvoice(invoice);
-    writeAttributes(generatePath(invoice));
-  }
-
-  @Override
-  public void saveInvoices(List<Invoice> invoices)
-      throws IOException {
-    for (Invoice invoice : invoices) {
-      debug("save invoice " + invoice.getEntryName());
-      saveInvoice(invoice);
-    }
-  }
-
-  private void saveLetter(Letter letter) throws IOException {
-    attributes = new HashMap<>();
-    prepareLetter(letter);
-    writeAttributes(generatePath(letter));
-  }
-
-  @Override
-  public void saveLetters(List<Letter> letters)
-      throws IOException {
-    for (Letter letter : letters) {
-      debug("save letter " + letter.getEntryName());
-      saveLetter(letter);
-    }
-  }
-
-  protected void setWriter(Writer aWriter) {
+  void setWriter(Writer aWriter) {
     writer = aWriter;
   }
 

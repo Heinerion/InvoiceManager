@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class IO {
   private static final Logger logger = LogManager.getLogger(IO.class);
   private static final LoadingManager loadingManager = new LoadingManager();
-  private static Serializer fileLoader = new TextFileLoader();
+  private static TextFileLoader fileLoader = new TextFileLoader();
   private boolean listenersAndLoadersRegistered;
 
   private PathUtilNG pathUtil;
