@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-class ArchivedInvoiceLoader extends AbstractLoader {
+class ArchivedInvoiceLoader extends Loader {
   private static final Logger logger = LogManager.getLogger(ArchivedInvoiceLoader.class);
 
   ArchivedInvoiceLoader(File aLoadDirectory) {

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-abstract class AbstractTextFileLoader extends AbstractLoader {
+abstract class AbstractTextFileLoader extends Loader {
   private static final Logger logger = LogManager.getLogger(AbstractTextFileLoader.class);
 
   private final Reader reader = new TextFileReader();
