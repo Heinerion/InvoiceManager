@@ -5,7 +5,6 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.PanelSides;
 import de.heinerion.invoice.view.swing.home.DimensionUtil;
-import de.heinerion.invoice.view.swing.home.receiver.money.Euro;
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 
 import javax.swing.*;
@@ -120,7 +119,7 @@ class CalculatorPanel {
 
   private CalculationResult addTaxes() {
     return new CalculationResult(getTaxes())
-        .setNet(Euro.parse(getAmount()));
+        .setNet(Money.parse(getAmount()));
   }
 
   private String getAmount() {
@@ -133,7 +132,7 @@ class CalculatorPanel {
 
   private CalculationResult substractTaxes() {
     return new CalculationResult(getTaxes())
-        .setGross(Euro.parse(getAmount()));
+        .setGross(Money.parse(getAmount()));
   }
 
   private void setFieldValues(CalculationResult values) {

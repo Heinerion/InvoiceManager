@@ -3,23 +3,23 @@ package de.heinerion.invoice.view.swing.home.receiver.money;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class EuroTest {
+public class MoneyTest {
   @Test
   public void testAdd() {
-    Euro a = Euro.of(2.5);
-    Euro b = Euro.of(1.25);
-    Euro c = a.add(b);
-    Euro expected = Euro.of(3.75);
+    Money a = Money.of(2.5);
+    Money b = Money.of(1.25);
+    Money c = a.add(b);
+    Money expected = Money.of(3.75);
 
     Assert.assertEquals(expected, c);
   }
 
   @Test
   public void testDivideBy() {
-    Euro a = Euro.of(2.75);
+    Money a = Money.of(2.75);
     double b = 2d;
-    Euro c = a.divideBy(b);
-    Euro expected = Euro.of(1.38);
+    Money c = a.divideBy(b);
+    Money expected = Money.of(1.38);
 
     Assert.assertEquals(expected, c);
   }
