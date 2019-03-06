@@ -16,7 +16,6 @@ import java.util.List;
 
 import static java.awt.BorderLayout.*;
 
-@SuppressWarnings("serial")
 class InvoiceTabContent extends AbstractTabContent {
   private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
   private List<Item> contentPositions = new ArrayList<>();

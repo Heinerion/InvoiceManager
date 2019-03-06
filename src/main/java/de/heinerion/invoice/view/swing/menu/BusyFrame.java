@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.menu;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 class BusyFrame {
   private JFrame frame;
 

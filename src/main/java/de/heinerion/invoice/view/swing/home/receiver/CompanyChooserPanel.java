@@ -6,7 +6,6 @@ import de.heinerion.invoice.view.swing.home.Refreshable;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 class CompanyChooserPanel implements Refreshable {
   private SidePanel sidePanel;
   private JPanel content = new JPanel();

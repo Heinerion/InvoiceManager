@@ -17,7 +17,6 @@ public final class PathTools {
 
   private static PathUtilNG pathUtil = ConfigurationService.getBean(PathUtilNG.class);
 
-  @SuppressWarnings("serial")
   private static final Map<String, Map<String, String>> FILE_INFOS = Collections.unmodifiableMap(generateInfoMap());
 
   private static Map<String, Map<String, String>> generateInfoMap() {

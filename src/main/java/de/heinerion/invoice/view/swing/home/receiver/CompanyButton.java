@@ -6,7 +6,6 @@ import de.heinerion.invoice.view.swing.CompanyListener;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 class CompanyButton implements CompanyListener {
   private Company company;
   private JButton button;

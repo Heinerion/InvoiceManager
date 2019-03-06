@@ -11,7 +11,6 @@ import java.awt.*;
 
 import static java.awt.BorderLayout.*;
 
-@SuppressWarnings("serial")
 class LetterTabContent extends AbstractTabContent {
   private JTextField subjectFld;
   private JPanel subjectPnl;

@@ -11,7 +11,6 @@ import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 class CalculatorPanel {
   private static final int PERCENT = 100;
 

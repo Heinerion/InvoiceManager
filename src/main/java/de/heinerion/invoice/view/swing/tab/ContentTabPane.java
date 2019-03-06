@@ -8,7 +8,6 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.Stream;
 
-@SuppressWarnings("serial")
 public class ContentTabPane {
   private final List<TabContent> tabContents;
   private JTabbedPane pane;

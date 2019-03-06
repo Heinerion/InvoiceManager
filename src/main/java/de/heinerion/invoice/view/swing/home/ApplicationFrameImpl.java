@@ -26,7 +26,6 @@ import java.util.List;
  * ApplicationFrameImpl.java
  * heiner 27.03.2012
  */
-@SuppressWarnings("serial")
 class ApplicationFrameImpl implements
     ApplicationFrame, CompanyListener, DateListener {
   private JFrame frame;

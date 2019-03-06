@@ -5,7 +5,6 @@ import de.heinerion.invoice.view.swing.home.PanelHolder;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 class PrintButtonPanel implements PanelHolder {
   private SidePanel sidePanel;
 

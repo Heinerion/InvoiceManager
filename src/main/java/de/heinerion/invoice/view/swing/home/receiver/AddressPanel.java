@@ -5,7 +5,6 @@ import de.heinerion.invoice.view.swing.home.Refreshable;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 class AddressPanel implements Refreshable {
   private SidePanel sidePanel;
   private final AddressChooserPanel addressChooser;

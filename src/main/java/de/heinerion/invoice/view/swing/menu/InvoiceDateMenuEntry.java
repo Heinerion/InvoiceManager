@@ -14,7 +14,6 @@ import java.time.format.DateTimeParseException;
 /**
  * @author heiner
  */
-@SuppressWarnings("serial")
 class InvoiceDateMenuEntry extends AbstractMenuEntry {
   private static final String NAME = Menu.translate("invoiceDate");
 

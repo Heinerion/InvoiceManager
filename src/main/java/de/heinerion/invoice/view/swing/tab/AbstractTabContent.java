@@ -8,7 +8,6 @@ import de.heinerion.invoice.view.swing.TabContent;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 abstract class AbstractTabContent implements TabContent {
   private final String title;
   private final JButton delete;
