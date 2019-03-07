@@ -50,8 +50,9 @@ public class Translator {
     String resourceName;
 
     switch (prefix) {
-      case "error":
       case "controls":
+      case "error":
+      case "icons":
         resourceName = prefix;
         break;
       default:

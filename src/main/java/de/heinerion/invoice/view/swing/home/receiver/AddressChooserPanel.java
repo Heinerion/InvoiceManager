@@ -14,9 +14,6 @@ import java.awt.*;
 
 @SuppressWarnings("serial")
 class AddressChooserPanel extends JPanel {
-  private static final String FLOPPY_SYM = "FileChooser.floppyDriveIcon";
-  private static final String DELETE_SYM = "images/delete.png";
-
   private static final int BOLD = Font.BOLD;
   private static final int CENTER = SwingConstants.CENTER;
 
@@ -69,15 +66,15 @@ class AddressChooserPanel extends JPanel {
     final JPanel pnlButtons = create(new JPanel(), position);
     pnlButtons.setLayout(new GridLayout(ANY, 1));
 
-    final JButton btnSave = new JButton(UIManager.getIcon(FLOPPY_SYM));
+    final JButton btnSave = new JButton(UIManager.getIcon(Translator.translate("icons.save")));
     btnSave.setToolTipText(Translator.translate("controls.save"));
     btnSave.addActionListener(e -> this.saveAddress());
     pnlButtons.add(btnSave);
 
-    final ImageIcon imgDelete = PanelControl.loadImage(DELETE_SYM);
-    final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete)
-        : new JButton(Translator.translate("controls.delete"));
-    btnDelete.setToolTipText(Translator.translate("controls.delete"));
+    final ImageIcon imgDelete = PanelControl.loadImage(Translator.translate("icons.delete"));
+    String toolTipText = Translator.translate("controls.delete");
+    final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete) : new JButton(toolTipText);
+    btnDelete.setToolTipText(toolTipText);
     btnDelete.addActionListener(e -> this.clearAddress());
     pnlButtons.add(btnDelete);
   }
@@ -151,13 +148,13 @@ class AddressChooserPanel extends JPanel {
 
   /**
    * Creates a new component for the grid.<br>
-   *   This method is to be called internally only and is used to streamline the creation of distinct components
+   * This method is to be called internally only and is used to streamline the creation of distinct components
    *
    * @param component the component to be placed in the grid
+   *
    * @return the created component for further customization
    */
-  private <X extends JComponent> X create(X component,
-                    PositionCoordinates coordinates) {
+  private <X extends JComponent> X create(X component, PositionCoordinates coordinates) {
     gridConstraints.weightx = 0;
     gridConstraints.weighty = 0;
     gridConstraints.gridx = coordinates.getPosX();
