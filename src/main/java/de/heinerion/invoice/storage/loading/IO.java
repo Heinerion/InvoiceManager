@@ -175,7 +175,7 @@ public class IO {
     }
 
     String basePath = pathUtil.determinePath(Invoice.class);
-    Loader loader = LoaderFactory.getLoader(ArchivedInvoice.class, company.getFolderFile(basePath));
+    Loader loader = LoaderFactory.getArchivedInvoiceLoader(company.getFolderFile(basePath));
     loader.init();
     loader.addListener(loadingManager);
     loadingManager.loadClass(ArchivedInvoice.class, loader);

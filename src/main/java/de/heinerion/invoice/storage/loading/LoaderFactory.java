@@ -31,9 +31,9 @@ class LoaderFactory {
     return Optional.ofNullable(getLoaderMap().get(classToLoad));
   }
 
-  static <T extends Loadable> Loader getLoader(Class<T> classToLoad, File directory){
-    return getLoaderFactory(classToLoad)
+  static <T extends Loadable> Loader getArchivedInvoiceLoader(File directory){
+    return getLoaderFactory(ArchivedInvoice.class)
         .map(loader -> loader.apply(directory))
-        .orElseThrow(() -> new LoadingException(classToLoad));
+        .orElseThrow(() -> new LoadingException(ArchivedInvoice.class));
   }
 }
