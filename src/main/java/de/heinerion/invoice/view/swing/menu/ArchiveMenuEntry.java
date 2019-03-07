@@ -66,12 +66,8 @@ class ArchiveMenuEntry extends MenuEntry {
   @Override
   protected void setTitle(JDialog dialog) {
     String revenues = FormatUtil.formatLocaleDecimal(model.calculateRevenues());
-    String title = format("archiveHeader", NAME, revenues, "€");
+    String title = Menu.translate("archiveHeader", NAME, revenues, "€");
     dialog.setTitle(title);
-  }
-
-  private static String format(String key, Object... replacements) {
-    return MessageFormat.format(Menu.translate(key), replacements);
   }
 
   @Override

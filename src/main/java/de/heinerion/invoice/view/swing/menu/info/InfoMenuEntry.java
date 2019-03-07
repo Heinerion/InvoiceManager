@@ -9,7 +9,6 @@ import de.heinerion.invoice.view.swing.menu.MenuEntry;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +49,8 @@ public class InfoMenuEntry extends MenuEntry {
     for (Company company: Session.getAvailableCompanies()) {
       String template = "<p>%s<br />%s<br />%s</p>";
       String valueMarkup = String.format(template,
-          format("company.invoice.number", company.getInvoiceNumber()),
-          format("company.vat", company.getValueAddedTax()),
+          Info.translate("company.invoice.number", company.getInvoiceNumber()),
+          Info.translate("company.vat", company.getValueAddedTax()),
           company.getFolderFile(pathUtil.determinePath(Invoice.class)).getAbsolutePath());
       compInfos.put(company.toString(), valueMarkup);
     }
@@ -64,10 +63,6 @@ public class InfoMenuEntry extends MenuEntry {
 
   private String bold(String content) {
     return "<strong>"+content+"</strong>";
-  }
-
-  private static String format(String key, Object... replacements) {
-    return MessageFormat.format(Info.translate(key), replacements);
   }
 
   @Override
