@@ -173,7 +173,7 @@ class InvoiceTableModel extends AbstractTableModel {
       contentTable[i][PPU] = "" + item.getPricePerUnit();
       contentTable[i][COUNT] = "" + item.getQuantity();
     }
-    result.setContent(contentTable);
+    result.setInhalt(contentTable);
 
     return result;
   }
