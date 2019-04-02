@@ -5,12 +5,9 @@ import java.text.Collator;
 import java.util.Arrays;
 
 public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate>, DropListable {
-  /**
-   * Generierte ID
-   */
   private static final long serialVersionUID = 5654884407643922708L;
   private String name = "";
-  private String[][] inhalt;
+  private String[][] content;
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
@@ -27,8 +24,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     return getName().hashCode();
   }
 
-  public final String[][] getInhalt() {
-    return inhalt;
+  public final String[][] getContent() {
+    return content;
   }
 
   @Override
@@ -36,8 +33,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     return this.name;
   }
 
-  public final void setInhalt(String[][] content) {
-    this.inhalt = Arrays.copyOf(content, content.length);
+  public final void setContent(String[][] content) {
+    this.content = Arrays.copyOf(content, content.length);
   }
 
   @Override

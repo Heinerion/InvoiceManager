@@ -3,6 +3,7 @@ package de.heinerion.invoice.storage.loading;
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.Translator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +36,7 @@ class CompanyLoader extends AbstractTextFileLoader {
   private static final String DISTRICT = "District";
   private static final String LOCATION = "Location";
   private static final String NUMBER = "Number";
-  private static final String POSTALCODE = "PostalCode";
+  private static final String POSTAL_CODE = "PostalCode";
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
@@ -45,7 +46,7 @@ class CompanyLoader extends AbstractTextFileLoader {
 
   @Override
   public String getDescriptiveName() {
-    return "Betriebe";
+    return Translator.translate("company.plural");
   }
 
   @Override
@@ -84,7 +85,7 @@ class CompanyLoader extends AbstractTextFileLoader {
     address.setStreet(getAddressPart(attributes, STREET));
     address.setNumber(getAddressPart(attributes, NUMBER));
     address.setApartment(getAddressPart(attributes, APARTMENT));
-    address.setPostalCode(getAddressPart(attributes, POSTALCODE));
+    address.setPostalCode(getAddressPart(attributes, POSTAL_CODE));
     address.setLocation(getAddressPart(attributes, LOCATION));
 
     return address;

@@ -88,7 +88,7 @@ public class ConfigurationService {
 
   public static void exitApplication() {
     close();
-    LOGGER.info("Planmäßig heruntergefahren.");
+    LOGGER.info("successfully shut down.");
   }
 
   private static class PropertiesCouldNotBeReadException extends RuntimeException {

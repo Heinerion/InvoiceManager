@@ -54,7 +54,7 @@ public final class ArchivedInvoiceTable implements TableModel {
   /**
    * calculates the total sum of all shown items
    *
-   * @return cumulated sum of all items
+   * @return accumulated sum of all items
    */
   public double calculateRevenues() {
     double sum = 0;

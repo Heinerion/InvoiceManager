@@ -61,15 +61,14 @@ class InvoiceTabContent extends TabContent {
   }
 
   private JLabel createTemplateLbl() {
-    JLabel templateLbl = new JLabel("Vorlagen");
+    JLabel templateLbl = new JLabel(Translator.translate("template.plural"));
     templateLbl.setFont(templateLbl.getFont().deriveFont(Font.BOLD));
     return templateLbl;
   }
 
   private JButton createTemplateSaveBtn() {
-    JButton saveTemplateBtn = new JButton(
-        (Icon) UIManager.get("FileChooser.floppyDriveIcon"));
-
+    Icon saveIcon = (Icon) UIManager.get(Translator.translate("icons.save"));
+    JButton saveTemplateBtn = new JButton(saveIcon);
     saveTemplateBtn.addActionListener(e -> saveTemplate());
 
     return saveTemplateBtn;
@@ -131,7 +130,7 @@ class InvoiceTabContent extends TabContent {
     if (pos >= 0) {
       // replace table positions with those of the template
       List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
-      fillTable(activeTemplates.get(pos).getInhalt());
+      fillTable(activeTemplates.get(pos).getContent());
       model.fireTableDataChanged();
     }
   }

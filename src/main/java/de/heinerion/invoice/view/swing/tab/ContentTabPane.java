@@ -44,7 +44,7 @@ public class ContentTabPane {
         .orElseThrow(() -> new GuiPanelException("This Tab is not registered in 'tabContents'"));
   }
 
-  public void refreshVorlagen() {
+  public void refreshContents() {
     tabContents.forEach(TabContent::refresh);
   }
 }

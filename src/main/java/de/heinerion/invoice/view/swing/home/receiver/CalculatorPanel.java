@@ -114,7 +114,7 @@ class CalculatorPanel {
 
   private void setupInteractions() {
     btnPlus.addActionListener(e -> setFieldValues(addTaxes()));
-    btnMinus.addActionListener(e -> setFieldValues(substractTaxes()));
+    btnMinus.addActionListener(e -> setFieldValues(subtractTaxes()));
   }
 
   private CalculationResult addTaxes() {
@@ -130,7 +130,7 @@ class CalculatorPanel {
     return Session.getActiveCompany().getValueAddedTax() / PERCENT;
   }
 
-  private CalculationResult substractTaxes() {
+  private CalculationResult subtractTaxes() {
     return new CalculationResult(getTaxes())
         .setGross(Money.parse(getAmount()));
   }

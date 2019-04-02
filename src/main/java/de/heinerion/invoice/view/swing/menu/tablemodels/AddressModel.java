@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels;
 
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -37,28 +38,28 @@ public final class AddressModel extends AbstractTableModel {
 
     switch (columnId) {
       case APARTMENT:
-        result = "Apartment";
+        result = Translator.translate("address.apartment");
         break;
       case COMPANY:
-        result = "Firma";
+        result = Translator.translate("address.company");
         break;
       case DISTRICT:
-        result = "Ortsteil";
+        result = Translator.translate("address.district");
         break;
       case LOCATION:
-        result = "Ort";
+        result = Translator.translate("address.location");
         break;
       case NUMBER:
-        result = "Hausnummer";
+        result = Translator.translate("address.number");
         break;
       case POSTCODE:
-        result = "Postleitzahl";
+        result = Translator.translate("address.postcode");
         break;
       case RECIPIENT:
-        result = "Name";
+        result = Translator.translate("address.recipient");
         break;
       case STREET:
-        result = "Straße";
+        result = Translator.translate("address.street");
         break;
       default:
         result = columnId.toString();

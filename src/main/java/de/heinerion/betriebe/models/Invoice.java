@@ -31,8 +31,8 @@ public class Invoice extends Letter {
     this.number = theSender.getInvoiceNumber();
   }
 
-  public void add(String artikel, String einheit, double preis, double anzahl) {
-    this.addItem(new Item(new Product(artikel, einheit, preis), anzahl));
+  public void add(String article, String unit, double price, double count) {
+    this.addItem(new Item(new Product(article, unit, price), count));
   }
 
   @Override

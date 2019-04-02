@@ -42,6 +42,8 @@ public class IO {
   /**
    * Lädt die Namen der Vorlage LaTeX Dokumente und erstellt daraus ein
    * TexVorlagenliste
+   *
+   * loads the names of the Latex templates
    */
   public List<TexTemplate> loadTexTemplates() {
     List<TexTemplate> templates = new ArrayList<>();
@@ -88,8 +90,8 @@ public class IO {
         getTemplatePath(company));
 
     result.stream()
-        .filter(template -> template.getInhalt() == null)
-        .forEach(template -> template.setInhalt(new String[0][0]));
+        .filter(template -> template.getContent() == null)
+        .forEach(template -> template.setContent(new String[0][0]));
 
     return result;
   }

@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
 import de.heinerion.invoice.ParsingUtil;
+import de.heinerion.invoice.Translator;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
@@ -45,16 +46,16 @@ class InvoiceTableModel extends AbstractTableModel {
 
     switch (columnIndex) {
       case NAME:
-        result = "Artikel";
+        result = Translator.translate("item.name");
         break;
       case UNIT:
-        result = "Einheit";
+        result = Translator.translate("item.unit");
         break;
       case PPU:
-        result = "Einzelpreis";
+        result = Translator.translate("item.ppu");
         break;
       case COUNT:
-        result = "Anzahl";
+        result = Translator.translate("item.count");
         break;
       default:
         result = columnIndex + "";
@@ -172,7 +173,7 @@ class InvoiceTableModel extends AbstractTableModel {
       contentTable[i][PPU] = "" + item.getPricePerUnit();
       contentTable[i][COUNT] = "" + item.getQuantity();
     }
-    result.setInhalt(contentTable);
+    result.setContent(contentTable);
 
     return result;
   }

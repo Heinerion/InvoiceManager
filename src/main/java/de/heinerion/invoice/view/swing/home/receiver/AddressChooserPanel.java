@@ -17,8 +17,8 @@ class AddressChooserPanel extends JPanel {
   private static final int BOLD = Font.BOLD;
   private static final int CENTER = SwingConstants.CENTER;
 
-  private static final int ADDRESSFIELD_ROWS = 4;
-  private static final int ADDRESSFIELD_COLS = 1;
+  private static final int ADDRESS_FIELD_ROWS = 4;
+  private static final int ADDRESS_FIELD_COLS = 1;
 
   private static final int SECOND = 1;
   private static final int SIZE1 = 1;
@@ -85,16 +85,15 @@ class AddressChooserPanel extends JPanel {
     position = new PositionCoordinates();
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
-    Address[] liste = new Address[1];
 
-    addressBox = create(new JComboBox<>(liste), position);
+    addressBox = create(new JComboBox<>(new Address[1]), position);
 
     position = new PositionCoordinates();
     position.setPosX(SECOND);
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
 
-    final JLabel newLabel = new JLabel("Adresse");
+    final JLabel newLabel = new JLabel(Translator.translate("address.title"));
     newLabel.setFont(this.getFont().deriveFont(BOLD));
     newLabel.setHorizontalAlignment(CENTER);
 
@@ -112,7 +111,7 @@ class AddressChooserPanel extends JPanel {
     position.setHeight(SIZE1);
     position.setWidth(SIZE1);
     addressForm = new AddressForm(formatter);
-    JTextArea addressArea = create(new JTextArea(ADDRESSFIELD_ROWS, ADDRESSFIELD_COLS), position);
+    JTextArea addressArea = create(new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS), position);
     addressArea.setPreferredSize(DimensionUtil.ADDRESS_AREA);
     addressArea.setMinimumSize(DimensionUtil.ADDRESS_AREA);
     addressArea.setMaximumSize(DimensionUtil.ADDRESS_AREA);

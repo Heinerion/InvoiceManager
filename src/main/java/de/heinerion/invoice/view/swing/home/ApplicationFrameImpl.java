@@ -104,7 +104,7 @@ class ApplicationFrameImpl implements
   @Override
   public void notifyCompany() {
     refreshTitle();
-    contentTabPane.refreshVorlagen();
+    contentTabPane.refreshContents();
   }
 
   @Override
@@ -118,17 +118,17 @@ class ApplicationFrameImpl implements
   }
 
   /**
-   * Comboboxen aktualisieren
+   * refresh combo boxes
    */
   private void refreshBoxes() {
-    // TODO refresh Boxes ist recht aufwendig
+    // TODO refresh boxes seems quite costly
     receiverPanel.refresh();
 
-    contentTabPane.refreshVorlagen();
+    contentTabPane.refreshContents();
   }
 
   /**
-   * Passt den Fenstertitel auf den gewählten Betrieb an
+   * Updates the window title according to the chosen company
    */
   private void refreshTitle() {
     List<String> token = new ArrayList<>();

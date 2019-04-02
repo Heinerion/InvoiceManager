@@ -1,6 +1,7 @@
 package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.Translator;
 
 import java.io.File;
 import java.util.Map;
@@ -12,7 +13,7 @@ class AddressLoader extends AbstractTextFileLoader {
   private static final String DISTRICT = "District";
   private static final String LOCATION = "Location";
   private static final String NUMBER = "Number";
-  private static final String POSTALCODE = "PostalCode";
+  private static final String POSTAL_CODE = "PostalCode";
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
@@ -22,7 +23,7 @@ class AddressLoader extends AbstractTextFileLoader {
 
   @Override
   public String getDescriptiveName() {
-    return "Adressen";
+    return Translator.translate("address.plural");
   }
 
   @Override
@@ -40,7 +41,7 @@ class AddressLoader extends AbstractTextFileLoader {
     address.setStreet(readAttribute(attributes, STREET));
     address.setNumber(readAttribute(attributes, NUMBER));
     address.setApartment(readAttribute(attributes, APARTMENT));
-    address.setPostalCode(readAttribute(attributes, POSTALCODE));
+    address.setPostalCode(readAttribute(attributes, POSTAL_CODE));
     address.setLocation(readAttribute(attributes, LOCATION));
 
     return address;
