@@ -130,7 +130,7 @@ class InvoiceTabContent extends TabContent {
     if (pos >= 0) {
       // replace table positions with those of the template
       List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
-      fillTable(activeTemplates.get(pos).getContent());
+      fillTable(activeTemplates.get(pos).getInhalt());
       model.fireTableDataChanged();
     }
   }

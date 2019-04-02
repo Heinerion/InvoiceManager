@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate>, DropListable {
   private static final long serialVersionUID = 5654884407643922708L;
   private String name = "";
-  private String[][] content;
+  private String[][] inhalt;
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
@@ -24,8 +24,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     return getName().hashCode();
   }
 
-  public final String[][] getContent() {
-    return content;
+  public final String[][] getInhalt() {
+    return inhalt;
   }
 
   @Override
@@ -33,8 +33,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     return this.name;
   }
 
-  public final void setContent(String[][] content) {
-    this.content = Arrays.copyOf(content, content.length);
+  public final void setInhalt(String[][] content) {
+    this.inhalt = Arrays.copyOf(content, content.length);
   }
 
   @Override
