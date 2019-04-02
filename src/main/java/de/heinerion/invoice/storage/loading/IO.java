@@ -2,7 +2,6 @@ package de.heinerion.invoice.storage.loading;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
@@ -16,8 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -37,41 +34,6 @@ public class IO {
 
   private String getTemplatePath(Company company) {
     return pathUtil.getTemplateFileName(company.getDescriptiveName());
-  }
-
-  /**
-   * Lädt die Namen der Vorlage LaTeX Dokumente und erstellt daraus ein
-   * TexVorlagenliste
-   *
-   * loads the names of the Latex templates
-   */
-  public List<TexTemplate> loadTexTemplates() {
-    List<TexTemplate> templates = new ArrayList<>();
-    appendTexTemplates(templates, new File(pathUtil.getTexTemplatePath()));
-
-    if (logger.isInfoEnabled()) {
-      logger.info(templates.size() + " tex templates loaded");
-    }
-
-    return templates;
-  }
-
-  private void appendTexTemplates(List<TexTemplate> templates, File specialFolder) {
-    String[] specialFiles = specialFolder.list();
-    if (null != specialFiles) {
-      appendTexTemplates(templates, Arrays.asList(specialFiles));
-    }
-  }
-
-  private void appendTexTemplates(List<TexTemplate> templates, List<String> specialFiles) {
-    specialFiles.forEach(fileName -> templates.add(createTexTemplate(fileName)));
-  }
-
-  private TexTemplate createTexTemplate(String fileName) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("load special template {}", fileName);
-    }
-    return new TexTemplate(pathUtil.getTexTemplatePath(), fileName);
   }
 
   public Map<Company, List<InvoiceTemplate>> loadInvoiceTemplates() {
@@ -106,17 +68,6 @@ public class IO {
 
       throw new AddressesCouldNotBeSavedException(addresses, e);
     }
-  }
-
-  /**
-   * Schreibt die Vorlagen f&uuml;r Dienstleistungen betriebsabh&auml;ngig auf
-   * die Festplatte
-   *
-   * @param vorlagen Rechnungsvorlagen
-   * @param company  Gibt den betroffenen Betrieb an
-   */
-  public void saveInvoiceTemplates(List<InvoiceTemplate> vorlagen, Company company) {
-    FileHandler.writeObject(vorlagen, getTemplatePath(company));
   }
 
   /*

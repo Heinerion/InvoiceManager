@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 
@@ -17,13 +16,11 @@ final class MemoryBank {
   private final List<ListEntry<Address>> addressEntries;
   private final List<ListEntry<Company>> companyEntries;
   private final List<ListEntry<InvoiceTemplate>> templateEntries;
-  private final List<ListEntry<TexTemplate>> texTemplateEntries;
 
   MemoryBank() {
     addressEntries = new ArrayList<>();
     companyEntries = new ArrayList<>();
     templateEntries = new ArrayList<>();
-    texTemplateEntries = new ArrayList<>();
   }
 
   void addAddress(Address address) {
@@ -106,24 +103,6 @@ final class MemoryBank {
         .findFirst();
   }
 
-  void addTexTemplate(Company company, TexTemplate template) {
-    Optional<ListEntry<TexTemplate>> oldTemplate = getTexTemplateEntry(company, template.getName());
-
-    oldTemplate.ifPresent(texTemplateEntries::remove);
-    texTemplateEntries.add(new ListEntry<>(company, template));
-  }
-
-  List<TexTemplate> getTexTemplates(Company company) {
-    return getSortedEntries(texTemplateEntries, company, TexTemplate::getName);
-  }
-
-  private Optional<ListEntry<TexTemplate>> getTexTemplateEntry(Company company, String name) {
-    return texTemplateEntries.stream()
-        .filter(template -> template.belongsTo(company).orElse(true))
-        .filter(template -> template.getEntry().getName().equals(name))
-        .findFirst();
-  }
-
   private <T> List<T> getEntries(List<ListEntry<T>> list, Company company) {
     return list.stream()
         .filter(entry -> entry.belongsTo(company).orElse(true))
@@ -155,7 +134,6 @@ final class MemoryBank {
     addressEntries.clear();
     companyEntries.clear();
     templateEntries.clear();
-    texTemplateEntries.clear();
   }
 
   private final class ListEntry<T> {

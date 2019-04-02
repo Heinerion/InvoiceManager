@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.data.listable.TexTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.storage.loading.IO;
@@ -99,7 +98,6 @@ public final class DataBase implements LoadListener {
     getInvoices().determineHighestInvoiceNumbers();
 
     io.loadInvoiceTemplates().forEach(this::addTemplates);
-    io.loadTexTemplates().forEach(this::addTexTemplate);
   }
 
   /**
@@ -167,18 +165,6 @@ public final class DataBase implements LoadListener {
 
   private void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {
     invoiceTemplates.forEach(template -> addTemplate(company, template));
-  }
-
-  List<TexTemplate> getTexTemplates(Company company) {
-    return memory.getTexTemplates(company);
-  }
-
-  private void addTexTemplate(TexTemplate template) {
-    addTexTemplate(null, template);
-  }
-
-  void addTexTemplate(Company company, TexTemplate template) {
-    memory.addTexTemplate(company, template);
   }
 
   void clearAllLists() {
