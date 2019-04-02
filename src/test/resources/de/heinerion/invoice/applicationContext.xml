@@ -16,6 +16,6 @@
     <bean class="de.heinerion.invoice.storage.loading.IO"/>
 
     <bean class="de.heinerion.invoice.print.pdf.latex.LatexPrinter"/>
-    <bean class="de.heinerion.betriebe.listener.PrintOperations"/>
-    <bean class="de.heinerion.betriebe.listener.PrintAction"/>
+    <bean class="de.heinerion.invoice.print.PrintOperations"/>
+    <bean class="de.heinerion.invoice.print.PrintAction"/>
 </beans>

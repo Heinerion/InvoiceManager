@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.xml;
 
 import com.thoughtworks.xstream.XStream;
-import de.heinerion.betriebe.listener.Printer;
+import de.heinerion.invoice.print.Printer;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import org.apache.logging.log4j.LogManager;

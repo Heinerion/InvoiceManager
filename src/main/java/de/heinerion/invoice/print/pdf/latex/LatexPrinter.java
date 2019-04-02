@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.betriebe.listener.Printer;
+import de.heinerion.invoice.print.Printer;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;

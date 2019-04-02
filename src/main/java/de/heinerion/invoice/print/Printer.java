@@ -1,4 +1,4 @@
-package de.heinerion.betriebe.listener;
+package de.heinerion.invoice.print;
 
 import de.heinerion.betriebe.models.Letter;
 
