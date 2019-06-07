@@ -2,6 +2,7 @@ package de.heinerion.invoice.tool;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 
 public class DataStore {
@@ -47,5 +48,34 @@ public class DataStore {
 
   public Optional<Letter> getLetter() {
     return letters.stream().findFirst();
+  }
+
+  public CustomerInformation getCustomerInformation(Customer customer) {
+    Collection<Invoice> invoices = getInvoices(customer);
+    Collection<Letter> letters = getLetters(customer);
+
+    return new CustomerInformation(letters, invoices);
+  }
+
+  private Collection<Letter> getLetters(Customer customer) {
+    Collection<Letter> customerLetters = new HashSet<>();
+    Collection<Letter> allLetters = getLetters();
+    for (Letter i : allLetters) {
+      if (Objects.equals(customer, i.getCustomer())) {
+        customerLetters.add(i);
+      }
+    }
+    return customerLetters;
+  }
+
+  private Collection<Invoice> getInvoices(Customer customer) {
+    Collection<Invoice> customerInvoices = new HashSet<>();
+    Collection<Invoice> allInvoices = getInvoices();
+    for (Invoice invoice : allInvoices) {
+      if (Objects.equals(customer, invoice.getCustomer())) {
+        customerInvoices.add(invoice);
+      }
+    }
+    return customerInvoices;
   }
 }
