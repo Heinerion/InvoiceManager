@@ -1,8 +1,11 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * Represents an invoice with its items
+ */
 public class Invoice {
   private Collection<InvoiceItem> items = new HashSet<>();
   private Customer customer;

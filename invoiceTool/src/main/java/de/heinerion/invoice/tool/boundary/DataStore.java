@@ -1,10 +1,18 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.boundary;
+
+import de.heinerion.invoice.tool.domain.Invoice;
+import de.heinerion.invoice.tool.domain.Letter;
+import de.heinerion.invoice.tool.business.CustomerInformation;
+import de.heinerion.invoice.tool.domain.Customer;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Access layer for data storage and retrieval
+ */
 public class DataStore {
   private Collection<Customer> customers = new HashSet<>();
   private Collection<Invoice> invoices = new HashSet<>();

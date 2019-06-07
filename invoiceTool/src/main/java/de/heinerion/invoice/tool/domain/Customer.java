@@ -1,9 +1,12 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Represents a customer and is mainly intended to be used for assignments and addresses
+ */
 public class Customer {
   private String name;
   private List<String> address;

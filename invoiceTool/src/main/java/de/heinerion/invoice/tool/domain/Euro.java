@@ -1,5 +1,8 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
+/**
+ * Represents an amount of Euro
+ */
 public class Euro {
   private long euro;
   private int cent;
@@ -31,5 +34,5 @@ public class Euro {
     return String.format("%d,%02d €", euro, cent);
   }
 
-  public static Euro ZERO = new Euro(0,0);
+  public static Euro ZERO = new Euro(0, 0);
 }

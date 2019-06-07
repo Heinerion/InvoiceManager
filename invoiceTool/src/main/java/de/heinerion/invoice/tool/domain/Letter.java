@@ -1,5 +1,10 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
+import de.heinerion.invoice.tool.domain.Customer;
+
+/**
+ * Represents an informal letter
+ */
 public class Letter {
   private String text;
   private Customer customer;

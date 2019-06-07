@@ -1,5 +1,10 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
+import de.heinerion.invoice.tool.domain.Euro;
+
+/**
+ * Represents a single line in an invoice
+ */
 public class InvoiceItem {
   private Euro price;
 

@@ -1,5 +1,7 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.business;
 
+import de.heinerion.invoice.tool.boundary.DataStore;
+import de.heinerion.invoice.tool.domain.*;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,5 +1,6 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.domain;
 
+import de.heinerion.invoice.tool.boundary.DataStore;
 import org.junit.Before;
 import org.junit.Test;
 

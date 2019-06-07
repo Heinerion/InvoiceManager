@@ -1,7 +1,16 @@
-package de.heinerion.invoice.tool;
+package de.heinerion.invoice.tool.business;
+
+import de.heinerion.invoice.tool.domain.Euro;
+import de.heinerion.invoice.tool.domain.Invoice;
+import de.heinerion.invoice.tool.domain.InvoiceItem;
+import de.heinerion.invoice.tool.domain.Letter;
 
 import java.util.Collection;
 
+/**
+ * Represents bundled information about letters and invoices.<br>
+ * Intended to be used for a customer overview
+ */
 public class CustomerInformation {
   private final Collection<Letter> letters;
   private final Collection<Invoice> invoices;
