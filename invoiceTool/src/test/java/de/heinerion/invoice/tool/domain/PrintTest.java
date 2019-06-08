@@ -32,23 +32,23 @@ public class PrintTest {
   @Mock
   private FileService fileService;
 
+  private Customer customer;
+
   @Before
   public void setUp() {
     printer.setFileService(fileService);
+
+    customer = new Customer("ACME");
+    customer.setAddress("address line 1", "address line 2");
   }
 
   @Test
   public void printLetter() {
     Letter letter = new Letter();
-    Customer customer = new Customer("ACME");
-    customer.setAddress("address line 1", "address line 2");
     letter.setCustomer(customer);
     letter.setText("Foo bar");
 
-    Capture<String> textCapture = newCapture();
-    expect(fileService.writeTex(eq("Path"), capture(textCapture))).andReturn(true);
-    expect(fileService.texToPdf("Path")).andReturn(true);
-    replay(fileService);
+    Capture<String> textCapture = prepareTextCapture();
 
     printer.print("Path", letter);
 
@@ -64,28 +64,30 @@ public class PrintTest {
   @Test
   public void printInvoice() {
     Invoice invoice = new Invoice("123");
-    Customer customer = new Customer("ACME");
-    customer.setAddress("address line 1", "address line 2");
     invoice.setCustomer(customer);
 
     InvoiceItem item = new InvoiceItem();
     item.setPrice(new Euro(1, 50));
     invoice.add(item);
 
-    Capture<String> textCapture = newCapture();
-    expect(fileService.writeTex(eq("Path"), capture(textCapture))).andReturn(true);
-    expect(fileService.texToPdf("Path")).andReturn(true);
-    replay(fileService);
+    Capture<String> textCapture = prepareTextCapture();
 
     printer.print("Path", invoice);
 
     verify(fileService);
 
     String textArgument = textCapture.getValue();
-    System.out.println(textArgument);
     assertTrue(textArgument.contains("ACME"));
     assertTrue(textArgument.contains("address line 1"));
     assertTrue(textArgument.contains("address line 2"));
     assertTrue(textArgument.contains("1,50"));
+  }
+
+  private Capture<String> prepareTextCapture() {
+    Capture<String> textCapture = newCapture();
+    expect(fileService.writeTex(eq("Path"), capture(textCapture))).andReturn(true);
+    expect(fileService.texToPdf("Path")).andReturn(true);
+    replay(fileService);
+    return textCapture;
   }
 }

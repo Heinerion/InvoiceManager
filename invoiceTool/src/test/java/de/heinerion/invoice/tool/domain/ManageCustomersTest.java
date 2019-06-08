@@ -30,10 +30,7 @@ public class ManageCustomersTest {
 
   @Test
   public void addNewCustomer() {
-    Customer newCustomer = new Customer("ACME");
-    newCustomer.setAddress("some road 75", "some city");
-    newCustomer.setCorrespondent("Mr. Anderson");
-
+    Customer newCustomer = createDefaultCustomer();
     dataStore.save(newCustomer);
 
     Collection<Customer> customers = dataStore.getCustomers();
@@ -48,9 +45,7 @@ public class ManageCustomersTest {
 
   @Test
   public void editCustomer() {
-    Customer newCustomer = new Customer("ACME");
-    newCustomer.setAddress("some road 75", "some city");
-    newCustomer.setCorrespondent("Mr. Anderson");
+    Customer newCustomer = createDefaultCustomer();
     dataStore.save(newCustomer);
 
     Customer loadedCustomer = dataStore.getCustomer("ACME").orElse(null);
@@ -65,13 +60,19 @@ public class ManageCustomersTest {
 
   @Test
   public void deleteCustomer() {
-    Customer newCustomer = new Customer("ACME");
-    newCustomer.setAddress("some road 75", "some city");
+    Customer newCustomer = createDefaultCustomer();
     dataStore.save(newCustomer);
 
     assertTrue("The customer was saved", dataStore.getCustomers().contains(newCustomer));
 
     assertTrue("The customer was removed", dataStore.delete(newCustomer));
     assertFalse("No traces are left", dataStore.getCustomers().contains(newCustomer));
+  }
+
+  private Customer createDefaultCustomer() {
+    Customer customer = new Customer("ACME");
+    customer.setAddress("some road 75", "some city");
+    customer.setCorrespondent("Mr. Anderson");
+    return customer;
   }
 }
