@@ -15,9 +15,9 @@ public class PrintService {
     this.fileService = fileService;
   }
 
-  public void print(String path, Invoice invoice) {
-    if (fileService.writeTex(path, generateTex(invoice))) {
-      fileService.texToPdf(path);
+  public void print(String path, String baseName, Invoice invoice) {
+    if (fileService.writeTex(path, baseName, generateTex(invoice))) {
+      fileService.texToPdf(path, baseName);
     }
   }
 
@@ -29,9 +29,9 @@ public class PrintService {
         invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")));
   }
 
-  public void print(String path, Letter letter) {
-    if (fileService.writeTex(path, generateTex(letter))) {
-      fileService.texToPdf(path);
+  public void print(String path, String baseName, Letter letter) {
+    if (fileService.writeTex(path, baseName, generateTex(letter))) {
+      fileService.texToPdf(path, baseName);
     }
   }
 

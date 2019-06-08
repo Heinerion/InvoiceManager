@@ -50,7 +50,7 @@ public class PrintTest {
 
     Capture<String> textCapture = prepareTextCapture();
 
-    printer.print("Path", letter);
+    printer.print("Path","file", letter);
 
     verify(fileService);
 
@@ -72,7 +72,7 @@ public class PrintTest {
 
     Capture<String> textCapture = prepareTextCapture();
 
-    printer.print("Path", invoice);
+    printer.print("Path","file", invoice);
 
     verify(fileService);
 
@@ -85,8 +85,8 @@ public class PrintTest {
 
   private Capture<String> prepareTextCapture() {
     Capture<String> textCapture = newCapture();
-    expect(fileService.writeTex(eq("Path"), capture(textCapture))).andReturn(true);
-    expect(fileService.texToPdf("Path")).andReturn(true);
+    expect(fileService.writeTex(eq("Path"), eq("file"), capture(textCapture))).andReturn(true);
+    expect(fileService.texToPdf("Path", "file")).andReturn(true);
     replay(fileService);
     return textCapture;
   }
