@@ -9,20 +9,14 @@ import de.heinerion.invoice.tool.domain.Letter;
 import java.util.stream.Collectors;
 
 public class PrintService {
-
   private FileService fileService;
-
-  public PrintService() {
-
-  }
 
   public void setFileService(FileService fileService) {
     this.fileService = fileService;
   }
 
   public void print(String path, Invoice invoice) {
-    boolean written = fileService.writeTex(path, generateTex(invoice));
-    if (written) {
+    if (fileService.writeTex(path, generateTex(invoice))) {
       fileService.texToPdf(path);
     }
   }
@@ -36,8 +30,7 @@ public class PrintService {
   }
 
   public void print(String path, Letter letter) {
-    boolean written = fileService.writeTex(path, generateTex(letter));
-    if (written) {
+    if (fileService.writeTex(path, generateTex(letter))) {
       fileService.texToPdf(path);
     }
   }

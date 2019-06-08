@@ -16,16 +16,12 @@ public class Customer {
     this.name = name;
   }
 
-  public void setAddress(String... addressLines) {
-    this.address = Arrays.asList(addressLines);
+  public Optional<String> getCorrespondent() {
+    return Optional.ofNullable(correspondent);
   }
 
   public void setCorrespondent(String correspondent) {
     this.correspondent = correspondent;
-  }
-
-  public Optional<String> getCorrespondent() {
-    return Optional.ofNullable(correspondent);
   }
 
   public String getName() {
@@ -34,5 +30,9 @@ public class Customer {
 
   public List<String> getAddress() {
     return address;
+  }
+
+  public void setAddress(String... addressLines) {
+    this.address = Arrays.asList(addressLines);
   }
 }

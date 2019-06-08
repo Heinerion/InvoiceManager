@@ -1,7 +1,5 @@
 package de.heinerion.invoice.tool.domain;
 
-import de.heinerion.invoice.tool.domain.Customer;
-
 /**
  * Represents an informal letter
  */
@@ -17,11 +15,11 @@ public class Letter {
     this.text = text;
   }
 
-  public void setCustomer(Customer customer) {
-    this.customer=customer;
-  }
-
   public Customer getCustomer() {
     return customer;
+  }
+
+  public void setCustomer(Customer customer) {
+    this.customer = customer;
   }
 }

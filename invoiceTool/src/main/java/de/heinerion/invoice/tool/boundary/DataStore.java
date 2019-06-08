@@ -1,14 +1,15 @@
 package de.heinerion.invoice.tool.boundary;
 
-import de.heinerion.invoice.tool.domain.Invoice;
-import de.heinerion.invoice.tool.domain.Letter;
 import de.heinerion.invoice.tool.business.CustomerInformation;
 import de.heinerion.invoice.tool.domain.Customer;
+import de.heinerion.invoice.tool.domain.Invoice;
+import de.heinerion.invoice.tool.domain.Letter;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Access layer for data storage and retrieval
@@ -59,31 +60,18 @@ public class DataStore {
   }
 
   public CustomerInformation getCustomerInformation(Customer customer) {
-    Collection<Invoice> invoices = getInvoices(customer);
-    Collection<Letter> letters = getLetters(customer);
-
-    return new CustomerInformation(letters, invoices);
+    return new CustomerInformation(getLetters(customer), getInvoices(customer));
   }
 
   private Collection<Letter> getLetters(Customer customer) {
-    Collection<Letter> customerLetters = new HashSet<>();
-    Collection<Letter> allLetters = getLetters();
-    for (Letter i : allLetters) {
-      if (Objects.equals(customer, i.getCustomer())) {
-        customerLetters.add(i);
-      }
-    }
-    return customerLetters;
+    return letters.stream()
+        .filter(letter -> Objects.equals(customer, letter.getCustomer()))
+        .collect(Collectors.toSet());
   }
 
   private Collection<Invoice> getInvoices(Customer customer) {
-    Collection<Invoice> customerInvoices = new HashSet<>();
-    Collection<Invoice> allInvoices = getInvoices();
-    for (Invoice invoice : allInvoices) {
-      if (Objects.equals(customer, invoice.getCustomer())) {
-        customerInvoices.add(invoice);
-      }
-    }
-    return customerInvoices;
+    return invoices.stream()
+        .filter(invoice -> Objects.equals(customer, invoice.getCustomer()))
+        .collect(Collectors.toSet());
   }
 }
