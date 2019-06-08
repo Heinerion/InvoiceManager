@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
  * Access layer for data storage and retrieval
  */
 public class DataStore {
-  private Collection<Customer> customers = new HashSet<>();
-  private Collection<Invoice> invoices = new HashSet<>();
-  private Collection<Letter> letters = new HashSet<>();
+  private final Collection<Customer> customers = new HashSet<>();
+  private final Collection<Invoice> invoices = new HashSet<>();
+  private final Collection<Letter> letters = new HashSet<>();
 
   public void save(Customer customer) {
     customers.add(customer);

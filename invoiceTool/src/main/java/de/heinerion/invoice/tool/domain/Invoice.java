@@ -7,7 +7,7 @@ import java.util.HashSet;
  * Represents an invoice with its items
  */
 public class Invoice {
-  private Collection<InvoiceItem> items = new HashSet<>();
+  private final Collection<InvoiceItem> items = new HashSet<>();
   private Customer customer;
 
   public Invoice(String id) {

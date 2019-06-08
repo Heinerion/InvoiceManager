@@ -8,7 +8,7 @@ import java.util.Optional;
  * Represents a customer and is mainly intended to be used for assignments and addresses
  */
 public class Customer {
-  private String name;
+  private final String name;
   private List<String> address;
   private String correspondent;
 

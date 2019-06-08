@@ -4,10 +4,10 @@ package de.heinerion.invoice.tool.domain;
  * Represents an amount of Euro
  */
 public class Euro {
-  public static Euro ZERO = new Euro(0, 0);
+  public static final Euro ZERO = new Euro(0, 0);
 
-  private long euro;
-  private int cent;
+  private final long euro;
+  private final int cent;
 
   public Euro(long euro, int cent) {
     this.euro = euro;
