@@ -15,4 +15,9 @@ public class InvoiceItem {
   public Euro getPrice() {
     return price;
   }
+
+  @Override
+  public String toString() {
+    return price.toString();
+  }
 }

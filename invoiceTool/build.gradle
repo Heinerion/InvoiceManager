@@ -13,4 +13,6 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testCompile group: 'org.easymock', name: 'easymock', version: '4.0.2'
 }
