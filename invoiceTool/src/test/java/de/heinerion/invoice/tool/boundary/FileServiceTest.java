@@ -27,11 +27,14 @@ public class FileServiceTest {
   @Mock
   private ProcessStarter processStarter;
 
+  @Mock
+  private FileSystem fileSystem;
+
   private FileService service;
 
   @Before
   public void setUp() {
-    service = new FileService(writerFactory, processStarter);
+    service = new FileService(writerFactory, processStarter, fileSystem);
   }
 
   @Test
@@ -54,11 +57,11 @@ public class FileServiceTest {
   public void texToPdf() {
     Collection<String> arguments = new ArrayList<>();
 
-    expect(processStarter.start(isA(String.class), isA(String.class))).andAnswer(() -> {
+    expect(processStarter.start(isA(File.class), isA(String.class), isA(String.class))).andAnswer(() -> {
       Object[] currentArguments = getCurrentArguments();
       arguments.clear();
-      arguments.add((String) currentArguments[0]);
       arguments.add((String) currentArguments[1]);
+      arguments.add((String) currentArguments[2]);
       return true;
     }).times(2);
 

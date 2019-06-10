@@ -1,11 +1,12 @@
 package de.heinerion.invoice.tool.boundary;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
  * Helps to call system commands
  */
-class ProcessStarter {
+public class ProcessStarter {
 
   /**
    * starts a process for calling the given system command.<br>
@@ -25,12 +26,14 @@ class ProcessStarter {
    * </ul>
    * </p>
    *
-   * @param command to be executed on the system
+   * @param workingDirectory {@link File} which will be used as working directory for the command
+   * @param command          to be executed on the system
    *
    * @return <code>true</code> on success
    */
-  public boolean start(String... command) {
+  public boolean start(File workingDirectory, String... command) {
     ProcessBuilder pb = new ProcessBuilder(command);
+    pb.directory(workingDirectory);
     // map process IO to stdin / stdout
     pb.inheritIO();
 

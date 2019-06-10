@@ -23,7 +23,11 @@ public class PrintService {
 
   private String generateTex(Invoice invoice) {
     Customer customer = invoice.getCustomer();
-    return String.format("-- tex placeholder -- %s %s %s",
+    return String.format("" +
+            "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
+            "\\begin{document}" +
+            "-- tex placeholder -- %s %s %s" +
+            "\\end{document}",
         String.join(", ", customer.getAddress()),
         customer.getName(),
         invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")));
@@ -37,6 +41,11 @@ public class PrintService {
 
   private String generateTex(Letter letter) {
     Customer customer = letter.getCustomer();
-    return String.format("-- tex placeholder -- %s %s %s", String.join(", ", customer.getAddress()), customer.getName(), letter.getText());
+    return String.format("" +
+            "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
+            "\\begin{document}" +
+            "-- tex placeholder -- %s %s %s" +
+            "\\end{document}",
+        String.join(", ", customer.getAddress()), customer.getName(), letter.getText());
   }
 }

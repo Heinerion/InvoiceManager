@@ -10,10 +10,12 @@ import java.io.Writer;
 public class FileService {
   private final WriterFactory writerFactory;
   private final ProcessStarter processStarter;
+  private final FileSystem fileSystem;
 
-  public FileService(WriterFactory writerFactory, ProcessStarter processStarter) {
+  public FileService(WriterFactory writerFactory, ProcessStarter processStarter, FileSystem fileSystem) {
     this.writerFactory = writerFactory;
     this.processStarter = processStarter;
+    this.fileSystem = fileSystem;
   }
 
   /**
@@ -29,8 +31,12 @@ public class FileService {
    * @return <code>true</code> on success
    */
   public boolean writeTex(String directory, String baseName, String latexMarkup) {
+    File texDestination = new File(directory, baseName + ".tex");
+
     try {
-      try (Writer writer = writerFactory.create(new File(directory, baseName + ".tex"))) {
+      fileSystem.ensureFileExists(texDestination);
+
+      try (Writer writer = writerFactory.create(texDestination)) {
         writer.write(latexMarkup);
         writer.flush();
 
@@ -44,7 +50,8 @@ public class FileService {
   /**
    * Generates a pdf from a latex source file
    * <p>
-   * Determines the exact filename by appending <code>.tex</code> to the baseName.
+   * Determines the exact filename by appending <code>.tex</code> to the baseName.<br>
+   * Deletes temp files created during the process of generating the pdf.
    * </p>
    *
    * @param directory in which the source file resides
@@ -58,11 +65,19 @@ public class FileService {
     pdfLatex(tex);
     // twice, for page numbering
     pdfLatex(tex);
+    cleanup(directory, baseName);
 
     return true;
   }
 
   private void pdfLatex(File tex) {
-    processStarter.start("pdflatex", '"' + tex.getAbsolutePath() + '"');
+    processStarter.start(tex.getParentFile(), "pdflatex", '"' + tex.getAbsolutePath() + '"');
+  }
+
+  private void cleanup(String directory, String baseName) {
+    String[] endings = {"aux", "log", "out"};
+    for (String ending : endings) {
+      fileSystem.deleteFile(directory, baseName, ending);
+    }
   }
 }
