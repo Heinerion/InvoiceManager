@@ -6,17 +6,41 @@ package de.heinerion.invoice.tool.domain;
 public class Euro {
   public static final Euro ZERO = new Euro(0, 0);
 
-  private final long euro;
+  private final int euro;
   private final int cent;
 
-  public Euro(long euro, int cent) {
+  public Euro(int euro) {
+    this(euro, 0);
+  }
+
+  public Euro(int euro, int cent) {
     this.euro = euro;
-    this.cent = cent;
+    this.cent = Math.abs(cent);
+  }
+
+  public static Euro fromCents(int cents) {
+    return new Euro(cents / 100, cents % 100);
   }
 
   public Euro add(Euro b) {
     int cent = this.cent + b.cent;
     return new Euro(this.euro + b.euro + cent / 100, cent % 100);
+  }
+
+  public Euro multiply(Percent percentage) {
+    return fromCents((int) (asCents() * percentage.asFactor()));
+  }
+
+  public Euro multiply(int times) {
+    return fromCents(asCents() * times);
+  }
+
+  public int asCents() {
+    int factor = 1;
+    if (euro < 0) {
+      factor = -1;
+    }
+    return euro * 100 + factor * cent;
   }
 
   @Override
@@ -28,7 +52,7 @@ public class Euro {
 
   @Override
   public int hashCode() {
-    return (int) (euro * 100 + cent);
+    return asCents();
   }
 
   @Override

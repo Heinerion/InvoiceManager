@@ -26,7 +26,7 @@ public class WriteInvoiceTest {
   public void writeNewInvoice() {
     Invoice invoice = new Invoice("123");
 
-    InvoiceItem firstItem = new InvoiceItem();
+    InvoiceItem firstItem = new InvoiceItem(new Product("nothing"));
     invoice.add(firstItem);
 
     dataStore.save(invoice);

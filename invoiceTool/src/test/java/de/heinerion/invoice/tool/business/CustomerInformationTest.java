@@ -12,7 +12,8 @@ import static org.junit.Assert.assertNotNull;
  * Unit test based on the following Story:
  * <p>
  * <b>As a</b> manager <br>
- * <b>I want to</b> see all letters and invoices assigned to a certain customer, including a total for all the invoices
+ * <b>I want to</b> see all letters and invoices assigned to a certain customer, including a total
+ * for all the invoices
  * <br>
  * <b>so that</b> I can see all transactions with this customer in one place
  * </p>
@@ -37,12 +38,12 @@ public class CustomerInformationTest {
 
     Invoice i = new Invoice("123");
     i.setCustomer(c);
-    InvoiceItem item = new InvoiceItem();
-    item.setPrice(new Euro(1, 50));
-    i.add(item);
-    item = new InvoiceItem();
-    item.setPrice(new Euro(3, 75));
-    i.add(item);
+    Product cheapProduct = new Product("cheap");
+    cheapProduct.setPricePerUnit(new Euro(1, 50));
+    i.add(new InvoiceItem(cheapProduct));
+    Product expensiveProduct = new Product("expensive");
+    expensiveProduct.setPricePerUnit(new Euro(3, 75));
+    i.add(new InvoiceItem(expensiveProduct));
     dataStore.save(i);
 
     CustomerInformation ci = dataStore.getCustomerInformation(c);

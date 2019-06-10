@@ -7,7 +7,11 @@ public class Percent {
   private final int percentage;
 
   public Percent(int percentage) {
-    this.percentage=percentage;
+    this.percentage = percentage;
+  }
+
+  public double asFactor() {
+    return percentage / 100d;
   }
 
   @Override

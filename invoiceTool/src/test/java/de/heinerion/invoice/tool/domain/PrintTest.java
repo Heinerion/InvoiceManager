@@ -50,7 +50,7 @@ public class PrintTest {
 
     Capture<String> textCapture = prepareTextCapture();
 
-    printer.print("Path","file", letter);
+    printer.print("Path", "file", letter);
 
     verify(fileService);
 
@@ -66,13 +66,13 @@ public class PrintTest {
     Invoice invoice = new Invoice("123");
     invoice.setCustomer(customer);
 
-    InvoiceItem item = new InvoiceItem();
-    item.setPrice(new Euro(1, 50));
-    invoice.add(item);
+    Product product = new Product("product");
+    product.setPricePerUnit(new Euro(1, 50));
+    invoice.add(new InvoiceItem(product));
 
     Capture<String> textCapture = prepareTextCapture();
 
-    printer.print("Path","file", invoice);
+    printer.print("Path", "file", invoice);
 
     verify(fileService);
 
