@@ -1,10 +1,7 @@
 package de.heinerion.invoice.tool.boundary;
 
 import de.heinerion.invoice.tool.business.CustomerInformation;
-import de.heinerion.invoice.tool.domain.Customer;
-import de.heinerion.invoice.tool.domain.Invoice;
-import de.heinerion.invoice.tool.domain.Letter;
-import de.heinerion.invoice.tool.domain.Product;
+import de.heinerion.invoice.tool.domain.*;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,6 +17,7 @@ public class DataStore {
   private final Collection<Invoice> invoices = new HashSet<>();
   private final Collection<Letter> letters = new HashSet<>();
   private final Collection<Product> products = new HashSet<>();
+  private Collection<Company> companies = new HashSet<>();
 
   public void save(Customer customer) {
     customers.add(customer);
@@ -91,5 +89,21 @@ public class DataStore {
 
   public boolean delete(Product product) {
     return products.remove(product);
+  }
+
+  public void save(Company company) {
+    companies.add(company);
+  }
+
+  public Collection<Company> getCompanys() {
+    return companies;
+  }
+
+  public Optional<Company> getCompany(String name) {
+    return companies.stream().findFirst();
+  }
+
+  public boolean delete(Company company) {
+    return companies.remove(company);
   }
 }
