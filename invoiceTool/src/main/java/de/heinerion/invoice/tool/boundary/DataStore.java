@@ -4,6 +4,7 @@ import de.heinerion.invoice.tool.business.CustomerInformation;
 import de.heinerion.invoice.tool.domain.Customer;
 import de.heinerion.invoice.tool.domain.Invoice;
 import de.heinerion.invoice.tool.domain.Letter;
+import de.heinerion.invoice.tool.domain.Product;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class DataStore {
   private final Collection<Customer> customers = new HashSet<>();
   private final Collection<Invoice> invoices = new HashSet<>();
   private final Collection<Letter> letters = new HashSet<>();
+  private final Collection<Product> products = new HashSet<>();
 
   public void save(Customer customer) {
     customers.add(customer);
@@ -73,5 +75,21 @@ public class DataStore {
     return invoices.stream()
         .filter(invoice -> Objects.equals(customer, invoice.getCustomer()))
         .collect(Collectors.toSet());
+  }
+
+  public void save(Product product) {
+    products.add(product);
+  }
+
+  public Collection<Product> getProducts() {
+    return products;
+  }
+
+  public Optional<Product> getProduct(String name) {
+    return products.stream().findFirst();
+  }
+
+  public boolean delete(Product product) {
+    return products.remove(product);
   }
 }
