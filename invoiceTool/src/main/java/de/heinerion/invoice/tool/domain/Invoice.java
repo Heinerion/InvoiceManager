@@ -9,8 +9,10 @@ import java.util.HashSet;
 public class Invoice {
   private final Collection<InvoiceItem> items = new HashSet<>();
   private Customer customer;
+  private Company company;
 
-  public Invoice(String id) {
+  public Invoice(Company company, String id) {
+    this.company = company;
   }
 
   public void add(InvoiceItem item) {
@@ -27,5 +29,9 @@ public class Invoice {
 
   public void setCustomer(Customer customer) {
     this.customer = customer;
+  }
+
+  public Company getCompany() {
+    return company;
   }
 }

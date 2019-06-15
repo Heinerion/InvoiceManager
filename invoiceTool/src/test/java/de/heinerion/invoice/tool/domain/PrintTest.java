@@ -33,10 +33,14 @@ public class PrintTest {
   private FileService fileService;
 
   private Customer customer;
+  private Company company;
 
   @Before
   public void setUp() {
     printer.setFileService(fileService);
+
+    company = new Company("Big Business");
+    company.setAddress("company drive 1");
 
     customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
@@ -44,7 +48,7 @@ public class PrintTest {
 
   @Test
   public void printLetter() {
-    Letter letter = new Letter();
+    Letter letter = new Letter(company);
     letter.setCustomer(customer);
     letter.setText("Foo bar");
 
@@ -58,12 +62,14 @@ public class PrintTest {
     assertTrue(textArgument.contains("ACME"));
     assertTrue(textArgument.contains("address line 1"));
     assertTrue(textArgument.contains("address line 2"));
+    assertTrue(textArgument.contains("Big Business"));
+    assertTrue(textArgument.contains("company drive 1"));
     assertTrue(textArgument.contains("Foo bar"));
   }
 
   @Test
   public void printInvoice() {
-    Invoice invoice = new Invoice("123");
+    Invoice invoice = new Invoice(company, "123");
     invoice.setCustomer(customer);
 
     Product product = new Product("product");
@@ -80,6 +86,8 @@ public class PrintTest {
     assertTrue(textArgument.contains("ACME"));
     assertTrue(textArgument.contains("address line 1"));
     assertTrue(textArgument.contains("address line 2"));
+    assertTrue(textArgument.contains("Big Business"));
+    assertTrue(textArgument.contains("company drive 1"));
     assertTrue(textArgument.contains("1,50"));
   }
 

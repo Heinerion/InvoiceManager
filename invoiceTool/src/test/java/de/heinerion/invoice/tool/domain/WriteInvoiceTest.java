@@ -24,7 +24,7 @@ public class WriteInvoiceTest {
 
   @Test
   public void writeNewInvoice() {
-    Invoice invoice = new Invoice("123");
+    Invoice invoice = new Invoice(new Company("demo"),"123");
 
     InvoiceItem firstItem = new InvoiceItem(new Product("nothing"));
     invoice.add(firstItem);

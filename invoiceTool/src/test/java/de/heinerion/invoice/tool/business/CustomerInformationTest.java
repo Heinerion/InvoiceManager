@@ -32,11 +32,12 @@ public class CustomerInformationTest {
     Customer c = new Customer("ACME");
     dataStore.save(c);
 
-    Letter l = new Letter();
+    Company company = new Company("demo");
+    Letter l = new Letter(company);
     l.setCustomer(c);
     dataStore.save(l);
 
-    Invoice i = new Invoice("123");
+    Invoice i = new Invoice(company,"123");
     i.setCustomer(c);
     Product cheapProduct = new Product("cheap");
     cheapProduct.setPricePerUnit(new Euro(1, 50));

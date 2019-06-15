@@ -24,8 +24,8 @@ public class WriteLetterTest {
   }
 
   @Test
-  public void writeNewInvoice() {
-    Letter letter = new Letter();
+  public void writeNewLetter() {
+    Letter letter = new Letter(new Company("demo"));
     letter.setText("written text");
 
     dataStore.save(letter);
