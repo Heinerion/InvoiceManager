@@ -107,6 +107,26 @@ public class PrintTest {
   }
 
   @Test
+  public void printLetter_containsSpecificDate() {
+    letter.setDate(LocalDate.now().minusYears(1));
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
+    String date = LocalDate.now().minusYears(1).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(textArgument.contains(date));
+  }
+
+  @Test
+  public void printInvoice_containsSpecificDate() {
+    invoice.setDate(LocalDate.now().minusYears(1));
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    String date = LocalDate.now().minusYears(1).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(textArgument.contains(date));
+  }
+
+  @Test
   public void printLetter_containsCompanyAddress() {
     printer.print("Path", "file", letter);
 

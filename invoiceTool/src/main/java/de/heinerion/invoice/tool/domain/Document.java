@@ -30,4 +30,8 @@ public abstract class Document {
   public ChronoLocalDate getDate() {
     return date;
   }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
 }
