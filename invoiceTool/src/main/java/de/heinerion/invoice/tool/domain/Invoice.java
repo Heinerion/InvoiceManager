@@ -1,5 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -10,6 +12,7 @@ public class Invoice {
   private final Collection<InvoiceItem> items = new HashSet<>();
   private Customer customer;
   private Company company;
+  private ChronoLocalDate date = LocalDate.now();
 
   public Invoice(Company company, String id) {
     this.company = company;
@@ -33,5 +36,9 @@ public class Invoice {
 
   public Company getCompany() {
     return company;
+  }
+
+  public ChronoLocalDate getDate() {
+    return date;
   }
 }

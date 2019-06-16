@@ -1,5 +1,8 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+
 /**
  * Represents an informal letter
  */
@@ -7,6 +10,7 @@ public class Letter {
   private final Company company;
   private String text;
   private Customer customer;
+  private ChronoLocalDate date = LocalDate.now();
 
   public Letter(Company company) {
     this.company = company;
@@ -30,5 +34,9 @@ public class Letter {
 
   public Company getCompany() {
     return company;
+  }
+
+  public ChronoLocalDate getDate() {
+    return date;
   }
 }

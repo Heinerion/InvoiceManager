@@ -10,6 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertTrue;
 
@@ -82,6 +86,24 @@ public class PrintTest {
     assertTrue(textArgument.contains("ACME"));
     assertTrue(textArgument.contains("address line 1"));
     assertTrue(textArgument.contains("address line 2"));
+  }
+
+  @Test
+  public void printLetter_containsDate() {
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
+    String date = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(textArgument.contains(date));
+  }
+
+  @Test
+  public void printInvoice_containsDate() {
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    String date = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(textArgument.contains(date));
   }
 
   @Test

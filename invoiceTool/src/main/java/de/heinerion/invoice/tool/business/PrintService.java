@@ -3,6 +3,8 @@ package de.heinerion.invoice.tool.business;
 import de.heinerion.invoice.tool.boundary.FileService;
 import de.heinerion.invoice.tool.domain.*;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.stream.Collectors;
 
 public class PrintService {
@@ -25,11 +27,12 @@ public class PrintService {
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "%s %s - %s %s - %S" +
+            "%s %s - %s %s - %S @%s" +
             "\\end{document}",
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
-        invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")));
+        invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(","))
+        , invoice.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
   }
 
   public void print(String path, String baseName, Letter letter) {
@@ -45,10 +48,10 @@ public class PrintService {
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "%s %s - %s %s - %s" +
+            "%s %s - %s %s - %s @%s" +
             "\\end{document}",
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
-        letter.getText());
+        letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
   }
 }
