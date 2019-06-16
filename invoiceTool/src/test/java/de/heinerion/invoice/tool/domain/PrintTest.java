@@ -5,6 +5,7 @@ import de.heinerion.invoice.tool.business.PrintService;
 import org.easymock.Capture;
 import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +36,10 @@ public class PrintTest {
   private Customer customer;
   private Company company;
 
+  private Capture<String> textCapture;
+  private Letter letter;
+  private Invoice invoice;
+
   @Before
   public void setUp() {
     printer.setFileService(fileService);
@@ -44,50 +49,77 @@ public class PrintTest {
 
     customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
+
+    letter = new Letter(company);
+    letter.setCustomer(customer);
+
+    invoice = new Invoice(company, "123");
+    invoice.setCustomer(customer);
+
+    textCapture = prepareTextCapture();
+  }
+
+  @After
+  public void tearDown() {
+    verify(fileService);
   }
 
   @Test
-  public void printLetter() {
-    Letter letter = new Letter(company);
-    letter.setCustomer(customer);
-    letter.setText("Foo bar");
-
-    Capture<String> textCapture = prepareTextCapture();
-
+  public void printLetter_containsCustomerAddress() {
     printer.print("Path", "file", letter);
-
-    verify(fileService);
 
     String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains("ACME"));
     assertTrue(textArgument.contains("address line 1"));
     assertTrue(textArgument.contains("address line 2"));
+  }
+
+  @Test
+  public void printInvoice_containsCustomerAddress() {
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("ACME"));
+    assertTrue(textArgument.contains("address line 1"));
+    assertTrue(textArgument.contains("address line 2"));
+  }
+
+  @Test
+  public void printLetter_containsCompanyAddress() {
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains("Big Business"));
     assertTrue(textArgument.contains("company drive 1"));
+  }
+
+  @Test
+  public void printInvoice_containsCompanyAddress() {
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("Big Business"));
+    assertTrue(textArgument.contains("company drive 1"));
+  }
+
+  public void printLetter_containsGivenText() {
+    letter.setText("Foo bar");
+
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains("Foo bar"));
   }
 
   @Test
-  public void printInvoice() {
-    Invoice invoice = new Invoice(company, "123");
-    invoice.setCustomer(customer);
-
+  public void printInvoice_containsItems() {
     Product product = new Product("product");
     product.setPricePerUnit(new Euro(1, 50));
     invoice.add(new InvoiceItem(product));
 
-    Capture<String> textCapture = prepareTextCapture();
-
     printer.print("Path", "file", invoice);
 
-    verify(fileService);
-
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains("ACME"));
-    assertTrue(textArgument.contains("address line 1"));
-    assertTrue(textArgument.contains("address line 2"));
-    assertTrue(textArgument.contains("Big Business"));
-    assertTrue(textArgument.contains("company drive 1"));
     assertTrue(textArgument.contains("1,50"));
   }
 
