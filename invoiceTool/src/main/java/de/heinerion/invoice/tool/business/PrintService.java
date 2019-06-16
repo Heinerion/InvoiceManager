@@ -35,11 +35,11 @@ public class PrintService {
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "[%s] %s %s - %s %s - %S @%s" +
+            "[%s] %s %s (%s) - %s %s - %S @%s" +
             "(%s)" +
             "\\end{document}",
         invoice.getSubject(),
-        company.getName(), String.join(", ", company.getAddress()),
+        company.getName(), String.join(", ", company.getAddress()), company.getPhone(),
         customer.getName(), String.join(", ", customer.getAddress()),
         invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")),
         invoice.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
@@ -61,11 +61,11 @@ public class PrintService {
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "[%s] %s %s - %s %s - %s @%s" +
+            "[%s] %s %s (%s) - %s %s - %s @%s" +
             "(%s)" +
             "\\end{document}",
         letter.getSubject(),
-        company.getName(), String.join(", ", company.getAddress()),
+        company.getName(), String.join(", ", company.getAddress()), company.getPhone(),
         customer.getName(), String.join(", ", customer.getAddress()),
         letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
         String.join(", ", letter.getKeywords())

@@ -35,4 +35,9 @@ public class Customer {
   public void setAddress(String... addressLines) {
     this.address = Arrays.asList(addressLines);
   }
+
+  @Override
+  public String toString() {
+    return getCorrespondent().map(c -> c + "@").orElse("") + getName();
+  }
 }

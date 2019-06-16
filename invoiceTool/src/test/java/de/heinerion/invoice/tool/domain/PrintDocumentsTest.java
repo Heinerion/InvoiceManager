@@ -58,6 +58,7 @@ public class PrintDocumentsTest {
   public static Collection<Document> data() {
     Company company = new Company("Big Business");
     company.setAddress("company drive 1");
+    company.setPhone("123-456/789");
 
     Customer customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
@@ -107,12 +108,13 @@ public class PrintDocumentsTest {
   }
 
   @Test
-  public void printDocument_containsCompanyAddress() {
+  public void printDocument_containsCompanyInformation() {
     printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains("Big Business"));
     assertTrue(textArgument.contains("company drive 1"));
+    assertTrue(textArgument.contains("123-456/789"));
   }
 
   @Test

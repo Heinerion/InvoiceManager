@@ -8,6 +8,7 @@ public class Company {
   private String name;
   private List<String> address;
   private String correspondent;
+  private String phone = "";
 
   public Company(String name) {
     this.name = name;
@@ -31,5 +32,18 @@ public class Company {
 
   public void setCorrespondent(String correspondent) {
     this.correspondent = correspondent;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = "123-456/789";
+  }
+
+  @Override
+  public String toString() {
+    return getCorrespondent().map(c -> c + "@").orElse("") + getName();
   }
 }
