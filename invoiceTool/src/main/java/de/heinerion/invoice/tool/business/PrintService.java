@@ -14,6 +14,14 @@ public class PrintService {
     this.fileService = fileService;
   }
 
+  public void print(String path, String baseName, Document document) {
+    if (document instanceof Invoice) {
+      print(path, baseName, (Invoice) document);
+    } else {
+      print(path, baseName, (Letter) document);
+    }
+  }
+
   public void print(String path, String baseName, Invoice invoice) {
     if (fileService.writeTex(path, baseName, generateTex(invoice))) {
       fileService.texToPdf(path, baseName);

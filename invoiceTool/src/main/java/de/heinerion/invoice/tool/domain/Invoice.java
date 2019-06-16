@@ -35,4 +35,17 @@ public class Invoice extends Document {
     result.add(getSum().toString());
     return result;
   }
+
+  @Override
+  public String toString() {
+    return getSubject() + " from " + getCompany() + " to " + getCustomer();
+  }
+
+  @Override
+  public Document copy() {
+    Invoice result = new Invoice(getCompany(), "");
+    copyDocumentPropertiesTo(result);
+    items.forEach(result::add);
+    return result;
+  }
 }

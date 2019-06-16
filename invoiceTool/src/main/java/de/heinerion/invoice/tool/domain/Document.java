@@ -13,7 +13,7 @@ import java.util.Set;
 public abstract class Document {
   private final Company company;
   private Customer customer;
-  private ChronoLocalDate date = LocalDate.now();
+  private LocalDate date = LocalDate.now();
   private final String subject;
   private final Set<String> keywords;
 
@@ -36,7 +36,7 @@ public abstract class Document {
     return company;
   }
 
-  public ChronoLocalDate getDate() {
+  public LocalDate getDate() {
     return date;
   }
 
@@ -70,5 +70,17 @@ public abstract class Document {
     result.add(date.toString());
 
     return result;
+  }
+
+  /**
+   * creates a fuly detached copy of this entity
+   */
+  public abstract Document copy();
+
+  protected <T extends  Document> void copyDocumentPropertiesTo(T copy) {
+    copy.setCustomer(customer);
+    // ensure date is another instance
+    copy.setDate(date.plusDays(1).minusDays(1));
+    keywords.forEach(copy::addKeyword);
   }
 }

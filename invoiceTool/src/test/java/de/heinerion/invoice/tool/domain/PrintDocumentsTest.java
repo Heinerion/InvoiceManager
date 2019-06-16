@@ -1,19 +1,19 @@
 package de.heinerion.invoice.tool.domain;
 
 import de.heinerion.invoice.tool.boundary.FileService;
-import de.heinerion.invoice.tool.boundary.Translator;
 import de.heinerion.invoice.tool.business.PrintService;
 import org.easymock.Capture;
-import org.easymock.EasyMockRunner;
-import org.easymock.Mock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertTrue;
@@ -30,39 +30,46 @@ import static org.junit.Assert.assertTrue;
  * what it is and how it looks like
  * </p>
  */
-@RunWith(EasyMockRunner.class)
-public class PrintTest {
+@RunWith(Parameterized.class)
+public class PrintDocumentsTest {
+
+  private final Document document;
 
   private PrintService printer = new PrintService();
 
-  @Mock
   private FileService fileService;
 
-  private Customer customer;
-  private Company company;
-
   private Capture<String> textCapture;
-  private Letter letter;
-  private Invoice invoice;
 
   @Before
   public void setUp() {
+    fileService = createNiceMock(FileService.class);
+
     printer.setFileService(fileService);
 
-    company = new Company("Big Business");
+    textCapture = prepareTextCapture();
+  }
+
+  public PrintDocumentsTest(Document doc) {
+    this.document = doc.copy();
+  }
+
+  @Parameterized.Parameters(name = "{0}")
+  public static Collection<Document> data() {
+    Company company = new Company("Big Business");
     company.setAddress("company drive 1");
 
-    customer = new Customer("ACME");
+    Customer customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
 
-    letter = new Letter(company, "special subject");
+    Letter letter = new Letter(company, "special subject");
     letter.setCustomer(customer);
     letter.setText("Foo bar");
 
-    invoice = new Invoice(company, "123");
+    Invoice invoice = new Invoice(company, "123");
     invoice.setCustomer(customer);
 
-    textCapture = prepareTextCapture();
+    return Arrays.asList(letter, invoice);
   }
 
   @After
@@ -71,59 +78,50 @@ public class PrintTest {
   }
 
   @Test
-  public void printLetter_containsGivenText() {
-    printer.print("Path", "file", letter);
+  public void printDocument_containsCustomerAddress() {
+    printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains("Foo bar"));
+    assertTrue(textArgument.contains("ACME"));
+    assertTrue(textArgument.contains("address line 1"));
+    assertTrue(textArgument.contains("address line 2"));
   }
 
   @Test
-  public void printInvoice_containsItems() {
-    Product product = new Product("product");
-    product.setPricePerUnit(Euro.of(1, 50));
-    invoice.add(new InvoiceItem(product));
-
-    printer.print("Path", "file", invoice);
+  public void printDocument_containsDate() {
+    printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains("1,50"));
+    String date = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(date + " is contained in \n" + textArgument, textArgument.contains(date));
   }
 
   @Test
-  public void printInvoice_containsItemsSum() {
-    Product product = new Product("product");
-    product.setPricePerUnit(Euro.of(1, 50));
-    InvoiceItem item = new InvoiceItem(product);
-    item.setCount(2);
-    invoice.add(item);
-
-    Product productB = new Product("product");
-    productB.setPricePerUnit(Euro.of(29, 99));
-    invoice.add(new InvoiceItem(productB));
-
-    printer.print("Path", "file", invoice);
+  public void printDocument_containsSpecificDate() {
+    document.setDate(LocalDate.now().minusYears(1));
+    printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains("3,00"));
-    assertTrue(textArgument.contains("29,99"));
-    assertTrue(textArgument.contains("32,99"));
+    String date = LocalDate.now().minusYears(1).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM));
+    assertTrue(textArgument.contains(date));
   }
 
   @Test
-  public void printLetter_containsSubject() {
-    printer.print("Path", "file", letter);
+  public void printDocument_containsCompanyAddress() {
+    printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains("special subject"));
+    assertTrue(textArgument.contains("Big Business"));
+    assertTrue(textArgument.contains("company drive 1"));
   }
 
   @Test
-  public void printInvoice_containsSubjectInvoice() {
-    printer.print("Path", "file", invoice);
+  public void printDocument_containsKeywords() {
+    document.addKeyword("keyword");
+    printer.print("Path", "file", document);
 
     String textArgument = textCapture.getValue();
-    assertTrue(textArgument.contains(Translator.translate("invoice")));
+    assertTrue(textArgument.contains("keyword"));
   }
 
   private Capture<String> prepareTextCapture() {
