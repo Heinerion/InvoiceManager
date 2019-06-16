@@ -166,6 +166,26 @@ public class PrintTest {
     assertTrue(textArgument.contains("1,50"));
   }
 
+
+  @Test
+  public void printLetter_containsKeywords() {
+    letter.addKeyword("keyword");
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("keyword"));
+  }
+
+
+  @Test
+  public void printInvoice_containsKeywords() {
+    invoice.addKeyword("keyword");
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("keyword"));
+  }
+
   @Test
   public void printLetter_containsSubject() {
     printer.print("Path", "file", letter);

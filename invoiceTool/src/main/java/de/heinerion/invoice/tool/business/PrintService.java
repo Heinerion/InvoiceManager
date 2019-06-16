@@ -28,12 +28,15 @@ public class PrintService {
             "\\begin{document}" +
             "-- tex placeholder --" +
             "[%s] %s %s - %s %s - %S @%s" +
+            "(%s)" +
             "\\end{document}",
         invoice.getSubject(),
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
-        invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(","))
-        , invoice.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")),
+        invoice.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+        String.join(", ", invoice.getKeywords())
+    );
   }
 
   public void print(String path, String baseName, Letter letter) {
@@ -51,10 +54,13 @@ public class PrintService {
             "\\begin{document}" +
             "-- tex placeholder --" +
             "[%s] %s %s - %s %s - %s @%s" +
+            "(%s)" +
             "\\end{document}",
         letter.getSubject(),
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
-        letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+        letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
+        String.join(", ", letter.getKeywords())
+    );
   }
 }
