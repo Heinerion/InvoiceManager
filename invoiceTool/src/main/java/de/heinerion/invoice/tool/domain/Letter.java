@@ -6,8 +6,8 @@ package de.heinerion.invoice.tool.domain;
 public class Letter extends Document {
   private String text;
 
-  public Letter(Company company) {
-    super(company);
+  public Letter(Company company, String subject) {
+    super(company, subject);
   }
 
   public String getText() {

@@ -27,8 +27,9 @@ public class PrintService {
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "%s %s - %s %s - %S @%s" +
+            "[%s] %s %s - %s %s - %S @%s" +
             "\\end{document}",
+        invoice.getSubject(),
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
         invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(","))
@@ -44,12 +45,14 @@ public class PrintService {
   private String generateTex(Letter letter) {
     Company company = letter.getCompany();
     Customer customer = letter.getCustomer();
+
     return String.format("" +
             "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
             "\\begin{document}" +
             "-- tex placeholder --" +
-            "%s %s - %s %s - %s @%s" +
+            "[%s] %s %s - %s %s - %s @%s" +
             "\\end{document}",
+        letter.getSubject(),
         company.getName(), String.join(", ", company.getAddress()),
         customer.getName(), String.join(", ", customer.getAddress()),
         letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));

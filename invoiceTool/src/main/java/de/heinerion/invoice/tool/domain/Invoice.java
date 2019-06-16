@@ -1,5 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
+import de.heinerion.invoice.tool.boundary.Translator;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -10,7 +12,7 @@ public class Invoice extends Document {
   private final Collection<InvoiceItem> items = new HashSet<>();
 
   public Invoice(Company company, String id) {
-    super(company);
+    super(company, Translator.translate("invoice"));
   }
 
   public void add(InvoiceItem item) {

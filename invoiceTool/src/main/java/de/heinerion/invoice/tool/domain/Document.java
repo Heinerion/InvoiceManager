@@ -10,9 +10,11 @@ public abstract class Document {
   private final Company company;
   private Customer customer;
   private ChronoLocalDate date = LocalDate.now();
+  private String subject;
 
-  public Document(Company company) {
+  public Document(Company company, String subject) {
     this.company = company;
+    this.subject = subject;
   }
 
   public Customer getCustomer() {
@@ -33,5 +35,9 @@ public abstract class Document {
 
   public void setDate(LocalDate date) {
     this.date = date;
+  }
+
+  public String getSubject(){
+    return subject;
   }
 }

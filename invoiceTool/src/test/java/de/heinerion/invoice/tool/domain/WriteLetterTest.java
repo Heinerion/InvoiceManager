@@ -25,7 +25,7 @@ public class WriteLetterTest {
 
   @Test
   public void writeNewLetter() {
-    Letter letter = new Letter(new Company("demo"));
+    Letter letter = new Letter(new Company("demo"), "test");
     letter.setText("written text");
 
     dataStore.save(letter);

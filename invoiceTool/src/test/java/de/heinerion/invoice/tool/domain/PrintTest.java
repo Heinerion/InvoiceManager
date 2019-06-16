@@ -1,6 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
 import de.heinerion.invoice.tool.boundary.FileService;
+import de.heinerion.invoice.tool.boundary.Translator;
 import de.heinerion.invoice.tool.business.PrintService;
 import org.easymock.Capture;
 import org.easymock.EasyMockRunner;
@@ -54,7 +55,7 @@ public class PrintTest {
     customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
 
-    letter = new Letter(company);
+    letter = new Letter(company, "special subject");
     letter.setCustomer(customer);
 
     invoice = new Invoice(company, "123");
@@ -163,6 +164,22 @@ public class PrintTest {
 
     String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains("1,50"));
+  }
+
+  @Test
+  public void printLetter_containsSubject() {
+    printer.print("Path", "file", letter);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("special subject"));
+  }
+
+  @Test
+  public void printInvoice_containsSubjectInvoice() {
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains(Translator.translate("invoice")));
   }
 
   private Capture<String> prepareTextCapture() {

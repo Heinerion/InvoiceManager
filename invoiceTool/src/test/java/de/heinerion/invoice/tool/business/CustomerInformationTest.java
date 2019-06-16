@@ -33,7 +33,7 @@ public class CustomerInformationTest {
     dataStore.save(c);
 
     Company company = new Company("demo");
-    Letter l = new Letter(company);
+    Letter l = new Letter(company, "test");
     l.setCustomer(c);
     dataStore.save(l);
 
