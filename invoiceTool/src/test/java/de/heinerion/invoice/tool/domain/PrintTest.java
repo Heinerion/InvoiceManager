@@ -157,7 +157,7 @@ public class PrintTest {
   @Test
   public void printInvoice_containsItems() {
     Product product = new Product("product");
-    product.setPricePerUnit(new Euro(1, 50));
+    product.setPricePerUnit(Euro.of(1, 50));
     invoice.add(new InvoiceItem(product));
 
     printer.print("Path", "file", invoice);
@@ -166,6 +166,25 @@ public class PrintTest {
     assertTrue(textArgument.contains("1,50"));
   }
 
+  @Test
+  public void printInvoice_containsItemsSum() {
+    Product product = new Product("product");
+    product.setPricePerUnit(Euro.of(1, 50));
+    InvoiceItem item = new InvoiceItem(product);
+    item.setCount(2);
+    invoice.add(item);
+
+    Product productB = new Product("product");
+    productB.setPricePerUnit(Euro.of(29, 99));
+    invoice.add(new InvoiceItem(productB));
+
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("3,00"));
+    assertTrue(textArgument.contains("29,99"));
+    assertTrue(textArgument.contains("32,99"));
+  }
 
   @Test
   public void printLetter_containsKeywords() {

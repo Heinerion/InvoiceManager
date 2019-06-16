@@ -9,13 +9,17 @@ public class Euro {
   private final int euro;
   private final int cent;
 
-  public Euro(int euro) {
-    this(euro, 0);
-  }
-
-  public Euro(int euro, int cent) {
+  private Euro(int euro, int cent) {
     this.euro = euro;
     this.cent = Math.abs(cent);
+  }
+
+  public static Euro of(int euro) {
+    return new Euro(euro, 0);
+  }
+
+  public static Euro of(int euro, int cent) {
+    return new Euro(euro, cent);
   }
 
   public static Euro fromCents(int cents) {

@@ -39,7 +39,7 @@ public class ManageProductsTest {
     assertNotNull(loadedProduct);
     assertEquals("Bread", loadedProduct.getName());
     assertEquals("pc", loadedProduct.getUnit());
-    assertEquals(new Euro(1, 10), loadedProduct.getPricePerUnit());
+    assertEquals(Euro.of(1, 10), loadedProduct.getPricePerUnit());
     assertEquals(new Percent(7), loadedProduct.getTaxes());
   }
 
@@ -72,7 +72,7 @@ public class ManageProductsTest {
   private Product createDefaultProduct() {
     Product product = new Product("Bread");
     product.setUnit("pc");
-    product.setPricePerUnit(new Euro(1, 10));
+    product.setPricePerUnit(Euro.of(1, 10));
     product.setTaxes(new Percent(7));
     return product;
   }

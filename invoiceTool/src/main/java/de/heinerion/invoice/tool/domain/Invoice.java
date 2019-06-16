@@ -22,4 +22,17 @@ public class Invoice extends Document {
   public Collection<InvoiceItem> getItems() {
     return items;
   }
+
+  public Euro getSum() {
+    return items.stream()
+        .map(InvoiceItem::getPrice)
+        .reduce(Euro.ZERO, Euro::add);
+  }
+
+  @Override
+  public Collection<String> getKeywords() {
+    Collection<String> result = super.getKeywords();
+    result.add(getSum().toString());
+    return result;
+  }
 }
