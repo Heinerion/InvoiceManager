@@ -11,10 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertTrue;
 
@@ -80,7 +76,7 @@ public class PrintTest {
 
   @Test
   public void printInvoice_containsItems() {
-    Product product = new Product("product");
+    Product product = new Product("product", new Percent(19));
     product.setPricePerUnit(Euro.of(1, 50));
     invoice.add(new InvoiceItem(product));
 
@@ -92,13 +88,13 @@ public class PrintTest {
 
   @Test
   public void printInvoice_containsItemsSum() {
-    Product product = new Product("product");
+    Product product = new Product("product", new Percent(19));
     product.setPricePerUnit(Euro.of(1, 50));
     InvoiceItem item = new InvoiceItem(product);
     item.setCount(2);
     invoice.add(item);
 
-    Product productB = new Product("product");
+    Product productB = new Product("product", new Percent(7));
     productB.setPricePerUnit(Euro.of(29, 99));
     invoice.add(new InvoiceItem(productB));
 

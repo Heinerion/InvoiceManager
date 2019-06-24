@@ -4,6 +4,8 @@ import de.heinerion.invoice.tool.boundary.Translator;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Represents an invoice with its items
@@ -23,16 +25,29 @@ public class Invoice extends Document {
     return items;
   }
 
-  public Euro getSum() {
+  public Euro getNetSum() {
     return items.stream()
-        .map(InvoiceItem::getPrice)
+        .map(InvoiceItem::getNetPrice)
         .reduce(Euro.ZERO, Euro::add);
+  }
+
+  public Euro getGrossSum() {
+    return items.stream()
+        .map(InvoiceItem::getGrossPrice)
+        .reduce(Euro.ZERO, Euro::add);
+  }
+
+  public Map<Percent, Euro> getTaxes() {
+    return items.stream().collect(
+        Collectors.groupingBy(InvoiceItem::getTaxPercentage,
+            Collectors.mapping(InvoiceItem::getTaxes,
+                Collectors.reducing(Euro.ZERO, Euro::add))));
   }
 
   @Override
   public Collection<String> getKeywords() {
     Collection<String> result = super.getKeywords();
-    result.add(getSum().toString());
+    result.add(getNetSum().toString());
     return result;
   }
 

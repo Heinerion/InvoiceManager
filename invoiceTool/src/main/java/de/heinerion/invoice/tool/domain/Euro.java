@@ -1,5 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.util.Objects;
+
 /**
  * Represents an amount of Euro
  */
@@ -32,6 +34,7 @@ public class Euro {
   }
 
   public Euro multiply(Percent percentage) {
+    Objects.requireNonNull(percentage);
     return fromCents((int) (asCents() * percentage.asFactor()));
   }
 

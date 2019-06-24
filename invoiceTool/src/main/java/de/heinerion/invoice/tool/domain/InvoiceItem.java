@@ -11,7 +11,7 @@ public class InvoiceItem {
     this.product = product;
   }
 
-  public Euro getPrice() {
+  public Euro getNetPrice() {
     return product.getPricePerUnit().multiply(count);
   }
 
@@ -20,7 +20,11 @@ public class InvoiceItem {
   }
 
   public Euro getTaxes() {
-    return getPrice().multiply(getTaxPercentage());
+    return getNetPrice().multiply(getTaxPercentage());
+  }
+
+  public Euro getGrossPrice() {
+    return getNetPrice().add(getTaxes());
   }
 
   public void setCount(int count) {
@@ -29,6 +33,7 @@ public class InvoiceItem {
 
   @Override
   public String toString() {
-    return String.format("%s %d %s", product.toString(), count, getPrice());
+    return String.format("%s %d %s", product.toString(), count, getNetPrice());
   }
+
 }

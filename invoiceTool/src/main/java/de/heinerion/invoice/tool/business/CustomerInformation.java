@@ -32,7 +32,7 @@ public class CustomerInformation {
     return invoices.stream()
         .map(Invoice::getItems)
         .flatMap(Collection::stream)
-        .map(InvoiceItem::getPrice)
+        .map(InvoiceItem::getGrossPrice)
         .reduce(Euro.ZERO, Euro::add);
   }
 }

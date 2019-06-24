@@ -1,13 +1,18 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.util.Objects;
+
 public class Product {
   private final String name;
   private String unit;
   private Euro pricePerUnit;
   private Percent taxes;
 
-  public Product(String name) {
+  public Product(String name, Percent taxes) {
+    Objects.requireNonNull(name);
+    Objects.requireNonNull(taxes);
     this.name = name;
+    this.taxes = taxes;
   }
 
   public String getName() {

@@ -70,7 +70,7 @@ public class ManageProductsTest {
   }
 
   private Product createDefaultProduct() {
-    Product product = new Product("Bread");
+    Product product = new Product("Bread", new Percent(7));
     product.setUnit("pc");
     product.setPricePerUnit(Euro.of(1, 10));
     product.setTaxes(new Percent(7));

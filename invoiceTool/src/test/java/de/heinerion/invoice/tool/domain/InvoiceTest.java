@@ -3,6 +3,9 @@ package de.heinerion.invoice.tool.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 public class InvoiceTest {
@@ -22,29 +25,36 @@ public class InvoiceTest {
   }
 
   @Test
-  public void getSum_singleItem() {
-    Product product = new Product("name");
+  public void getSums_singleItem() {
+    Product product = new Product("name", new Percent(19));
     product.setPricePerUnit(Euro.of(5));
     InvoiceItem item = new InvoiceItem(product);
     item.setCount(4);
     invoice.add(item);
 
-    assertEquals(Euro.of(20), invoice.getSum());
+    assertEquals(Euro.of(20), invoice.getNetSum());
   }
 
   @Test
-  public void getSum_multipleItems() {
-    Product productA = new Product("A");
+  public void getSums_multipleItems() {
+    Product productA = new Product("A", new Percent(19));
     productA.setPricePerUnit(Euro.of(5));
-    Product productB = new Product("B");
-    productB.setPricePerUnit(Euro.of(5,75));
-    Product productC = new Product("C");
-    productC.setPricePerUnit(Euro.of(9,25));
+    Product productB = new Product("B", new Percent(19));
+    productB.setPricePerUnit(Euro.of(5, 75));
+    Product productC = new Product("C", new Percent(7));
+    productC.setPricePerUnit(Euro.of(9, 25));
 
     invoice.add(new InvoiceItem(productA));
     invoice.add(new InvoiceItem(productB));
     invoice.add(new InvoiceItem(productC));
 
-    assertEquals(Euro.of(20), invoice.getSum());
+    assertEquals(Euro.of(20), invoice.getNetSum());
+    assertEquals(Euro.of(22, 68), invoice.getGrossSum());
+
+    Map<Percent, Euro> taxSums = new HashMap<>();
+    taxSums.put(new Percent(7), Euro.fromCents(64));
+    taxSums.put(new Percent(19), Euro.of(2, 4));
+
+    assertEquals(taxSums, invoice.getTaxes());
   }
 }
