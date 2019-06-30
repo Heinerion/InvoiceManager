@@ -166,7 +166,7 @@ class ApplicationFrameImpl implements
     if (activeCompany != null) {
       token.add(activeCompany.getDescriptiveName());
       String numberLabel = Translator.translate("invoice.number");
-      token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber() + 1));
+      token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber()));
     }
   }
 }

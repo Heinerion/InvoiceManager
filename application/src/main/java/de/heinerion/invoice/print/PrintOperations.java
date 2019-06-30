@@ -102,8 +102,8 @@ class PrintOperations {
   private class InvoiceInfoGenerator implements FileInfoGenerator {
     @Override
     public String getTitle(Letter letter) {
-      int invoiceNumber = letter.getCompany().getInvoiceNumber();
-      return Integer.toString(invoiceNumber);
+      Invoice invoice = (Invoice) letter;
+      return Integer.toString(invoice.getNumber());
     }
 
     @Override

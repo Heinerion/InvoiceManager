@@ -126,6 +126,8 @@ public final class ArchivedInvoiceTable implements TableModel {
                   .max()
                   .orElse(0)
               );
+              // increase, we don't want to use the last used number again
+              c.increaseInvoiceNumber();
 
               Session.notifyCompany();
             }
