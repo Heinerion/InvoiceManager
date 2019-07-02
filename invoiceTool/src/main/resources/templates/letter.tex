@@ -1,0 +1,75 @@
+\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}
+\usepackage[utf8]{inputenc}
+\usepackage[ngermanb]{babel}
+\usepackage[right]{eurosym}
+\usepackage{longtable}
+\usepackage{lastpage}             % determine last page
+\usepackage{scrlayer-scrpage}     % scr-Styling
+\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting
+\hypersetup{
+  pdftitle={${pdf.title}},
+  pdfauthor={${pdf.author}},
+  pdfsubject={${pdf.subject}},
+  pdfkeywords={${pdf.keywords}}
+}
+\renewcommand{\raggedsignature}{\raggedright}
+\setkomavar{signature}{\underline{${company.signature}:\hspace{10cm}}}
+\setkomavar{subject}{${subject}}
+\setkomavar{fromaddress}{<#list company.address as line>${line}<#sep>, </#list>}
+\setkomavar{fromphone}{${company.phone}}
+\setkomavar{fromname}{{${company.name}}\tiny}
+\date{}
+\setkomavar{location}{
+  \vfill
+  \raggedright
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc ${labels.date} & : ${date}
+  \end{tabular}
+}
+
+\setkomavar{firstfoot}{
+  \usekomafont{pageheadfoot}
+  \parbox{\useplength{firstfootwidth}}{
+    \rule{\linewidth}{.4pt}\\
+    \parbox[t]{0.8\linewidth}{${pageFooter}}
+    \hfill
+    \parbox[t]{0.1\linewidth}{
+      ${labels.page} \thepage \hspace{1pt} ${labels.of} \pageref{LastPage}
+    }
+  }
+}
+\setkomafont{pageheadfoot}{\scriptsize}
+
+% Use the footer-style of the first page in following pages
+\DeclareNewLayer[
+  foreground,
+  textarea,
+  voffset=\useplength{firstfootvpos},
+  hoffset=\dimexpr.5\paperwidth-.5\useplength{firstfootwidth}\relax,
+  width=\useplength{firstfootwidth},
+  mode=picture,
+  contents=\putUL{\raisebox{\dimexpr-\height}{\usekomavar{firstfoot}}}
+]{likefirstpage.foot}
+
+\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
+\clearpairofpagestyles
+
+\begin{document}
+\begin{letter}{<#list address as line>${line}<#sep>\\
+</#list>
+}
+
+\opening{}\vspace{-25pt}
+<#list textLines as line>${line}<#sep>\\
+</#list>
+<#if textLines?hasContent>
+
+\vfill
+<#else>
+\vfill
+</#if>
+\closing{}
+
+\end{letter}
+\end{document}

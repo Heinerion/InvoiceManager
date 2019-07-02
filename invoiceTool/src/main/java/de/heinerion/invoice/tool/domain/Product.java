@@ -20,6 +20,7 @@ public class Product {
   }
 
   public String getUnit() {
+    Objects.requireNonNull(unit);
     return unit;
   }
 

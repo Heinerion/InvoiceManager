@@ -1,11 +1,10 @@
 package de.heinerion.invoice.tool.business;
 
 import de.heinerion.invoice.tool.boundary.FileService;
-import de.heinerion.invoice.tool.domain.*;
-
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.stream.Collectors;
+import de.heinerion.invoice.tool.boundary.templating.FreeMarkerLatexGenerator;
+import de.heinerion.invoice.tool.domain.Document;
+import de.heinerion.invoice.tool.domain.Invoice;
+import de.heinerion.invoice.tool.domain.Letter;
 
 public class PrintService {
   private FileService fileService;
@@ -29,22 +28,8 @@ public class PrintService {
   }
 
   private String generateTex(Invoice invoice) {
-    Company company = invoice.getCompany();
-    Customer customer = invoice.getCustomer();
-    return String.format("" +
-            "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
-            "\\begin{document}" +
-            "-- tex placeholder --" +
-            "[%s] %s %s (%s) - %s %s - %S @%s" +
-            "(%s)" +
-            "\\end{document}",
-        invoice.getSubject(),
-        company.getName(), String.join(", ", company.getAddress()), company.getPhone(),
-        customer.getName(), String.join(", ", customer.getAddress()),
-        invoice.getItems().stream().map(InvoiceItem::toString).collect(Collectors.joining(",")),
-        invoice.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
-        String.join(", ", invoice.getKeywords())
-    );
+    FreeMarkerLatexGenerator generator = new FreeMarkerLatexGenerator();
+    return generator.generateSourceContent(invoice);
   }
 
   public void print(String path, String baseName, Letter letter) {
@@ -54,21 +39,7 @@ public class PrintService {
   }
 
   private String generateTex(Letter letter) {
-    Company company = letter.getCompany();
-    Customer customer = letter.getCustomer();
-
-    return String.format("" +
-            "\\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}" +
-            "\\begin{document}" +
-            "-- tex placeholder --" +
-            "[%s] %s %s (%s) - %s %s - %s @%s" +
-            "(%s)" +
-            "\\end{document}",
-        letter.getSubject(),
-        company.getName(), String.join(", ", company.getAddress()), company.getPhone(),
-        customer.getName(), String.join(", ", customer.getAddress()),
-        letter.getText(), letter.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
-        String.join(", ", letter.getKeywords())
-    );
+    FreeMarkerLatexGenerator generator = new FreeMarkerLatexGenerator();
+    return generator.generateSourceContent(letter);
   }
 }

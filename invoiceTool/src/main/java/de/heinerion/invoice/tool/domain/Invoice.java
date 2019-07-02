@@ -12,9 +12,11 @@ import java.util.stream.Collectors;
  */
 public class Invoice extends Document {
   private final Collection<InvoiceItem> items = new HashSet<>();
+  private final String number;
 
-  public Invoice(Company company, String id) {
+  public Invoice(Company company, String number) {
     super(company, Translator.translate("invoice"));
+    this.number = number;
   }
 
   public void add(InvoiceItem item) {
@@ -44,6 +46,10 @@ public class Invoice extends Document {
                 Collectors.reducing(Euro.ZERO, Euro::add))));
   }
 
+  public String getNumber() {
+    return number;
+  }
+
   @Override
   public Collection<String> getKeywords() {
     Collection<String> result = super.getKeywords();
@@ -58,7 +64,7 @@ public class Invoice extends Document {
 
   @Override
   public Document copy() {
-    Invoice result = new Invoice(getCompany(), "");
+    Invoice result = new Invoice(getCompany(), number);
     copyDocumentPropertiesTo(result);
     items.forEach(result::add);
     return result;

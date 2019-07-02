@@ -41,15 +41,6 @@ public class PrintDocumentsTest {
 
   private Capture<String> textCapture;
 
-  @Before
-  public void setUp() {
-    fileService = createNiceMock(FileService.class);
-
-    printer.setFileService(fileService);
-
-    textCapture = prepareTextCapture();
-  }
-
   public PrintDocumentsTest(Document doc) {
     this.document = doc.copy();
   }
@@ -59,6 +50,11 @@ public class PrintDocumentsTest {
     Company company = new Company("Big Business");
     company.setAddress("company drive 1");
     company.setPhone("123-456/789");
+    company.setTaxNumber("myTaxNumber");
+
+    company.setIban("myIBAN");
+    company.setBic("myBIC");
+    company.setBankName("Awesome Bank");
 
     Customer customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
@@ -71,6 +67,15 @@ public class PrintDocumentsTest {
     invoice.setCustomer(customer);
 
     return Arrays.asList(letter, invoice);
+  }
+
+  @Before
+  public void setUp() {
+    fileService = createNiceMock(FileService.class);
+
+    printer.setFileService(fileService);
+
+    textCapture = prepareTextCapture();
   }
 
   @After

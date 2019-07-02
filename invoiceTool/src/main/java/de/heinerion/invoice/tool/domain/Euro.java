@@ -50,6 +50,14 @@ public class Euro {
     return euro * 100 + factor * cent;
   }
 
+  public int getEuros() {
+    return euro;
+  }
+
+  public int getCents() {
+    return cent;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

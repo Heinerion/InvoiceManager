@@ -10,6 +10,11 @@ public class Company {
   private String correspondent;
   private String phone = "";
 
+  private String iban;
+  private String bic;
+  private String bankName;
+  private String taxNumber;
+
   public Company(String name) {
     this.name = name;
   }
@@ -39,7 +44,39 @@ public class Company {
   }
 
   public void setPhone(String phone) {
-    this.phone = "123-456/789";
+    this.phone = phone;
+  }
+
+  public String getTaxNumber() {
+    return taxNumber;
+  }
+
+  public void setTaxNumber(String taxNumber) {
+    this.taxNumber = taxNumber;
+  }
+
+  public String getBankName() {
+    return bankName;
+  }
+
+  public void setBankName(String bankName) {
+    this.bankName = bankName;
+  }
+
+  public String getIban() {
+    return iban;
+  }
+
+  public void setIban(String iban) {
+    this.iban = iban;
+  }
+
+  public String getBic() {
+    return bic;
+  }
+
+  public void setBic(String bic) {
+    this.bic = bic;
   }
 
   @Override

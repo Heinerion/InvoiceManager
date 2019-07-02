@@ -1,0 +1,120 @@
+<#assign invoiceItems=invoice.items?size >
+<#assign invoiceItemsMax=5 >
+\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}
+\usepackage[utf8]{inputenc}
+\usepackage[ngermanb]{babel}
+\usepackage[right]{eurosym}
+\usepackage{longtable}
+\usepackage{lastpage}             % determine last page
+\usepackage{scrlayer-scrpage}     % scr-Styling
+\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting
+\hypersetup{
+  pdftitle={${pdf.title}},
+  pdfauthor={${pdf.author}},
+  pdfsubject={${pdf.subject}},
+  pdfkeywords={${pdf.keywords}}
+}
+\renewcommand{\raggedsignature}{\raggedright}
+\setkomavar{signature}{\underline{${company.signature}:\hspace{10cm}}}
+\setkomavar{subject}{${subject}}
+\setkomavar{fromaddress}{<#list company.address as line>${line}<#sep>, </#list>}
+\setkomavar{fromphone}{${company.phone}}
+\setkomavar{fromname}{{${company.name}}\tiny}
+\date{}
+\setkomavar{location}{
+  \vfill
+  \raggedright
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc ${labels.date} & : ${date}\\
+  \textsc ${labels.number} & : ${invoice.number}\\
+  \textsc ${labels.taxNumber} & : ${company.taxNumber}\\
+  \textsc BIC & : ${company.bic}\\
+  \textsc IBAN & : ${company.iban}\\
+  \multicolumn{2}{l}{${company.bankName}}
+  \end{tabular}
+}
+
+\setkomavar{firstfoot}{
+  \usekomafont{pageheadfoot}
+  \parbox{\useplength{firstfootwidth}}{
+    \rule{\linewidth}{.4pt}\\
+    \parbox[t]{0.8\linewidth}{${pageFooter}}
+    \hfill
+    \parbox[t]{0.1\linewidth}{
+      ${labels.page} \thepage \hspace{1pt} ${labels.of} \pageref{LastPage}
+    }
+  }
+}
+\setkomafont{pageheadfoot}{\scriptsize}
+
+% Use the footer-style of the first page in following pages
+\DeclareNewLayer[
+  foreground,
+  textarea,
+  voffset=\useplength{firstfootvpos},
+  hoffset=\dimexpr.5\paperwidth-.5\useplength{firstfootwidth}\relax,
+  width=\useplength{firstfootwidth},
+  mode=picture,
+  contents=\putUL{\raisebox{\dimexpr-\height}{\usekomavar{firstfoot}}}
+]{likefirstpage.foot}
+
+\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
+\clearpairofpagestyles
+
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+
+% allows for more horizontal space in the location
+\@setplength{lochpos}{\oddsidemargin}
+\@addtoplength{lochpos}{6cm}
+
+% pull signature closer to the table
+\patchcmd{\closing}% <cmd>
+{\parbox}% <search>
+{\parbox{\linewidth}{\raggedsignature\strut\ignorespaces\let\\\relax%
+#1 \usekomavar{signature}}%
+\@gobbletwo}%< <replace>
+{}{}% <success><failure>
+\makeatother
+
+\begin{document}
+\begin{letter}{<#list address as line>${line}<#sep>\\
+</#list>
+}
+
+\opening{}\vspace{-25pt}
+\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}
+\hline
+\multicolumn{3}{|c|}{\textsc ${labels.description}}&\multicolumn{1}{c|}{\textsc ${labels.pricePerUnit}}&\multicolumn{1}{c|}{\textsc ${labels.sum}}\\
+\hline
+<#list invoice.items as item>
+\hline
+\multicolumn{1}{|l}{${item.name}}&\multicolumn{1}{r}{${item.quantity}}&${item.unit}&\hspace{12pt} á ${item.pricePerUnit}&${item.total}\\
+</#list>
+<#if invoiceItems < invoiceItemsMax>
+<#list invoiceItems..invoiceItemsMax as number>
+\hline
+<#if number < invoiceItemsMax>
+\multicolumn{1}{|l}{$\phantom{sth}$}&&&&\\
+<#else>
+\multicolumn{1}{|l}{$\phantom{sth}$}&\multicolumn{1}{r}{\phantom{(\hfill000,00}}&&&\\
+</#if>
+</#list>
+<#else>
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&\multicolumn{1}{r}{\phantom{(\hfill000,00}}&&&\\
+</#if>
+\hline
+\multicolumn{1}{|l}{${labels.net}}&&&&${invoice.net}\\
+\hline
+<#list invoice.taxes as tax>
+&&&\multicolumn{1}{|r|}{${tax.percentage} ${labels.vat}}&${tax.value}\\\cline{4-5}
+</#list>
+&&&\multicolumn{1}{|l|}{\textsc ${labels.sum}}&${invoice.gross}\\\cline{4-5}
+\end{longtable}
+\vfill
+\closing{}
+
+\end{letter}
+\end{document}

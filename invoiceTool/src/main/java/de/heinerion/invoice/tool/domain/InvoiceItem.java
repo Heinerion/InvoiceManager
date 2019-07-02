@@ -27,6 +27,14 @@ public class InvoiceItem {
     return getNetPrice().add(getTaxes());
   }
 
+  public Product getProduct() {
+    return product;
+  }
+
+  public int getCount() {
+    return count;
+  }
+
   public void setCount(int count) {
     this.count = count;
   }
@@ -35,5 +43,4 @@ public class InvoiceItem {
   public String toString() {
     return String.format("%s %d %s", product.toString(), count, getNetPrice());
   }
-
 }

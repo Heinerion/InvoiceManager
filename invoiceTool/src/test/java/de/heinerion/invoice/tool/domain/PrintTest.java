@@ -47,6 +47,10 @@ public class PrintTest {
 
     company = new Company("Big Business");
     company.setAddress("company drive 1");
+    company.setTaxNumber("myTaxNumber");
+    company.setIban("myIBAN");
+    company.setBic("myBIC");
+    company.setBankName("Awesome Bank");
 
     customer = new Customer("ACME");
     customer.setAddress("address line 1", "address line 2");
@@ -78,6 +82,7 @@ public class PrintTest {
   public void printInvoice_containsItems() {
     Product product = new Product("product", new Percent(19));
     product.setPricePerUnit(Euro.of(1, 50));
+    product.setUnit("bananas");
     invoice.add(new InvoiceItem(product));
 
     printer.print("Path", "file", invoice);
@@ -90,12 +95,14 @@ public class PrintTest {
   public void printInvoice_containsItemsSum() {
     Product product = new Product("product", new Percent(19));
     product.setPricePerUnit(Euro.of(1, 50));
+    product.setUnit("pc");
     InvoiceItem item = new InvoiceItem(product);
     item.setCount(2);
     invoice.add(item);
 
     Product productB = new Product("product", new Percent(7));
     productB.setPricePerUnit(Euro.of(29, 99));
+    productB.setUnit("apples");
     invoice.add(new InvoiceItem(productB));
 
     printer.print("Path", "file", invoice);
@@ -104,6 +111,36 @@ public class PrintTest {
     assertTrue(textArgument.contains("3,00"));
     assertTrue(textArgument.contains("29,99"));
     assertTrue(textArgument.contains("32,99"));
+  }
+
+  @Test
+  public void printInvoice_containsItemsTaxes() {
+    // chose strange percentages to avoid interference with dates
+    Product product = new Product("product", new Percent(123));
+    product.setPricePerUnit(Euro.of(1, 0));
+    product.setUnit("pc");
+    InvoiceItem item = new InvoiceItem(product);
+    invoice.add(item);
+
+    Product productB = new Product("product", new Percent(456));
+    productB.setPricePerUnit(Euro.of(20, 0));
+    productB.setUnit("apples");
+    invoice.add(new InvoiceItem(productB));
+
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    // percentages
+    assertTrue(textArgument.contains("123"));
+    assertTrue(textArgument.contains("456"));
+
+    // corresponding Euro values
+    assertTrue(textArgument.contains("1,23"));
+    assertTrue(textArgument.contains("91,20"));
+
+    // assert ordering of percentages
+    assertTrue(textArgument.indexOf("123") < textArgument.indexOf("456"));
+    assertTrue(textArgument.indexOf("1,23") < textArgument.indexOf("91,20"));
   }
 
   @Test
@@ -120,6 +157,18 @@ public class PrintTest {
 
     String textArgument = textCapture.getValue();
     assertTrue(textArgument.contains(Translator.translate("invoice")));
+  }
+
+  @Test
+  public void printInvoice_containsBankAccountInformation() {
+    printer.print("Path", "file", invoice);
+
+    String textArgument = textCapture.getValue();
+    assertTrue(textArgument.contains("myTaxNumber"));
+
+    assertTrue(textArgument.contains("myIBAN"));
+    assertTrue(textArgument.contains("myBIC"));
+    assertTrue(textArgument.contains("Awesome Bank"));
   }
 
   private Capture<String> prepareTextCapture() {
