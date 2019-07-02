@@ -2,7 +2,7 @@ package de.heinerion.invoice.tool.domain;
 
 import java.util.Objects;
 
-public class Percent {
+public class Percent implements Comparable<Percent> {
 
   private final int percentage;
 
@@ -12,6 +12,10 @@ public class Percent {
 
   public double asFactor() {
     return percentage / 100d;
+  }
+
+  public int getPercentage() {
+    return percentage;
   }
 
   @Override
@@ -30,5 +34,10 @@ public class Percent {
   @Override
   public String toString() {
     return percentage + "%";
+  }
+
+  @Override
+  public int compareTo(Percent o) {
+    return percentage - o.percentage;
   }
 }
