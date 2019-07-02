@@ -1,5 +1,6 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -35,7 +36,7 @@ public class Euro {
 
   public Euro multiply(Percent percentage) {
     Objects.requireNonNull(percentage);
-    return fromCents((int) (asCents() * percentage.asFactor()));
+    return fromCents((percentage.asFactor().multiply(new BigDecimal(asCents()))).intValue());
   }
 
   public Euro multiply(int times) {

@@ -1,20 +1,25 @@
 package de.heinerion.invoice.tool.domain;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Percent implements Comparable<Percent> {
 
-  private final int percentage;
+  private final BigDecimal percentage;
 
   public Percent(int percentage) {
+    this(new BigDecimal(percentage));
+  }
+
+  public Percent(BigDecimal percentage) {
     this.percentage = percentage;
   }
 
-  public double asFactor() {
-    return percentage / 100d;
+  public BigDecimal asFactor() {
+    return percentage.divide(BigDecimal.valueOf(100L), 4, BigDecimal.ROUND_HALF_UP);
   }
 
-  public int getPercentage() {
+  public BigDecimal getPercentage() {
     return percentage;
   }
 
@@ -22,8 +27,7 @@ public class Percent implements Comparable<Percent> {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Percent percent = (Percent) o;
-    return percentage == percent.percentage;
+    return compareTo((Percent) o) == 0;
   }
 
   @Override
@@ -38,6 +42,6 @@ public class Percent implements Comparable<Percent> {
 
   @Override
   public int compareTo(Percent o) {
-    return percentage - o.percentage;
+    return percentage.compareTo(o.percentage);
   }
 }
