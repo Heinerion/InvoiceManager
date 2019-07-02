@@ -37,7 +37,7 @@ public class CustomerInformationTest {
     l.setCustomer(c);
     dataStore.save(l);
 
-    Invoice i = new Invoice(company,"123");
+    Invoice i = new Invoice(company, "123");
     i.setCustomer(c);
     Product cheapProduct = new Product("cheap", new Percent(19));
     cheapProduct.setPricePerUnit(Euro.of(1, 50));

@@ -1,7 +1,6 @@
 package de.heinerion.invoice.tool.domain;
 
 import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,10 +11,10 @@ import java.util.Set;
  */
 public abstract class Document {
   private final Company company;
-  private Customer customer;
-  private LocalDate date = LocalDate.now();
   private final String subject;
   private final Set<String> keywords;
+  private Customer customer;
+  private LocalDate date = LocalDate.now();
 
   public Document(Company company, String subject) {
     this.company = company;
@@ -56,10 +55,11 @@ public abstract class Document {
   /**
    * Returns the added Keywords extended by fixed keywords such as
    * <ul>
-   *   <li>company name</li>
-   *   <li>customer name</li>
-   *   <li>date</li>
+   * <li>company name</li>
+   * <li>customer name</li>
+   * <li>date</li>
    * </ul>
+   *
    * @return
    */
   public Collection<String> getKeywords() {
@@ -77,7 +77,7 @@ public abstract class Document {
    */
   public abstract Document copy();
 
-  protected <T extends  Document> void copyDocumentPropertiesTo(T copy) {
+  protected <T extends Document> void copyDocumentPropertiesTo(T copy) {
     copy.setCustomer(customer);
     // ensure date is another instance
     copy.setDate(date.plusDays(1).minusDays(1));
