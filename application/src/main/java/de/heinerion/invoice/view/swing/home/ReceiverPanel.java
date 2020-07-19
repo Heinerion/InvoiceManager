@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public  class ReceiverPanel implements Refreshable {
+public class ReceiverPanel implements Refreshable {
   private JPanel panel;
 
   private Refreshable addressPanel;
