@@ -8,10 +8,12 @@ import javax.swing.*;
 
 class CompanyChooserPanel implements Refreshable {
   private SidePanel sidePanel;
+  private CompanyCreateDialog companyCreateDialog;
   private JPanel content = new JPanel();
 
-  CompanyChooserPanel() {
-    sidePanel = new SidePanel();
+  CompanyChooserPanel(CompanyCreateDialog companyCreateDialog) {
+    this.sidePanel = new SidePanel();
+    this.companyCreateDialog = companyCreateDialog;
     refresh();
   }
 
@@ -19,9 +21,9 @@ class CompanyChooserPanel implements Refreshable {
     sidePanel.remove(content);
     content = new JPanel();
     for (Company c : Session.getAvailableCompanies()) {
-      final JButton btn = new CompanyButton(c).getButton();
-      content.add(btn);
+      content.add(new CompanyButton(c).getButton());
     }
+    content.add(companyCreateDialog.getButton());
     sidePanel.add(content);
   }
 

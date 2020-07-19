@@ -18,6 +18,6 @@ public class SidePanelFactory {
   }
 
   public static Refreshable createCompanyChooserPanel() {
-    return new CompanyChooserPanel();
+    return new CompanyChooserPanel(new CompanyCreateDialog());
   }
 }
