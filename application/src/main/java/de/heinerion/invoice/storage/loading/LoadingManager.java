@@ -1,6 +1,5 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.invoice.aspects.annotations.LogMethod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,7 +27,6 @@ class LoadingManager implements LoadListener, LoadListenable {
     this.listeners.add(listener);
   }
 
-  @LogMethod
   <T extends Loadable> void addLoader(Class<T> clazz, Loader loader, LoadableCallback callback) {
     if (logger.isDebugEnabled()) {
       logger.debug("add " + clazz.getSimpleName());

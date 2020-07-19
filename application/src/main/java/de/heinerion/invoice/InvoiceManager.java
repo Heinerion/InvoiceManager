@@ -3,8 +3,6 @@ package de.heinerion.invoice;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.invoice.aspects.annotations.LogBefore;
-import de.heinerion.invoice.aspects.annotations.LogMethod;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
@@ -24,7 +22,6 @@ final class InvoiceManager {
     DataBase.getInstance().setIo(io);
   }
 
-  @LogMethod
   public static void main(String... args) {
     LookAndFeelUtil.setNimbus();
     InvoiceManager application = ConfigurationService.getBean(InvoiceManager.class);
@@ -55,7 +52,6 @@ final class InvoiceManager {
     }
   }
 
-  @LogBefore
   private void start() {
     starter.showInterface();
   }

@@ -1,7 +1,6 @@
 package de.heinerion.invoice.view;
 
 import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.invoice.aspects.annotations.LogBefore;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,6 @@ public class GuiStarter {
     frame.setVisible(true);
   }
 
-  @LogBefore
   private void startDataThread(ApplicationFrame applicationFrame) {
     new Thread(() -> collectData(applicationFrame)).start();
   }
