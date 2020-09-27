@@ -3,15 +3,24 @@ package de.heinerion.invoice.view.swing.home.receiver.money;
 import de.heinerion.invoice.ParsingUtil;
 
 import java.text.DecimalFormat;
+import java.util.Currency;
+import java.util.Locale;
 
 public class Money implements Comparable<Money> {
+  /**
+   * Precision for double to long conversion.
+   * <p>
+   * The number of zeros is equal to the number of decimal places to convert
+   */
+  private static final int PRECISION = 100000;
+
   private static final DecimalFormat df = new DecimalFormat(",##0.00");
 
-  private final double value;
-  private final String currency = "€";
+  private final long value;
+  private final Currency currency = Currency.getInstance(Locale.GERMANY);
 
   private Money(double aValue) {
-    this.value = aValue;
+    this.value = (long) aValue * PRECISION;
   }
 
   public static Money parse(String text) {
@@ -50,7 +59,6 @@ public class Money implements Comparable<Money> {
    * Compares this instance to the given Money instance by String representation ({@link #toString})
    *
    * @param other the other Money instance
-   *
    * @return a value greater 0 if this is bigger than {@code other}; less than 0 otherwise; 0 indicates equality
    */
   @Override
@@ -72,16 +80,20 @@ public class Money implements Comparable<Money> {
   @Override
   public int hashCode() {
     // the hash uses the int representation, to create some tolerance for the double values
-    return currency.hashCode() + Integer.hashCode((int) value * 10000);
+    return currency.hashCode() + Long.hashCode(value);
   }
 
   public final double getValue() {
-    return value;
+    return (double) value / PRECISION;
+  }
+
+  public String getValueFormatted() {
+    return df.format(getValue()) + " " + currency.getSymbol();
   }
 
   @Override
   public final String toString() {
-    return df.format(value) + " " + currency;
+    return df.format(getValue()) + " " + currency.getSymbol() + " [" + value + "]";
   }
 
   private class OperationNotYetImplementedException extends RuntimeException {
