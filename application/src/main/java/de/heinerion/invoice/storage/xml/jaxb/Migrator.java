@@ -72,18 +72,11 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 public class Migrator {
   private static final Logger logger = LogManager.getLogger(Migrator.class);
 
-  private PathUtilNG pathUtil;
-  private DataBase dataBase = DataBase.getInstance();
-
-  private Migrator(PathUtilNG pathUtil) {
-    this.pathUtil = pathUtil;
-  }
-
   public static void main(String... args) {
-    new Migrator(new PathUtilNG()).run();
+    Migrator.migrateCompanies(new PathUtilNG(), DataBase.getInstance());
   }
 
-  private void run() {
+  public static void migrateCompanies(PathUtilNG pathUtil, DataBase dataBase) {
     IO io = ConfigurationService.getBean(IO.class);
     dataBase.setIo(io);
     dataBase.load();
@@ -98,30 +91,30 @@ public class Migrator {
     new CompanyManager().marshal(availableCompanies, companiesXmlFile);
     print(String.format("Available companies written to %s", companiesXmlFile.getAbsolutePath()));
 
-    availableCompanies.forEach(this::migrateCompanyInfo);
+    availableCompanies.forEach(company -> migrateCompanyInfo(pathUtil, dataBase, company));
 
     ConfigurationService.exitApplication();
   }
 
-  private void print(String message) {
+  private static void print(String message) {
     System.out.println(message);
   }
 
-  private void migrateCompanyInfo(Company company) {
+  private static void migrateCompanyInfo(PathUtilNG pathUtil, DataBase dataBase, Company company) {
     logger.info("Migrate " + company);
     File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
     logCreation(companyDir);
 
-    transferTemplatesAndAddresses(company, companyDir);
+    transferTemplatesAndAddresses(dataBase, company, companyDir);
 
-    copyLettersAndInvoices(company, companyDir);
+    copyLettersAndInvoices(pathUtil, company, companyDir);
   }
 
-  private void logCreation(File createdFile) {
+  private static void logCreation(File createdFile) {
     logger.info("created " + createdFile);
   }
 
-  private void transferTemplatesAndAddresses(Company company, File companyDir) {
+  private static void transferTemplatesAndAddresses(DataBase dataBase, Company company, File companyDir) {
     File templatesXmlFile = new File(companyDir, "templates.xml");
     new TemplateManager().marshal(dataBase.getTemplates(company), templatesXmlFile);
     logCreation(templatesXmlFile);
@@ -131,7 +124,7 @@ public class Migrator {
     logCreation(addressesXmlFile);
   }
 
-  private void copyLettersAndInvoices(Company company, File companyDir) {
+  private static void copyLettersAndInvoices(PathUtilNG pathUtil, Company company, File companyDir) {
     File home = new File(pathUtil.getBaseDir());
 
     logger.info("Move letters");
@@ -165,7 +158,7 @@ public class Migrator {
     copyFiles(company, oldInvoiceSrcDir, newInvoiceSrcDir);
   }
 
-  private void copyFiles(Company company, File oldLetterDir, File newLetterDir) {
+  private static void copyFiles(Company company, File oldLetterDir, File newLetterDir) {
     File[] letterPDFs = oldLetterDir.listFiles();
     if (letterPDFs != null) {
       Predicate<File> fileBelongsToCompany = pdf -> isOfCompany(company, pdf);
@@ -177,7 +170,7 @@ public class Migrator {
     }
   }
 
-  private boolean isOfCompany(Company company, File file) {
+  private static boolean isOfCompany(Company company, File file) {
     String author = company.getOfficialName();
     String fileName = file.getName();
 
@@ -185,7 +178,7 @@ public class Migrator {
         || fileName.endsWith("tex") && texHasAuthor(file, author);
   }
 
-  private boolean pdfHasAuthor(File file, String author) {
+  private static boolean pdfHasAuthor(File file, String author) {
     try (PDDocument pdf = PDDocument.load(file)) {
       PDDocumentInformation info = pdf.getDocumentInformation();
 
@@ -195,7 +188,7 @@ public class Migrator {
     }
   }
 
-  private boolean texHasAuthor(File file, String author) {
+  private static boolean texHasAuthor(File file, String author) {
     boolean authorFound = false;
 
     try (Scanner scanner = new Scanner(file)) {
@@ -213,7 +206,7 @@ public class Migrator {
     return authorFound;
   }
 
-  private void copy(File src, File dest) {
+  private static void copy(File src, File dest) {
     try {
       print(String.format("copy %s\n  to %s", src, dest));
       FileSystemUtils.copyRecursively(src, dest);
@@ -222,11 +215,11 @@ public class Migrator {
     }
   }
 
-  private File createDir(String parentPath, String name) {
+  private static File createDir(String parentPath, String name) {
     return createDir(new File(parentPath), name);
   }
 
-  private File createDir(File parent, String name) {
+  private static File createDir(File parent, String name) {
     File companyFolder = new File(parent, name);
     if ((companyFolder.exists() && companyFolder.isDirectory()) || companyFolder.mkdir()) {
       return companyFolder;
@@ -234,7 +227,7 @@ public class Migrator {
     throw new MigrationException("the folder " + companyFolder + " could not be created!");
   }
 
-  private class MigrationException extends RuntimeException {
+  private static class MigrationException extends RuntimeException {
     MigrationException(Throwable e) {
       super("Exception whilst migrating", e);
     }

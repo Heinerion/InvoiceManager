@@ -53,9 +53,7 @@ public final class DataBase implements LoadListener {
    * Collects all {@link Address}es valid for the given {@link Company}
    *
    * @param company to be filtered by
-   *
    * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
-   *
    * @see MemoryBank
    */
   public List<Address> getAddresses(Company company) {
@@ -105,9 +103,7 @@ public final class DataBase implements LoadListener {
    *
    * @param company   to be filtered by
    * @param recipient to be looked for
-   *
    * @return an {@link Address} with the given recipient
-   *
    * @see MemoryBank
    */
   public Optional<Address> getAddress(Company company, String recipient) {
@@ -131,7 +127,7 @@ public final class DataBase implements LoadListener {
     return memory.getAllCompanies();
   }
 
-  void addCompany(Company company) {
+  public void addCompany(Company company) {
     Session.addAvailableCompany(company);
 
     memory.addCompany(company);
@@ -155,7 +151,7 @@ public final class DataBase implements LoadListener {
     }
   }
 
- public List<InvoiceTemplate> getTemplates(Company company) {
+  public List<InvoiceTemplate> getTemplates(Company company) {
     return Collections.unmodifiableList(memory.getTemplates(company));
   }
 

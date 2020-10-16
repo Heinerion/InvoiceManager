@@ -1,7 +1,14 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
+import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.models.Account;
+import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.storage.xml.jaxb.Migrator;
+import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.CompanyForm;
@@ -14,6 +21,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CompanyCreateDialog {
+  private ApplicationFrame applicationFrame;
   private BusyFrame originFrame;
   /**
    * window adapter, responsible for closing
@@ -29,13 +37,16 @@ public class CompanyCreateDialog {
   private JPanel accountFormPanel;
   private JPanel companyFormPanel;
   private CompanyForm companyForm;
+  private AddressForm addressForm;
+  private AccountForm accountForm;
 
   public CompanyCreateDialog() {
     button = new JButton("+");
     button.addActionListener(e -> {
       Container contentPane = button.getRootPane().getParent();
       if (contentPane instanceof JFrame) {
-        originFrame = new BusyFrame((JFrame) contentPane);
+        applicationFrame = Session.getApplicationFrame();
+        originFrame = new BusyFrame(applicationFrame.getFrame());
         showDialog();
       } else {
         System.out.println(":(");
@@ -77,11 +88,11 @@ public class CompanyCreateDialog {
 
   private void createWidgets() {
     // Address
-    AddressForm addressForm = new AddressForm();
+    addressForm = new AddressForm();
     addressFormPanel = addressForm.getPanel();
 
     // Account
-    AccountForm accountForm = new AccountForm();
+    accountForm = new AccountForm();
     accountFormPanel = accountForm.getPanel();
 
     // Company
@@ -107,10 +118,27 @@ public class CompanyCreateDialog {
   private void setupInteractions(JDialog dialog) {
     btnSave.addActionListener(e -> {
       Company company = companyForm.getValue();
-      System.out.println(company);
+      if (company != null) {
+        Address address = addressForm.getValue();
+        company.setAddress(address);
+        Account account = accountForm.getValue();
+        company.setAccount(account);
+        if (address != null && account != null) {
+          DataBase dataBase = DataBase.getInstance();
+          dataBase.addCompany(company);
+          System.out.println("erfolgreich gespeichert");
+          Migrator.migrateCompanies(new PathUtilNG(), dataBase);
+          applicationFrame.refresh();
+          closeDialog(dialog);
+        }
+      }
     });
 
-    btnCancel.addActionListener(e -> dialog.dispatchEvent(new WindowEvent(dialog, WindowEvent.WINDOW_CLOSING)));
+    btnCancel.addActionListener(e -> closeDialog(dialog));
+  }
+
+  private void closeDialog(JDialog dialog) {
+    dialog.dispatchEvent(new WindowEvent(dialog, WindowEvent.WINDOW_CLOSING));
   }
 
   protected final class DisposeAdapter extends WindowAdapter {

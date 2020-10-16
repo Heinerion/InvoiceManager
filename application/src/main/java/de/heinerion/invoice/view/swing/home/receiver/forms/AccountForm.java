@@ -2,24 +2,30 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.betriebe.models.Account;
 
-import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 
-public class AccountForm implements Form<Account> {
-  /*
-    private String bic;
-    private String iban;
-    private String name;
-  */
+public class AccountForm extends AbstractForm<Account> {
+
+  private List<FormLine<Account, ?>> properties = Arrays.asList(
+      FormLine.builder(Account.class, String.class).name("name").setter(Account::setName).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Account.class, String.class).name("iban").setter(Account::setIban).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Account.class, String.class).name("bic").setter(Account::setBic).valid(s -> !s.isEmpty()).build()
+  );
+
 
   @Override
-  public Account getValue() {
-    return null;
+  protected Account createInstance() {
+    return new Account();
   }
 
   @Override
-  public JPanel getPanel() {
-    JPanel container = new JPanel();
-    container.add(new JLabel("Account"));
-    return container;
+  public List<FormLine<Account, ?>> getProperties() {
+    return properties;
+  }
+
+  @Override
+  public String getTitle() {
+    return "Account";
   }
 }

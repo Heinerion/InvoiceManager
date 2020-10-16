@@ -6,6 +6,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.CompanyListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public final class Session {
 
   private static LocalDate date;
   private static boolean debugMode = false;
+  private static ApplicationFrame applicationFrame;
 
   /**
    * Hides the default public Constructor
@@ -186,5 +188,13 @@ public final class Session {
       LOGGER.debug("notifyDate");
     }
     getDateListeners().forEach(DateListener::notifyDate);
+  }
+
+  public static void setApplicationFrame(ApplicationFrame frame) {
+    applicationFrame = frame;
+  }
+
+  public static ApplicationFrame getApplicationFrame() {
+    return applicationFrame;
   }
 }

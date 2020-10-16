@@ -2,29 +2,34 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.betriebe.models.Address;
 
-import javax.swing.*;
+import java.util.Arrays;
+import java.util.List;
 
-public class AddressForm implements Form<Address> {
-  /*
-    private String apartment;
-    private String company;
-    private String district;
-    private String location;
-    private String number;
-    private String postalCode;
-    private String recipient;
-    private String street;
-  */
+public class AddressForm extends AbstractForm<Address> {
+
+  private List<FormLine<Address, ?>> properties = Arrays.asList(
+      FormLine.builder(Address.class, String.class).name("recipient").setter(Address::setRecipient).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("company").setter(Address::setCompany).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("street").setter(Address::setStreet).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("number").setter(Address::setNumber).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("postalCode").setter(Address::setPostalCode).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("location").setter(Address::setLocation).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("district").setter(Address::setDistrict).valid(s -> !s.isEmpty()).build(),
+      FormLine.builder(Address.class, String.class).name("apartment").setter(Address::setApartment).valid(s -> !s.isEmpty()).build()
+  );
 
   @Override
-  public Address getValue() {
-    return null;
+  protected List<FormLine<Address, ?>> getProperties() {
+    return properties;
   }
 
   @Override
-  public JPanel getPanel() {
-    JPanel container = new JPanel();
-    container.add(new JLabel("Address"));
-    return container;
+  protected String getTitle() {
+    return "Address";
+  }
+
+  @Override
+  protected Address createInstance() {
+    return new Address();
   }
 }

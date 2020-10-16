@@ -25,7 +25,7 @@ public final class Company implements Storable, Loadable {
   /**
    * For persistence only
    */
-  private Company() {
+  public Company() {
   }
 
   public Company(String descriptiveName, String officialName, Address address,
@@ -148,8 +148,12 @@ public final class Company implements Storable, Loadable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Company company = (Company) o;
     return Double.compare(company.valueAddedTax, valueAddedTax) == 0 &&
         Double.compare(company.wagesPerHour, wagesPerHour) == 0 &&
