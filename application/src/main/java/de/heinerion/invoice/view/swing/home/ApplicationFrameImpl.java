@@ -82,6 +82,7 @@ class ApplicationFrameImpl implements
   private void setupInteractions() {
     Session.addCompanyListener(this);
     Session.addDateListener(this);
+    Session.setApplicationFrame(this);
 
     frame.addWindowListener(getShutDownAdapter());
     frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -112,6 +113,7 @@ class ApplicationFrameImpl implements
     refreshTitle();
   }
 
+  @Override
   public void refresh() {
     refreshTitle();
     refreshBoxes();

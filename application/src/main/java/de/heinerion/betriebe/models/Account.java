@@ -10,7 +10,7 @@ public final class Account {
   /**
    * For persistence only
    */
-  private Account() {
+  public Account() {
   }
 
   public Account(String aName, String aBic, String anIban) {
@@ -45,8 +45,12 @@ public final class Account {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Account account = (Account) o;
     return Objects.equals(bic, account.bic) &&
         Objects.equals(iban, account.iban) &&

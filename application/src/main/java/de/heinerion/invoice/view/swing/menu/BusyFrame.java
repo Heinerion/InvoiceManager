@@ -3,7 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import javax.swing.*;
 import java.awt.*;
 
-class BusyFrame {
+public class BusyFrame {
   private JFrame frame;
 
   private Component glassPanel;
@@ -11,11 +11,11 @@ class BusyFrame {
 
   private boolean busy;
 
-  BusyFrame(JFrame frame) {
+  public BusyFrame(JFrame frame) {
     this.frame = frame;
   }
 
-  JFrame getFrame() {
+  public JFrame getFrame() {
     return frame;
   }
 
@@ -23,7 +23,7 @@ class BusyFrame {
     return busy;
   }
 
-  void setBusy(boolean isBusy) {
+  public void setBusy(boolean isBusy) {
     busy = isBusy;
 
     updateComponents();
