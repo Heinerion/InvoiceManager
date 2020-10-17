@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public class IO {
 
   private PathUtilNG pathUtil;
 
-  IO(PathUtilNG pathUtil) {
+  public IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
   }
 
@@ -56,6 +57,20 @@ public class IO {
         .forEach(template -> template.setInhalt(new String[0][0]));
 
     return result;
+  }
+
+  public void saveCompanies(Collection<Company> companies) {
+    try {
+      fileLoader.saveCompanies(companies);
+    } catch (final IOException e) {
+      if (logger.isErrorEnabled()) {
+        logger.error(e);
+      }
+
+      throw new RuntimeException(companies.stream()
+          .map(Company::getDescriptiveName)
+          .collect(Collectors.joining(", ")), e);
+    }
   }
 
   public void saveAddresses(List<Address> addresses) {

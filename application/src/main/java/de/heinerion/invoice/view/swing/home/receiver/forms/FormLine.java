@@ -3,6 +3,8 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -67,13 +69,44 @@ public class FormLine<T, A> {
     }
   }
 
-  private void showValidity() {
+  public void showValidity() {
     if (isValid()) {
-      component.setBackground(Color.WHITE);
+      setBackground(Color.WHITE);
       hintComponent.setVisible(false);
     } else {
-      component.setBackground(Color.PINK);
+      setBackground(Color.PINK);
       hintComponent.setVisible(true);
+    }
+  }
+
+  private void setBackground(Color color) {
+    if (component instanceof JSpinner) {
+      // this makes me sorry for using Nimbus L&F
+      JSpinner spinner = (JSpinner) component;
+      setSpinnerColor(spinner, color);
+    } else {
+      component.setBackground(color);
+    }
+  }
+
+  /**
+   * @see <a href="https://stackoverflow.com/a/35140636">https://stackoverflow.com/a/35140636</a>
+   */
+  private void setSpinnerColor(JSpinner spinner, Color color) {
+    final JComponent editor = spinner.getEditor();
+    int c = editor.getComponentCount();
+    for (int i = 0; i < c; i++) {
+      final Component comp = editor.getComponent(i);
+      if (comp instanceof JTextComponent) {
+        ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+          @Override
+          protected void paint(javax.swing.plaf.synth.SynthContext context, Graphics g) {
+            g.setColor(color);
+            g.fillRect(3, 3, getComponent().getWidth() - 3, getComponent().getHeight() - 6);
+            super.paint(context, g);
+          }
+        });
+      }
     }
   }
 
@@ -105,10 +138,10 @@ public class FormLine<T, A> {
     }
 
     if (attribute.equals(Double.class)) {
-      return new JSpinner(new SpinnerNumberModel(10.0,
+      return new JSpinner(new SpinnerNumberModel(0.0,
           0.0,
           1000.0,
-          .1));
+          1));
     }
 
     return null;

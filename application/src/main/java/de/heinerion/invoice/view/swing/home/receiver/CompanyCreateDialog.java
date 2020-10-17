@@ -7,6 +7,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.storage.xml.jaxb.Migrator;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
@@ -14,6 +15,8 @@ import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.CompanyForm;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +24,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class CompanyCreateDialog {
+  private static final Logger logger = LogManager.getLogger(CompanyCreateDialog.class);
+
   private ApplicationFrame applicationFrame;
   private BusyFrame originFrame;
   /**
@@ -49,7 +54,7 @@ public class CompanyCreateDialog {
         originFrame = new BusyFrame(applicationFrame.getFrame());
         showDialog();
       } else {
-        System.out.println(":(");
+        throw new RuntimeException("Could not create dialog to add new companies");
       }
     });
   }
@@ -117,24 +122,30 @@ public class CompanyCreateDialog {
 
   private void setupInteractions(JDialog dialog) {
     btnSave.addActionListener(e -> {
-      Company company = companyForm.getValue();
-      if (company != null) {
-        Address address = addressForm.getValue();
-        company.setAddress(address);
-        Account account = accountForm.getValue();
-        company.setAccount(account);
-        if (address != null && account != null) {
-          DataBase dataBase = DataBase.getInstance();
-          dataBase.addCompany(company);
-          System.out.println("erfolgreich gespeichert");
-          Migrator.migrateCompanies(new PathUtilNG(), dataBase);
-          applicationFrame.refresh();
-          closeDialog(dialog);
-        }
-      }
+      saveCompany(dialog);
     });
 
     btnCancel.addActionListener(e -> closeDialog(dialog));
+  }
+
+  private void saveCompany(JDialog dialog) {
+    Company company = companyForm.getValue();
+    if (company != null) {
+      Address address = addressForm.getValue();
+      company.setAddress(address);
+      Account account = accountForm.getValue();
+      company.setAccount(account);
+      if (address != null && account != null) {
+        DataBase dataBase = DataBase.getInstance();
+        dataBase.addCompany(company);
+        logger.info(String.format("added %s to database%n", company.getDescriptiveName()));
+        new IO(new PathUtilNG()).saveCompanies(Session.getAvailableCompanies());
+        logger.info(String.format("%s written to disk%n", company.getDescriptiveName()));
+        Migrator.migrateCompanies(new PathUtilNG(), dataBase);
+        applicationFrame.refresh();
+        closeDialog(dialog);
+      }
+    }
   }
 
   private void closeDialog(JDialog dialog) {

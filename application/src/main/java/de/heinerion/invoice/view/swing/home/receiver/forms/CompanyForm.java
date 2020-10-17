@@ -13,8 +13,8 @@ public class CompanyForm extends AbstractForm<Company> {
       FormLine.builder(Company.class, String.class).name("signer").setter(Company::setSigner).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Company.class, String.class).name("taxNumber").setter(Company::setTaxNumber).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Company.class, String.class).name("phoneNumber").setter(Company::setPhoneNumber).valid(s -> !s.isEmpty()).build(),
-      FormLine.builder(Company.class, Double.class).name("valueAddedTax").setter(Company::setValueAddedTax).valid(s -> s >= 0d).build(),
-      FormLine.builder(Company.class, Double.class).name("wagesPerHour").setter(Company::setWagesPerHour).valid(s -> s >= 0d).build()
+      FormLine.builder(Company.class, Double.class).name("valueAddedTax").setter(Company::setValueAddedTax).valid(s -> s > 0d).build(),
+      FormLine.builder(Company.class, Double.class).name("wagesPerHour").setter(Company::setWagesPerHour).valid(s -> s > 0d).build()
 
   );
 

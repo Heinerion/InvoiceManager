@@ -14,8 +14,8 @@ public class AddressForm extends AbstractForm<Address> {
       FormLine.builder(Address.class, String.class).name("number").setter(Address::setNumber).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Address.class, String.class).name("postalCode").setter(Address::setPostalCode).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Address.class, String.class).name("location").setter(Address::setLocation).valid(s -> !s.isEmpty()).build(),
-      FormLine.builder(Address.class, String.class).name("district").setter(Address::setDistrict).valid(s -> !s.isEmpty()).build(),
-      FormLine.builder(Address.class, String.class).name("apartment").setter(Address::setApartment).valid(s -> !s.isEmpty()).build()
+      FormLine.builder(Address.class, String.class).name("district").setter(Address::setDistrict).valid(s -> true).build(),
+      FormLine.builder(Address.class, String.class).name("apartment").setter(Address::setApartment).valid(s -> true).build()
   );
 
   @Override

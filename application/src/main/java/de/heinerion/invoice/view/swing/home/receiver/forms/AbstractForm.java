@@ -9,8 +9,6 @@ public abstract class AbstractForm<T> implements Form<T> {
   private JPanel content;
   private GridBagConstraints constraints;
 
-  private JButton btnCheck;
-
   protected abstract List<FormLine<T, ?>> getProperties();
 
   protected abstract String getTitle();
@@ -36,16 +34,13 @@ public abstract class AbstractForm<T> implements Form<T> {
     JPanel container = new JPanel(new BorderLayout());
     container.setBorder(BorderFactory.createTitledBorder(translate(getTitle())));
     container.add(createContent());
-    container.add(btnCheck, BorderLayout.PAGE_END);
 
     return container;
   }
 
   private JPanel createContent() {
     initLayout();
-    createWidgets();
     addWidgets();
-    setupInteractions();
 
     return content;
   }
@@ -53,10 +48,6 @@ public abstract class AbstractForm<T> implements Form<T> {
   private void initLayout() {
     content = new JPanel(new GridBagLayout());
     constraints = new GridBagConstraints();
-  }
-
-  private void createWidgets() {
-    btnCheck = new JButton("check");
   }
 
   private void addWidgets() {
@@ -79,6 +70,8 @@ public abstract class AbstractForm<T> implements Form<T> {
       setToPosition(1, lineNumber, hintComponent);
       constraints.fill = GridBagConstraints.NONE;
       lineNumber++;
+
+      property.showValidity();
     }
   }
 
@@ -106,9 +99,5 @@ public abstract class AbstractForm<T> implements Form<T> {
         .filter(p -> !p.isValid())
         .collect(Collectors.toList());
     return invalidFields.isEmpty();
-  }
-
-  private void setupInteractions() {
-    btnCheck.addActionListener((__) -> System.out.println(getValue()));
   }
 }

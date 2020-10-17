@@ -74,6 +74,8 @@ public class Migrator {
 
   public static void main(String... args) {
     Migrator.migrateCompanies(new PathUtilNG(), DataBase.getInstance());
+
+    ConfigurationService.exitApplication();
   }
 
   public static void migrateCompanies(PathUtilNG pathUtil, DataBase dataBase) {
@@ -92,8 +94,6 @@ public class Migrator {
     print(String.format("Available companies written to %s", companiesXmlFile.getAbsolutePath()));
 
     availableCompanies.forEach(company -> migrateCompanyInfo(pathUtil, dataBase, company));
-
-    ConfigurationService.exitApplication();
   }
 
   private static void print(String message) {
@@ -149,7 +149,9 @@ public class Migrator {
     String invoiceIdentifier = invoiceDirName + File.separator + company.getDescriptiveName();
     File oldInvoiceDir = new File(home, invoiceIdentifier);
     File newInvoiceDir = createDir(companyDir, invoiceDirName);
-    copy(oldInvoiceDir, newInvoiceDir);
+    if (oldInvoiceDir.exists()) {
+      copy(oldInvoiceDir, newInvoiceDir);
+    }
 
     logger.info("Move invoice sources");
     File oldInvoiceSrcDir = new File(systemDir, invoiceIdentifier);
