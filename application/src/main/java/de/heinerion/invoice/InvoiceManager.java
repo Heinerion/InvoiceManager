@@ -5,6 +5,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
+import de.heinerion.invoice.view.swing.ErrorDialog;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +32,7 @@ final class InvoiceManager {
 
   void invoke(String[] args) {
     parseArguments(args);
+    setupGlobalExceptionHandling();
     start();
   }
 
@@ -44,6 +46,10 @@ final class InvoiceManager {
     if (!Session.isDebugMode()) {
       LOGGER.warn("PRODUCTION MODE");
     }
+  }
+
+  public static void setupGlobalExceptionHandling() {
+    Thread.setDefaultUncaughtExceptionHandler((_unused, e) -> ErrorDialog.show(e));
   }
 
   private void evaluateArgument(String string) {
