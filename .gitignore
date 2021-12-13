@@ -6,5 +6,9 @@
 .idea
 *.iml
 
+# Ignore Gradle specifics
+.gradle
+build
+
 # Ignore generated classes
 target
