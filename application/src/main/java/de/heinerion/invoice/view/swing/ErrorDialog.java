@@ -3,10 +3,11 @@ package de.heinerion.invoice.view.swing;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
-import org.apache.maven.surefire.shared.lang3.exception.ExceptionUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public class ErrorDialog {
 
@@ -20,7 +21,7 @@ public class ErrorDialog {
         Menu.translate("error.text"),
         " ",
         bold("Stacktrace"),
-        createStacktraceComponent(ExceptionUtils.getStackTrace(exception))};
+        createStacktraceComponent(getStackTrace(exception))};
 
     JOptionPane.showMessageDialog(
         /* parent component = */  Session.getApplicationFrame().getFrame(),
@@ -29,6 +30,13 @@ public class ErrorDialog {
         /* type / symbol = */ JOptionPane.ERROR_MESSAGE);
 
     new BusyFrame(Session.getApplicationFrame().getFrame()).setBusy(false);
+  }
+
+  private static String getStackTrace(Throwable e) {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    e.printStackTrace(pw);
+    return sw.toString();
   }
 
   private static JPanel createStacktraceComponent(String stackTrace) {
