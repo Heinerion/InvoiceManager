@@ -3,12 +3,15 @@ package de.heinerion.invoice.view.swing;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.logging.Level;
 
+@Flogger
 public class ErrorDialog {
 
   private ErrorDialog() {
@@ -16,6 +19,8 @@ public class ErrorDialog {
   }
 
   public static void show(Throwable exception) {
+    log.at(Level.WARNING).withCause(exception).log();
+
     // Strings will bes displayed as JLabels
     Object[] completeMessage = new Object[]{
         Menu.translate("error.text"),
