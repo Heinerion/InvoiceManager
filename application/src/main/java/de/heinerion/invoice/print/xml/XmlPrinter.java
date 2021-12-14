@@ -1,21 +1,19 @@
 package de.heinerion.invoice.print.xml;
 
 import com.thoughtworks.xstream.XStream;
-import de.heinerion.invoice.print.Printer;
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 
+@Flogger
 public class XmlPrinter implements Printer {
-  private Logger logger = LogManager.getLogger(XmlPrinter.class);
-
   private final HostSystem hostSystem;
   private final XStream xstream;
 
-  XmlPrinter(HostSystem hostSystem){
+  XmlPrinter(HostSystem hostSystem) {
     this.hostSystem = hostSystem;
     this.xstream = new XStream();
 
@@ -34,6 +32,6 @@ public class XmlPrinter implements Printer {
     String content = xstream.toXML(letter);
     File result = hostSystem.writeToFile(path, content);
 
-    logger.info(result.getAbsolutePath() + " written");
+    log.atInfo().log("%s written", result.getAbsolutePath());
   }
 }

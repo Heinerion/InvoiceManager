@@ -2,14 +2,12 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.models.Address;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 
+@Flogger
 class PanelControl {
-  private static final Logger logger = LogManager.getLogger(PanelControl.class);
-
   private static final String DEFAULT_APARTMENT = null;
   private static final String DEFAULT_COMPANY = null;
   private static final String DEFAULT_DISTRICT = null;
@@ -65,9 +63,7 @@ class PanelControl {
   }
 
   static void saveAddress(String address) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("save...");
-    }
+    log.atFine().log("save...");
     if (notEmpty(address)) {
       dataBase.addAddress(parseAddress(address));
     }

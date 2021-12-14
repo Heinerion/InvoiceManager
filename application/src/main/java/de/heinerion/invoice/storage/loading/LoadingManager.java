@@ -1,12 +1,11 @@
 package de.heinerion.invoice.storage.loading;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.util.*;
 
+@Flogger
 class LoadingManager implements LoadListener, LoadListenable {
-  private static final Logger logger = LogManager.getLogger(LoadingManager.class);
   private final Map<Class<? extends Loadable>, List<Loader>> loaders;
   private final Map<Class<? extends Loadable>, List<Loadable>> results;
   private final Map<Class<? extends Loadable>, LoadableCallback> callbacks;
@@ -28,43 +27,33 @@ class LoadingManager implements LoadListener, LoadListenable {
   }
 
   <T extends Loadable> void addLoader(Class<T> clazz, Loader loader, LoadableCallback callback) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("add " + clazz.getSimpleName());
-    }
+    log.atFine().log("add " + clazz.getSimpleName());
     if (!this.loadOrder.contains(clazz)) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("add {} to loadOrder", clazz.getSimpleName());
-      }
+      log.atFine().log("add %s to loadOrder", clazz.getSimpleName());
       this.loadOrder.add(clazz);
     }
 
     if (this.loaders.get(clazz) == null) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("add empty loaderList for {}", clazz.getSimpleName());
-      }
+      log.atFine().log("add empty loaderList for %s", clazz.getSimpleName());
       this.loaders.put(clazz, new ArrayList<>());
     }
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("add {} to loaderList for {}", loader.getDescriptiveName(), clazz.getSimpleName());
-    }
+    log.atFine().log("add %s to loaderList for %s", loader.getDescriptiveName(), clazz.getSimpleName());
     List<Loader> loadersForClass = loaders.get(clazz);
     loadersForClass.add(loader);
     loader.addListener(this);
 
     if (callback != null) {
       callbacks.put(clazz, callback);
-      if (logger.isDebugEnabled()) {
-        logger.debug("add callback for {}", clazz.getSimpleName());
-      }
+      log.atFine().log("add callback for %s", clazz.getSimpleName());
     }
 
     int numberOfLoaders = loadersForClass.size();
 
-    if (logger.isInfoEnabled()) {
-      logger.info("Loader '{}' für '{}' registriert ({} gesamt)", loader
-          .getClass().getSimpleName(), clazz.getSimpleName(), numberOfLoaders);
-    }
+    log.atInfo().log("loader '%s' registered for '%s' (%d in total)",
+        loader.getClass().getSimpleName(),
+        clazz.getSimpleName(),
+        numberOfLoaders);
   }
 
   int getFileNumber() {
@@ -113,8 +102,7 @@ class LoadingManager implements LoadListener, LoadListenable {
     }
 
     LoadableCallback loadableCallback = this.callbacks.get(clazz);
-    if (loadableCallback != null)
-    {
+    if (loadableCallback != null) {
       result.forEach(loadableCallback::continueWithResult);
     }
   }

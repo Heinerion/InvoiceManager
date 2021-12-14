@@ -8,17 +8,15 @@ import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.CompanyListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.time.LocalDate;
 import java.util.*;
 
 import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.REVISION;
 
+@Flogger
 public final class Session {
-  private static final Logger LOGGER = LogManager.getLogger(Session.class);
-
   private static String version;
 
   private static List<CompanyListener> companyListeners;
@@ -167,23 +165,17 @@ public final class Session {
   }
 
   public static void notifyCompany() {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("notifyCompany");
-    }
+    log.atFine().log("notifyCompany");
     getCompanyListeners().forEach(CompanyListener::notifyCompany);
   }
 
   private static void notifyConveyable() {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("notifyConveyable");
-    }
+    log.atFine().log("notifyConveyable");
     getConveyableListeners().forEach(ConveyableListener::notifyConveyable);
   }
 
   private static void notifyDate() {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("notifyDate");
-    }
+    log.atFine().log("notifyDate");
     getDateListeners().forEach(DateListener::notifyDate);
   }
 

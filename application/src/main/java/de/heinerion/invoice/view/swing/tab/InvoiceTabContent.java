@@ -8,8 +8,7 @@ import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.TabContent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +18,8 @@ import java.util.List;
 
 import static java.awt.BorderLayout.*;
 
+@Flogger
 class InvoiceTabContent extends TabContent {
-  private static final Logger logger = LogManager.getLogger(InvoiceTabContent.class);
   private List<Item> contentPositions = new ArrayList<>();
   private List<InvoiceTemplate> templates = new ArrayList<>();
   private JTable tabPositions = null;
@@ -175,7 +174,7 @@ class InvoiceTabContent extends TabContent {
     for (int i = 0; i < contentPositions.size(); i++) {
       for (int j = 0; j < tabPositions.getColumnCount(); j++) {
         // overwrite all rows
-        logger.info(i + ":" + j);
+        log.atInfo().log("%d:%d", i, j);
         tabPositions.setValueAt("", i, j);
       }
     }

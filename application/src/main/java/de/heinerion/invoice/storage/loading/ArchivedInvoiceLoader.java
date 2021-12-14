@@ -4,16 +4,14 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.XmlArchivedInvoice;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+@Flogger
 class ArchivedInvoiceLoader extends Loader {
-  private static final Logger logger = LogManager.getLogger(ArchivedInvoiceLoader.class);
-
   ArchivedInvoiceLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
@@ -39,9 +37,8 @@ class ArchivedInvoiceLoader extends Loader {
     try {
       data.loadFile();
     } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e);
-      }
+      log.atSevere().withCause(e)
+          .log("the invoice file could not be read: %s", file.getAbsolutePath());
       throw new LoadArchivedInvoiceException(file, e);
     }
 

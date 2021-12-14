@@ -7,16 +7,14 @@ import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ErrorDialog;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 /**
  * @author heiner
  */
+@Flogger
 final class InvoiceManager {
-  private static final Logger LOGGER = LogManager.getLogger(InvoiceManager.class);
-
-  private GuiStarter starter;
+  private final GuiStarter starter;
 
   InvoiceManager(IO io, GuiStarter swingStarter) {
     this.starter = swingStarter;
@@ -44,7 +42,7 @@ final class InvoiceManager {
     }
 
     if (!Session.isDebugMode()) {
-      LOGGER.warn("PRODUCTION MODE");
+      log.atWarning().log("PRODUCTION MODE");
     }
   }
 

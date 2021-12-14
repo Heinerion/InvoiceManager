@@ -1,7 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@Flogger
 abstract class AbstractTextFileLoader extends Loader {
-  private static final Logger logger = LogManager.getLogger(AbstractTextFileLoader.class);
-
   private final Reader reader = new Reader();
 
   AbstractTextFileLoader(File aLoadDirectory) {
@@ -26,9 +24,7 @@ abstract class AbstractTextFileLoader extends Loader {
     final Map<String, String> attributes = this.readAttributes(file);
     final Loadable data = this.parse(attributes);
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("add({})", data);
-    }
+    log.atFine().log("add(%s)", data);
 
     return data;
   }

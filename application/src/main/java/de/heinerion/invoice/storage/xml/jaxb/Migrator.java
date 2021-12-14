@@ -6,8 +6,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.storage.loading.IO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.springframework.util.FileSystemUtils;
@@ -69,9 +68,8 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
  * </pre>
  * </p>
  */
+@Flogger
 public class Migrator {
-  private static final Logger logger = LogManager.getLogger(Migrator.class);
-
   public static void main(String... args) {
     Migrator.migrateCompanies(new PathUtilNG(), DataBase.getInstance());
 
@@ -86,7 +84,7 @@ public class Migrator {
     // transfer companies to new approach
     List<Company> availableCompanies = new ArrayList<>(Session.getAvailableCompanies());
     availableCompanies.sort(Company::compareTo);
-    logger.info("Companies found: " + availableCompanies);
+    log.atInfo().log("Companies found: %s", availableCompanies);
 
     File appBase = new File(pathUtil.getBaseDir());
     File companiesXmlFile = new File(appBase, "companies.xml");
@@ -101,7 +99,7 @@ public class Migrator {
   }
 
   private static void migrateCompanyInfo(PathUtilNG pathUtil, DataBase dataBase, Company company) {
-    logger.info("Migrate " + company);
+    log.atInfo().log("Migrate %s", company);
     File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
     logCreation(companyDir);
 
@@ -111,7 +109,7 @@ public class Migrator {
   }
 
   private static void logCreation(File createdFile) {
-    logger.info("created " + createdFile);
+    log.atInfo().log("created %s", createdFile);
   }
 
   private static void transferTemplatesAndAddresses(DataBase dataBase, Company company, File companyDir) {
@@ -127,14 +125,14 @@ public class Migrator {
   private static void copyLettersAndInvoices(PathUtilNG pathUtil, Company company, File companyDir) {
     File home = new File(pathUtil.getBaseDir());
 
-    logger.info("Move letters");
+    log.atInfo().log("Move letters");
     String letterDirName = ConfigurationService.get(FOLDER_LETTERS);
     File oldLetterDir = new File(home, letterDirName);
     File newLetterDir = createDir(companyDir, letterDirName);
 
     copyFiles(company, oldLetterDir, newLetterDir);
 
-    logger.info("Move letter sources");
+    log.atInfo().log("Move letter sources");
     String systemDirName = ConfigurationService.get(FOLDER_SYSTEM);
     File systemDir = new File(home, systemDirName);
     File oldLetterSrcDir = new File(systemDir, letterDirName);
@@ -144,7 +142,7 @@ public class Migrator {
 
     copyFiles(company, oldLetterSrcDir, newLetterSrcDir);
 
-    logger.info("Move invoices");
+    log.atInfo().log("Move invoices");
     String invoiceDirName = ConfigurationService.get(FOLDER_INVOICES);
     String invoiceIdentifier = invoiceDirName + File.separator + company.getDescriptiveName();
     File oldInvoiceDir = new File(home, invoiceIdentifier);
@@ -153,7 +151,7 @@ public class Migrator {
       copy(oldInvoiceDir, newInvoiceDir);
     }
 
-    logger.info("Move invoice sources");
+    log.atInfo().log("Move invoice sources");
     File oldInvoiceSrcDir = new File(systemDir, invoiceIdentifier);
     File newInvoiceSrcDir = createDir(newInvoiceDir, srcDirName);
 

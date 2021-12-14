@@ -1,15 +1,14 @@
 package de.heinerion.invoice;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.logging.Level;
 
+@Flogger
 public final class ParsingUtil {
-  private static Logger logger = LogManager.getLogger(ParsingUtil.class);
-
   private ParsingUtil() {
   }
 
@@ -20,9 +19,7 @@ public final class ParsingUtil {
       try {
         return parseByLocale(input, Locale.GERMANY);
       } catch (ParseException exe) {
-        if (logger.isErrorEnabled()) {
-          logger.error(exe);
-        }
+        log.at(Level.WARNING).withCause(exe).log();
         throw new ParsingException(exe);
       }
     }

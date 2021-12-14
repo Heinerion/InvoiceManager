@@ -3,14 +3,12 @@ package de.heinerion.invoice.view;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 
+@Flogger
 public class GuiStarter {
-  private static final Logger LOGGER = LogManager.getLogger(GuiStarter.class);
-
   private static final long ONE_SECOND = 1000L;
 
   private final ApplicationFrame applicationFrame;
@@ -52,9 +50,7 @@ public class GuiStarter {
     try {
       Thread.sleep(ONE_SECOND);
     } catch (final InterruptedException e) {
-      if (LOGGER.isErrorEnabled()) {
-        LOGGER.error(e);
-      }
+      log.atSevere().withCause(e).log("could not wait");
       throw new GuiStarter.ThreadWaitException(e);
     }
   }

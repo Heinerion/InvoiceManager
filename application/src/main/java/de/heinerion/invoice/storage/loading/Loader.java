@@ -1,7 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,11 +10,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Flogger
 abstract class Loader implements LoadListenable {
-  private static final Logger logger = LogManager.getLogger(Loader.class);
-
-  private static final String VALID = "File: {}, compatible with {}";
-  private static final String INVALID = "File: {}, not compatible with {}";
+  private static final String VALID = "File: %s, compatible with %s";
+  private static final String INVALID = "File: %s, not compatible with %s";
 
   private List<File> files;
   private final List<LoadListener> listeners;
@@ -56,31 +54,23 @@ abstract class Loader implements LoadListenable {
   protected abstract Pattern getPattern();
 
   public final void init() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("initialize {}", getClass().getSimpleName());
-    }
+    log.atFine().log("initialize %s", getClass().getSimpleName());
     listFiles();
   }
 
   private void listFiles() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("loadDirectory {}", loadDirectory.getAbsolutePath());
-    }
+    log.atFine().log("loadDirectory %s", loadDirectory.getAbsolutePath());
     if (loadDirectory.isDirectory()) {
       File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
       if (null != fileArray) {
         files = Arrays.asList(fileArray);
       }
     }
-    if (logger.isDebugEnabled()) {
-      logger.debug("{} documents found", getFileNumber());
-    }
+    log.atFine().log("%d documents found", getFileNumber());
   }
 
   public final List<Loadable> load() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("load {}", getDescriptiveName());
-    }
+    log.atFine().log("load %s", getDescriptiveName());
     List<File> fileList = getFiles();
     List<Loadable> resultList = new ArrayList<>();
 
@@ -90,9 +80,7 @@ abstract class Loader implements LoadListenable {
       notifyLoadListeners(getDescriptiveName(), item);
     }
 
-    if (logger.isInfoEnabled()) {
-      logger.info("{} documents loaded ({})", getFileNumber(), getDescriptiveName());
-    }
+    log.atInfo().log("%d documents loaded (%s)", getFileNumber(), getDescriptiveName());
 
     return resultList;
   }
@@ -106,18 +94,15 @@ abstract class Loader implements LoadListenable {
 
       boolean result = matcher.matches();
 
-      if (logger.isDebugEnabled() && result) {
-        logger.debug(VALID, filename, getClass().getSimpleName());
-      }
-      if (logger.isInfoEnabled() && !result) {
-        logger.info(INVALID, filename, getClass().getSimpleName());
+      if (result) {
+        log.atFine().log(VALID, filename, getClass().getSimpleName());
+      } else {
+        log.atInfo().log(INVALID, filename, getClass().getSimpleName());
       }
 
       return result;
     } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e);
-      }
+      log.atSevere().withCause(e).log("could not match files");
       throw new Loader.MatchFilesException(e);
     }
   }

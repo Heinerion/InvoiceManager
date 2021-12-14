@@ -15,17 +15,15 @@ import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.CompanyForm;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+@Flogger
 public class CompanyCreateDialog {
-  private static final Logger logger = LogManager.getLogger(CompanyCreateDialog.class);
-
   private ApplicationFrame applicationFrame;
   private BusyFrame originFrame;
   /**
@@ -138,9 +136,9 @@ public class CompanyCreateDialog {
       if (address != null && account != null) {
         DataBase dataBase = DataBase.getInstance();
         dataBase.addCompany(company);
-        logger.info(String.format("added %s to database%n", company.getDescriptiveName()));
+        log.atInfo().log("added %s to database%n", company.getDescriptiveName());
         new IO(new PathUtilNG()).saveCompanies(Session.getAvailableCompanies());
-        logger.info(String.format("%s written to disk%n", company.getDescriptiveName()));
+        log.atInfo().log("%s written to disk%n", company.getDescriptiveName());
         Migrator.migrateCompanies(new PathUtilNG(), dataBase);
         applicationFrame.refresh();
         closeDialog(dialog);

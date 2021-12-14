@@ -4,14 +4,13 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+@Flogger
 public class PrintAction implements ActionListener {
-  private static final Logger logger = LogManager.getLogger(PrintAction.class);
   private Letter letter;
 
   private PrintOperations printOperations;
@@ -34,10 +33,8 @@ public class PrintAction implements ActionListener {
       Company company = letter.getCompany();
 
       company.increaseInvoiceNumber();
-      if (logger.isDebugEnabled()) {
-        logger.debug("Rechnungsnummer von {} auf {} erhöht.",
-            company.getDescriptiveName(), company.getInvoiceNumber());
-      }
+      log.atFine().log("Rechnungsnummer von %s auf %d erhöht.",
+          company.getDescriptiveName(), company.getInvoiceNumber());
     }
 
     if (letter.isPrintable()) {

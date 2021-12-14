@@ -1,17 +1,15 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.invoice.print.Printer;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 
+@Flogger
 class LatexPrinter implements Printer {
-  private Logger logger = LogManager.getLogger(LatexPrinter.class);
-
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
 
@@ -38,9 +36,7 @@ class LatexPrinter implements Printer {
 
     removeTempFiles(pathname);
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("{} created, temp files cleaned", pathname);
-    }
+    log.atFine().log("%s created, temp files cleaned", pathname);
   }
 
   private String determineFilename(String title) {

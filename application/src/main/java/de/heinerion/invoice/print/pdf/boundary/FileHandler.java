@@ -1,16 +1,13 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.util.Strings;
+import lombok.extern.flogger.Flogger;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Flogger
 class FileHandler {
-  private Logger logger = LogManager.getLogger(FileHandler.class);
-
   FileHandler() {
   }
 
@@ -33,13 +30,9 @@ class FileHandler {
     boolean success = output.renameTo(destination);
 
     if (success) {
-      if (logger.isInfoEnabled()) {
-        logger.info("File moved to {}", destination.getAbsolutePath());
-      }
+      log.atInfo().log("File moved to %s", destination.getAbsolutePath());
     } else {
-      if (logger.isWarnEnabled()) {
-        logger.warn("File could not be moved to {}", destination.getAbsolutePath());
-      }
+      log.atWarning().log("File could not be moved to %s", destination.getAbsolutePath());
     }
   }
 
@@ -61,36 +54,32 @@ class FileHandler {
           .mkdirs();
 
       boolean fileCreated = texDestination.createNewFile();
-
-      if (logger.isInfoEnabled()) {
-        List<String> messages = new ArrayList<>();
-        if (fileCreated) {
-          messages.add("File '" + texDestination.getAbsolutePath() + "' created.");
-        }
-        if (dirsCreated) {
-          messages.add("Directories created.");
-        }
-
-        logger.info(Strings.join(messages, ' '));
-      }
+      log.atInfo().log(createLogMessage(texDestination, dirsCreated, fileCreated));
     } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error("Could not create destination '" + texDestination.getAbsolutePath() + "'", e);
-      }
+      log.atSevere()
+          .withCause(e)
+          .log("Could not create destination '%s'", texDestination.getAbsolutePath());
     }
+  }
+
+  private String createLogMessage(File texDestination, boolean dirsCreated, boolean fileCreated) {
+    List<String> messages = new ArrayList<>();
+    if (fileCreated) {
+      messages.add("File '%s' created.".formatted(texDestination.getAbsolutePath()));
+    }
+    if (dirsCreated) {
+      messages.add("Directories created.");
+    }
+    return String.join(" ", messages);
   }
 
   void deleteFile(String filename) {
     File tempFile = new File(filename);
 
     if (tempFile.delete()) {
-      if (logger.isDebugEnabled()) {
-        logger.debug("{} removed", filename);
-      }
+      log.atFine().log("%s removed", filename);
     } else {
-      if (logger.isWarnEnabled()) {
-        logger.warn("{} could not be removed", filename);
-      }
+      log.atWarning().log("%s could not be removed", filename);
     }
   }
 }

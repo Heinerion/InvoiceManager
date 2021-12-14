@@ -4,8 +4,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Storable;
 import de.heinerion.invoice.storage.PathTools;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -16,6 +15,7 @@ import java.util.Map;
 /**
  * @deprecated this class will eventually be replaced
  */
+@Flogger
 @Deprecated
 public class TextFileLoader {
 
@@ -46,8 +46,6 @@ public class TextFileLoader {
   private static final String POSTCODE = "PostalCode";
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
-
-  private static final Logger logger = LogManager.getLogger(TextFileLoader.class);
 
   private Writer writer;
   private Map<String, String> attributes;
@@ -115,22 +113,20 @@ public class TextFileLoader {
   void saveAddresses(List<Address> addresses)
       throws IOException {
     for (Address address : addresses) {
-      debug("save address " + address.getRecipient());
+      debug("save address %s", address.getRecipient());
       saveAddress(address);
     }
   }
 
   public void saveCompanies(Collection<Company> companies) throws IOException {
     for (Company company : companies) {
-      debug("save address " + company.getDescriptiveName());
+      debug("save address %s", company.getDescriptiveName());
       saveCompany(company);
     }
   }
 
   private void debug(String s, Object... objects) {
-    if (logger.isDebugEnabled()) {
-      logger.debug(s, objects);
-    }
+    log.atFine().logVarargs(s, objects);
   }
 
   void setWriter(Writer aWriter) {
@@ -141,7 +137,7 @@ public class TextFileLoader {
     try {
       writer.write(key, value);
     } catch (IOException e) {
-      logger.error(e);
+      log.atSevere().withCause(e).log();
       throw new CouldNotWriteException(e);
     }
   }
@@ -149,7 +145,7 @@ public class TextFileLoader {
   private void writeAttributes(String path)
       throws IOException {
     writer.prepareFile(path);
-    debug("writing to {}... ", path);
+    debug("writing to %s... ", path);
     attributes.forEach(this::write);
 
     writer.closeFile();

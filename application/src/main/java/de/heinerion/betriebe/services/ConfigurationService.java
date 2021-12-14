@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,9 +10,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Properties;
 
+@Flogger
 public class ConfigurationService {
-  private static final Logger LOGGER = LogManager.getLogger(ConfigurationService.class);
-
   private static AbstractApplicationContext context;
 
   private static Properties config;
@@ -31,7 +29,7 @@ public class ConfigurationService {
   }
 
   private static ClassPathXmlApplicationContext createContext() {
-    LOGGER.info("create new application context");
+    log.atInfo().log("create new application context");
     return new ClassPathXmlApplicationContext("de/heinerion/invoice/applicationContext.xml");
   }
 
@@ -77,7 +75,7 @@ public class ConfigurationService {
       try {
         inputStream.close();
       } catch (IOException e) {
-        LOGGER.error(e);
+        log.atSevere().withCause(e).log();
       }
     }
   }
@@ -88,7 +86,7 @@ public class ConfigurationService {
 
   public static void exitApplication() {
     close();
-    LOGGER.info("successfully shut down.");
+    log.atInfo().log("successfully shut down.");
   }
 
   private static class PropertiesCouldNotBeReadException extends RuntimeException {

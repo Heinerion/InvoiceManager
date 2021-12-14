@@ -1,7 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -11,9 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Flogger
 class FileHandler {
-  private static final Logger logger = LogManager.getLogger(FileHandler.class);
-
   private FileHandler() {
   }
 
@@ -54,9 +52,7 @@ class FileHandler {
     if (source.exists()) {
       content = loadFromFile(path);
     } else {
-      if (logger.isWarnEnabled()) {
-        logger.warn("Nothing to load in {}", path);
-      }
+      log.atWarning().log("Nothing to load in %s", path);
     }
 
     return asList(element, content);
@@ -69,11 +65,9 @@ class FileHandler {
          ObjectInputStream inObject = new ObjectInputStream(inFile)) {
       content = inObject.readObject();
     } catch (IOException e) {
-      logger.error("load from " + path, e);
+      log.atSevere().withCause(e).log("load from %s", path);
     } catch (ClassNotFoundException e) {
-      if (logger.isWarnEnabled()) {
-        logger.warn("loading old template from " + path, e);
-      }
+      log.atWarning().withCause(e).log("loading old template from %s", path);
       content = convertLegacyTemplates(path);
     }
 
@@ -83,9 +77,7 @@ class FileHandler {
   private static Object convertLegacyTemplates(String path) {
     String backupPath = path + "_backup_" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(new Date());
 
-    if (logger.isInfoEnabled()) {
-      logger.info("backup legacy template to {}", backupPath);
-    }
+    log.atInfo().log("backup legacy template to %s", backupPath);
 
     try {
       Files.copy(Paths.get(path), Paths.get(backupPath));
@@ -97,17 +89,13 @@ class FileHandler {
 
     try (FileInputStream inFile = new FileInputStream(path);
          ObjectInputStream inObject = new LegacyTemplateReader(inFile)) {
-      if (logger.isInfoEnabled()) {
-        logger.info("try to read {} as old Template", path);
-      }
+      log.atInfo().log("try to read %s as old Template", path);
       content = inObject.readObject();
 
-      if (logger.isInfoEnabled()) {
-        logger.info("write back to {} as new Template", path);
-      }
+      log.atInfo().log("write back to %s as new Template", path);
       writeObject(content, path);
     } catch (IOException | ClassNotFoundException e2) {
-      logger.error("could not repair template " + path, e2);
+      log.atSevere().withCause(e2).log("could not repair template %s", path);
     }
 
     return content;
@@ -123,9 +111,7 @@ class FileHandler {
         throw new FileCouldNotBeCreatedException(path);
       }
     } catch (IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error("write to " + path, e);
-      }
+      log.atSevere().withCause(e).log("could not write to %s", path);
       throw new CouldNotWriteObjectToFileException(e);
     }
   }

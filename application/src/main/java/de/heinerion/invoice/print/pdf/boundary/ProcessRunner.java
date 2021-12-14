@@ -2,15 +2,13 @@ package de.heinerion.invoice.print.pdf.boundary;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.Translator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.io.IOException;
 
+@Flogger
 class ProcessRunner {
-  private Logger logger = LogManager.getLogger(ProcessRunner.class);
-
   String quote(String string) {
     return "\"" + string + "\"";
   }
@@ -24,13 +22,13 @@ class ProcessRunner {
       Process p = pb.start();
       p.waitFor();
     } catch (IOException e) {
-      logException(e, errorLogMessage);
+      log.atSevere().withCause(e).log(errorLogMessage);
 
       String program = command[0];
       String message = "command could not be executed.\n" + "Is " + program + " installed?";
       showExceptionMessage(e, message);
     } catch (InterruptedException e) {
-      logException(e, errorLogMessage);
+      log.atSevere().withCause(e).log(errorLogMessage);
 
       Thread.currentThread().interrupt();
     }
@@ -55,9 +53,4 @@ class ProcessRunner {
     }
   }
 
-  private void logException(Exception e, String errorLogMessage) {
-    if (logger.isErrorEnabled()) {
-      logger.error(errorLogMessage, e);
-    }
-  }
 }

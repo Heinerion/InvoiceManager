@@ -1,12 +1,11 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 
+@Flogger
 class SystemCall {
-  private Logger logger = LogManager.getLogger(SystemCall.class);
   private final ProcessRunner processRunner;
 
   SystemCall(ProcessRunner processRunner) {
@@ -17,9 +16,7 @@ class SystemCall {
     String program = "pdflatex";
     String fileArgument = processRunner.quote(tex.getAbsolutePath());
 
-    if (logger.isInfoEnabled()) {
-      logger.info("command '{} {}'", program, fileArgument);
-    }
+    log.atInfo().log("command '%s %s'", program, fileArgument);
 
     String errorLogMessage = Boundary.translate("error.pdflatex");
     processRunner.startProcess(errorLogMessage, program, fileArgument);

@@ -10,8 +10,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.storage.PathTools;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +20,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Flogger
 public class IO {
-  private static final Logger logger = LogManager.getLogger(IO.class);
   private static final LoadingManager loadingManager = new LoadingManager();
   private static TextFileLoader fileLoader = new TextFileLoader();
   private boolean listenersAndLoadersRegistered;
@@ -63,9 +62,7 @@ public class IO {
     try {
       fileLoader.saveCompanies(companies);
     } catch (final IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e);
-      }
+      log.atSevere().withCause(e).log("could not save the companies");
 
       throw new RuntimeException(companies.stream()
           .map(Company::getDescriptiveName)
@@ -77,9 +74,7 @@ public class IO {
     try {
       fileLoader.saveAddresses(addresses);
     } catch (final IOException e) {
-      if (logger.isErrorEnabled()) {
-        logger.error(e);
-      }
+      log.atSevere().withCause(e).log("could not save the addresses");
 
       throw new AddressesCouldNotBeSavedException(addresses, e);
     }
@@ -114,9 +109,7 @@ public class IO {
   }
 
   private void registerLoaders() {
-    if (logger.isDebugEnabled()) {
-      logger.debug("setup Loaders");
-    }
+    log.atFine().log("setup Loaders");
 
     addLoader(Company.class, this::continueWithCompany);
     addLoader(Address.class, whatever -> {
@@ -138,9 +131,7 @@ public class IO {
   private void continueWithCompany(Loadable loadable) {
     Company company = (Company) loadable;
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("add invoice fileLoader for {}", company.getDescriptiveName());
-    }
+    log.atFine().log("add invoice fileLoader for %s", company.getDescriptiveName());
 
     String basePath = pathUtil.determinePath(Invoice.class);
     Loader loader = LoaderFactory.getArchivedInvoiceLoader(company.getFolderFile(basePath));
@@ -162,18 +153,14 @@ public class IO {
 
   private <T extends Loadable> File getLoadDirectory(Class<T> classToLoad) {
     File loadDirectory = new File(PathTools.getPath(classToLoad));
-    if (logger.isDebugEnabled()) {
-      logger.debug("loadDirectory {}", loadDirectory.getAbsolutePath());
-    }
+    log.atFine().log("loadDirectory %s", loadDirectory.getAbsolutePath());
     return loadDirectory;
   }
 
   private Loader initLoader(Function<File, Loader> loaderClass, File loadDirectory) {
     Loader loader = loaderClass.apply(loadDirectory);
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("fileLoader {}", loader.getDescriptiveName());
-    }
+    log.atFine().log("fileLoader %s", loader.getDescriptiveName());
 
     return loader;
   }
