@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
@@ -135,8 +134,11 @@ class AddressChooserPanel extends JPanel {
     // delete old addresses
     addressBox.removeAllItems();
 
-    final Company activeCompany = Session.getActiveCompany();
-    dataBase.getAddresses(activeCompany).forEach(addressBox::addItem);
+    Session.getActiveCompany().ifPresent(activeCompany ->
+        dataBase
+            .getAddresses(activeCompany)
+            .forEach(addressBox::addItem)
+    );
   }
 
   private void useGivenAddress() {
@@ -150,7 +152,6 @@ class AddressChooserPanel extends JPanel {
    * This method is to be called internally only and is used to streamline the creation of distinct components
    *
    * @param component the component to be placed in the grid
-   *
    * @return the created component for further customization
    */
   private <X extends JComponent> X create(X component, PositionCoordinates coordinates) {

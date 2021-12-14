@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.home;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.DateListener;
-import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
@@ -164,11 +163,11 @@ class ApplicationFrameImpl implements
   }
 
   private void addCompanyAndNumber(List<String> token) {
-    final Company activeCompany = Session.getActiveCompany();
-    if (activeCompany != null) {
-      token.add(activeCompany.getDescriptiveName());
-      String numberLabel = Translator.translate("invoice.number");
-      token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber()));
-    }
+    Session.getActiveCompany()
+        .ifPresent(activeCompany -> {
+          token.add(activeCompany.getDescriptiveName());
+          String numberLabel = Translator.translate("invoice.number");
+          token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber()));
+        });
   }
 }

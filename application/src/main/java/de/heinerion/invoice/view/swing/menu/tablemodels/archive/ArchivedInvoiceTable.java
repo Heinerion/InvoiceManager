@@ -11,7 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public final class ArchivedInvoiceTable implements TableModel {
 
@@ -79,7 +78,7 @@ public final class ArchivedInvoiceTable implements TableModel {
   private List<ArchivedInvoice> getInvoiceList() {
     return this.invoiceList.stream()
         .filter(this::filterByActiveCompany)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private List<ArchivedInvoice> getUnfilteredInvoiceList() {
@@ -87,7 +86,9 @@ public final class ArchivedInvoiceTable implements TableModel {
   }
 
   private boolean filterByActiveCompany(ArchivedInvoice invoice) {
-    return filterByCompany(invoice, Session.getActiveCompany());
+    return Session.getActiveCompany()
+        .map(company -> filterByCompany(invoice, company))
+        .orElse(false);
   }
 
   private boolean filterByCompany(ArchivedInvoice invoice, Company company) {

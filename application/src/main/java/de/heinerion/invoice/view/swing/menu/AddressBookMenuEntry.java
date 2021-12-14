@@ -7,6 +7,7 @@ import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +27,10 @@ class AddressBookMenuEntry extends MenuEntry {
 
   @Override
   protected void createWidgets() {
-    List<Address> addresses = dataBase.getAddresses(Session.getActiveCompany());
+    List<Address> addresses = Session.getActiveCompany()
+        .map(company -> dataBase.getAddresses(company))
+        .orElse(Collections.emptyList());
+
     final AddressModel model = new AddressModel(addresses);
 
     final JTable tblAddresses = new JTable(model);

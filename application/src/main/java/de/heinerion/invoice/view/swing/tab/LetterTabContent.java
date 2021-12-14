@@ -99,7 +99,11 @@ class LetterTabContent extends TabContent {
 
   @Override
   protected Letter getConveyable() {
-    Company company = Session.getActiveCompany();
+    Company company = Session.getActiveCompany().orElse(null);
+    if (company == null) {
+      return null;
+    }
+
     Address receiver = Session.getActiveAddress();
 
     Letter ltr = new Letter(Session.getDate(), company, receiver);

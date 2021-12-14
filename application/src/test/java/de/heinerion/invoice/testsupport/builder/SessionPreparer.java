@@ -62,10 +62,12 @@ public class SessionPreparer {
     Session.setActiveCompany(getActiveCompany().orElseGet(() -> new CompanyBuilder().build()));
 
     Session.setActiveConveyable(getActiveConveyable().orElseGet(() ->
-        new InvoiceBuilder()
-            .withCompany(Session.getActiveCompany())
-            .withReceiver(Session.getActiveAddress())
-            .build()
+        Session.getActiveCompany()
+            .map(company -> new InvoiceBuilder()
+                .withCompany(company)
+                .withReceiver(Session.getActiveAddress())
+                .build())
+            .orElse(null)
     ));
   }
 }

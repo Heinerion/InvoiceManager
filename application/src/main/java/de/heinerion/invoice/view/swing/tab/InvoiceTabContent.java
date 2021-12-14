@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
+import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.TabContent;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.awt.BorderLayout.*;
@@ -85,7 +87,9 @@ class InvoiceTabContent extends TabContent {
   }
 
   private void addToTemplates() {
-    dataBase.addTemplate(Session.getActiveCompany(), createTemplate());
+    Company activeCompany = Session.getActiveCompany()
+        .orElseThrow(() -> new ContractBrokenException("active company is not null"));
+    dataBase.addTemplate(activeCompany, createTemplate());
     refresh();
   }
 
@@ -95,7 +99,9 @@ class InvoiceTabContent extends TabContent {
 
   @Override
   public void refresh() {
-    List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
+    List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+        .map(company -> dataBase.getTemplates(company))
+        .orElse(Collections.emptyList());
     if (!activeTemplates.equals(templates)) {
       clearPositions();
       clearTemplates();
@@ -129,7 +135,9 @@ class InvoiceTabContent extends TabContent {
     int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // replace table positions with those of the template
-      List<InvoiceTemplate> activeTemplates = dataBase.getTemplates(Session.getActiveCompany());
+      List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+          .map(activeCompany -> dataBase.getTemplates(activeCompany))
+          .orElse(Collections.emptyList());
       fillTable(activeTemplates.get(pos).getInhalt());
       model.fireTableDataChanged();
     }
@@ -175,9 +183,12 @@ class InvoiceTabContent extends TabContent {
 
   @Override
   protected Letter getConveyable() {
-    Company company = Session.getActiveCompany();
-    Address receiver = Session.getActiveAddress();
+    Company company = Session.getActiveCompany().orElse(null);
+    if (company == null) {
+      return null;
+    }
 
+    Address receiver = Session.getActiveAddress();
     Invoice invoice = new Invoice(Session.getDate(), company, receiver);
 
     for (int row = 0; row < tabPositions.getRowCount(); row++) {

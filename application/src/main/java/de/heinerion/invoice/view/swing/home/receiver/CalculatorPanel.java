@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.business.calculator.CalculationResult;
 import de.heinerion.invoice.view.swing.PanelFactory;
@@ -121,7 +122,9 @@ class CalculatorPanel {
   }
 
   private double getTaxes() {
-    return Session.getActiveCompany().getValueAddedTax();
+    return Session.getActiveCompany()
+        .map(Company::getValueAddedTax)
+        .orElse(Double.NaN);
   }
 
   private void setFieldValues(CalculationResult values) {

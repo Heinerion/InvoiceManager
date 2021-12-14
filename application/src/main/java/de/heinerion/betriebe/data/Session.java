@@ -12,10 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.REVISION;
 
@@ -111,8 +108,8 @@ public final class Session {
     Session.activeAddress = theActiveAddress;
   }
 
-  public static Company getActiveCompany() {
-    return activeCompany;
+  public static Optional<Company> getActiveCompany() {
+    return Optional.ofNullable(activeCompany);
   }
 
   public static void setActiveCompany(Company aCompany) {
