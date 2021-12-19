@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.logging.Level;
 
 @Flogger
 public class ErrorDialog {
@@ -19,7 +18,7 @@ public class ErrorDialog {
   }
 
   public static void show(Throwable exception) {
-    log.at(Level.WARNING).withCause(exception).log();
+    log.atSevere().withCause(exception).log();
 
     // Strings will bes displayed as JLabels
     Object[] completeMessage = new Object[]{
