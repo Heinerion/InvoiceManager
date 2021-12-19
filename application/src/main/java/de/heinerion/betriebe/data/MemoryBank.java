@@ -122,9 +122,9 @@ final class MemoryBank {
 
   private <T, U extends Comparable<U>>
   List<T> getAllSortedEntries(List<ListEntry<T>> entriesList, Function<T, U> keyExtractor) {
-    List<T> belongingEntries = getAllEntries(entriesList);
-    belongingEntries.sort(Comparator.comparing(keyExtractor));
-    return Collections.unmodifiableList(belongingEntries);
+    return getAllEntries(entriesList).stream()
+        .sorted(Comparator.comparing(keyExtractor))
+        .toList();
   }
 
   void reset() {
