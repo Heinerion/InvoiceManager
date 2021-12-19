@@ -11,7 +11,6 @@ import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
 
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -172,12 +171,12 @@ public final class DataBase implements LoadListener {
   }
 
   void addLoadable(Loadable loadable) {
-    if (loadable instanceof Address) {
-      addAddress((Address) loadable);
-    } else if (loadable instanceof ArchivedInvoice) {
-      addInvoice((ArchivedInvoice) loadable);
-    } else if (loadable instanceof Company) {
-      addCompany((Company) loadable);
+    if (loadable instanceof Address address) {
+      addAddress(address);
+    } else if (loadable instanceof ArchivedInvoice invoice) {
+      addInvoice(invoice);
+    } else if (loadable instanceof Company company) {
+      addCompany(company);
     }
   }
 
@@ -195,8 +194,8 @@ public final class DataBase implements LoadListener {
       progress.incrementProgress();
 
       double percentage = progress.getProgressPercentage();
-      String status = MessageFormat.format("{0} ({1})", message, FormatUtil.formatPercentage(percentage));
-      progress.setMessage(status);
+      progress.setMessage("%s ({%s})"
+          .formatted(message, FormatUtil.formatPercentage(percentage)));
     }
 
     addLoadable(loadable);

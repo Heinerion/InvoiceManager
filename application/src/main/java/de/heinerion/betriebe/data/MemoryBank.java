@@ -6,7 +6,6 @@ import de.heinerion.betriebe.models.Company;
 
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Representation of the business class entities in memory.
@@ -34,7 +33,6 @@ final class MemoryBank {
    * Collects all {@link Address}es valid for the given {@link Company}
    *
    * @param company to be filtered by
-   *
    * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
    */
   List<Address> getAddresses(Company company) {
@@ -50,7 +48,6 @@ final class MemoryBank {
    *
    * @param company   to be filtered by
    * @param recipient to be looked for
-   *
    * @return an {@link Address} with the given recipient
    */
   Optional<Address> getAddress(Company company, String recipient) {
@@ -107,13 +104,13 @@ final class MemoryBank {
     return list.stream()
         .filter(entry -> entry.belongsTo(company).orElse(true))
         .map(ListEntry::getEntry)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private <T> List<T> getAllEntries(List<ListEntry<T>> list) {
     return list.stream()
         .map(ListEntry::getEntry)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   private <T, U extends Comparable<U>>
@@ -136,7 +133,7 @@ final class MemoryBank {
     templateEntries.clear();
   }
 
-  private final class ListEntry<T> {
+  private static final class ListEntry<T> {
     private final Company company;
     private final T entry;
 
