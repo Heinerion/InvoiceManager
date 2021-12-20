@@ -43,7 +43,11 @@ public class CompanyCreateDialog {
   private AddressForm addressForm;
   private AccountForm accountForm;
 
-  public CompanyCreateDialog() {
+  private final Migrator migrator;
+
+  public CompanyCreateDialog(Migrator migrator) {
+    this.migrator = migrator;
+    
     button = new JButton("+");
     button.addActionListener(e -> {
       Container contentPane = button.getRootPane().getParent();
@@ -139,7 +143,7 @@ public class CompanyCreateDialog {
         log.atInfo().log("added %s to database%n", company.getDescriptiveName());
         new IO(new PathUtilNG()).saveCompanies(Session.getAvailableCompanies());
         log.atInfo().log("%s written to disk%n", company.getDescriptiveName());
-        Migrator.migrateCompanies(new PathUtilNG(), dataBase);
+        migrator.migrateCompanies();
         applicationFrame.refresh();
         closeDialog(dialog);
       }

@@ -1,5 +1,6 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
+import de.heinerion.invoice.storage.xml.jaxb.Migrator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.Refreshable;
 
@@ -17,7 +18,7 @@ public class SidePanelFactory {
     return new AddressPanel(formatter);
   }
 
-  public static Refreshable createCompanyChooserPanel() {
-    return new CompanyChooserPanel(new CompanyCreateDialog());
+  public static Refreshable createCompanyChooserPanel(Migrator migrator) {
+    return new CompanyChooserPanel(new CompanyCreateDialog(migrator));
   }
 }

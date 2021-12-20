@@ -6,9 +6,11 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.storage.loading.IO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
@@ -69,18 +71,21 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
  * </p>
  */
 @Flogger
+@Service
+@RequiredArgsConstructor
 public class Migrator {
-  public static void main(String... args) {
-    Migrator.migrateCompanies(new PathUtilNG(), DataBase.getInstance());
+  private final IO io;
+  private final PathUtilNG pathUtil;
+  private final DataBase dataBase;
 
+
+  public static void main(String... args) {
+    Migrator bean = ConfigurationService.getBean(Migrator.class);
+    bean.migrateCompanies();
     ConfigurationService.exitApplication();
   }
 
-  public static void migrateCompanies(PathUtilNG pathUtil, DataBase dataBase) {
-    IO io = ConfigurationService.getBean(IO.class);
-    dataBase.setIo(io);
-    dataBase.load();
-
+  public void migrateCompanies() {
     // transfer companies to new approach
     List<Company> availableCompanies = new ArrayList<>(Session.getAvailableCompanies());
     availableCompanies.sort(Company::compareTo);
