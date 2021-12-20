@@ -1,7 +1,9 @@
 package de.heinerion.invoice.print;
 
 import de.heinerion.betriebe.models.Letter;
-import org.springframework.beans.factory.annotation.Qualifier;
+import de.heinerion.invoice.print.pdf.latex.LatexPrinter;
+import de.heinerion.invoice.print.xml.XmlPrinter;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -10,11 +12,12 @@ import java.io.File;
  * uses two printers
  */
 @Service("Double")
+@Primary
 public class DoublePrinter implements Printer {
   private final Printer masterPrinter;
   private final Printer backupPrinter;
 
-  DoublePrinter(@Qualifier("Latex") Printer masterPrinter, @Qualifier("XML") Printer backupPrinter) {
+  DoublePrinter(LatexPrinter masterPrinter, XmlPrinter backupPrinter) {
     this.masterPrinter = masterPrinter;
     this.backupPrinter = backupPrinter;
   }

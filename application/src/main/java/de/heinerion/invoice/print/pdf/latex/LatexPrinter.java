@@ -11,7 +11,7 @@ import java.io.File;
 
 @Flogger
 @Service("Latex")
-class LatexPrinter implements Printer {
+public class LatexPrinter implements Printer {
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
 
