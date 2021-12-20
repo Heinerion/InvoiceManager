@@ -4,20 +4,20 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 @Flogger
+@Service
+@RequiredArgsConstructor
 public class PrintAction implements ActionListener {
   private Letter letter;
 
-  private PrintOperations printOperations;
-
-  PrintAction(PrintOperations printOperations) {
-    this.printOperations = printOperations;
-  }
+  private final PrintOperations printOperations;
 
   @Override
   public void actionPerformed(ActionEvent arg0) {

@@ -1,7 +1,10 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 
+@Service
 class HostSystemImpl implements HostSystem {
   private final FileHandler fileHandler;
   private final SystemCall systemCall;

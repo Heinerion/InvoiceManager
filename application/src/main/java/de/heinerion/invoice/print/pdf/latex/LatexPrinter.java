@@ -5,10 +5,12 @@ import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Flogger
+@Service("Latex")
 class LatexPrinter implements Printer {
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";

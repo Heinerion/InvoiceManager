@@ -97,7 +97,7 @@ public class InvoiceManagerTest {
     PowerMockito.doCallRealMethod().when(LookAndFeelUtil.class);
     LookAndFeelUtil.setNimbus();
 
-    InvoiceManager.main();
+    new InvoiceManager(io, guiStarter).run();
 
     ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
     verify(LookAndFeelUtil.class);

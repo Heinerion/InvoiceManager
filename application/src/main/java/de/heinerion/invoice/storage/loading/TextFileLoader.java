@@ -3,6 +3,7 @@ package de.heinerion.invoice.storage.loading;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Storable;
+import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.storage.PathTools;
 import lombok.extern.flogger.Flogger;
 
@@ -50,12 +51,15 @@ public class TextFileLoader {
   private Writer writer;
   private Map<String, String> attributes;
 
-  TextFileLoader() {
+  private final PathUtilNG pathUtil;
+
+  TextFileLoader(PathUtilNG pathUtil) {
+    this.pathUtil = pathUtil;
     setWriter(new Writer());
   }
 
   private String generatePath(Storable storable) {
-    return PathTools.getPath(storable);
+    return PathTools.getPath(storable, pathUtil);
   }
 
   private void prepareAddress(Address address) {

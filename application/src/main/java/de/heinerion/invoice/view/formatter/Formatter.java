@@ -1,10 +1,12 @@
 package de.heinerion.invoice.view.formatter;
 
 import de.heinerion.betriebe.models.Address;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class Formatter {
   public List<String> formatAddress(Address address) {
     List<String> output = new ArrayList<>();

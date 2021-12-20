@@ -5,6 +5,8 @@ import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.DateUtil;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.File;
 /**
  * @author heiner
  */
+@Service
 class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
@@ -23,7 +26,7 @@ class PrintOperations {
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
-  PrintOperations(Printer printer, PathUtilNG pathUtil) {
+  PrintOperations(@Qualifier("Double") Printer printer, PathUtilNG pathUtil) {
     this.printer = printer;
     this.pathUtil = pathUtil;
   }

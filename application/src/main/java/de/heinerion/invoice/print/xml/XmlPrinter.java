@@ -5,10 +5,12 @@ import de.heinerion.betriebe.models.Letter;
 import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Flogger
+@Service("XML")
 public class XmlPrinter implements Printer {
   private final HostSystem hostSystem;
   private final XStream xstream;

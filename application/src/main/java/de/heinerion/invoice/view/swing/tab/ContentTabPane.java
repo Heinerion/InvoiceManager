@@ -2,15 +2,17 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.TabContent;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Service
 public class ContentTabPane {
   private final List<TabContent> tabContents;
-  private JTabbedPane pane;
+  private final JTabbedPane pane;
 
   ContentTabPane(List<TabContent> someTabContents) {
     tabContents = someTabContents;

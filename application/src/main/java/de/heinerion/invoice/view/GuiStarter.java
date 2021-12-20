@@ -4,10 +4,12 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 
 @Flogger
+@Service
 public class GuiStarter {
   private static final long ONE_SECOND = 1000L;
 

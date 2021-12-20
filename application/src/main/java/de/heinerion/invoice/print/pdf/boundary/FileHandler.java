@@ -1,16 +1,15 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Flogger
+@Service
 class FileHandler {
-  FileHandler() {
-  }
-
   File writeToFile(String path, String content) {
     File target = new File(path);
 

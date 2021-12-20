@@ -1,16 +1,16 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Flogger
+@Service
+@RequiredArgsConstructor
 class SystemCall {
   private final ProcessRunner processRunner;
-
-  SystemCall(ProcessRunner processRunner) {
-    this.processRunner = processRunner;
-  }
 
   void pdfLatex(File tex) {
     String program = "pdflatex";

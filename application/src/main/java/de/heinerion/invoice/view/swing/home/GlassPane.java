@@ -1,5 +1,7 @@
 package de.heinerion.invoice.view.swing.home;
 
+import org.springframework.stereotype.Service;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,7 @@ import java.awt.*;
  *
  * @author heiner
  */
+@Service
 class GlassPane {
   private static final int ALPHA = 150;
   private final JPanel basePanel;

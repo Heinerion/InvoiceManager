@@ -33,7 +33,7 @@ public class TextFileLoaderTest {
 
   @Before
   public void setUp() throws Exception {
-    loader = new TextFileLoader();
+    loader = new TextFileLoader(null);
     loader.setWriter(writer);
   }
 

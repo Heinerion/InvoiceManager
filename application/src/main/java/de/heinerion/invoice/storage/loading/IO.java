@@ -11,6 +11,7 @@ import de.heinerion.invoice.storage.PathTools;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,15 +22,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Flogger
+@Service
 public class IO {
   private static final LoadingManager loadingManager = new LoadingManager();
-  private static TextFileLoader fileLoader = new TextFileLoader();
+  private final TextFileLoader fileLoader;
   private boolean listenersAndLoadersRegistered;
 
-  private PathUtilNG pathUtil;
+  private final PathUtilNG pathUtil;
 
   public IO(PathUtilNG pathUtil) {
     this.pathUtil = pathUtil;
+    fileLoader = new TextFileLoader(pathUtil);
   }
 
   private String getTemplatePath(Company company) {
@@ -152,7 +155,7 @@ public class IO {
   }
 
   private <T extends Loadable> File getLoadDirectory(Class<T> classToLoad) {
-    File loadDirectory = new File(PathTools.getPath(classToLoad));
+    File loadDirectory = new File(PathTools.getPath(classToLoad, pathUtil));
     log.atFine().log("loadDirectory %s", loadDirectory.getAbsolutePath());
     return loadDirectory;
   }

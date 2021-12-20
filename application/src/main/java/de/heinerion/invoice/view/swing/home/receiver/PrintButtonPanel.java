@@ -2,9 +2,11 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.print.PrintAction;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 
+@Service
 public class PrintButtonPanel implements PanelHolder {
   private SidePanel sidePanel;
 

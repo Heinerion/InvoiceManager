@@ -1,11 +1,20 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.invoice.view.formatter.Formatter;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@RunWith(SpringRunner.class)
 public class LatexGeneratorFreeMarkerImplTest extends LatexGeneratorTest {
+  @Autowired
+  @Qualifier("FreemarkerImpl")
+  private LatexGenerator latexGenerator;
+
   protected LatexGenerator getLatexGenerator() {
-    Formatter formatter = ConfigurationService.getBean(Formatter.class);
-    return new LatexGeneratorFreeMarkerImpl(formatter);
+    return latexGenerator;
   }
 }
+

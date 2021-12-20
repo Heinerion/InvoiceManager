@@ -12,6 +12,7 @@ import de.heinerion.invoice.view.swing.CompanyListener;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
 import de.heinerion.invoice.view.swing.tab.ContentTabPane;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,7 @@ import java.util.List;
  * ApplicationFrameImpl.java
  * heiner 27.03.2012
  */
+@Service
 class ApplicationFrameImpl implements
     ApplicationFrame, CompanyListener, DateListener {
   private JFrame frame;

@@ -1,8 +1,9 @@
 package de.heinerion.betriebe.services;
 
+import de.heinerion.invoice.InvoiceManager;
 import lombok.extern.flogger.Flogger;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +29,9 @@ public class ConfigurationService {
         .getBean(requiredType);
   }
 
-  private static ClassPathXmlApplicationContext createContext() {
+  private static AbstractApplicationContext createContext() {
     log.atInfo().log("create new application context");
-    return new ClassPathXmlApplicationContext("de/heinerion/invoice/applicationContext.xml");
+    return new AnnotationConfigApplicationContext(InvoiceManager.class);
   }
 
   public static String get(PropertyKey key) {

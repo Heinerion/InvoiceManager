@@ -1,9 +1,12 @@
 package de.heinerion.invoice.view.swing.menu.info;
 
+import org.springframework.stereotype.Service;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
 
+@Service
 class InfoTextComponent {
   private StringBuilder content;
   private JEditorPane pane;
@@ -23,7 +26,7 @@ class InfoTextComponent {
 
   InfoTextComponent addLine(String htmlMarkup) {
     return addHTML(htmlMarkup)
-          .addNewline();
+        .addNewline();
   }
 
   private InfoTextComponent addNewline() {

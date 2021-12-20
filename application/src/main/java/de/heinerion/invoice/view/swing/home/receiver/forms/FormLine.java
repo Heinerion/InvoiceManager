@@ -43,10 +43,8 @@ public class FormLine<T, A> {
     });
   }
 
-
   private void addChangeListener(JComponent component, Runnable r) {
-    if (component instanceof JTextField) {
-      JTextField tf = (JTextField) component;
+    if (component instanceof JTextField tf) {
       tf.getDocument().addDocumentListener(new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
@@ -63,8 +61,7 @@ public class FormLine<T, A> {
           r.run();
         }
       });
-    } else if (component instanceof JSpinner) {
-      JSpinner spinner = (JSpinner) component;
+    } else if (component instanceof JSpinner spinner) {
       spinner.addChangeListener(e -> r.run());
     }
   }
@@ -80,9 +77,8 @@ public class FormLine<T, A> {
   }
 
   private void setBackground(Color color) {
-    if (component instanceof JSpinner) {
+    if (component instanceof JSpinner spinner) {
       // this makes me sorry for using Nimbus L&F
-      JSpinner spinner = (JSpinner) component;
       setSpinnerColor(spinner, color);
     } else {
       component.setBackground(color);
@@ -97,8 +93,8 @@ public class FormLine<T, A> {
     int c = editor.getComponentCount();
     for (int i = 0; i < c; i++) {
       final Component comp = editor.getComponent(i);
-      if (comp instanceof JTextComponent) {
-        ((JTextComponent) comp).setUI(new SynthFormattedTextFieldUI() {
+      if (comp instanceof JTextComponent jTextComponent) {
+        jTextComponent.setUI(new SynthFormattedTextFieldUI() {
           @Override
           protected void paint(javax.swing.plaf.synth.SynthContext context, Graphics g) {
             g.setColor(color);
@@ -177,12 +173,12 @@ public class FormLine<T, A> {
     }
 
     private Function<JComponent, Y> determineGetter(JComponent component) {
-      if (component instanceof JTextField) {
-        return c -> (Y) ((JTextField) c).getText();
+      if (component instanceof JTextField jTextField) {
+        return c -> (Y) jTextField.getText();
       }
 
-      if (component instanceof JSpinner) {
-        return c -> (Y) ((JSpinner) c).getValue();
+      if (component instanceof JSpinner spinner) {
+        return c -> (Y) spinner.getValue();
       }
 
       return null;

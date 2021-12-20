@@ -158,8 +158,6 @@ public abstract class LatexGeneratorTest {
   private static Letter letter;
   private static Invoice invoice;
 
-  private LatexGenerator latexGenerator;
-
   @BeforeClass
   public static void prepare() {
     sender = new CompanyBuilder().build();
@@ -177,15 +175,13 @@ public abstract class LatexGeneratorTest {
 
     invoice = new Invoice(date, sender, receiverAddress);
     invoice.add("Artikel 1", "Stück", 1.50, 2);
-
-    latexGenerator = getLatexGenerator();
   }
 
   protected abstract LatexGenerator getLatexGenerator();
 
   @Test
   public final void generateLatexSourcesTestEmptyLetter() {
-    final String result = latexGenerator.generateSourceContent(letter);
+    final String result = getLatexGenerator().generateSourceContent(letter);
 
     Assert.assertEquals(EXPECTATION_LETTER_START + EXPECTATION_LETTER_END,
         result);
@@ -198,7 +194,7 @@ public abstract class LatexGeneratorTest {
     letter.addMessageLine(content);
     letter.addMessageLine(content);
     letter.addMessageLine(content);
-    String result = latexGenerator.generateSourceContent(letter);
+    String result = getLatexGenerator().generateSourceContent(letter);
 
     Assert.assertEquals(
         EXPECTATION_LETTER_START
@@ -208,7 +204,7 @@ public abstract class LatexGeneratorTest {
 
   @Test
   public final void generateLatexSourcesTestInvoice() {
-    final String result = latexGenerator.generateSourceContent(invoice);
+    final String result = getLatexGenerator().generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE, result);
   }
@@ -216,7 +212,7 @@ public abstract class LatexGeneratorTest {
   @Test
   public final void buildsCorrectInvoiceForMultipleItems() {
     invoice.add("Artikel 2", "Stück", 3.44, 3);
-    final String result = latexGenerator.generateSourceContent(invoice);
+    final String result = getLatexGenerator().generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE_OF_TWO, result);
   }
@@ -225,7 +221,7 @@ public abstract class LatexGeneratorTest {
   public final void invoiceWithTextLine() {
     invoice.addMessageLine("Message");
 
-    final String result = latexGenerator.generateSourceContent(invoice);
+    final String result = getLatexGenerator().generateSourceContent(invoice);
 
     Assert.assertEquals(LatexTestBuilder.builder()
         .withArticles("Artikel 1")

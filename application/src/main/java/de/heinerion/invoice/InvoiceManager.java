@@ -2,18 +2,22 @@ package de.heinerion.invoice;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ErrorDialog;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import lombok.extern.flogger.Flogger;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
+
+import java.awt.*;
 
 /**
  * @author heiner
  */
 @Flogger
-final class InvoiceManager {
+@Service
+public class InvoiceManager implements CommandLineRunner {
   private final GuiStarter starter;
 
   InvoiceManager(IO io, GuiStarter swingStarter) {
@@ -21,11 +25,9 @@ final class InvoiceManager {
     DataBase.getInstance().setIo(io);
   }
 
-  public static void main(String... args) {
+  public void run(String... args) {
     LookAndFeelUtil.setNimbus();
-    InvoiceManager application = ConfigurationService.getBean(InvoiceManager.class);
-
-    application.invoke(args);
+    invoke(args);
   }
 
   void invoke(String[] args) {
@@ -57,6 +59,6 @@ final class InvoiceManager {
   }
 
   private void start() {
-    starter.showInterface();
+    EventQueue.invokeLater(starter::showInterface);
   }
 }

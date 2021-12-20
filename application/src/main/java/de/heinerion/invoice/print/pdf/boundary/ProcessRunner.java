@@ -3,11 +3,13 @@ package de.heinerion.invoice.print.pdf.boundary;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.Translator;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.io.IOException;
 
 @Flogger
+@Service
 class ProcessRunner {
   String quote(String string) {
     return "\"" + string + "\"";

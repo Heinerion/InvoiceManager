@@ -3,18 +3,20 @@ package de.heinerion.invoice.view.swing.home;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.receiver.PrintButtonPanel;
 import de.heinerion.invoice.view.swing.home.receiver.SidePanelFactory;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+@Service
 public class ReceiverPanel implements Refreshable {
   private JPanel panel;
 
   private Refreshable addressPanel;
   private Refreshable companyChooserPanel;
-  private Formatter formatter;
-  private PrintButtonPanel printButtonPanel;
+  private final Formatter formatter;
+  private final PrintButtonPanel printButtonPanel;
 
   ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel) {
     this.formatter = formatter;

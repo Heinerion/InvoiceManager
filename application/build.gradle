@@ -3,15 +3,19 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.6.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
-    id 'maven-publish'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-    mavenLocal()
-    maven {
-        url = uri('https://repo.maven.apache.org/maven2/')
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -20,11 +24,11 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
     implementation 'org.javassist:javassist:3.25.0-GA'
-    implementation 'org.springframework:spring-context:4.3.10.RELEASE'
     implementation 'org.freemarker:freemarker:2.3.28'
     implementation 'com.thoughtworks.xstream:xstream:1.4.18'
     implementation 'com.google.flogger:flogger:0.7.2'
     implementation 'com.google.flogger:flogger-system-backend:0.7.2'
+    implementation 'org.springframework.boot:spring-boot-starter'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
@@ -37,6 +41,7 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.7'
     testImplementation 'org.easytesting:fest-swing-junit:1.2'
     testImplementation 'org.assertj:assertj-core:3.9.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 group = 'de.heinerion'
@@ -47,3 +52,8 @@ java.sourceCompatibility = JavaVersion.VERSION_16
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+//test {
+// JUnit 5 will need some migration...
+//    useJUnitPlatform()
+//}

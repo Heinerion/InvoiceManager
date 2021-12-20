@@ -4,11 +4,13 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.services.ConfigurationService;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 
+@Service
 public class PathUtilNG {
 
   private String getSystemFolderName() {

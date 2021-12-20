@@ -8,12 +8,14 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service("FreemarkerImpl")
 class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
   private static Configuration cfg = null;
 
@@ -96,7 +98,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
 
   private class LatexGeneratorException extends RuntimeException {
     LatexGeneratorException(Throwable e) {
-      super ("The template could not be processed", e);
+      super("The template could not be processed", e);
     }
   }
 }

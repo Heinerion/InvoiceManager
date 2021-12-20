@@ -1,7 +1,6 @@
 package de.heinerion.invoice.storage;
 
 import de.heinerion.betriebe.models.Storable;
-import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 
 import java.io.File;
@@ -14,8 +13,6 @@ public final class PathTools {
   private static final String FOLDER = "folder";
 
   private static final String FILE_ENDING = "fileEnding";
-
-  private static PathUtilNG pathUtil = ConfigurationService.getBean(PathUtilNG.class);
 
   private static final Map<String, Map<String, String>> FILE_INFOS = Collections.unmodifiableMap(generateInfoMap());
 
@@ -83,7 +80,7 @@ public final class PathTools {
     }
   }
 
-  public static String getPath(Class<?> clazz) {
+  public static String getPath(Class<?> clazz, PathUtilNG pathUtil) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
       return pathUtil.getSystemPath() + File.separator + determineFolderName(clazz);
     } else {
@@ -91,7 +88,7 @@ public final class PathTools {
     }
   }
 
-  public static String getPath(Storable storable) {
+  public static String getPath(Storable storable, PathUtilNG pathUtil) {
     return generatePath(pathUtil.getSystemPath(), storable);
   }
 

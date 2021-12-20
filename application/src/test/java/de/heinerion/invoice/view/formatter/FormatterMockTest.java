@@ -1,22 +1,22 @@
 package de.heinerion.invoice.view.formatter;
 
-import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class FormatterMockTest {
+  @Autowired
   private Formatter formatter;
-
-  @Before
-  public void setUp() {
-    formatter = ConfigurationService.getBean(Formatter.class);
-  }
 
   @Test
   public void formatAddress() {
