@@ -1,7 +1,8 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.storage.loading.TextFileLoader;
+import de.heinerion.invoice.storage.loading.XmlLoader;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({IO.class, Session.class})
+@PrepareForTest({Session.class})
 @PowerMockIgnore("javax.management.*")
 // Ignore as long powermock is needed but not fixed
 @Ignore
@@ -25,14 +26,17 @@ public class DataBaseCompanyTest {
   private DataBase dataBase;
 
   @Mock
-  private IO io;
+  private MemoryBank memoryBank;
+  
+  @Mock
+  private XmlLoader xmlLoader;
 
   @Mock
-  private MemoryBank memoryBank;
+  private TextFileLoader fileLoader;
 
   @Before
   public void setUp() {
-    dataBase = new DataBase(memoryBank, io);
+    dataBase = new DataBase(memoryBank, xmlLoader, fileLoader);
     mockStatic(Session.class);
     dataBase.clearAllLists();
     company = new CompanyBuilder().build();

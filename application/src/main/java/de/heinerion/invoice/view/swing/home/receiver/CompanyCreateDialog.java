@@ -5,9 +5,8 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.storage.loading.TextFileLoader;
 import de.heinerion.invoice.storage.xml.jaxb.Migrator;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
@@ -45,12 +44,12 @@ public class CompanyCreateDialog {
 
   private final Migrator migrator;
   private final DataBase dataBase;
-  private final IO io;
+  private final TextFileLoader fileLoader;
 
-  public CompanyCreateDialog(Migrator migrator,DataBase dataBase, IO io) {
+  public CompanyCreateDialog(Migrator migrator, DataBase dataBase, TextFileLoader fileLoader) {
     this.migrator = migrator;
     this.dataBase = dataBase;
-    this.io = io;
+    this.fileLoader = fileLoader;
 
     button = new JButton("+");
     button.addActionListener(e -> {
@@ -141,7 +140,7 @@ public class CompanyCreateDialog {
       if (address != null && account != null) {
         dataBase.addCompany(company);
         log.atFine().log("added %s to database%n", company.getDescriptiveName());
-        io.saveCompanies(Session.getAvailableCompanies());
+        fileLoader.saveCompanies(Session.getAvailableCompanies());
         log.atFine().log("%s written to disk%n", company.getDescriptiveName());
         migrator.migrateCompanies();
         applicationFrame.refresh();

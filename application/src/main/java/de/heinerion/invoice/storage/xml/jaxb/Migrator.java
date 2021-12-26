@@ -5,7 +5,6 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
-import de.heinerion.invoice.storage.loading.IO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -74,10 +73,8 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 @Service
 @RequiredArgsConstructor
 public class Migrator {
-  private final IO io;
   private final PathUtilNG pathUtil;
   private final DataBase dataBase;
-
 
   public static void main(String... args) {
     Migrator bean = ConfigurationService.getBean(Migrator.class);
@@ -213,7 +210,7 @@ public class Migrator {
 
   private static void copy(File src, File dest) {
     try {
-      print(String.format("copy %s\n  to %s", src, dest));
+      print(String.format("copy %s%n  to %s", src, dest));
       FileSystemUtils.copyRecursively(src, dest);
     } catch (IOException e) {
       throw new MigrationException(e);

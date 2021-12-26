@@ -3,9 +3,10 @@ package de.heinerion.betriebe.data;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.storage.loading.LoadListener;
 import de.heinerion.invoice.storage.loading.Loadable;
+import de.heinerion.invoice.storage.loading.TextFileLoader;
+import de.heinerion.invoice.storage.loading.XmlLoader;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
@@ -27,7 +28,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DataBase implements LoadListener {
   private final MemoryBank memory;
-  private final IO io;
+  private final XmlLoader xmlLoader;
+  private final TextFileLoader fileLoader;
 
   private ArchivedInvoiceTable invoices;
 
@@ -48,7 +50,7 @@ public class DataBase implements LoadListener {
   }
 
   /**
-   * Removes and loads every business class from the file system via {@link IO}
+   * Removes and loads every business class from the file system via {@link XmlLoader}
    * <p>
    * Calls {@link #load(StatusComponent)} with the last used {@link StatusComponent} or {@code null}, if none was used
    * before.
@@ -59,21 +61,23 @@ public class DataBase implements LoadListener {
   }
 
   /**
-   * Removes and loads every business class from the file system via {@link IO}
+   * Removes and loads every business class from the file system via {@link XmlLoader}
    *
-   * @param indicator will be used for {@link IO#load(StatusComponent, LoadListener, DataBase)} and for later calls via {@link
+   * @param indicator will be used for {@link XmlLoader#load(StatusComponent, LoadListener, DataBase)} and for later calls via {@link
    *                  #load()}
    */
   public void load(StatusComponent indicator) {
     progress = indicator;
 
     removeAllInvoices();
-    memory.reset();
+    resetMemories();
 
-    io.load(progress, this, this);
+    xmlLoader.load(progress, this, this);
     getInvoices().determineHighestInvoiceNumbers();
+  }
 
-    io.loadInvoiceTemplates().forEach(this::addTemplates);
+  private void resetMemories() {
+    memory.reset();
   }
 
   /**
@@ -98,7 +102,7 @@ public class DataBase implements LoadListener {
   public void addAddress(Address address) {
     memory.addAddress(address);
 
-    io.saveAddresses(getAddresses());
+    fileLoader.saveAddresses(getAddresses());
   }
 
   List<Company> getCompanies() {
@@ -137,11 +141,11 @@ public class DataBase implements LoadListener {
     memory.addTemplate(company, template);
   }
 
-  private void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {
+  public void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {
     invoiceTemplates.forEach(template -> addTemplate(company, template));
   }
 
-  void clearAllLists() {
+  public void clearAllLists() {
     memory.reset();
   }
 
@@ -159,7 +163,7 @@ public class DataBase implements LoadListener {
     }
   }
 
-  private void removeAllInvoices() {
+  public void removeAllInvoices() {
     setInvoices(new ArchivedInvoiceTable());
   }
 

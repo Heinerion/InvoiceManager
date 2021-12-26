@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @deprecated this class will eventually be replaced
@@ -111,19 +112,31 @@ public class TextFileLoader {
     writeAttributes(generatePath(company));
   }
 
-
-  void saveAddresses(Collection<Address> addresses)
-      throws IOException {
-    for (Address address : addresses) {
-      debug("save address %s", address.getRecipient());
-      saveAddress(address);
+  public void saveAddresses(Collection<Address> addresses) {
+    try {
+      for (Address address : addresses) {
+        debug("save address %s", address.getRecipient());
+        saveAddress(address);
+      }
+    } catch (final IOException e) {
+      log.atSevere().withCause(e).log("could not save the addresses");
+      throw new AddressesCouldNotBeSavedException(addresses, e);
     }
   }
 
-  public void saveCompanies(Collection<Company> companies) throws IOException {
-    for (Company company : companies) {
-      debug("save address %s", company.getDescriptiveName());
-      saveCompany(company);
+
+  public void saveCompanies(Collection<Company> companies) {
+    try {
+      for (Company company : companies) {
+        debug("save address %s", company.getDescriptiveName());
+        saveCompany(company);
+      }
+    } catch (final IOException e) {
+      log.atSevere().withCause(e).log("could not save the companies");
+
+      throw new RuntimeException(companies.stream()
+          .map(Company::getDescriptiveName)
+          .collect(Collectors.joining(", ")), e);
     }
   }
 

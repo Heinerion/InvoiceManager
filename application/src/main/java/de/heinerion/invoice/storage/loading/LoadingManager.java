@@ -11,7 +11,6 @@ class LoadingManager implements LoadListener, LoadListenable {
   private final Map<Class<? extends Loadable>, List<Loadable>> results;
   private final Map<Class<? extends Loadable>, LoadableCallback> callbacks;
   private final List<Class<? extends Loadable>> loadOrder;
-  private int fileNumber;
   private final List<LoadListener> listeners;
 
   LoadingManager() {
@@ -57,28 +56,17 @@ class LoadingManager implements LoadListener, LoadListenable {
         numberOfLoaders);
   }
 
-  int getFileNumber() {
-    return this.fileNumber;
-  }
-
-  void determineFileNumbers() {
-    resetFileNumber();
-
+  int countFilesToLoad() {
+    int number = 0;
     for (List<Loader> loaderList : this.loaders
         .values()) {
       for (Loader loader : loaderList) {
         loader.init();
-        appendToFileNumber(loader.getFileNumber());
+        number += loader.getFileNumber();
       }
     }
-  }
 
-  private void resetFileNumber() {
-    fileNumber = 0;
-  }
-
-  private void appendToFileNumber(int number) {
-    fileNumber += number;
+    return number;
   }
 
   void load(DataBase dataBase) {

@@ -3,7 +3,7 @@ package de.heinerion.betriebe.repositories;
 import de.heinerion.betriebe.data.MemoryBank;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.storage.loading.TextFileLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 class AddressRepositoryImpl implements AddressRepository {
   private final MemoryBank memory;
-  private final IO io;
+  private final TextFileLoader fileLoader;
 
   @Override
   public Collection<Address> findByCompany(Company company) {
@@ -37,7 +37,7 @@ class AddressRepositoryImpl implements AddressRepository {
   @Override
   public Address save(Address address) {
     memory.addAddress(address);
-    io.saveAddresses(findAll());
+    fileLoader.saveAddresses(findAll());
     return address;
   }
 
@@ -55,7 +55,7 @@ class AddressRepositoryImpl implements AddressRepository {
       }
     }
 
-    io.saveAddresses(findAll());
+    fileLoader.saveAddresses(findAll());
     return savedEntries;
   }
 }

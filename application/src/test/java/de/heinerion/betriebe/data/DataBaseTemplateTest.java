@@ -2,7 +2,8 @@ package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.storage.loading.IO;
+import de.heinerion.invoice.storage.loading.TextFileLoader;
+import de.heinerion.invoice.storage.loading.XmlLoader;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -10,15 +11,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({IO.class})
 @PowerMockIgnore("javax.management.*")
 // Ignore as long powermock is needed but not fixed
 @Ignore
@@ -28,15 +26,17 @@ public class DataBaseTemplateTest {
   private DataBase dataBase;
 
   @Mock
-  private IO io;
+  private MemoryBank memoryBank;
 
   @Mock
-  private MemoryBank memoryBank;
+  private XmlLoader xmlLoader;
+
+  @Mock
+  private TextFileLoader fileLoader;
 
   @Before
   public void setUp() throws Exception {
-    dataBase = new DataBase(memoryBank, io);
-    mockStatic(IO.class);
+    dataBase = new DataBase(memoryBank, xmlLoader, fileLoader);
     dataBase.clearAllLists();
     company = new CompanyBuilder().build();
     template = new InvoiceTemplate();
