@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
@@ -29,10 +29,10 @@ class ArchivedInvoiceLoader extends Loader {
   }
 
   @Override
-  public Loadable loopAction(final File file, DataBase dataBase) {
+  public Loadable loopAction(final File file, AddressRepository addressRepository) {
     ArchivedInvoice data = file.getPath().endsWith("xml")
         ? new XmlArchivedInvoice(file)
-        : new PdfArchivedInvoice(file, dataBase);
+        : new PdfArchivedInvoice(file, addressRepository);
 
     try {
       data.loadFile();

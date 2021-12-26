@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.info.InfoMenuEntry;
 
@@ -15,18 +16,20 @@ class MenuBar extends JMenuBar {
   private transient List<JMenuItem> menuItems;
   private transient PathUtilNG pathUtil;
   private final DataBase dataBase;
+  private final AddressRepository addressRepository;
 
-  MenuBar(JFrame origin, PathUtilNG pathUtil, DataBase dataBase) {
+  MenuBar(JFrame origin, PathUtilNG pathUtil, DataBase dataBase, AddressRepository addressRepository) {
     this.origin = origin;
     this.pathUtil = pathUtil;
     this.dataBase = dataBase;
+    this.addressRepository = addressRepository;
     createWidgets();
     addWidgets();
   }
 
   private void createWidgets() {
     menuItems = new ArrayList<>();
-    menuItems.add(createItem(new AddressBookMenuEntry(dataBase)));
+    menuItems.add(createItem(new AddressBookMenuEntry(addressRepository)));
     menuItems.add(createItem(new ArchiveMenuEntry(dataBase)));
     menuItems.add(createItem(new InvoiceNumbersMenuEntry()));
     menuItems.add(createItem(new InvoiceDateMenuEntry()));

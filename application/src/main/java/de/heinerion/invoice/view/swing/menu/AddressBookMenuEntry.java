@@ -1,15 +1,16 @@
 package de.heinerion.invoice.view.swing.menu;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
 import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Comparator;
 
 /**
  * @author heiner
@@ -18,7 +19,7 @@ import java.util.List;
 class AddressBookMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("addressBook");
   private JScrollPane spAddresses;
-  private final DataBase dataBase;
+  private final AddressRepository addressRepository;
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -29,13 +30,15 @@ class AddressBookMenuEntry extends MenuEntry {
 
   @Override
   protected void createWidgets() {
-    List<Address> addresses = Session.getActiveCompany()
-        .map(dataBase::getAddresses)
+    Collection<Address> addresses = Session.getActiveCompany()
+        .map(addressRepository::findByCompany)
         .orElse(Collections.emptyList());
 
-    final AddressModel model = new AddressModel(addresses);
+    AddressModel model = new AddressModel(addresses.stream()
+        .sorted(Comparator.comparing(Address::getRecipient))
+        .toList());
 
-    final JTable tblAddresses = new JTable(model);
+    JTable tblAddresses = new JTable(model);
     tblAddresses.setAutoCreateRowSorter(true);
     tblAddresses.setRowSelectionAllowed(true);
     tblAddresses.getRowSorter().toggleSortOrder(0);

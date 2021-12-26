@@ -5,6 +5,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.storage.PathTools;
@@ -33,11 +34,11 @@ public class XmlLoader {
    * This method is decoupled from the view, so the progress indicator could become null anytime.
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
-  public void load(StatusComponent progress, LoadListener listener, DataBase dataBase) {
+  public void load(StatusComponent progress, LoadListener listener, DataBase dataBase, AddressRepository addressRepository) {
     if (!listenersAndLoadersRegistered) {
       loadingManager.addListener(listener);
       log.atFine().log("setup Loaders");
-      addLoader(Company.class, c -> continueWithCompany(c, dataBase));
+      addLoader(Company.class, c -> continueWithCompany(c, dataBase, addressRepository));
       addLoader(Address.class, nothingToDoAfterwards -> {
       });
 
@@ -48,13 +49,13 @@ public class XmlLoader {
     if (progress != null) {
       progress.setProgressMax(filesToLoad);
     }
-    loadingManager.load(dataBase);
+    loadingManager.load(addressRepository);
     if (progress != null) {
       progress.setMessage(Translator.translate("progress.done"));
     }
   }
 
-  private void continueWithCompany(Loadable loadable, DataBase dataBase) {
+  private void continueWithCompany(Loadable loadable, DataBase dataBase, AddressRepository addressRepository) {
     Company company = (Company) loadable;
 
     log.atFine().log("add invoice fileLoader for %s", company.getDescriptiveName());
@@ -63,7 +64,7 @@ public class XmlLoader {
     Loader loader = loaderFactory.getArchivedInvoiceLoader(company.getFolderFile(basePath));
     loader.init();
     loader.addListener(loadingManager);
-    loadingManager.loadClass(ArchivedInvoice.class, loader, dataBase);
+    loadingManager.loadClass(ArchivedInvoice.class, loader, addressRepository);
 
     log.atFine().log("load invoice templates for %s", company.getDescriptiveName());
     dataBase.addTemplates(company, loadInvoiceTemplates(company));

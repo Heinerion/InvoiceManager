@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import lombok.extern.flogger.Flogger;
 
 import java.io.File;
@@ -21,7 +21,7 @@ abstract class AbstractTextFileLoader extends Loader {
   protected abstract Pattern getPattern();
 
   @Override
-  public final Loadable loopAction(final File file, DataBase dataBase) {
+  public final Loadable loopAction(final File file, AddressRepository addressRepository) {
     final Map<String, String> attributes = this.readAttributes(file);
     final Loadable data = this.parse(attributes);
 

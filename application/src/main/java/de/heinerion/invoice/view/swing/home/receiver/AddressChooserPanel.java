@@ -1,16 +1,18 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
 import de.heinerion.invoice.view.swing.home.DimensionUtil;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
 
+@Flogger
 @SuppressWarnings("serial")
 class AddressChooserPanel extends JPanel {
   private static final int BOLD = Font.BOLD;
@@ -29,15 +31,15 @@ class AddressChooserPanel extends JPanel {
   private transient AddressForm addressForm;
   private GridBagConstraints gridConstraints = new GridBagConstraints();
 
-  private final DataBase dataBase;
+  private final transient AddressRepository addressRepository;
 
   /**
    * ComboBox for addresses
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel(Formatter formatter, DataBase dataBase) {
-    this.dataBase = dataBase;
+  AddressChooserPanel(Formatter formatter, AddressRepository addressRepository) {
+    this.addressRepository = addressRepository;
 
     init();
 
@@ -129,8 +131,13 @@ class AddressChooserPanel extends JPanel {
   }
 
   private void saveAddress() {
-    PanelControl.saveAddress(dataBase, addressForm.getText());
-    refreshBoxes();
+    log.atFine().log("save...");
+    PanelControl.parseAddress(addressForm.getText())
+        .ifPresent(address -> {
+          addressRepository.save(address);
+          log.atFine().log("saved %s", address);
+          refreshBoxes();
+        });
   }
 
   void refreshBoxes() {
@@ -138,8 +145,8 @@ class AddressChooserPanel extends JPanel {
     addressBox.removeAllItems();
 
     Session.getActiveCompany().ifPresent(activeCompany ->
-        dataBase
-            .getAddresses(activeCompany)
+        addressRepository
+            .findByCompany(activeCompany)
             .forEach(addressBox::addItem)
     );
   }

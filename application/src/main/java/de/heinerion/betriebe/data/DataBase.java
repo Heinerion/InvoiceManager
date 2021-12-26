@@ -3,9 +3,9 @@ package de.heinerion.betriebe.data;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.storage.loading.LoadListener;
 import de.heinerion.invoice.storage.loading.Loadable;
-import de.heinerion.invoice.storage.loading.TextFileLoader;
 import de.heinerion.invoice.storage.loading.XmlLoader;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.FormatUtil;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The DataBase is used for all storing and loading of any business class.
@@ -29,25 +28,13 @@ import java.util.Optional;
 public class DataBase implements LoadListener {
   private final MemoryBank memory;
   private final XmlLoader xmlLoader;
-  private final TextFileLoader fileLoader;
+  private final AddressRepository addressRepository;
 
   private ArchivedInvoiceTable invoices;
 
   private StatusComponent progress;
 
   private String lastMessage;
-
-
-  /**
-   * Collects all {@link Address}es valid for the given {@link Company}
-   *
-   * @param company to be filtered by
-   * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
-   * @see MemoryBank
-   */
-  public List<Address> getAddresses(Company company) {
-    return memory.getAddresses(company);
-  }
 
   /**
    * Removes and loads every business class from the file system via {@link XmlLoader}
@@ -72,37 +59,12 @@ public class DataBase implements LoadListener {
     removeAllInvoices();
     resetMemories();
 
-    xmlLoader.load(progress, this, this);
+    xmlLoader.load(progress, this, this, addressRepository);
     getInvoices().determineHighestInvoiceNumbers();
   }
 
   private void resetMemories() {
     memory.reset();
-  }
-
-  /**
-   * Looks for the given recipients {@link Address} in the addresses valid for the given {@link Company}.
-   *
-   * @param company   to be filtered by
-   * @param recipient to be looked for
-   * @return an {@link Address} with the given recipient
-   * @see MemoryBank
-   */
-  public Optional<Address> getAddress(Company company, String recipient) {
-    return memory.getAddress(company, recipient);
-  }
-
-  /**
-   * @return all available Addresses
-   */
-  public List<Address> getAddresses() {
-    return memory.getAllAddresses();
-  }
-
-  public void addAddress(Address address) {
-    memory.addAddress(address);
-
-    fileLoader.saveAddresses(getAddresses());
   }
 
   List<Company> getCompanies() {
@@ -155,7 +117,7 @@ public class DataBase implements LoadListener {
 
   void addLoadable(Loadable loadable) {
     if (loadable instanceof Address address) {
-      addAddress(address);
+      addressRepository.save(address);
     } else if (loadable instanceof ArchivedInvoice invoice) {
       addInvoice(invoice);
     } else if (loadable instanceof Company company) {

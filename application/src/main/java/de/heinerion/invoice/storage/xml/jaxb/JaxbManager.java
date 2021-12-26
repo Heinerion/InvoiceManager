@@ -14,6 +14,11 @@ abstract class JaxbManager<T> {
     this.beautify = beautify;
   }
 
+  public JaxbManager<T> withFormattedOutput() {
+    setBeautify(true);
+    return this;
+  }
+
   public void marshal(List<T> items, File destination) {
     try {
       JAXBContext context = getContext();

@@ -1,9 +1,9 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels.archive;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.view.DateUtil;
 import lombok.extern.flogger.Flogger;
@@ -22,7 +22,7 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
   private static final String DIVIDER = "\t";
   // 14 := dd.mm.yyyy.pdf
   private static final int DATE_LENGTH = 14;
-  private static Map<Company, Map<String, Address>> companyAddressCache = new HashMap<>();
+  private static final Map<Company, Map<String, Address>> companyAddressCache = new HashMap<>();
 
   private final int invoiceNumber;
   private final Address recipient;
@@ -32,12 +32,12 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
   private Company company;
   private double amount;
   private Map<String, Address> addressCache;
-  private final DataBase dataBase;
+  private final AddressRepository addressRepository;
 
   // TODO parsing der Daten unbedingt überarbeiten
   // TODO pdf-Properties auslesen?
-  public PdfArchivedInvoice(File sourceFile, DataBase dataBase) {
-    this.dataBase = dataBase;
+  public PdfArchivedInvoice(File sourceFile, AddressRepository addressRepository) {
+    this.addressRepository = addressRepository;
 
     pdf = sourceFile;
     final String companyName = sourceFile.getParentFile().getName();
@@ -63,7 +63,10 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
   }
 
   private Address getAddress(final String recipientsName) {
-    return addressCache.computeIfAbsent(recipientsName, n -> dataBase.getAddress(company, n).orElse(null));
+    return addressCache
+        .computeIfAbsent(recipientsName, n -> addressRepository
+            .findByCompanyAndRecipient(company, n)
+            .orElse(null));
   }
 
   @Override

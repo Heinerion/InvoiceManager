@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import lombok.extern.flogger.Flogger;
 
 import java.io.File;
@@ -70,13 +70,13 @@ abstract class Loader implements LoadListenable {
     log.atFine().log("%d documents found", getFileNumber());
   }
 
-  public final List<Loadable> load(DataBase dataBase) {
+  public final List<Loadable> load(AddressRepository addressRepository) {
     log.atFine().log("load %s", getDescriptiveName());
     List<File> fileList = getFiles();
     List<Loadable> resultList = new ArrayList<>();
 
     for (File file : fileList) {
-      Loadable item = loopAction(file, dataBase);
+      Loadable item = loopAction(file, addressRepository);
       resultList.add(item);
       notifyLoadListeners(getDescriptiveName(), item);
     }
@@ -86,7 +86,7 @@ abstract class Loader implements LoadListenable {
     return resultList;
   }
 
-  abstract Loadable loopAction(File file, DataBase dataBase);
+  abstract Loadable loopAction(File file, AddressRepository addressRepository);
 
   private boolean matchFiles(File file, Pattern fileNamePattern) {
     try {

@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.DataBase;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import lombok.extern.flogger.Flogger;
 
 import java.util.*;
@@ -69,19 +69,19 @@ class LoadingManager implements LoadListener, LoadListenable {
     return number;
   }
 
-  void load(DataBase dataBase) {
-    loadOrder.forEach(clazz -> load(clazz, dataBase));
+  void load(AddressRepository addressRepository) {
+    loadOrder.forEach(clazz -> load(clazz, addressRepository));
   }
 
-  private void load(Class<? extends Loadable> clazz, DataBase dataBase) {
+  private void load(Class<? extends Loadable> clazz, AddressRepository addressRepository) {
     List<Loader> loaderList = this.loaders.get(clazz);
     loaderList.stream()
         .filter(Objects::nonNull)
-        .forEach(loader -> loadClass(clazz, loader, dataBase));
+        .forEach(loader -> loadClass(clazz, loader, addressRepository));
   }
 
-  void loadClass(Class<? extends Loadable> clazz, Loader loader, DataBase dataBase) {
-    List<Loadable> result = loader.load(dataBase);
+  void loadClass(Class<? extends Loadable> clazz, Loader loader, AddressRepository addressRepository) {
+    List<Loadable> result = loader.load(addressRepository);
 
     List<Loadable> oldResults = this.results.get(clazz);
     if (oldResults == null) {

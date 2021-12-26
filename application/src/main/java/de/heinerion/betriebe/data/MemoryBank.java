@@ -1,7 +1,6 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
-import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,52 +16,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public
 class MemoryBank {
-  private final List<ListEntry<Address>> addressEntries = new ArrayList<>();
   private final List<ListEntry<Company>> companyEntries = new ArrayList<>();
   private final List<ListEntry<InvoiceTemplate>> templateEntries = new ArrayList<>();
-
-  public void addAddress(Address address) {
-    Optional<ListEntry<Address>> oldAddress = getAddressEntry(null, address.getRecipient());
-
-    oldAddress.ifPresent(addressEntries::remove);
-    addressEntries.add(new ListEntry<>(null, address));
-  }
-
-  /**
-   * Collects all {@link Address}es valid for the given {@link Company}
-   *
-   * @param company to be filtered by
-   * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
-   */
-  public List<Address> getAddresses(Company company) {
-    return getSortedEntries(addressEntries, company, Address::getRecipient);
-  }
-
-  public List<Address> getAllAddresses() {
-    return getAllSortedEntries(addressEntries, Address::getRecipient);
-  }
-
-  /**
-   * Looks for the given recipients {@link Address} in the addresses valid for the given {@link Company}.
-   *
-   * @param company   to be filtered by
-   * @param recipient to be looked for
-   * @return an {@link Address} with the given recipient
-   */
-  public Optional<Address> getAddress(Company company, String recipient) {
-    return getAddressEntry(company, recipient)
-        .map(ListEntry::getEntry);
-  }
-
-  private Optional<ListEntry<Address>> getAddressEntry(Company company, String recipient) {
-    return addressEntries.stream()
-        .filter(entry -> entry.belongsTo(company).orElse(true) && hasThisRecipient(entry, recipient))
-        .findFirst();
-  }
-
-  private boolean hasThisRecipient(ListEntry<Address> addressEntry, String recipient) {
-    return addressEntry.getEntry().getRecipient().equals(recipient);
-  }
 
   void addCompany(Company company) {
     Optional<ListEntry<Company>> oldCompany = getCompanyEntry(company.getDescriptiveName());
@@ -127,7 +82,6 @@ class MemoryBank {
   }
 
   void reset() {
-    addressEntries.clear();
     companyEntries.clear();
     templateEntries.clear();
   }

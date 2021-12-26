@@ -118,10 +118,6 @@ public class Migrator {
     File templatesXmlFile = new File(companyDir, "templates.xml");
     new TemplateManager().marshal(dataBase.getTemplates(company), templatesXmlFile);
     logCreation(templatesXmlFile);
-
-    File addressesXmlFile = new File(companyDir, "addresses.xml");
-    new AddressManager().marshal(dataBase.getAddresses(), addressesXmlFile);
-    logCreation(addressesXmlFile);
   }
 
   private static void copyLettersAndInvoices(PathUtilNG pathUtil, Company company, File companyDir) {

@@ -22,7 +22,7 @@ class LoaderFactory {
       loaderMap = new HashMap<>();
       loaderMap.put(Address.class, AddressLoader::new);
       loaderMap.put(Company.class, CompanyLoader::new);
-      loaderMap.put(ArchivedInvoice.class, f -> new ArchivedInvoiceLoader(f));
+      loaderMap.put(ArchivedInvoice.class, ArchivedInvoiceLoader::new);
     }
 
     return loaderMap;

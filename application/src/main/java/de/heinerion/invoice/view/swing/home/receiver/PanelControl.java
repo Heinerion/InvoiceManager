@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.models.Address;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
+import java.util.Optional;
 
 @Flogger
 class PanelControl {
@@ -22,7 +22,11 @@ class PanelControl {
    *                angegeben
    * @return die geparste Address
    */
-  private static Address parseAddress(String address) {
+  public static Optional<Address> parseAddress(String address) {
+    if (!notEmpty(address)) {
+      return Optional.empty();
+    }
+
     int token;
 
     Address parsedAddress = new Address();
@@ -30,41 +34,32 @@ class PanelControl {
     parsedAddress.setCompany(DEFAULT_COMPANY);
     parsedAddress.setDistrict(DEFAULT_DISTRICT);
 
-    if (address != null) {
-      parsedAddress.setRecipient(address.split("\n")[0]);
+    parsedAddress.setRecipient(address.split("\n")[0]);
 
-      String[] stringToken = address.split("\\n");
-      token = stringToken.length;
+    String[] stringToken = address.split("\\n");
+    token = stringToken.length;
 
-      String streetAndNumber = stringToken[token - 2].trim();
-      String[] numberToken = streetAndNumber.split(" ");
-      StringBuilder streetTemp = new StringBuilder();
-      for (int i = 0; i < numberToken.length - 1; i++) {
-        streetTemp.append(numberToken[i].trim())
-            .append(" ");
-      }
-      parsedAddress.setStreet(streetTemp.toString().trim());
-      parsedAddress.setNumber(numberToken[numberToken.length - 1].trim());
-
-      String codeAndLocation = stringToken[token - 1].trim();
-      String[] locationToken = codeAndLocation.split(" ");
-      StringBuilder locationTemp = new StringBuilder();
-      for (int i = 1; i < locationToken.length; i++) {
-        locationTemp.append(locationToken[i].trim())
-            .append(" ");
-      }
-      parsedAddress.setLocation(locationTemp.toString().trim());
-      parsedAddress.setPostalCode(locationToken[0].trim());
+    String streetAndNumber = stringToken[token - 2].trim();
+    String[] numberToken = streetAndNumber.split(" ");
+    StringBuilder streetTemp = new StringBuilder();
+    for (int i = 0; i < numberToken.length - 1; i++) {
+      streetTemp.append(numberToken[i].trim())
+          .append(" ");
     }
+    parsedAddress.setStreet(streetTemp.toString().trim());
+    parsedAddress.setNumber(numberToken[numberToken.length - 1].trim());
 
-    return parsedAddress;
-  }
-
-  static void saveAddress(DataBase dataBase, String address) {
-    log.atFine().log("save...");
-    if (notEmpty(address)) {
-      dataBase.addAddress(parseAddress(address));
+    String codeAndLocation = stringToken[token - 1].trim();
+    String[] locationToken = codeAndLocation.split(" ");
+    StringBuilder locationTemp = new StringBuilder();
+    for (int i = 1; i < locationToken.length; i++) {
+      locationTemp.append(locationToken[i].trim())
+          .append(" ");
     }
+    parsedAddress.setLocation(locationTemp.toString().trim());
+    parsedAddress.setPostalCode(locationToken[0].trim());
+
+    return Optional.of(parsedAddress);
   }
 
   private static boolean notEmpty(String address) {
