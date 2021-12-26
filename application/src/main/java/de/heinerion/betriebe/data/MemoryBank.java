@@ -15,12 +15,13 @@ import java.util.function.Function;
  */
 @Service
 @RequiredArgsConstructor
+public
 class MemoryBank {
   private final List<ListEntry<Address>> addressEntries = new ArrayList<>();
   private final List<ListEntry<Company>> companyEntries = new ArrayList<>();
   private final List<ListEntry<InvoiceTemplate>> templateEntries = new ArrayList<>();
 
-  void addAddress(Address address) {
+  public void addAddress(Address address) {
     Optional<ListEntry<Address>> oldAddress = getAddressEntry(null, address.getRecipient());
 
     oldAddress.ifPresent(addressEntries::remove);
@@ -33,11 +34,11 @@ class MemoryBank {
    * @param company to be filtered by
    * @return every {@link Address} connected to this {@link Company} sorted by {@link Address#getRecipient()}
    */
-  List<Address> getAddresses(Company company) {
+  public List<Address> getAddresses(Company company) {
     return getSortedEntries(addressEntries, company, Address::getRecipient);
   }
 
-  List<Address> getAllAddresses() {
+  public List<Address> getAllAddresses() {
     return getAllSortedEntries(addressEntries, Address::getRecipient);
   }
 
@@ -48,7 +49,7 @@ class MemoryBank {
    * @param recipient to be looked for
    * @return an {@link Address} with the given recipient
    */
-  Optional<Address> getAddress(Company company, String recipient) {
+  public Optional<Address> getAddress(Company company, String recipient) {
     return getAddressEntry(company, recipient)
         .map(ListEntry::getEntry);
   }
