@@ -10,10 +10,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Flogger
-abstract class AbstractTextFileLoader extends Loader {
+public abstract class AbstractTextFileLoader extends Loader {
   private final Reader reader = new Reader();
 
-  AbstractTextFileLoader(File aLoadDirectory) {
+  protected AbstractTextFileLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 

@@ -1,13 +1,14 @@
-package de.heinerion.invoice.storage.loading;
+package de.heinerion.invoice.storage.xml.jaxb.migration;
 
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.storage.loading.AbstractTextFileLoader;
 
 import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-class AddressLoader extends AbstractTextFileLoader {
+public class AddressLoader extends AbstractTextFileLoader {
   private static final String APARTMENT = "Apartment";
   private static final String COMPANY = "Company";
   private static final String DISTRICT = "District";
@@ -17,7 +18,7 @@ class AddressLoader extends AbstractTextFileLoader {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  AddressLoader(File aLoadDirectory) {
+  public AddressLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 

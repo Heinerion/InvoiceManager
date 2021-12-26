@@ -2,9 +2,13 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.storage.PathTools;
+import de.heinerion.invoice.storage.xml.jaxb.migration.AddressLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -75,6 +79,7 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 public class Migrator {
   private final PathUtilNG pathUtil;
   private final DataBase dataBase;
+  private final AddressRepository addressRepository;
 
   public static void main(String... args) {
     Migrator bean = ConfigurationService.getBean(Migrator.class);
@@ -94,6 +99,14 @@ public class Migrator {
     print(String.format("Available companies written to %s", companiesXmlFile.getAbsolutePath()));
 
     availableCompanies.forEach(company -> migrateCompanyInfo(pathUtil, dataBase, company));
+
+    migrateAddresses();
+  }
+
+  private void migrateAddresses() {
+    File addressDir = new File(PathTools.getPath(Address.class, pathUtil));
+    AddressLoader legacyAddressLoader = new AddressLoader(addressDir);
+    legacyAddressLoader.load(addressRepository);
   }
 
   private static void print(String message) {

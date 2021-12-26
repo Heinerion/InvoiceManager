@@ -71,7 +71,7 @@ class CompanyLoader extends AbstractTextFileLoader {
   }
 
   /*
-   * TODO almost exact copy of de.heinerion.invoice.storage.loading.AddressLoader.parse
+   * TODO almost exact copy of de.heinerion.invoice.storage.xml.jaxb.migration.AddressLoader.parse
    */
   private Address getAddress(Map<String, String> attributes) {
     Address address = new Address();
