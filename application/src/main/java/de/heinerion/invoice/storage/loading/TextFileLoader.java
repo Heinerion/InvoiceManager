@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,7 +112,7 @@ public class TextFileLoader {
   }
 
 
-  void saveAddresses(List<Address> addresses)
+  void saveAddresses(Collection<Address> addresses)
       throws IOException {
     for (Address address : addresses) {
       debug("save address %s", address.getRecipient());

@@ -72,7 +72,7 @@ public class IO {
     }
   }
 
-  public void saveAddresses(List<Address> addresses) {
+  public void saveAddresses(Collection<Address> addresses) {
     try {
       fileLoader.saveAddresses(addresses);
     } catch (final IOException e) {
