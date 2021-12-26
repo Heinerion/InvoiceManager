@@ -118,7 +118,8 @@ public final class AddressModel extends AbstractTableModel {
 
   @Override
   public boolean isCellEditable(int rowIndex, int columnIndex) {
-    return true;
+    // no saving means no reason to edit
+    return false;
   }
 
   @Override
