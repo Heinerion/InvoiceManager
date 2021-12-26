@@ -1,5 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 
 @Flogger
 class ArchivedInvoiceLoader extends Loader {
+
   ArchivedInvoiceLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
@@ -27,12 +29,10 @@ class ArchivedInvoiceLoader extends Loader {
   }
 
   @Override
-  public Loadable loopAction(final File file) {
-    ArchivedInvoice data;
-    if (file.getPath().endsWith("xml"))
-      data = new XmlArchivedInvoice(file);
-    else
-      data = new PdfArchivedInvoice(file);
+  public Loadable loopAction(final File file, DataBase dataBase) {
+    ArchivedInvoice data = file.getPath().endsWith("xml")
+        ? new XmlArchivedInvoice(file)
+        : new PdfArchivedInvoice(file, dataBase);
 
     try {
       data.loadFile();

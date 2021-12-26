@@ -1,5 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
+import de.heinerion.betriebe.data.DataBase;
 import lombok.extern.flogger.Flogger;
 
 import java.util.*;
@@ -80,19 +81,19 @@ class LoadingManager implements LoadListener, LoadListenable {
     fileNumber += number;
   }
 
-  void load() {
-    loadOrder.forEach(this::load);
+  void load(DataBase dataBase) {
+    loadOrder.forEach(clazz -> load(clazz, dataBase));
   }
 
-  private void load(Class<? extends Loadable> clazz) {
+  private void load(Class<? extends Loadable> clazz, DataBase dataBase) {
     List<Loader> loaderList = this.loaders.get(clazz);
     loaderList.stream()
         .filter(Objects::nonNull)
-        .forEach(loader -> loadClass(clazz, loader));
+        .forEach(loader -> loadClass(clazz, loader, dataBase));
   }
 
-  void loadClass(Class<? extends Loadable> clazz, Loader loader) {
-    List<Loadable> result = loader.load();
+  void loadClass(Class<? extends Loadable> clazz, Loader loader, DataBase dataBase) {
+    List<Loadable> result = loader.load(dataBase);
 
     List<Loadable> oldResults = this.results.get(clazz);
     if (oldResults == null) {

@@ -16,13 +16,16 @@ public class ReceiverPanel implements Refreshable {
 
   private Refreshable addressPanel;
   private Refreshable companyChooserPanel;
+
   private final Formatter formatter;
   private final PrintButtonPanel printButtonPanel;
+  private final SidePanelFactory sidePanelFactory;
   private final Migrator migrator;
 
-  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel, Migrator migrator) {
+  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel, SidePanelFactory sidePanelFactory, Migrator migrator) {
     this.formatter = formatter;
     this.printButtonPanel = printButtonPanel;
+    this.sidePanelFactory = sidePanelFactory;
     this.migrator = migrator;
     createWidgets();
     addWidgets();
@@ -30,8 +33,8 @@ public class ReceiverPanel implements Refreshable {
 
   private void createWidgets() {
     panel = new FancyPanel();
-    addressPanel = SidePanelFactory.createAddressPanel(formatter);
-    companyChooserPanel = SidePanelFactory.createCompanyChooserPanel(migrator);
+    addressPanel = sidePanelFactory.createAddressPanel(formatter);
+    companyChooserPanel = sidePanelFactory.createCompanyChooserPanel();
   }
 
   private void addWidgets() {
@@ -44,7 +47,7 @@ public class ReceiverPanel implements Refreshable {
     panel.add(printButtonPanel.getPanel());
 
     panel.add(Box.createVerticalGlue());
-    panel.add(SidePanelFactory.createCalculatorSidePanel());
+    panel.add(sidePanelFactory.createCalculatorSidePanel());
   }
 
   @Override

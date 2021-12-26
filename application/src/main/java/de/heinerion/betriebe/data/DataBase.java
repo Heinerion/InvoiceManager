@@ -10,43 +10,31 @@ import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
  * The DataBase is used for all storing and loading of any business class.
  * <p>
- * Only one DataBase exists at a time, which can be retrieved by {@link #getInstance()}
- * </p>
- * <p>
  * Entities are held in this class' only instance, thus in memory
  * </p>
  */
-public final class DataBase implements LoadListener {
+@Service
+@RequiredArgsConstructor
+public class DataBase implements LoadListener {
   private final MemoryBank memory;
+  private final IO io;
 
   private ArchivedInvoiceTable invoices;
 
-  private IO io;
   private StatusComponent progress;
 
   private String lastMessage;
 
-  private static final DataBase instance = new DataBase();
-
-  private DataBase() {
-    this.memory = new MemoryBank();
-  }
-
-  /**
-   * @return the only instance of this class, used for all business class storage and loading
-   */
-  public static DataBase getInstance() {
-    return instance;
-  }
 
   /**
    * Collects all {@link Address}es valid for the given {@link Company}
@@ -57,15 +45,6 @@ public final class DataBase implements LoadListener {
    */
   public List<Address> getAddresses(Company company) {
     return memory.getAddresses(company);
-  }
-
-  /**
-   * Sets the {@link IO} instance
-   *
-   * @param io the instance to be used for loading and saving
-   */
-  public void setIo(IO io) {
-    this.io = Objects.requireNonNull(io);
   }
 
   /**
@@ -82,7 +61,7 @@ public final class DataBase implements LoadListener {
   /**
    * Removes and loads every business class from the file system via {@link IO}
    *
-   * @param indicator will be used for {@link IO#load(StatusComponent, LoadListener)} and for later calls via {@link
+   * @param indicator will be used for {@link IO#load(StatusComponent, LoadListener, DataBase)} and for later calls via {@link
    *                  #load()}
    */
   public void load(StatusComponent indicator) {
@@ -91,7 +70,7 @@ public final class DataBase implements LoadListener {
     removeAllInvoices();
     memory.reset();
 
-    io.load(progress, this);
+    io.load(progress, this, this);
     getInvoices().determineHighestInvoiceNumbers();
 
     io.loadInvoiceTemplates().forEach(this::addTemplates);

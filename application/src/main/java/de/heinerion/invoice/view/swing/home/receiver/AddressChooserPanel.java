@@ -28,14 +28,17 @@ class AddressChooserPanel extends JPanel {
   private final GridBagLayout gridLayout = new GridBagLayout();
   private transient AddressForm addressForm;
   private GridBagConstraints gridConstraints = new GridBagConstraints();
-  private DataBase dataBase = DataBase.getInstance();
+
+  private final DataBase dataBase;
 
   /**
    * ComboBox for addresses
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel(Formatter formatter) {
+  AddressChooserPanel(Formatter formatter, DataBase dataBase) {
+    this.dataBase = dataBase;
+
     init();
 
     addAddressChooser();
@@ -126,7 +129,7 @@ class AddressChooserPanel extends JPanel {
   }
 
   private void saveAddress() {
-    PanelControl.saveAddress(addressForm.getText());
+    PanelControl.saveAddress(dataBase, addressForm.getText());
     refreshBoxes();
   }
 

@@ -9,6 +9,8 @@ import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.TabContent;
 import lombok.extern.flogger.Flogger;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,16 +21,19 @@ import java.util.List;
 import static java.awt.BorderLayout.*;
 
 @Flogger
+@Service
+@Order(2)
 class InvoiceTabContent extends TabContent {
-  private List<Item> contentPositions = new ArrayList<>();
+  private final List<Item> contentPositions = new ArrayList<>();
   private List<InvoiceTemplate> templates = new ArrayList<>();
   private JTable tabPositions = null;
-  private JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
-  private DataBase dataBase = DataBase.getInstance();
+  private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
+  private final DataBase dataBase;
   private InvoiceTableModel model = null;
 
-  InvoiceTabContent() {
+  InvoiceTabContent(DataBase dataBase) {
     super(Translator.translate("invoice.title"));
+    this.dataBase = dataBase;
 
     initTabPositions();
 
@@ -99,7 +104,7 @@ class InvoiceTabContent extends TabContent {
   @Override
   public void refresh() {
     List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
-        .map(company -> dataBase.getTemplates(company))
+        .map(dataBase::getTemplates)
         .orElse(Collections.emptyList());
     if (!activeTemplates.equals(templates)) {
       clearPositions();
@@ -135,7 +140,7 @@ class InvoiceTabContent extends TabContent {
     if (pos >= 0) {
       // replace table positions with those of the template
       List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
-          .map(activeCompany -> dataBase.getTemplates(activeCompany))
+          .map(dataBase::getTemplates)
           .orElse(Collections.emptyList());
       fillTable(activeTemplates.get(pos).getInhalt());
       model.fireTableDataChanged();
@@ -216,8 +221,8 @@ class InvoiceTabContent extends TabContent {
   private String stringAt(int row, Col col) {
     String result = null;
     Object value = getPositionAt(row, col);
-    if (value instanceof String) {
-      result = (String) value;
+    if (value instanceof String stringValue) {
+      result = stringValue;
     }
     return result;
   }
@@ -225,8 +230,8 @@ class InvoiceTabContent extends TabContent {
   private Double doubleAt(int row, Col col) {
     Double result = null;
     Object value = getPositionAt(row, col);
-    if (value instanceof Double) {
-      result = (Double) value;
+    if (value instanceof Double doubleValue) {
+      result = doubleValue;
     }
     return result;
   }

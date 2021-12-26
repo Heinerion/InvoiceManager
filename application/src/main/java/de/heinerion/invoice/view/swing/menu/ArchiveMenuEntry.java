@@ -3,6 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceTable;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -11,14 +12,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 
 /**
  * @author heiner
  */
+@RequiredArgsConstructor
 class ArchiveMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("archive");
-  private DataBase dataBase = DataBase.getInstance();
+  private final DataBase dataBase;
 
   private ArchivedInvoiceTable model;
 

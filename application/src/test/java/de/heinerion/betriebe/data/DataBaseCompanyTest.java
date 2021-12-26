@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -21,11 +22,17 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @Ignore
 public class DataBaseCompanyTest {
   private Company company;
-  private DataBase dataBase = DataBase.getInstance();
+  private DataBase dataBase;
+
+  @Mock
+  private IO io;
+
+  @Mock
+  private MemoryBank memoryBank;
 
   @Before
   public void setUp() {
-    mockStatic(IO.class);
+    dataBase = new DataBase(memoryBank, io);
     mockStatic(Session.class);
     dataBase.clearAllLists();
     company = new CompanyBuilder().build();

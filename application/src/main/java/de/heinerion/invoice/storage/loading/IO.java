@@ -1,5 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
+import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
@@ -10,6 +11,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.storage.PathTools;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +25,14 @@ import java.util.stream.Collectors;
 
 @Flogger
 @Service
+@RequiredArgsConstructor
 public class IO {
   private static final LoadingManager loadingManager = new LoadingManager();
-  private final TextFileLoader fileLoader;
   private boolean listenersAndLoadersRegistered;
 
+  private final TextFileLoader fileLoader;
+  private final LoaderFactory loaderFactory;
   private final PathUtilNG pathUtil;
-
-  public IO(PathUtilNG pathUtil) {
-    this.pathUtil = pathUtil;
-    fileLoader = new TextFileLoader(pathUtil);
-  }
 
   private String getTemplatePath(Company company) {
     return pathUtil.getTemplateFileName(company.getDescriptiveName());
@@ -88,21 +87,21 @@ public class IO {
    * This method is decoupled from the view, so the progress indicator could become null anytime.
    * Chances are, this special "race condition" only occur in tests, nonetheless this case has to be thought of.
    */
-  public void load(StatusComponent progress, LoadListener listener) {
+  public void load(StatusComponent progress, LoadListener listener, DataBase dataBase) {
     if (!listenersAndLoadersRegistered) {
-      listenersAndLoadersRegistered = registerListenersAndLoaders(listener);
+      listenersAndLoadersRegistered = registerListenersAndLoaders(listener, dataBase);
     }
 
     loadingManager.determineFileNumbers();
 
     setProgressMax(progress, loadingManager.getFileNumber());
-    loadingManager.load();
+    loadingManager.load(dataBase);
     setProgressMessage(progress);
   }
 
-  private boolean registerListenersAndLoaders(LoadListener listener) {
+  private boolean registerListenersAndLoaders(LoadListener listener, DataBase dataBase) {
     registerListener(listener);
-    registerLoaders();
+    registerLoaders(dataBase);
 
     return true;
   }
@@ -111,10 +110,10 @@ public class IO {
     loadingManager.addListener(listener);
   }
 
-  private void registerLoaders() {
+  private void registerLoaders(DataBase dataBase) {
     log.atFine().log("setup Loaders");
 
-    addLoader(Company.class, this::continueWithCompany);
+    addLoader(Company.class, c -> continueWithCompany(c, dataBase));
     addLoader(Address.class, whatever -> {
     });
   }
@@ -131,20 +130,20 @@ public class IO {
     }
   }
 
-  private void continueWithCompany(Loadable loadable) {
+  private void continueWithCompany(Loadable loadable, DataBase dataBase) {
     Company company = (Company) loadable;
 
     log.atFine().log("add invoice fileLoader for %s", company.getDescriptiveName());
 
     String basePath = pathUtil.determinePath(Invoice.class);
-    Loader loader = LoaderFactory.getArchivedInvoiceLoader(company.getFolderFile(basePath));
+    Loader loader = loaderFactory.getArchivedInvoiceLoader(company.getFolderFile(basePath));
     loader.init();
     loader.addListener(loadingManager);
-    loadingManager.loadClass(ArchivedInvoice.class, loader);
+    loadingManager.loadClass(ArchivedInvoice.class, loader, dataBase);
   }
 
   private <T extends Loadable> void addLoader(Class<T> classToLoad, LoadableCallback callback) {
-    Function<File, Loader> loaderGenerator = LoaderFactory
+    Function<File, Loader> loaderGenerator = loaderFactory
         .getLoaderFactory(classToLoad)
         .orElseThrow(() -> new LoadingException(classToLoad));
 

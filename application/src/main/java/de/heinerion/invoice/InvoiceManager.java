@@ -1,13 +1,12 @@
 package de.heinerion.invoice;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ErrorDialog;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import lombok.extern.flogger.Flogger;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -17,12 +16,12 @@ import java.awt.*;
  */
 @Flogger
 @Service
+@Profile("Prod")
 public class InvoiceManager implements CommandLineRunner {
   private final GuiStarter starter;
 
-  InvoiceManager(IO io, GuiStarter swingStarter) {
+  InvoiceManager(GuiStarter swingStarter) {
     this.starter = swingStarter;
-    DataBase.getInstance().setIo(io);
   }
 
   public void run(String... args) {

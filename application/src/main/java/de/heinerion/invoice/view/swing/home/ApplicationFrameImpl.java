@@ -29,16 +29,18 @@ import java.util.List;
 @Service
 class ApplicationFrameImpl implements
     ApplicationFrame, CompanyListener, DateListener {
-  private JFrame frame;
+  private final JFrame frame;
 
-  private Refreshable receiverPanel;
+  private final Refreshable receiverPanel;
 
-  private StatusComponent statusComponent;
-  private ContentTabPane contentTabPane;
-  private PathUtilNG pathUtil;
+  private final StatusComponent statusComponent;
+  private final ContentTabPane contentTabPane;
+  private final PathUtilNG pathUtil;
+  private final MenuFactory menuFactory;
 
-  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, PathUtilNG pathUtil) {
+  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, PathUtilNG pathUtil, MenuFactory menuFactory) {
     this.pathUtil = pathUtil;
+    this.menuFactory = menuFactory;
     contentTabPane = tabPane;
     this.receiverPanel = receiverPanel;
     statusComponent = PanelFactory.createStatusComponent();
@@ -73,7 +75,7 @@ class ApplicationFrameImpl implements
 
   private void addWidgets() {
     frame.setLayout(new BorderLayout());
-    frame.setJMenuBar(MenuFactory.createMenuBar(frame, pathUtil));
+    frame.setJMenuBar(menuFactory.createMenuBar(frame, pathUtil));
     frame.add(receiverPanel.getPanel(), BorderLayout.LINE_START);
 
     frame.add(contentTabPane.getPane(), BorderLayout.CENTER);

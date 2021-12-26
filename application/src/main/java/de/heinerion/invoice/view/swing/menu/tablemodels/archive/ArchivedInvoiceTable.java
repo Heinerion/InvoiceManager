@@ -10,6 +10,7 @@ import javax.swing.table.TableModel;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class ArchivedInvoiceTable implements TableModel {
@@ -92,7 +93,7 @@ public final class ArchivedInvoiceTable implements TableModel {
   }
 
   private boolean filterByCompany(ArchivedInvoice invoice, Company company) {
-    return invoice.getCompany().equals(company);
+    return Objects.equals(invoice.getCompany(), company);
   }
 
   private Predicate<? super ArchivedInvoice> filterByCompany(Company company) {
@@ -119,6 +120,7 @@ public final class ArchivedInvoiceTable implements TableModel {
         .stream()
         .map(ArchivedInvoice::getCompany)
         .distinct()
+        .filter(Objects::nonNull)
         .forEach(c -> {
               c.setInvoiceNumber(getUnfilteredInvoiceList()
                   .stream()

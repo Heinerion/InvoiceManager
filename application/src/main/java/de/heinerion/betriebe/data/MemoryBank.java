@@ -3,6 +3,8 @@ package de.heinerion.betriebe.data;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
@@ -11,16 +13,12 @@ import java.util.function.Function;
  * Representation of the business class entities in memory.
  * <p>Is (for now) only to be used by {@link DataBase}.</p>
  */
-final class MemoryBank {
-  private final List<ListEntry<Address>> addressEntries;
-  private final List<ListEntry<Company>> companyEntries;
-  private final List<ListEntry<InvoiceTemplate>> templateEntries;
-
-  MemoryBank() {
-    addressEntries = new ArrayList<>();
-    companyEntries = new ArrayList<>();
-    templateEntries = new ArrayList<>();
-  }
+@Service
+@RequiredArgsConstructor
+class MemoryBank {
+  private final List<ListEntry<Address>> addressEntries = new ArrayList<>();
+  private final List<ListEntry<Company>> companyEntries = new ArrayList<>();
+  private final List<ListEntry<InvoiceTemplate>> templateEntries = new ArrayList<>();
 
   void addAddress(Address address) {
     Optional<ListEntry<Address>> oldAddress = getAddressEntry(null, address.getRecipient());
@@ -115,9 +113,9 @@ final class MemoryBank {
 
   private <T, U extends Comparable<U>>
   List<T> getSortedEntries(List<ListEntry<T>> entriesList, Company company, Function<T, U> keyExtractor) {
-    List<T> belongingEntries = getEntries(entriesList, Objects.requireNonNull(company));
-    belongingEntries.sort(Comparator.comparing(keyExtractor));
-    return Collections.unmodifiableList(belongingEntries);
+    return getEntries(entriesList, Objects.requireNonNull(company)).stream()
+        .sorted(Comparator.comparing(keyExtractor))
+        .toList();
   }
 
   private <T, U extends Comparable<U>>

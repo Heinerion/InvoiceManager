@@ -44,10 +44,14 @@ public class CompanyCreateDialog {
   private AccountForm accountForm;
 
   private final Migrator migrator;
+  private final DataBase dataBase;
+  private final IO io;
 
-  public CompanyCreateDialog(Migrator migrator) {
+  public CompanyCreateDialog(Migrator migrator,DataBase dataBase, IO io) {
     this.migrator = migrator;
-    
+    this.dataBase = dataBase;
+    this.io = io;
+
     button = new JButton("+");
     button.addActionListener(e -> {
       Container contentPane = button.getRootPane().getParent();
@@ -123,10 +127,7 @@ public class CompanyCreateDialog {
   }
 
   private void setupInteractions(JDialog dialog) {
-    btnSave.addActionListener(e -> {
-      saveCompany(dialog);
-    });
-
+    btnSave.addActionListener(e -> saveCompany(dialog));
     btnCancel.addActionListener(e -> closeDialog(dialog));
   }
 
@@ -138,11 +139,10 @@ public class CompanyCreateDialog {
       Account account = accountForm.getValue();
       company.setAccount(account);
       if (address != null && account != null) {
-        DataBase dataBase = DataBase.getInstance();
         dataBase.addCompany(company);
-        log.atInfo().log("added %s to database%n", company.getDescriptiveName());
-        new IO(new PathUtilNG()).saveCompanies(Session.getAvailableCompanies());
-        log.atInfo().log("%s written to disk%n", company.getDescriptiveName());
+        log.atFine().log("added %s to database%n", company.getDescriptiveName());
+        io.saveCompanies(Session.getAvailableCompanies());
+        log.atFine().log("%s written to disk%n", company.getDescriptiveName());
         migrator.migrateCompanies();
         applicationFrame.refresh();
         closeDialog(dialog);

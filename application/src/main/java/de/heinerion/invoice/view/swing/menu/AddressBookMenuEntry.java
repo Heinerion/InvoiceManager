@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +14,11 @@ import java.util.List;
 /**
  * @author heiner
  */
+@RequiredArgsConstructor
 class AddressBookMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("addressBook");
   private JScrollPane spAddresses;
-  private DataBase dataBase = DataBase.getInstance();
+  private final DataBase dataBase;
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -28,7 +30,7 @@ class AddressBookMenuEntry extends MenuEntry {
   @Override
   protected void createWidgets() {
     List<Address> addresses = Session.getActiveCompany()
-        .map(company -> dataBase.getAddresses(company))
+        .map(dataBase::getAddresses)
         .orElse(Collections.emptyList());
 
     final AddressModel model = new AddressModel(addresses);

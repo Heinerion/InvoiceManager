@@ -21,14 +21,17 @@ import static org.junit.Assert.assertTrue;
 @Ignore
 public class DataBaseAddressTest {
   private Address address;
-  private DataBase dataBase = DataBase.getInstance();
+  private DataBase dataBase;
 
   @Mock
   private IO io;
 
+  @Mock
+  private MemoryBank memoryBank;
+
   @Before
   public void setUp() {
-    dataBase.setIo(io);
+    dataBase = new DataBase(memoryBank, io);
     dataBase.clearAllLists();
     address = new AddressBuilder().build();
   }

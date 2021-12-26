@@ -3,6 +3,7 @@ package de.heinerion.invoice.view;
 import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +11,12 @@ import javax.swing.*;
 
 @Flogger
 @Service
+@RequiredArgsConstructor
 public class GuiStarter {
   private static final long ONE_SECOND = 1000L;
 
   private final ApplicationFrame applicationFrame;
-
-  GuiStarter(ApplicationFrame applicationFrame) {
-    this.applicationFrame = applicationFrame;
-  }
+  private final DataBase dataBase;
 
   public void showInterface() {
     prepareApplicationFrame(applicationFrame.getFrame());
@@ -36,7 +35,7 @@ public class GuiStarter {
   private void collectData(ApplicationFrame applicationFrame) {
     StatusComponent progress = applicationFrame.getStatusComponent();
 
-    DataBase.getInstance().load(progress);
+    dataBase.load(progress);
 
     applicationFrame.refresh();
 
@@ -53,13 +52,7 @@ public class GuiStarter {
       Thread.sleep(ONE_SECOND);
     } catch (final InterruptedException e) {
       log.atSevere().withCause(e).log("could not wait");
-      throw new GuiStarter.ThreadWaitException(e);
-    }
-  }
-
-  private static class ThreadWaitException extends RuntimeException {
-    ThreadWaitException(Throwable t) {
-      super(t);
+      Thread.currentThread().interrupt();
     }
   }
 }

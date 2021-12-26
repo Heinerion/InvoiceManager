@@ -1,7 +1,6 @@
 package de.heinerion.invoice;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.common.StatusComponent;
@@ -42,9 +41,6 @@ public class InvoiceManagerTest {
   private ApplicationFrame applicationFrame;
 
   @Mock
-  private IO io;
-
-  @Mock
   private StatusComponent statusComponent;
 
   @InjectMocks
@@ -54,7 +50,7 @@ public class InvoiceManagerTest {
 
   @Before
   public void setUp() {
-    manager = new InvoiceManager(io, guiStarter);
+    manager = new InvoiceManager(guiStarter);
 
     when(statusComponent.getContainer()).thenReturn(new JPanel());
 
@@ -97,7 +93,7 @@ public class InvoiceManagerTest {
     PowerMockito.doCallRealMethod().when(LookAndFeelUtil.class);
     LookAndFeelUtil.setNimbus();
 
-    new InvoiceManager(io, guiStarter).run();
+    new InvoiceManager(guiStarter).run();
 
     ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
     verify(LookAndFeelUtil.class);

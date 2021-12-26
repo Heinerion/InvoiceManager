@@ -5,7 +5,9 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Storable;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.storage.PathTools;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -17,7 +19,9 @@ import java.util.Map;
  * @deprecated this class will eventually be replaced
  */
 @Flogger
+@Service
 @Deprecated
+@RequiredArgsConstructor
 public class TextFileLoader {
 
   private static final String EMPTY = "";
@@ -48,15 +52,10 @@ public class TextFileLoader {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  private Writer writer;
+  private Writer writer = new Writer();
   private Map<String, String> attributes;
 
   private final PathUtilNG pathUtil;
-
-  TextFileLoader(PathUtilNG pathUtil) {
-    this.pathUtil = pathUtil;
-    setWriter(new Writer());
-  }
 
   private String generatePath(Storable storable) {
     return PathTools.getPath(storable, pathUtil);
@@ -157,3 +156,5 @@ public class TextFileLoader {
 
 
 }
+
+

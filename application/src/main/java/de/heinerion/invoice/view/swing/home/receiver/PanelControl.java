@@ -12,8 +12,6 @@ class PanelControl {
   private static final String DEFAULT_COMPANY = null;
   private static final String DEFAULT_DISTRICT = null;
 
-  private static DataBase dataBase = DataBase.getInstance();
-
   private PanelControl() {
   }
 
@@ -62,7 +60,7 @@ class PanelControl {
     return parsedAddress;
   }
 
-  static void saveAddress(String address) {
+  static void saveAddress(DataBase dataBase, String address) {
     log.atFine().log("save...");
     if (notEmpty(address)) {
       dataBase.addAddress(parseAddress(address));

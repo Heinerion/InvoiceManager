@@ -1,6 +1,7 @@
 package de.heinerion.betriebe.data;
 
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.storage.loading.IO;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.PdfArchivedInvoice;
@@ -22,6 +23,12 @@ public class DataBaseInvoiceTest {
   private DataBase dataBase;
 
   @Mock
+  private IO io;
+
+  @Mock
+  private MemoryBank memoryBank;
+
+  @Mock
   private File file;
 
   @Mock
@@ -29,7 +36,7 @@ public class DataBaseInvoiceTest {
 
   @Before
   public void setUp() throws Exception {
-    dataBase = DataBase.getInstance();
+    dataBase = new DataBase(memoryBank, io);
     // TODO the ArchivedInvoice constructor makes way too much assumptions
     when(file.getName()).thenReturn("1 Test 03.03.2016.pdf");
     when(file.getParentFile()).thenReturn(parent);
@@ -41,7 +48,7 @@ public class DataBaseInvoiceTest {
     dataBase.addCompany(company);
     Session.setActiveCompany(company);
 
-    archivedInvoice = new PdfArchivedInvoice(file);
+    archivedInvoice = new PdfArchivedInvoice(file, dataBase);
   }
 
   @Test

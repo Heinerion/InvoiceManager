@@ -18,16 +18,17 @@ class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
-  private DataBase dataBase = DataBase.getInstance();
+  private DataBase dataBase;
   private Printer printer;
   private PathUtilNG pathUtil;
 
   private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
-  PrintOperations(Printer printer, PathUtilNG pathUtil) {
+  PrintOperations(Printer printer, PathUtilNG pathUtil, DataBase database) {
     this.printer = printer;
     this.pathUtil = pathUtil;
+    this.dataBase = database;
   }
 
   /**

@@ -6,6 +6,7 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.view.DateUtil;
+import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Flogger
 public final class PdfArchivedInvoice implements ArchivedInvoice {
   private static final String DIVIDER = "\t";
   // 14 := dd.mm.yyyy.pdf
@@ -30,11 +32,13 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
   private Company company;
   private double amount;
   private Map<String, Address> addressCache;
-  private DataBase dataBase = DataBase.getInstance();
+  private final DataBase dataBase;
 
   // TODO parsing der Daten unbedingt überarbeiten
   // TODO pdf-Properties auslesen?
-  public PdfArchivedInvoice(File sourceFile) {
+  public PdfArchivedInvoice(File sourceFile, DataBase dataBase) {
+    this.dataBase = dataBase;
+
     pdf = sourceFile;
     final String companyName = sourceFile.getParentFile().getName();
     company = Session.getCompanyByName(companyName);
@@ -63,8 +67,9 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
   }
 
   @Override
-  public void loadFile() throws IOException {
-    try (PDDocument pdDocument = PDDocument.load(getFile())) {
+  public void loadFile() {
+    File file = getFile();
+    try (PDDocument pdDocument = PDDocument.load(file)) {
       PDDocumentInformation info = pdDocument.getDocumentInformation();
       company = Session.getCompanyByName(info.getAuthor());
       item = info.getSubject();
@@ -72,6 +77,11 @@ public final class PdfArchivedInvoice implements ArchivedInvoice {
       if (keywords != null && !"".equals(keywords)) {
         amount = ParsingUtil.parseDouble(keywords);
       }
+    } catch (IOException e) {
+      log
+          .atWarning()
+          .withCause(e)
+          .log("file %s could not be read as PDF", file.getAbsolutePath());
     }
   }
 
