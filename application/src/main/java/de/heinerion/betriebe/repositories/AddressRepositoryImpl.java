@@ -1,44 +1,78 @@
 package de.heinerion.betriebe.repositories;
 
-import de.heinerion.betriebe.data.MemoryBank;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.storage.loading.TextFileLoader;
+import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.storage.xml.jaxb.XmlPersistence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.util.*;
 
 @Service
 @Flogger
 @RequiredArgsConstructor
 class AddressRepositoryImpl implements AddressRepository {
-  private final MemoryBank memory;
-  private final TextFileLoader fileLoader;
+  private final XmlPersistence persistence;
+  private final PathUtilNG pathUtilNG;
+
+  private Collection<Address> addresses = new HashSet<>();
+
+  @PostConstruct
+  private void load() {
+    this.addresses = new HashSet<>(persistence.readAddresses(getFilename()));
+  }
+
+  private File getFilename() {
+    return new File(pathUtilNG.getBaseDir(), "addresses.xml");
+  }
 
   @Override
   public Collection<Address> findByCompany(Company company) {
-    return memory.getAddresses(company);
+    return addresses.stream()
+        .sorted(Comparator.comparing(Address::getRecipient))
+        .toList();
+  }
+
+  @Override
+  public Optional<Address> findByRecipient(String recipient) {
+    return addresses.stream()
+        .filter(a -> a.getRecipient().equals(recipient))
+        .findFirst();
   }
 
   @Override
   public Optional<Address> findByCompanyAndRecipient(Company company, String recipient) {
-    return memory.getAddress(company, recipient);
+    // TODO Company-Mapping is broken, re-implementation needed!
+    return findByRecipient(recipient);
   }
 
   @Override
   public Collection<Address> findAll() {
-    return memory.getAllAddresses();
+    return Collections.unmodifiableCollection(addresses);
   }
 
   @Override
   public Address save(Address address) {
-    memory.addAddress(address);
-    fileLoader.saveAddresses(findAll());
+    saveInMemory(address);
+    saveOnDisk();
     return address;
+  }
+
+  private Address saveInMemory(Address address) {
+    findByRecipient(address.getRecipient())
+        .ifPresent(addresses::remove);
+    addresses.add(address);
+    return address;
+  }
+
+  private void saveOnDisk() {
+    persistence.writeAddresses(getFilename(), addresses.stream()
+        .sorted(Comparator.comparing(Address::getRecipient))
+        .toList());
   }
 
   @Override
@@ -46,8 +80,7 @@ class AddressRepositoryImpl implements AddressRepository {
     Collection<Address> savedEntries = new HashSet<>();
     for (Address address : entries) {
       try {
-        memory.addAddress(address);
-        savedEntries.add(address);
+        savedEntries.add(saveInMemory(address));
       } catch (Exception e) {
         log.atWarning()
             .withCause(e)
@@ -55,7 +88,7 @@ class AddressRepositoryImpl implements AddressRepository {
       }
     }
 
-    fileLoader.saveAddresses(findAll());
+    saveOnDisk();
     return savedEntries;
   }
 }
