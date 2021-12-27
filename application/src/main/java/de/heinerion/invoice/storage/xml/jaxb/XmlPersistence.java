@@ -13,47 +13,42 @@ import java.util.List;
 @Service
 public class XmlPersistence {
   public List<Address> readAddresses(File source) {
-    if (source.exists()) {
-      return new AddressManager().unmarshal(source);
-    }
-
-    return Collections.emptyList();
+    return read(new AddressManager(), source);
   }
 
   public void writeAddresses(File destination, List<Address> addresses) {
-    Contract.require(destination.getName().endsWith(".xml"), "destination ends with '.xml'");
-    new AddressManager()
-        .withFormattedOutput()
-        .marshal(addresses, destination);
+    write(new AddressManager(), addresses, destination);
   }
 
   public List<Company> readCompanies(File source) {
-    if (source.exists()) {
-      return new CompanyManager().unmarshal(source);
-    }
-
-    return Collections.emptyList();
+    return read(new CompanyManager(), source);
   }
 
   public void writeCompanies(File destination, List<Company> companies) {
-    Contract.require(destination.getName().endsWith(".xml"), "destination ends with '.xml'");
-    new CompanyManager()
-        .withFormattedOutput()
-        .marshal(companies, destination);
+    write(new CompanyManager(), companies, destination);
   }
 
   public List<InvoiceTemplate> readTemplates(File source) {
+    return read(new TemplateManager(), source);
+  }
+
+  public void writeTemplates(File destination, List<InvoiceTemplate> templates) {
+    write(new TemplateManager(), templates, destination);
+  }
+
+  private static <T> List<T> read(JaxbManager<T> manager, File source) {
     if (source.exists()) {
-      return new TemplateManager().unmarshal(source);
+      return manager.unmarshal(source);
     }
 
     return Collections.emptyList();
   }
 
-  public void writeTemplates(File destination, List<InvoiceTemplate> templates) {
+  private static <T> void write(JaxbManager<T> manager, List<T> entries, File destination) {
     Contract.require(destination.getName().endsWith(".xml"), "destination ends with '.xml'");
-    new TemplateManager()
+    manager
         .withFormattedOutput()
-        .marshal(templates, destination);
+        .marshal(entries, destination);
+
   }
 }
