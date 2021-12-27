@@ -36,6 +36,17 @@ class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements Co
   }
 
   @Override
+  public Optional<Company> findByOfficialName(String companyName) {
+    if (companyName == null) {
+      return Optional.empty();
+    }
+
+    return companies.stream()
+        .filter(company -> company.getOfficialName().equals(companyName))
+        .findFirst();
+  }
+
+  @Override
   protected Company saveInMemory(Company entry) {
     companies.add(entry);
     if (entry.getId() == null) {
