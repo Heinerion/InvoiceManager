@@ -26,24 +26,18 @@ class FileHandler {
   }
 
   private static boolean isListOf(Object obj, Class<?> clazz) {
-    boolean ret = false;
-    if (obj instanceof List<?>) {
-      List<?> objAsList = (List<?>) obj;
-
-      ret = isListOfClass(clazz, objAsList);
-    }
-
-    return ret;
+    return obj instanceof List<?> list
+        && isListOfClass(clazz, list);
   }
 
   private static boolean isListOfClass(Class<?> clazz, List<?> objAsList) {
-    boolean ret = false;
-    if (!objAsList.isEmpty()) {
-      Object firstElem = objAsList.get(0);
-      Class<?> objClass = firstElem.getClass();
-      ret = objClass.equals(clazz);
+    if (objAsList.isEmpty()) {
+      return false;
     }
-    return ret;
+
+    Object firstElem = objAsList.get(0);
+    Class<?> objClass = firstElem.getClass();
+    return objClass.equals(clazz);
   }
 
   public static <T> List<T> load(T element, String path) {

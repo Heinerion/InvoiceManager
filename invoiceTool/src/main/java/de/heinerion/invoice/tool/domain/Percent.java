@@ -1,6 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 public class Percent implements Comparable<Percent> {
@@ -16,7 +17,7 @@ public class Percent implements Comparable<Percent> {
   }
 
   public BigDecimal asFactor() {
-    return percentage.divide(BigDecimal.valueOf(100L), 4, BigDecimal.ROUND_HALF_UP);
+    return percentage.divide(BigDecimal.valueOf(100L), 4, RoundingMode.HALF_UP);
   }
 
   public BigDecimal getPercentage() {
