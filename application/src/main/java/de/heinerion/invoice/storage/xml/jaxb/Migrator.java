@@ -82,8 +82,10 @@ public class Migrator {
   private final AddressRepository addressRepository;
   private final CompanyRepository companyRepository;
   private final TemplateRepository templateRepository;
+  private final XmlPersistence persistence;
 
   public static void main(String... args) {
+    // TODO repair...
     Migrator bean = ConfigurationService.getBean(Migrator.class);
     bean.migrateCompanies();
     ConfigurationService.exitApplication();
@@ -154,21 +156,38 @@ public class Migrator {
   private void transferTemplatesAndAddresses(Company company) {
     Collection<InvoiceTemplate> oldTemplates = templateRepository.findAll();
 
-    List<InvoiceTemplate> templates = FileHandler
+    log.atFine().log("read sav files");
+    List<InvoiceTemplate> savTemplates = FileHandler
         .load(new InvoiceTemplate(), pathUtil.getTemplateFileName(company.getDescriptiveName()))
         .stream()
-        .filter(template -> template.getInhalt() == null)
+        .filter(template -> template.getInhalt() != null)
+        .toList();
+    log.atFine().log("%d sav templates found", savTemplates.size());
+
+    log.atFine().log("read xml files");
+    List<InvoiceTemplate> xmlTemplates = persistence.readTemplates(generateTemplateXmlFile(company))
+        .stream()
+        .toList();
+    log.atFine().log("%d xml templates found", xmlTemplates.size());
+
+    Set<InvoiceTemplate> templates = new HashSet<>();
+    templates.addAll(savTemplates);
+    templates.addAll(xmlTemplates);
+
+    templateRepository.saveAll(templates.stream()
         .filter(template -> oldTemplates.stream().noneMatch(t -> t.getName().equals(template.getName())))
         .map(template -> {
-          template.setInhalt(new String[0][0]);
           if (template.getCompanyId() == null) {
             template.setCompanyId(company.getId());
           }
           return template;
         })
-        .toList();
+        .toList()
+    );
+  }
 
-    templateRepository.saveAll(templates);
+  private File generateTemplateXmlFile(Company company) {
+    return new File(new File(pathUtil.getBaseDir(), company.getDescriptiveName()), "templates.xml");
   }
 
   private static void copyLettersAndInvoices(PathUtilNG pathUtil, Company company, File companyDir) {
@@ -256,6 +275,10 @@ public class Migrator {
   }
 
   private static void copy(File src, File dest) {
+    if (dest.exists()) {
+      log.atWarning().log("%s already exists, skipping", dest);
+      return;
+    }
     try {
       print(String.format("copy %s%n  to %s", src, dest));
       FileSystemUtils.copyRecursively(src, dest);

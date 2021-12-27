@@ -24,12 +24,11 @@ public class XmlConfigurator {
   }
 
   public void setSecurityOptions() {
-    XStream.setupDefaultSecurity(xstream);
     xstream.addPermission(NoTypePermission.NONE);
     xstream.addPermission(NullPermission.NULL);
     xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
     xstream.allowTypeHierarchy(Collection.class);
-    xstream.allowTypesByWildcard(new String[] {
+    xstream.allowTypesByWildcard(new String[]{
         "de.heinerion.**"
     });
   }
