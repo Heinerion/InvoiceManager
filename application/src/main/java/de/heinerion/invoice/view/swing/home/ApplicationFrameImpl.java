@@ -3,6 +3,7 @@ package de.heinerion.invoice.view.swing.home;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
+import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
@@ -16,9 +17,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ApplicationFrameImpl.java heiner 27.03.2012
@@ -115,20 +117,25 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   private void refreshTitle() {
     List<String> token = new ArrayList<>();
 
-    addCompanyAndNumber(token);
-    addDate(token);
+    Session.getActiveCompany()
+        .map(this::getCompanyToken)
+        .ifPresent(token::addAll);
+
+    Optional.ofNullable(Session.getDate())
+        .map(DateUtil::format)
+        .ifPresent(token::add);
 
     if (Session.isDebugMode()) {
       addDebugMarks(token);
     }
 
-    String title = String.join("\t", token);
+    String title = String.join(" \t-\t ", token);
     frame.setTitle(title);
   }
 
   private void addDebugMarks(List<String> token) {
     String debug = "##DEBUG##";
-    String version = "(" + Session.getVersion() + ")";
+    String version = "(%s)".formatted(Session.getVersion());
 
     token.add(0, debug);
 
@@ -136,19 +143,11 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
     token.add(version);
   }
 
-  private void addDate(List<String> token) {
-    LocalDate date = Session.getDate();
-    if (null != date) {
-      token.add(DateUtil.format(date));
-    }
-  }
-
-  private void addCompanyAndNumber(List<String> token) {
-    Session.getActiveCompany()
-        .ifPresent(activeCompany -> {
-          token.add(activeCompany.getDescriptiveName());
-          String numberLabel = Translator.translate("invoice.number");
-          token.add(numberLabel + ": " + (activeCompany.getInvoiceNumber()));
-        });
+  private List<String> getCompanyToken(Company activeCompany) {
+    return Arrays.asList(
+        activeCompany.getDescriptiveName(),
+        "%s: %d".formatted(
+            Translator.translate("invoice.number"),
+            activeCompany.getInvoiceNumber()));
   }
 }
