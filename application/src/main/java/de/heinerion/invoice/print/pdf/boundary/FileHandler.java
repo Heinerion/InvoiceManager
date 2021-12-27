@@ -4,6 +4,8 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +28,12 @@ class FileHandler {
 
   void moveFile(String destinationPath, File output) {
     File destination = prepareFile(destinationPath);
-    boolean success = output.renameTo(destination);
-
-    if (success) {
+    try {
+      Files.move(output.toPath(), destination.toPath(), StandardCopyOption.ATOMIC_MOVE);
       log.atInfo().log("File moved to %s", destination.getAbsolutePath());
-    } else {
-      log.atWarning().log("File could not be moved to %s", destination.getAbsolutePath());
+    } catch (IOException ioe) {
+      log.atWarning().withCause(ioe).log("File could not be moved to %s."
+      );
     }
   }
 
