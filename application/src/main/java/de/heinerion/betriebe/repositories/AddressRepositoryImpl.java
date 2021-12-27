@@ -24,10 +24,11 @@ class AddressRepositoryImpl implements AddressRepository {
   @PostConstruct
   private void load() {
     this.addresses = new HashSet<>(persistence.readAddresses(getFilename()));
+    log.atInfo().log("%d addresses loaded", addresses.size());
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getBaseDir(), "addresses.xml");
+    return new File(pathUtilNG.getSystemPath(), "addresses.xml");
   }
 
   @Override
