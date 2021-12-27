@@ -34,39 +34,16 @@ public final class AddressModel extends AbstractTableModel {
   }
 
   private String getColumnNameById(ColumnId columnId) {
-    String result;
-
-    switch (columnId) {
-      case APARTMENT:
-        result = Translator.translate("address.apartment");
-        break;
-      case COMPANY:
-        result = Translator.translate("address.company");
-        break;
-      case DISTRICT:
-        result = Translator.translate("address.district");
-        break;
-      case LOCATION:
-        result = Translator.translate("address.location");
-        break;
-      case NUMBER:
-        result = Translator.translate("address.number");
-        break;
-      case POSTCODE:
-        result = Translator.translate("address.postcode");
-        break;
-      case RECIPIENT:
-        result = Translator.translate("address.recipient");
-        break;
-      case STREET:
-        result = Translator.translate("address.street");
-        break;
-      default:
-        result = columnId.toString();
-        break;
-    }
-
-    return result;
+    return Translator.translate(switch (columnId) {
+      case APARTMENT -> "address.apartment";
+      case COMPANY -> "address.company";
+      case DISTRICT -> "address.district";
+      case LOCATION -> "address.location";
+      case NUMBER -> "address.number";
+      case POSTCODE -> "address.postcode";
+      case RECIPIENT -> "address.recipient";
+      case STREET -> "address.street";
+    });
   }
 
   @Override
@@ -81,39 +58,16 @@ public final class AddressModel extends AbstractTableModel {
   }
 
   private String getValueById(Address address, ColumnId columnId) {
-    String result;
-
-    switch (columnId) {
-      case APARTMENT:
-        result = address.getApartment().orElse("");
-        break;
-      case COMPANY:
-        result = address.getCompany().orElse("");
-        break;
-      case DISTRICT:
-        result = address.getDistrict().orElse("");
-        break;
-      case LOCATION:
-        result = address.getLocation();
-        break;
-      case NUMBER:
-        result = address.getNumber();
-        break;
-      case POSTCODE:
-        result = address.getPostalCode();
-        break;
-      case RECIPIENT:
-        result = address.getRecipient();
-        break;
-      case STREET:
-        result = address.getStreet();
-        break;
-      default:
-        result = columnId.toString();
-        break;
-    }
-
-    return result;
+    return switch (columnId) {
+      case APARTMENT -> address.getApartment().orElse("");
+      case COMPANY -> address.getCompany().orElse("");
+      case DISTRICT -> address.getDistrict().orElse("");
+      case LOCATION -> address.getLocation();
+      case NUMBER -> address.getNumber();
+      case POSTCODE -> address.getPostalCode();
+      case RECIPIENT -> address.getRecipient();
+      case STREET -> address.getStreet();
+    };
   }
 
   @Override
@@ -131,32 +85,14 @@ public final class AddressModel extends AbstractTableModel {
 
   private void setValueById(Address address, ColumnId columnId, String value) {
     switch (columnId) {
-      case APARTMENT:
-        address.setApartment(value);
-        break;
-      case COMPANY:
-        address.setCompany(value);
-        break;
-      case DISTRICT:
-        address.setDistrict(value);
-        break;
-      case LOCATION:
-        address.setLocation(value);
-        break;
-      case NUMBER:
-        address.setNumber(value);
-        break;
-      case POSTCODE:
-        address.setPostalCode(value);
-        break;
-      case RECIPIENT:
-        address.setRecipient(value);
-        break;
-      case STREET:
-        address.setStreet(value);
-        break;
-      default:
-        break;
+      case APARTMENT -> address.setApartment(value);
+      case COMPANY -> address.setCompany(value);
+      case DISTRICT -> address.setDistrict(value);
+      case LOCATION -> address.setLocation(value);
+      case NUMBER -> address.setNumber(value);
+      case POSTCODE -> address.setPostalCode(value);
+      case RECIPIENT -> address.setRecipient(value);
+      case STREET -> address.setStreet(value);
     }
   }
 }
