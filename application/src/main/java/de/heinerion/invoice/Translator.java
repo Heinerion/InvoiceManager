@@ -1,6 +1,7 @@
 package de.heinerion.invoice;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -16,17 +17,18 @@ public class Translator {
    * Delivers the value of the given key from a Resource Bundle derived by the key.
    * <p>
    * Returns the key enclosed in single quotes if there was no value found for it.
-   * </p>
    * <p>
    * The key {@code error.dateFormat} will, for example, be read from the {@code error.properties} Resource Bundle.
-   * </p>
    *
-   * @param key       will be used to determine the Resource Bundle and to retrieve its value from that
-   * @param arguments (Optional) Arguments to be substituted in the properties value
+   * @param key
+   *     will be used to determine the Resource Bundle and to retrieve its value from that
+   * @param arguments
+   *     (Optional) Arguments to be substituted in the properties value
    *
-   * @return the value to the given key, if the Resource Bundle could be determined and a value for the given key is defined;<p>
-   * will return the key in single quotes otherwise (e.g. {@code 'unknown.key'})
-   * </p>
+   * @return the value to the given key, if the Resource Bundle could be determined and a value for the given key is
+   *     defined;
+   *     <p>
+   *     will return the key in single quotes otherwise (e.g. {@code 'unknown.key'})
    */
   public static String translate(String key, Object... arguments) {
     Objects.requireNonNull(key, "key must not be null");
@@ -47,18 +49,9 @@ public class Translator {
   }
 
   private static String determineBaseName(String prefix) {
-    String resourceName;
-
-    switch (prefix) {
-      case "controls":
-      case "error":
-      case "icons":
-        resourceName = prefix;
-        break;
-      default:
-        resourceName = "base";
-    }
-
+    String resourceName = Arrays.asList("controls", "error", "icons").contains(prefix)
+        ? prefix
+        : "base";
     return "translation." + resourceName;
   }
 
@@ -68,13 +61,16 @@ public class Translator {
    * Returns the key enclosed in single quotes if there was no value found for it.
    * </p>
    *
-   * @param moduleClass is used to derive the Resource Bundle to be read from
-   * @param key         will be looked for in the Resource Bundle
-   * @param arguments   (Optional) Arguments to be substituted in the properties value
+   * @param moduleClass
+   *     is used to derive the Resource Bundle to be read from
+   * @param key
+   *     will be looked for in the Resource Bundle
+   * @param arguments
+   *     (Optional) Arguments to be substituted in the properties value
    *
    * @return the translation of the given key or, if no translation is found, the key in single quotes
    */
-  public static String translate(Class moduleClass, String key, Object... arguments) {
+  public static String translate(Class<?> moduleClass, String key, Object... arguments) {
     Objects.requireNonNull(moduleClass, "moduleClass must not be null");
     Objects.requireNonNull(key, "key must not be null");
 
