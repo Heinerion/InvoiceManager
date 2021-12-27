@@ -57,7 +57,11 @@ abstract class JaxbManager<T> {
 
   protected abstract List<T> getContent(Object rootObject);
 
-  protected abstract JAXBContext getContext() throws JAXBException;
+  private JAXBContext getContext() throws JAXBException {
+    return JAXBContext.newInstance(getWrapper());
+  }
+
+  protected abstract Class<?> getWrapper();
 
   private static class MarshallingException extends RuntimeException {
     MarshallingException(Throwable cause) {

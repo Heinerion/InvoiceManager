@@ -2,8 +2,6 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.models.Address;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import java.util.List;
 
 public class AddressManager extends JaxbManager<Address> {
@@ -23,7 +21,7 @@ public class AddressManager extends JaxbManager<Address> {
   }
 
   @Override
-  protected JAXBContext getContext() throws JAXBException {
-    return JAXBContext.newInstance(AddressListWrapper.class);
+  protected Class<?> getWrapper() {
+    return AddressListWrapper.class;
   }
 }

@@ -8,7 +8,7 @@ import java.text.Collator;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Company implements Storable, Loadable {
+public final class Company implements Storable, Loadable, Comparable<Company> {
   private UUID id;
 
   private String descriptiveName;
@@ -45,6 +45,7 @@ public final class Company implements Storable, Loadable {
     this.account = bankAccount;
   }
 
+  @Override
   public int compareTo(Company company) {
     return Collator.getInstance().compare(this.getDescriptiveName(),
         company.getDescriptiveName());

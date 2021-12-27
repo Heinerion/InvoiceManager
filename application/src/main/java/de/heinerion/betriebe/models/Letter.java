@@ -8,13 +8,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class Letter implements Storable {
-  private final Company company;
-  private final LocalDate date;
+  private Company company;
+  private LocalDate date;
 
   String subject;
 
-  private final List<String> messageLines;
-  final Address receiver;
+  private List<String> messageLines;
+  protected Address receiver;
+
+  /**
+   * For persistence only
+   */
+  public Letter() {
+  }
 
   public Letter(LocalDate date, Company sender, Address receiver) {
     this.date = date;
@@ -38,8 +44,16 @@ public class Letter implements Storable {
     return this.company;
   }
 
+  public void setCompany(Company company) {
+    this.company = company;
+  }
+
   public LocalDate getDate() {
     return this.date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   @Override
@@ -52,22 +66,30 @@ public class Letter implements Storable {
     return this.messageLines;
   }
 
+  public void setMessageLines(List<String> messageLines) {
+    this.messageLines = messageLines;
+  }
+
   public Address getReceiver() {
     return this.receiver;
+  }
+
+  public void setReceiver(Address receiver) {
+    this.receiver = receiver;
   }
 
   public String getSubject() {
     return this.subject;
   }
 
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
+
   public boolean isPrintable() {
     final boolean hasSubject = !(subject == null || subject.trim().isEmpty());
     final boolean hasContent = !messageLines.isEmpty();
     return hasSubject && hasContent;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
   }
 
   @Override

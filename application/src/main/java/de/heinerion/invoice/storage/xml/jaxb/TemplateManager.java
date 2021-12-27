@@ -2,8 +2,6 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import java.util.List;
 
 public class TemplateManager extends JaxbManager<InvoiceTemplate> {
@@ -23,7 +21,7 @@ public class TemplateManager extends JaxbManager<InvoiceTemplate> {
   }
 
   @Override
-  protected JAXBContext getContext() throws JAXBException {
-    return JAXBContext.newInstance(TemplateListWrapper.class);
+  protected Class<?> getWrapper() {
+    return TemplateListWrapper.class;
   }
 }

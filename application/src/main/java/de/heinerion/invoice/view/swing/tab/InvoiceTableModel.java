@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.tab;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Item;
-import de.heinerion.betriebe.models.Product;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
 
@@ -146,7 +145,7 @@ class InvoiceTableModel extends AbstractTableModel {
     if (isValidIndex(rowIndex)) {
       item = contents.get(rowIndex);
     } else {
-      item = new Item(new Product(null, null, 0));
+      item = new Item(null, null, 0);
       contents.add(item);
     }
     return item;

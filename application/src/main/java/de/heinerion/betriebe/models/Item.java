@@ -3,16 +3,26 @@ package de.heinerion.betriebe.models;
 import java.util.Objects;
 
 public final class Item implements Buyable {
-  private Product product;
+  private String name;
+  private String unit;
+  private double pricePerUnit;
   private double quantity;
   private double total;
 
-  public Item(Product newProduct) {
-    this(newProduct, 0);
+  /**
+   * For persistence only
+   */
+  public Item() {
   }
 
-  public Item(Product newProduct, double aQuantity) {
-    this.product = newProduct;
+  public Item(String name, String unit, double pricePerUnit) {
+    this(name, unit, pricePerUnit, 0);
+  }
+
+  public Item(String name, String unit, double pricePerUnit, double aQuantity) {
+    this.name = name;
+    this.unit = unit;
+    this.pricePerUnit = pricePerUnit;
     this.quantity = aQuantity;
     this.updateValues();
   }
@@ -24,33 +34,24 @@ public final class Item implements Buyable {
 
   @Override
   public String getName() {
-    return this.product.getName();
+    return name;
+  }
+
+  public void setName(String newName) {
+    this.name = newName;
   }
 
   @Override
   public double getPricePerUnit() {
-    return this.product.getPricePerUnit();
+    return pricePerUnit;
+  }
+
+  public void setPricePerUnit(double newPrice) {
+    this.pricePerUnit = newPrice;
   }
 
   public double getQuantity() {
     return this.quantity;
-  }
-
-  public double getTotal() {
-    return this.total;
-  }
-
-  @Override
-  public String getUnit() {
-    return this.product.getUnit();
-  }
-
-  public void setName(String newName) {
-    product = new Product(newName, getUnit(), getPricePerUnit());
-  }
-
-  public void setPricePerUnit(double newPrice) {
-    product = new Product(getName(), getUnit(), newPrice);
   }
 
   public void setQuantity(double newQuantity) {
@@ -58,8 +59,21 @@ public final class Item implements Buyable {
     this.updateValues();
   }
 
+  public double getTotal() {
+    return this.total;
+  }
+
+  public void setTotal(double total) {
+    this.total = total;
+  }
+
+  @Override
+  public String getUnit() {
+    return unit;
+  }
+
   public void setUnit(String newUnit) {
-    product = new Product(getName(), newUnit, getPricePerUnit());
+    unit = newUnit;
   }
 
   @Override
@@ -79,11 +93,13 @@ public final class Item implements Buyable {
     Item item = (Item) o;
     return Double.compare(item.quantity, quantity) == 0 &&
         Double.compare(item.total, total) == 0 &&
-        Objects.equals(product, item.product);
+        Objects.equals(name, item.name) &&
+        Objects.equals(pricePerUnit, item.pricePerUnit) &&
+        Objects.equals(unit, item.unit);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(product, quantity, total);
+    return Objects.hash(name, pricePerUnit, unit, quantity, total);
   }
 }

@@ -3,6 +3,7 @@ package de.heinerion.invoice.storage.xml.jaxb;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.contract.Contract;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,14 @@ public class XmlPersistence {
 
   public void writeTemplates(File destination, List<InvoiceTemplate> templates) {
     write(new TemplateManager(), templates, destination);
+  }
+
+  public List<Invoice> readInvoices(File source) {
+    return read(new InvoiceManager(), source);
+  }
+
+  public void writeInvoices(File destination, List<Invoice> invoices) {
+    write(new InvoiceManager(), invoices, destination);
   }
 
   private static <T> List<T> read(JaxbManager<T> manager, File source) {

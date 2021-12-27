@@ -2,8 +2,6 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.models.Company;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import java.util.List;
 
 public class CompanyManager extends JaxbManager<Company> {
@@ -23,7 +21,7 @@ public class CompanyManager extends JaxbManager<Company> {
   }
 
   @Override
-  protected JAXBContext getContext() throws JAXBException {
-    return JAXBContext.newInstance(CompanyListWrapper.class);
+  protected Class<?> getWrapper() {
+    return CompanyListWrapper.class;
   }
 }

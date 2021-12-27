@@ -10,14 +10,21 @@ import java.util.Objects;
 public class Invoice extends Letter {
   private static final int PERCENT = 100;
 
-  private final int number;
+  private int number;
 
-  private final List<Item> items;
+  private List<Item> items;
 
   private double net;
-  private final double vat;
+  private double vat;
   private double tax;
   private double gross;
+
+  /**
+   * For persistence only
+   */
+  public Invoice() {
+    super();
+  }
 
   public Invoice(LocalDate aDate, Company theSender, Address theReceiver) {
     super(aDate, theSender, theReceiver);
@@ -32,7 +39,7 @@ public class Invoice extends Letter {
   }
 
   public void add(String article, String unit, double price, double count) {
-    this.addItem(new Item(new Product(article, unit, price), count));
+    this.addItem(new Item(article, unit, price, count));
   }
 
   @Override
@@ -56,24 +63,48 @@ public class Invoice extends Letter {
     return this.gross;
   }
 
+  public void setGross(double gross) {
+    this.gross = gross;
+  }
+
   public List<Item> getItems() {
     return this.items;
+  }
+
+  public void setItems(List<Item> items) {
+    this.items = items;
   }
 
   public double getNet() {
     return this.net;
   }
 
+  public void setNet(double net) {
+    this.net = net;
+  }
+
   public int getNumber() {
     return this.number;
+  }
+
+  public void setNumber(int number) {
+    this.number = number;
   }
 
   public double getTax() {
     return this.tax;
   }
 
+  public void setTax(double tax) {
+    this.tax = tax;
+  }
+
   public double getVat() {
     return this.vat;
+  }
+
+  public void setVat(double vat) {
+    this.vat = vat;
   }
 
   @Override
