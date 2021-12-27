@@ -1,6 +1,6 @@
 package de.heinerion.betriebe.repositories;
 
-import de.heinerion.betriebe.data.listable.InvoiceTemplate;
+import de.heinerion.betriebe.models.InvoiceTemplate;
 import de.heinerion.betriebe.models.Company;
 
 import java.util.Collection;

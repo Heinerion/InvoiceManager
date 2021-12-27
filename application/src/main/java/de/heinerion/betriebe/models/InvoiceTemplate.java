@@ -1,12 +1,15 @@
-package de.heinerion.betriebe.data.listable;
+package de.heinerion.betriebe.models;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate>, DropListable {
+public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate> {
+  @Serial
   private static final long serialVersionUID = 5654884407643922708L;
+
   private String name = "";
   private String[][] inhalt;
   private UUID companyId;
@@ -18,7 +21,8 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof InvoiceTemplate && compareTo((InvoiceTemplate) obj) == 0;
+    return obj instanceof InvoiceTemplate other
+        && compareTo(other) == 0;
   }
 
   @Override
@@ -38,7 +42,6 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     return inhalt;
   }
 
-  @Override
   public final String getName() {
     return this.name;
   }
@@ -47,7 +50,6 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
     this.inhalt = Arrays.copyOf(content, content.length);
   }
 
-  @Override
   public final void setName(String aName) {
     this.name = aName;
   }

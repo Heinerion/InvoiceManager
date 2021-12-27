@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.data.listable.InvoiceTemplate;
+import de.heinerion.betriebe.models.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;

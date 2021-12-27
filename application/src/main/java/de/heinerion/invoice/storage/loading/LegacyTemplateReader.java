@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.data.listable.InvoiceTemplate;
+import de.heinerion.betriebe.models.InvoiceTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
