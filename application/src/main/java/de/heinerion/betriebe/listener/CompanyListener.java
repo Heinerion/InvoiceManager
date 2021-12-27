@@ -1,4 +1,4 @@
-package de.heinerion.invoice.view.swing;
+package de.heinerion.betriebe.listener;
 
 public interface CompanyListener {
   void notifyCompany();

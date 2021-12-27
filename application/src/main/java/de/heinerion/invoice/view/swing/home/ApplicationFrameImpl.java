@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.home;
 
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
@@ -8,7 +9,6 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
-import de.heinerion.invoice.view.swing.CompanyListener;
 import de.heinerion.invoice.view.swing.PanelFactory;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
 import de.heinerion.invoice.view.swing.tab.ContentTabPane;
@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ApplicationFrameImpl.java
- * heiner 27.03.2012
+ * ApplicationFrameImpl.java heiner 27.03.2012
  */
 @Service
 class ApplicationFrameImpl implements
