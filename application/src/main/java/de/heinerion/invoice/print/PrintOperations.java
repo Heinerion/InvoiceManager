@@ -1,6 +1,5 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
@@ -18,17 +17,17 @@ class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
-  private DataBase dataBase;
-  private Printer printer;
-  private PathUtilNG pathUtil;
+  private final Printer printer;
+  private final PathUtilNG pathUtil;
 
-  private FileInfoGenerator[] generators = {new LetterInfoGenerator(), new InvoiceInfoGenerator()};
+  private final FileInfoGenerator[] generators = {
+      new LetterInfoGenerator(),
+      new InvoiceInfoGenerator()};
   private int state = STATE_LETTER;
 
-  PrintOperations(Printer printer, PathUtilNG pathUtil, DataBase database) {
+  PrintOperations(Printer printer, PathUtilNG pathUtil) {
     this.printer = printer;
     this.pathUtil = pathUtil;
-    this.dataBase = database;
   }
 
   /**
@@ -41,16 +40,13 @@ class PrintOperations {
    * <li>removes auxiliary files created in the process
    * </ul>
    *
-   * @param letter the conveyable to be written to pdf
+   * @param letter
+   *     the conveyable to be written to pdf
    */
   void createDocument(Letter letter) {
     updateState(letter);
 
-    SwingUtilities.invokeLater(() -> {
-      printer.writeFile(letter, generatePath(letter), generateTitle(letter));
-
-      dataBase.load();
-    });
+    SwingUtilities.invokeLater(() -> printer.writeFile(letter, generatePath(letter), generateTitle(letter)));
   }
 
   private void updateState(Letter letter) {

@@ -1,6 +1,5 @@
 package de.heinerion.invoice.view.swing.home;
 
-import de.heinerion.invoice.storage.xml.jaxb.Migrator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.receiver.PrintButtonPanel;
 import de.heinerion.invoice.view.swing.home.receiver.SidePanelFactory;
@@ -20,13 +19,11 @@ public class ReceiverPanel implements Refreshable {
   private final Formatter formatter;
   private final PrintButtonPanel printButtonPanel;
   private final SidePanelFactory sidePanelFactory;
-  private final Migrator migrator;
 
-  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel, SidePanelFactory sidePanelFactory, Migrator migrator) {
+  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel, SidePanelFactory sidePanelFactory) {
     this.formatter = formatter;
     this.printButtonPanel = printButtonPanel;
     this.sidePanelFactory = sidePanelFactory;
-    this.migrator = migrator;
     createWidgets();
     addWidgets();
   }
@@ -62,7 +59,7 @@ public class ReceiverPanel implements Refreshable {
     addressPanel.refresh();
   }
 
-  private class FancyPanel extends JPanel {
+  private static class FancyPanel extends JPanel {
     @Override
     public void paintComponent(final Graphics g) {
       Graphics2D g2 = initGraphic((Graphics2D) g);
