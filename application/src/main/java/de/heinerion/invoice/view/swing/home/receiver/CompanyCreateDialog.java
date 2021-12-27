@@ -1,13 +1,11 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.storage.loading.TextFileLoader;
-import de.heinerion.invoice.storage.xml.jaxb.Migrator;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
@@ -42,14 +40,10 @@ public class CompanyCreateDialog {
   private AddressForm addressForm;
   private AccountForm accountForm;
 
-  private final Migrator migrator;
-  private final DataBase dataBase;
-  private final TextFileLoader fileLoader;
+  private final CompanyRepository companyRepository;
 
-  public CompanyCreateDialog(Migrator migrator, DataBase dataBase, TextFileLoader fileLoader) {
-    this.migrator = migrator;
-    this.dataBase = dataBase;
-    this.fileLoader = fileLoader;
+  public CompanyCreateDialog(CompanyRepository companyRepository) {
+    this.companyRepository = companyRepository;
 
     button = new JButton("+");
     button.addActionListener(e -> {
@@ -138,11 +132,8 @@ public class CompanyCreateDialog {
       Account account = accountForm.getValue();
       company.setAccount(account);
       if (address != null && account != null) {
-        dataBase.addCompany(company);
-        log.atFine().log("added %s to database%n", company.getDescriptiveName());
-        fileLoader.saveCompanies(Session.getAvailableCompanies());
-        log.atFine().log("%s written to disk%n", company.getDescriptiveName());
-        migrator.migrateCompanies();
+        Session.addAvailableCompany(company);
+        companyRepository.save(company);
         applicationFrame.refresh();
         closeDialog(dialog);
       }

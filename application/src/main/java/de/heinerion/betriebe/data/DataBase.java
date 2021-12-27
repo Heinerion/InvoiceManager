@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.repositories.AddressRepository;
+import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.invoice.storage.loading.LoadListener;
 import de.heinerion.invoice.storage.loading.Loadable;
 import de.heinerion.invoice.storage.loading.XmlLoader;
@@ -29,6 +30,7 @@ public class DataBase implements LoadListener {
   private final MemoryBank memory;
   private final XmlLoader xmlLoader;
   private final AddressRepository addressRepository;
+  private final CompanyRepository companyRepository;
 
   private ArchivedInvoiceTable invoices;
 
@@ -50,7 +52,7 @@ public class DataBase implements LoadListener {
   /**
    * Removes and loads every business class from the file system via {@link XmlLoader}
    *
-   * @param indicator will be used for {@link XmlLoader#load(StatusComponent, LoadListener, DataBase)} and for later calls via {@link
+   * @param indicator will be used for {@link XmlLoader#load(StatusComponent, LoadListener, DataBase, AddressRepository)}  and for later calls via {@link
    *                  #load()}
    */
   public void load(StatusComponent indicator) {
@@ -65,16 +67,6 @@ public class DataBase implements LoadListener {
 
   private void resetMemories() {
     memory.reset();
-  }
-
-  List<Company> getCompanies() {
-    return memory.getAllCompanies();
-  }
-
-  public void addCompany(Company company) {
-    Session.addAvailableCompany(company);
-
-    memory.addCompany(company);
   }
 
   public ArchivedInvoiceTable getInvoices() {
@@ -107,10 +99,6 @@ public class DataBase implements LoadListener {
     invoiceTemplates.forEach(template -> addTemplate(company, template));
   }
 
-  public void clearAllLists() {
-    memory.reset();
-  }
-
   private boolean isEntryNotInList(ArchivedInvoice archivedInvoice, ArchivedInvoiceTable list) {
     return list != null && !list.contains(archivedInvoice);
   }
@@ -121,7 +109,8 @@ public class DataBase implements LoadListener {
     } else if (loadable instanceof ArchivedInvoice invoice) {
       addInvoice(invoice);
     } else if (loadable instanceof Company company) {
-      addCompany(company);
+      Session.addAvailableCompany(company);
+      companyRepository.save(company);
     }
   }
 

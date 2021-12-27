@@ -70,7 +70,7 @@ public final class Session {
     return dateListeners;
   }
 
-  static void addAvailableCompany(Company company) {
+  public static void addAvailableCompany(Company company) {
     Set<Company> companies = getAvailableCompanies();
 
     companies.add(company);

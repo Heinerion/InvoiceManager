@@ -15,7 +15,7 @@ import java.util.*;
 @Service
 @Flogger
 @RequiredArgsConstructor
-class AddressRepositoryImpl implements AddressRepository {
+class AddressRepositoryImpl extends AbstractXmlRepository<Address> implements AddressRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
 
@@ -55,41 +55,17 @@ class AddressRepositoryImpl implements AddressRepository {
   public Collection<Address> findAll() {
     return Collections.unmodifiableCollection(addresses);
   }
-
-  @Override
-  public Address save(Address address) {
-    saveInMemory(address);
-    saveOnDisk();
-    return address;
-  }
-
-  private Address saveInMemory(Address address) {
+  
+  protected Address saveInMemory(Address address) {
     findByRecipient(address.getRecipient())
         .ifPresent(addresses::remove);
     addresses.add(address);
     return address;
   }
 
-  private void saveOnDisk() {
+  protected void saveOnDisk() {
     persistence.writeAddresses(getFilename(), addresses.stream()
         .sorted(Comparator.comparing(Address::getRecipient))
         .toList());
-  }
-
-  @Override
-  public Collection<Address> saveAll(Collection<Address> entries) {
-    Collection<Address> savedEntries = new HashSet<>();
-    for (Address address : entries) {
-      try {
-        savedEntries.add(saveInMemory(address));
-      } catch (Exception e) {
-        log.atWarning()
-            .withCause(e)
-            .log("Adress could not be saved: %s", address);
-      }
-    }
-
-    saveOnDisk();
-    return savedEntries;
   }
 }

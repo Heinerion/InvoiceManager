@@ -16,25 +16,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public
 class MemoryBank {
-  private final List<ListEntry<Company>> companyEntries = new ArrayList<>();
   private final List<ListEntry<InvoiceTemplate>> templateEntries = new ArrayList<>();
-
-  void addCompany(Company company) {
-    Optional<ListEntry<Company>> oldCompany = getCompanyEntry(company.getDescriptiveName());
-
-    oldCompany.ifPresent(companyEntries::remove);
-    companyEntries.add(new ListEntry<>(company));
-  }
-
-  List<Company> getAllCompanies() {
-    return getAllSortedEntries(companyEntries, Company::getDescriptiveName);
-  }
-
-  private Optional<ListEntry<Company>> getCompanyEntry(String descriptiveName) {
-    return companyEntries.stream()
-        .filter(company -> company.getEntry().getDescriptiveName().equals(descriptiveName))
-        .findFirst();
-  }
 
   void addTemplate(Company company, InvoiceTemplate template) {
     Optional<ListEntry<InvoiceTemplate>> oldTemplate = getTemplateEntry(company, template.getName());
@@ -60,13 +42,7 @@ class MemoryBank {
         .map(ListEntry::getEntry)
         .toList();
   }
-
-  private <T> List<T> getAllEntries(List<ListEntry<T>> list) {
-    return list.stream()
-        .map(ListEntry::getEntry)
-        .toList();
-  }
-
+  
   private <T, U extends Comparable<U>>
   List<T> getSortedEntries(List<ListEntry<T>> entriesList, Company company, Function<T, U> keyExtractor) {
     return getEntries(entriesList, Objects.requireNonNull(company)).stream()
@@ -74,15 +50,7 @@ class MemoryBank {
         .toList();
   }
 
-  private <T, U extends Comparable<U>>
-  List<T> getAllSortedEntries(List<ListEntry<T>> entriesList, Function<T, U> keyExtractor) {
-    return getAllEntries(entriesList).stream()
-        .sorted(Comparator.comparing(keyExtractor))
-        .toList();
-  }
-
   void reset() {
-    companyEntries.clear();
     templateEntries.clear();
   }
 
@@ -92,11 +60,6 @@ class MemoryBank {
 
     ListEntry(Company aCompany, T anEntry) {
       company = aCompany;
-      entry = anEntry;
-    }
-
-    ListEntry(T anEntry) {
-      company = null;
       entry = anEntry;
     }
 
