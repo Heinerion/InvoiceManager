@@ -60,10 +60,6 @@ public class DataBase implements LoadListener {
     }
   }
 
-  public void removeAllInvoices() {
-    setInvoices(new ArchivedInvoiceTable());
-  }
-
   @Override
   public void notifyLoading(String message, Loadable loadable) {
     if (!message.equals(lastMessage)) {
