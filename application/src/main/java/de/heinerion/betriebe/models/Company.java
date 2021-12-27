@@ -1,14 +1,13 @@
 package de.heinerion.betriebe.models;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.invoice.storage.loading.Loadable;
 
 import java.io.File;
 import java.text.Collator;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Company implements Storable, Loadable, Comparable<Company> {
+public final class Company implements Storable, Comparable<Company> {
   private UUID id;
 
   private String descriptiveName;

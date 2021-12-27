@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Flogger
-public abstract class AbstractTextFileLoader extends Loader {
+public abstract class AbstractTextFileLoader<T> extends Loader<T> {
   private final Reader reader = new Reader();
 
   protected AbstractTextFileLoader(File aLoadDirectory) {
@@ -20,16 +20,16 @@ public abstract class AbstractTextFileLoader extends Loader {
   protected abstract Pattern getPattern();
 
   @Override
-  public final Loadable loopAction(final File file) {
+  public final T loopAction(final File file) {
     final Map<String, String> attributes = this.readAttributes(file);
-    final Loadable data = this.parse(attributes);
+    final T data = this.parse(attributes);
 
     log.atFine().log("add(%s)", data);
 
     return data;
   }
 
-  protected abstract Loadable parse(Map<String, String> attributes);
+  protected abstract T parse(Map<String, String> attributes);
 
   private Map<String, String> readAttributes(File path) {
     final Map<String, String> attributes = new HashMap<>();

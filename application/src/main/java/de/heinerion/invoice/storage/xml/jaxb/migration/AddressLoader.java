@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class AddressLoader extends AbstractTextFileLoader {
+public class AddressLoader extends AbstractTextFileLoader<Address> {
   private static final String APARTMENT = "Apartment";
   private static final String COMPANY = "Company";
   private static final String DISTRICT = "District";

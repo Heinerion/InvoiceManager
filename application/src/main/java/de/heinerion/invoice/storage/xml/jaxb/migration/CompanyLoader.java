@@ -5,7 +5,6 @@ import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.storage.loading.AbstractTextFileLoader;
-import de.heinerion.invoice.storage.loading.Loadable;
 import lombok.extern.flogger.Flogger;
 
 import java.io.File;
@@ -14,7 +13,7 @@ import java.util.regex.Pattern;
 
 @Flogger
 public
-class CompanyLoader extends AbstractTextFileLoader {
+class CompanyLoader extends AbstractTextFileLoader<Company> {
   private static final String ADDRESS = "Address";
   private static final String ACCOUNT = "Account";
 
@@ -56,7 +55,7 @@ class CompanyLoader extends AbstractTextFileLoader {
   }
 
   @Override
-  protected Loadable parse(Map<String, String> attributes) {
+  protected Company parse(Map<String, String> attributes) {
     log.atFiner().log("lade %s", attributes.get(DESCRIPTIVE_NAME));
     final Address address = getAddress(attributes);
     final double valueAddedTax = getValueAddedTax(attributes);

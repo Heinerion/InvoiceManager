@@ -1,11 +1,9 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.invoice.storage.loading.Loadable;
-
 import java.util.Objects;
 import java.util.Optional;
 
-public final class Address implements Storable, Loadable {
+public final class Address implements Storable {
   private String apartment;
   private String company;
   private String district;
@@ -53,22 +51,19 @@ public final class Address implements Storable, Loadable {
   }
 
   public void setApartment(String apartment) {
-    if (isValidMessage(apartment))
-    {
+    if (isValidMessage(apartment)) {
       this.apartment = apartment;
     }
   }
 
   public void setCompany(String company) {
-    if (isValidMessage(company))
-    {
+    if (isValidMessage(company)) {
       this.company = company;
     }
   }
 
   public void setDistrict(String district) {
-    if (isValidMessage(district))
-    {
+    if (isValidMessage(district)) {
       this.district = district;
     }
   }

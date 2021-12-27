@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 class LegacyTemplateReader extends ObjectInputStream {
   LegacyTemplateReader(InputStream inputStream) throws IOException {
@@ -27,11 +26,10 @@ class LegacyTemplateReader extends ObjectInputStream {
   }
 
   private boolean isOldInvoiceTemplate(String qualifiedName) {
-    return Stream
-        .of("de.heinerion.betriebe.classes.texting.Vorlage",
+    return Arrays.asList(
+            "de.heinerion.betriebe.classes.texting.Vorlage",
             "de.heinerion.betriebe.data.Vorlage",
             "de.heinerion.betriebe.data.listable.Vorlage")
-        .collect(Collectors.toList())
         .contains(qualifiedName);
   }
 }
