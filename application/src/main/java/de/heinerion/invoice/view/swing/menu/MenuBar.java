@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("serial")
 class MenuBar extends JMenuBar {
   private final JFrame origin;
 

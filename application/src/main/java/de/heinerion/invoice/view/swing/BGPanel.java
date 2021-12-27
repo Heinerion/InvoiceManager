@@ -4,12 +4,14 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
 
 class BGPanel extends JPanel {
   private static final int CORNER_SIZE = 15;
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   private boolean drawTop;

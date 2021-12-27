@@ -13,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 
 @Flogger
-@SuppressWarnings("serial")
 class AddressChooserPanel extends JPanel {
   private static final int BOLD = Font.BOLD;
   private static final int CENTER = SwingConstants.CENTER;
@@ -158,10 +157,12 @@ class AddressChooserPanel extends JPanel {
   }
 
   /**
-   * Creates a new component for the grid.<br>
-   * This method is to be called internally only and is used to streamline the creation of distinct components
+   * Creates a new component for the grid.<br> This method is to be called internally only and is used to streamline the
+   * creation of distinct components
    *
-   * @param component the component to be placed in the grid
+   * @param component
+   *     the component to be placed in the grid
+   *
    * @return the created component for further customization
    */
   private <X extends JComponent> X create(X component, PositionCoordinates coordinates) {

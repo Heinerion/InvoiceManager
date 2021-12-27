@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 final class SidePanel extends JPanel {
   SidePanel() {
     setOpaque(false);
