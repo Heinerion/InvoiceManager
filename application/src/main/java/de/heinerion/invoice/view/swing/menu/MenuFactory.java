@@ -13,8 +13,9 @@ import javax.swing.*;
 public class MenuFactory {
   private final AddressRepository addressRepository;
   private final InvoiceRepository invoiceRepository;
+  private final PathUtilNG pathUtil;
 
-  public JMenuBar createMenuBar(JFrame frame, PathUtilNG pathUtil) {
+  public JMenuBar createMenuBar(JFrame frame) {
     return new MenuBar(frame, pathUtil, addressRepository, invoiceRepository);
   }
 }

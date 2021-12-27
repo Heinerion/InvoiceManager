@@ -5,7 +5,6 @@ import de.heinerion.betriebe.listener.CompanyListener;
 import de.heinerion.betriebe.listener.DateListener;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
@@ -32,11 +31,9 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   private final Refreshable receiverPanel;
 
   private final ContentTabPane contentTabPane;
-  private final PathUtilNG pathUtil;
   private final MenuFactory menuFactory;
 
-  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, PathUtilNG pathUtil, MenuFactory menuFactory) {
-    this.pathUtil = pathUtil;
+  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, MenuFactory menuFactory) {
     this.menuFactory = menuFactory;
     contentTabPane = tabPane;
     this.receiverPanel = receiverPanel;
@@ -60,7 +57,7 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
 
   private void addWidgets() {
     frame.setLayout(new BorderLayout());
-    frame.setJMenuBar(menuFactory.createMenuBar(frame, pathUtil));
+    frame.setJMenuBar(menuFactory.createMenuBar(frame));
     frame.add(receiverPanel.getPanel(), BorderLayout.LINE_START);
 
     frame.add(contentTabPane.getPane(), BorderLayout.CENTER);
