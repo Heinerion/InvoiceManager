@@ -26,7 +26,9 @@ class CompanyButton implements CompanyListener {
   }
 
   private boolean isCurrentlySelected() {
-    return Session.getActiveCompany().equals(this.company);
+    return Session.getActiveCompany()
+        .map(c -> c.equals(this.company))
+        .orElse(false);
   }
 
   private void registerListeners() {
