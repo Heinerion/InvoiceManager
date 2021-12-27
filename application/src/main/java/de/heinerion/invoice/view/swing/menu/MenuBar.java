@@ -1,13 +1,12 @@
 package de.heinerion.invoice.view.swing.menu;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.info.InfoMenuEntry;
 
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -15,15 +14,13 @@ class MenuBar extends JMenuBar {
   private final JFrame origin;
 
   private transient List<JMenuItem> menuItems;
-  private transient PathUtilNG pathUtil;
-  private final DataBase dataBase;
-  private final AddressRepository addressRepository;
-  private final InvoiceRepository invoiceRepository;
+  private final transient PathUtilNG pathUtil;
+  private final transient AddressRepository addressRepository;
+  private final transient InvoiceRepository invoiceRepository;
 
-  MenuBar(JFrame origin, PathUtilNG pathUtil, DataBase dataBase, AddressRepository addressRepository, InvoiceRepository invoiceRepository) {
+  MenuBar(JFrame origin, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository) {
     this.origin = origin;
     this.pathUtil = pathUtil;
-    this.dataBase = dataBase;
     this.addressRepository = addressRepository;
     this.invoiceRepository = invoiceRepository;
     createWidgets();
@@ -31,13 +28,13 @@ class MenuBar extends JMenuBar {
   }
 
   private void createWidgets() {
-    menuItems = new ArrayList<>();
-    menuItems.add(createItem(new AddressBookMenuEntry(addressRepository)));
-    menuItems.add(createItem(new ArchiveMenuEntry(dataBase)));
-    menuItems.add(createItem(new InvoicesMenuEntry(invoiceRepository)));
-    menuItems.add(createItem(new InvoiceNumbersMenuEntry()));
-    menuItems.add(createItem(new InvoiceDateMenuEntry()));
-    menuItems.add(createItem(new InfoMenuEntry(pathUtil)));
+    menuItems = Arrays.asList(
+        createItem(new AddressBookMenuEntry(addressRepository)),
+        createItem(new InvoicesMenuEntry(invoiceRepository)),
+        createItem(new InvoiceNumbersMenuEntry()),
+        createItem(new InvoiceDateMenuEntry()),
+        createItem(new InfoMenuEntry(pathUtil))
+    );
   }
 
   private JMenuItem createItem(MenuEntry menuEntry) {

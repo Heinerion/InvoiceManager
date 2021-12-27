@@ -1,8 +1,8 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.models.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.models.InvoiceTemplate;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.TemplateRepository;
@@ -102,7 +102,7 @@ public class Migrator {
     log.atFine().log("read %s", companyDir);
     CompanyLoader legacyLoader = new CompanyLoader(companyDir);
     legacyLoader.init();
-    List<Company> availableCompanies = legacyLoader.load(addressRepository).stream()
+    List<Company> availableCompanies = legacyLoader.load().stream()
         .map(Company.class::cast)
         .sorted(Company::compareTo)
         .map(company -> {
@@ -129,14 +129,10 @@ public class Migrator {
     File addressDir = new File(PathTools.getPath(Address.class, pathUtil));
     AddressLoader legacyAddressLoader = new AddressLoader(addressDir);
     legacyAddressLoader.init();
-    List<Address> addresses = legacyAddressLoader.load(addressRepository).stream()
+    List<Address> addresses = legacyAddressLoader.load().stream()
         .map(Address.class::cast)
         .toList();
     addressRepository.saveAll(addresses);
-  }
-
-  private static void print(String message) {
-    System.out.println(message);
   }
 
   private void migrateCompanyInfo(PathUtilNG pathUtil, Company company) {
@@ -280,7 +276,7 @@ public class Migrator {
       return;
     }
     try {
-      print(String.format("copy %s%n  to %s", src, dest));
+      log.atInfo().log("copy %s%n  to %s", src, dest);
       FileSystemUtils.copyRecursively(src, dest);
     } catch (IOException e) {
       throw new MigrationException(e);
