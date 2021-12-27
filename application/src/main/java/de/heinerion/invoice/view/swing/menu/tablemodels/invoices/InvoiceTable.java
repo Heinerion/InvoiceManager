@@ -6,12 +6,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class InvoiceTable implements TableModel {
   private final List<Invoice> invoices;
-  private final Collection<TableModelListener> listeners = new HashSet<>();
 
   public InvoiceTable(Collection<Invoice> invoices) {
     this.invoices = invoices.stream()
@@ -66,11 +64,11 @@ public class InvoiceTable implements TableModel {
 
   @Override
   public void addTableModelListener(TableModelListener l) {
-    listeners.add(l);
+    // no updates -> no listeners
   }
 
   @Override
   public void removeTableModelListener(TableModelListener l) {
-    listeners.remove(l);
+    // no updates -> no listeners
   }
 }
