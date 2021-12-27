@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.home.receiver.money;
 
-import de.heinerion.invoice.ParsingUtil;
+import de.heinerion.invoice.NumberParser;
 
 import java.text.DecimalFormat;
 import java.util.Currency;
@@ -24,7 +24,7 @@ public class Money implements Comparable<Money> {
   }
 
   public static Money parse(String text) {
-    return of(ParsingUtil.parseDouble(text));
+    return of(NumberParser.parseDouble(text));
   }
 
   public static Money of(double theValue) {

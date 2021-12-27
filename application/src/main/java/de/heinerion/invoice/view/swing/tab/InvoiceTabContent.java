@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.*;
 import de.heinerion.betriebe.repositories.TemplateRepository;
 import de.heinerion.contract.ContractBrokenException;
-import de.heinerion.invoice.ParsingUtil;
+import de.heinerion.invoice.NumberParser;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.TabContent;
 import lombok.extern.flogger.Flogger;
@@ -164,7 +164,7 @@ class InvoiceTabContent extends TabContent {
     if (String.class.equals(colClass)) {
       tabPositions.setValueAt(content, row, col);
     } else if (Double.class.equals(colClass)) {
-      tabPositions.setValueAt(ParsingUtil.parseDouble(content), row, col);
+      tabPositions.setValueAt(NumberParser.parseDouble(content), row, col);
     } else {
       throw new GuiPanelException("Invalid column class " + colClass.getSimpleName());
     }

@@ -8,8 +8,8 @@ import java.util.Locale;
 import java.util.logging.Level;
 
 @Flogger
-public final class ParsingUtil {
-  private ParsingUtil() {
+public final class NumberParser {
+  private NumberParser() {
   }
 
   public static double parseDouble(String input) {
