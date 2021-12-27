@@ -179,7 +179,6 @@ class InvoiceTabContent extends TabContent {
     for (int i = 0; i < contentPositions.size(); i++) {
       for (int j = 0; j < tabPositions.getColumnCount(); j++) {
         // overwrite all rows
-        log.atInfo().log("%d:%d", i, j);
         tabPositions.setValueAt("", i, j);
       }
     }
