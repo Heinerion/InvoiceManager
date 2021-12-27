@@ -59,8 +59,6 @@ public abstract class Document {
    * <li>customer name</li>
    * <li>date</li>
    * </ul>
-   *
-   * @return
    */
   public Collection<String> getKeywords() {
     Collection<String> result = new HashSet<>(keywords);

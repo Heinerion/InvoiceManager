@@ -96,7 +96,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
     }
   }
 
-  private class LatexGeneratorException extends RuntimeException {
+  private static class LatexGeneratorException extends RuntimeException {
     LatexGeneratorException(Throwable e) {
       super("The template could not be processed", e);
     }

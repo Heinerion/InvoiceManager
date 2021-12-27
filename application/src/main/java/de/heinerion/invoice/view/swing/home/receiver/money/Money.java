@@ -36,7 +36,7 @@ public class Money implements Comparable<Money> {
       return of(getValue() + money.getValue());
     }
     // else could look for conversion rate or such
-    throw new Money.OperationNotYetImplementedException();
+    throw new OperationNotYetImplementedException();
   }
 
   public Money divideBy(double parts) {
@@ -48,7 +48,7 @@ public class Money implements Comparable<Money> {
       return of(getValue() - money.getValue());
     }
     // else could look for conversion rate or such
-    throw new Money.OperationNotYetImplementedException();
+    throw new OperationNotYetImplementedException();
   }
 
   public Money times(double times) {
@@ -58,7 +58,9 @@ public class Money implements Comparable<Money> {
   /**
    * Compares this instance to the given Money instance by String representation ({@link #toString})
    *
-   * @param other the other Money instance
+   * @param other
+   *     the other Money instance
+   *
    * @return a value greater 0 if this is bigger than {@code other}; less than 0 otherwise; 0 indicates equality
    */
   @Override
@@ -96,6 +98,6 @@ public class Money implements Comparable<Money> {
     return df.format(getValue()) + " " + currency.getSymbol() + " [" + value + "]";
   }
 
-  private class OperationNotYetImplementedException extends RuntimeException {
+  private static class OperationNotYetImplementedException extends RuntimeException {
   }
 }

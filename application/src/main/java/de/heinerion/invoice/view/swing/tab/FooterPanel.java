@@ -43,8 +43,7 @@ class FooterPanel extends JPanel implements
 
   @Override
   public void notifyConveyable() {
-    if (Session.getActiveConveyable() instanceof Invoice) {
-      Invoice invoice = (Invoice) Session.getActiveConveyable();
+    if (Session.getActiveConveyable() instanceof Invoice invoice) {
       currentTotalGross.setText(FormatUtil.formatLocaleDecimal(invoice
           .getGross()));
       currentTotalNet
