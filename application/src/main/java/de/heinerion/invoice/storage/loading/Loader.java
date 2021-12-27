@@ -4,9 +4,7 @@ import lombok.extern.flogger.Flogger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,39 +14,33 @@ abstract class Loader implements LoadListenable {
   private static final String INVALID = "File: %s, not compatible with %s";
 
   private List<File> files;
-  private final List<LoadListener> listeners;
+  private final Set<LoadListener> listeners;
   private final File loadDirectory;
 
   Loader(File aLoadDirectory) {
     loadDirectory = aLoadDirectory;
-    listeners = new ArrayList<>();
+    listeners = new HashSet<>();
   }
 
   @Override
   public final void addListener(LoadListener listener) {
-    if (!listeners.contains(listener)) {
-      listeners.add(listener);
-    }
+    listeners.add(listener);
   }
 
   public abstract String getDescriptiveName();
 
   final int getFileNumber() {
-    int number = 0;
     if (files != null) {
-      number = files.size();
+      return files.size();
     }
 
-    return number;
+    return 0;
   }
 
   private List<File> getFiles() {
-    List<File> result = files;
-    if (result == null) {
-      result = new ArrayList<>();
-    }
-
-    return result;
+    return files == null
+        ? Collections.emptyList()
+        : files;
   }
 
   protected abstract Pattern getPattern();
@@ -60,30 +52,33 @@ abstract class Loader implements LoadListenable {
 
   private void listFiles() {
     log.atFine().log("loadDirectory %s", loadDirectory.getAbsolutePath());
-    if (loadDirectory.isDirectory()) {
-      File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
-      if (null != fileArray) {
-        files = Arrays.asList(fileArray);
-      }
+    if (!loadDirectory.isDirectory()) {
+      log.atInfo().log("%s is no directory", loadDirectory.getAbsolutePath());
+      return;
+    }
+
+    File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
+    if (null != fileArray) {
+      files = Arrays.asList(fileArray);
     }
     log.atFine().log("%d documents found", getFileNumber());
   }
 
   public final List<Loadable> load() {
-    log.atFine().log("load %s", getDescriptiveName());
-    List<File> fileList = getFiles();
-    log.atFine().log("files found: %s", fileList);
-    List<Loadable> resultList = new ArrayList<>();
+    log.atFine().log("load %s.%nFiles found: %s", getDescriptiveName(), getFiles());
 
-    for (File file : fileList) {
-      Loadable item = loopAction(file);
-      resultList.add(item);
-      notifyLoadListeners(getDescriptiveName(), item);
-    }
+    List<Loadable> resultList = getFiles().stream()
+        .map(this::loopAction)
+        .map(this::notify)
+        .toList();
 
     log.atInfo().log("%d documents loaded (%s)", getFileNumber(), getDescriptiveName());
-
     return resultList;
+  }
+
+  private Loadable notify(Loadable loadable) {
+    notifyLoadListeners(getDescriptiveName(), loadable);
+    return loadable;
   }
 
   abstract Loadable loopAction(File file);
