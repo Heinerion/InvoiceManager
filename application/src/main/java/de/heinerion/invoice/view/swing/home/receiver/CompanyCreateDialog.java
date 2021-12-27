@@ -73,7 +73,7 @@ public class CompanyCreateDialog {
   private void showDialog() {
     originFrame.setBusy(true);
 
-    dialog = new JDialog(originFrame.getFrame(), true);
+    dialog = new JDialog(originFrame.frame(), true);
     showDialog(dialog);
   }
 
@@ -86,7 +86,7 @@ public class CompanyCreateDialog {
     modalDialog.setTitle(Menu.translate("companies.create"));
     modalDialog.pack();
 
-    modalDialog.setLocationRelativeTo(originFrame.getFrame());
+    modalDialog.setLocationRelativeTo(originFrame.frame());
     modalDialog.setVisible(true);
   }
 

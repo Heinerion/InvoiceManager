@@ -29,7 +29,7 @@ public abstract class MenuEntry {
   void showDialog() {
     busyFrame.setBusy(true);
 
-    dialog = new JDialog(busyFrame.getFrame(), true);
+    dialog = new JDialog(busyFrame.frame(), true);
     showDialog(dialog);
   }
 
@@ -42,7 +42,7 @@ public abstract class MenuEntry {
     setTitle(modalDialog);
     modalDialog.pack();
 
-    modalDialog.setLocationRelativeTo(busyFrame.getFrame());
+    modalDialog.setLocationRelativeTo(busyFrame.frame());
     modalDialog.setVisible(true);
   }
 
@@ -59,7 +59,7 @@ public abstract class MenuEntry {
   }
 
   final JFrame getBusyFrame() {
-    return busyFrame.getFrame();
+    return busyFrame.frame();
   }
 
   void setBusyFrame(JFrame frame) {
