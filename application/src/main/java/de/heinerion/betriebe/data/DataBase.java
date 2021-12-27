@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.data;
 
-import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.repositories.AddressRepository;
@@ -15,9 +14,6 @@ import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoiceT
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * The DataBase is used for all storing and loading of any business class.
  * <p>
@@ -27,7 +23,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DataBase implements LoadListener {
-  private final MemoryBank memory;
   private final XmlLoader xmlLoader;
   private final AddressRepository addressRepository;
   private final CompanyRepository companyRepository;
@@ -59,15 +54,11 @@ public class DataBase implements LoadListener {
     progress = indicator;
 
     removeAllInvoices();
-    resetMemories();
 
     xmlLoader.load(progress, this, this, addressRepository);
     getInvoices().determineHighestInvoiceNumbers();
   }
 
-  private void resetMemories() {
-    memory.reset();
-  }
 
   public ArchivedInvoiceTable getInvoices() {
     if (invoices == null) {
@@ -87,17 +78,6 @@ public class DataBase implements LoadListener {
     }
   }
 
-  public List<InvoiceTemplate> getTemplates(Company company) {
-    return Collections.unmodifiableList(memory.getTemplates(company));
-  }
-
-  public void addTemplate(Company company, InvoiceTemplate template) {
-    memory.addTemplate(company, template);
-  }
-
-  public void addTemplates(Company company, List<InvoiceTemplate> invoiceTemplates) {
-    invoiceTemplates.forEach(template -> addTemplate(company, template));
-  }
 
   private boolean isEntryNotInList(ArchivedInvoice archivedInvoice, ArchivedInvoiceTable list) {
     return list != null && !list.contains(archivedInvoice);

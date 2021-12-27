@@ -1,14 +1,17 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.data.DataBase;
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.repositories.AddressRepository;
+import de.heinerion.betriebe.repositories.CompanyRepository;
+import de.heinerion.betriebe.repositories.TemplateRepository;
 import de.heinerion.betriebe.services.ConfigurationService;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.storage.PathTools;
+import de.heinerion.invoice.storage.loading.FileHandler;
 import de.heinerion.invoice.storage.xml.jaxb.migration.AddressLoader;
+import de.heinerion.invoice.storage.xml.jaxb.migration.CompanyLoader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -16,13 +19,11 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -78,8 +79,9 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 @RequiredArgsConstructor
 public class Migrator {
   private final PathUtilNG pathUtil;
-  private final DataBase dataBase;
   private final AddressRepository addressRepository;
+  private final CompanyRepository companyRepository;
+  private final TemplateRepository templateRepository;
 
   public static void main(String... args) {
     Migrator bean = ConfigurationService.getBean(Migrator.class);
@@ -87,18 +89,36 @@ public class Migrator {
     ConfigurationService.exitApplication();
   }
 
+  @PostConstruct
+  public void post() {
+    migrateCompanies();
+  }
+
   public void migrateCompanies() {
     // transfer companies to new approach
-    List<Company> availableCompanies = new ArrayList<>(Session.getAvailableCompanies());
-    availableCompanies.sort(Company::compareTo);
+    File companyDir = new File(PathTools.getPath(Company.class, pathUtil));
+    log.atFine().log("read %s", companyDir);
+    CompanyLoader legacyLoader = new CompanyLoader(companyDir);
+    legacyLoader.init();
+    List<Company> availableCompanies = legacyLoader.load(addressRepository).stream()
+        .map(Company.class::cast)
+        .sorted(Company::compareTo)
+        .map(company -> {
+          if (company.getId() != null) {
+            return company;
+          }
+          return company.setId(UUID.randomUUID());
+        })
+        .toList();
     log.atInfo().log("Companies found: %s", availableCompanies);
 
-    File appBase = new File(pathUtil.getBaseDir());
-    File companiesXmlFile = new File(appBase, "companies.xml");
-    new CompanyManager().marshal(availableCompanies, companiesXmlFile);
-    print(String.format("Available companies written to %s", companiesXmlFile.getAbsolutePath()));
-
-    availableCompanies.forEach(company -> migrateCompanyInfo(pathUtil, dataBase, company));
+    Set<Company> persistent = new HashSet<>(companyRepository.findAll());
+    List<Company> newCompanies = availableCompanies.stream()
+        .filter(c -> persistent.stream().noneMatch(alt -> alt.getDescriptiveName().equals(c.getDescriptiveName())))
+        .toList();
+    persistent.addAll(newCompanies);
+    companyRepository.saveAll(persistent);
+    newCompanies.forEach(company -> migrateCompanyInfo(pathUtil, company));
 
     migrateAddresses();
   }
@@ -106,19 +126,23 @@ public class Migrator {
   private void migrateAddresses() {
     File addressDir = new File(PathTools.getPath(Address.class, pathUtil));
     AddressLoader legacyAddressLoader = new AddressLoader(addressDir);
-    legacyAddressLoader.load(addressRepository);
+    legacyAddressLoader.init();
+    List<Address> addresses = legacyAddressLoader.load(addressRepository).stream()
+        .map(Address.class::cast)
+        .toList();
+    addressRepository.saveAll(addresses);
   }
 
   private static void print(String message) {
     System.out.println(message);
   }
 
-  private static void migrateCompanyInfo(PathUtilNG pathUtil, DataBase dataBase, Company company) {
+  private void migrateCompanyInfo(PathUtilNG pathUtil, Company company) {
     log.atInfo().log("Migrate %s", company);
     File companyDir = createDir(pathUtil.getBaseDir(), company.getDescriptiveName());
     logCreation(companyDir);
 
-    transferTemplatesAndAddresses(dataBase, company, companyDir);
+    transferTemplatesAndAddresses(company);
 
     copyLettersAndInvoices(pathUtil, company, companyDir);
   }
@@ -127,10 +151,24 @@ public class Migrator {
     log.atInfo().log("created %s", createdFile);
   }
 
-  private static void transferTemplatesAndAddresses(DataBase dataBase, Company company, File companyDir) {
-    File templatesXmlFile = new File(companyDir, "templates.xml");
-    new TemplateManager().marshal(dataBase.getTemplates(company), templatesXmlFile);
-    logCreation(templatesXmlFile);
+  private void transferTemplatesAndAddresses(Company company) {
+    Collection<InvoiceTemplate> oldTemplates = templateRepository.findAll();
+
+    List<InvoiceTemplate> templates = FileHandler
+        .load(new InvoiceTemplate(), pathUtil.getTemplateFileName(company.getDescriptiveName()))
+        .stream()
+        .filter(template -> template.getInhalt() == null)
+        .filter(template -> oldTemplates.stream().noneMatch(t -> t.getName().equals(template.getName())))
+        .map(template -> {
+          template.setInhalt(new String[0][0]);
+          if (template.getCompanyId() == null) {
+            template.setCompanyId(company.getId());
+          }
+          return template;
+        })
+        .toList();
+
+    templateRepository.saveAll(templates);
   }
 
   private static void copyLettersAndInvoices(PathUtilNG pathUtil, Company company, File companyDir) {

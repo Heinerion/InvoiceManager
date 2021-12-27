@@ -3,11 +3,13 @@ package de.heinerion.betriebe.data.listable;
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate>, DropListable {
   private static final long serialVersionUID = 5654884407643922708L;
   private String name = "";
   private String[][] inhalt;
+  private UUID companyId;
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
@@ -22,6 +24,14 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
   @Override
   public int hashCode() {
     return getName().hashCode();
+  }
+
+  public UUID getCompanyId() {
+    return companyId;
+  }
+
+  public void setCompanyId(UUID companyId) {
+    this.companyId = companyId;
   }
 
   public final String[][] getInhalt() {

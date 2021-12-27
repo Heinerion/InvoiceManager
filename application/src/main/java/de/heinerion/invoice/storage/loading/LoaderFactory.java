@@ -3,6 +3,7 @@ package de.heinerion.invoice.storage.loading;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.storage.xml.jaxb.migration.AddressLoader;
+import de.heinerion.invoice.storage.xml.jaxb.migration.CompanyLoader;
 import de.heinerion.invoice.view.swing.menu.tablemodels.archive.ArchivedInvoice;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

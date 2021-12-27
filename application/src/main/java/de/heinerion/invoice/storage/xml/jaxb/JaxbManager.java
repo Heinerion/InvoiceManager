@@ -5,7 +5,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 abstract class JaxbManager<T> {
   private boolean beautify;
@@ -41,7 +43,9 @@ abstract class JaxbManager<T> {
       Unmarshaller um = context.createUnmarshaller();
 
       Object rootObject = um.unmarshal(source);
-      return getContent(rootObject);
+      return Optional
+          .ofNullable(getContent(rootObject))
+          .orElse(Collections.emptyList());
     } catch (JAXBException e) {
       throw new MarshallingException(e);
     }

@@ -1,5 +1,6 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
+import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.contract.Contract;
@@ -33,11 +34,26 @@ public class XmlPersistence {
 
     return Collections.emptyList();
   }
-  
+
   public void writeCompanies(File destination, List<Company> companies) {
     Contract.require(destination.getName().endsWith(".xml"), "destination ends with '.xml'");
     new CompanyManager()
         .withFormattedOutput()
         .marshal(companies, destination);
+  }
+
+  public List<InvoiceTemplate> readTemplates(File source) {
+    if (source.exists()) {
+      return new TemplateManager().unmarshal(source);
+    }
+
+    return Collections.emptyList();
+  }
+
+  public void writeTemplates(File destination, List<InvoiceTemplate> templates) {
+    Contract.require(destination.getName().endsWith(".xml"), "destination ends with '.xml'");
+    new TemplateManager()
+        .withFormattedOutput()
+        .marshal(templates, destination);
   }
 }

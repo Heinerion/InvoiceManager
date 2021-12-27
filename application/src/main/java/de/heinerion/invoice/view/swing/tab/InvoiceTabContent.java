@@ -1,9 +1,9 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.betriebe.data.DataBase;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
 import de.heinerion.betriebe.models.*;
+import de.heinerion.betriebe.repositories.TemplateRepository;
 import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.ParsingUtil;
 import de.heinerion.invoice.Translator;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,15 +26,15 @@ import static java.awt.BorderLayout.*;
 @Order(2)
 class InvoiceTabContent extends TabContent {
   private final List<Item> contentPositions = new ArrayList<>();
-  private List<InvoiceTemplate> templates = new ArrayList<>();
+  private Collection<InvoiceTemplate> templates = new ArrayList<>();
   private JTable tabPositions = null;
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
-  private final DataBase dataBase;
   private InvoiceTableModel model = null;
+  private final TemplateRepository templateRepository;
 
-  InvoiceTabContent(DataBase dataBase) {
+  InvoiceTabContent(TemplateRepository templateRepository) {
     super(Translator.translate("invoice.title"));
-    this.dataBase = dataBase;
+    this.templateRepository = templateRepository;
 
     initTabPositions();
 
@@ -93,18 +94,18 @@ class InvoiceTabContent extends TabContent {
   private void addToTemplates() {
     Company activeCompany = Session.getActiveCompany()
         .orElseThrow(() -> new ContractBrokenException("active company is not null"));
-    dataBase.addTemplate(activeCompany, createTemplate());
+    templateRepository.save(createTemplate(activeCompany));
     refresh();
   }
 
-  private InvoiceTemplate createTemplate() {
-    return model != null ? model.createTemplate() : null;
+  private InvoiceTemplate createTemplate(Company company) {
+    return model != null ? model.createTemplate(company) : null;
   }
 
   @Override
   public void refresh() {
-    List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
-        .map(dataBase::getTemplates)
+    Collection<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+        .map(templateRepository::findByCompany)
         .orElse(Collections.emptyList());
     if (!activeTemplates.equals(templates)) {
       clearPositions();
@@ -119,7 +120,7 @@ class InvoiceTabContent extends TabContent {
     templateBox.removeAllItems();
   }
 
-  private void addTemplates(List<InvoiceTemplate> templates) {
+  private void addTemplates(Collection<InvoiceTemplate> templates) {
     templates.forEach(templateBox::addItem);
   }
 
@@ -139,10 +140,10 @@ class InvoiceTabContent extends TabContent {
     int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // replace table positions with those of the template
-      List<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
-          .map(dataBase::getTemplates)
+      Collection<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+          .map(templateRepository::findByCompany)
           .orElse(Collections.emptyList());
-      fillTable(activeTemplates.get(pos).getInhalt());
+      fillTable(new ArrayList<>(activeTemplates).get(pos).getInhalt());
       model.fireTableDataChanged();
     }
   }

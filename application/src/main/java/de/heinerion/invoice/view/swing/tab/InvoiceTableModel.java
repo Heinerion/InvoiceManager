@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.listable.InvoiceTemplate;
+import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Item;
 import de.heinerion.betriebe.models.Product;
 import de.heinerion.invoice.ParsingUtil;
@@ -161,9 +162,10 @@ class InvoiceTableModel extends AbstractTableModel {
     return result;
   }
 
-  InvoiceTemplate createTemplate() {
+  InvoiceTemplate createTemplate(Company company) {
     InvoiceTemplate result = new InvoiceTemplate();
 
+    result.setCompanyId(company.getId());
     result.setName(contents.get(0).getName());
     String[][] contentTable = new String[contents.size()][getColumnCount()];
     for (int i = 0; i < contents.size(); i++) {

@@ -73,6 +73,7 @@ abstract class Loader implements LoadListenable {
   public final List<Loadable> load(AddressRepository addressRepository) {
     log.atFine().log("load %s", getDescriptiveName());
     List<File> fileList = getFiles();
+    log.atFine().log("files found: %s", fileList);
     List<Loadable> resultList = new ArrayList<>();
 
     for (File file : fileList) {

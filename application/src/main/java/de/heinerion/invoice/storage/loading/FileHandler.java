@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Flogger
+public
 class FileHandler {
   private FileHandler() {
   }
@@ -45,7 +46,7 @@ class FileHandler {
     return ret;
   }
 
-  static <T> List<T> load(T element, String path) {
+  public static <T> List<T> load(T element, String path) {
     Object content = new ArrayList<>();
 
     File source = new File(path);

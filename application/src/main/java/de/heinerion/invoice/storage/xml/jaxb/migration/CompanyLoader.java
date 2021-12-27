@@ -1,9 +1,11 @@
-package de.heinerion.invoice.storage.loading;
+package de.heinerion.invoice.storage.xml.jaxb.migration;
 
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.storage.loading.AbstractTextFileLoader;
+import de.heinerion.invoice.storage.loading.Loadable;
 import lombok.extern.flogger.Flogger;
 
 import java.io.File;
@@ -11,6 +13,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Flogger
+public
 class CompanyLoader extends AbstractTextFileLoader {
   private static final String ADDRESS = "Address";
   private static final String ACCOUNT = "Account";
@@ -38,7 +41,7 @@ class CompanyLoader extends AbstractTextFileLoader {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  CompanyLoader(File aLoadDirectory) {
+  public CompanyLoader(File aLoadDirectory) {
     super(aLoadDirectory);
   }
 
