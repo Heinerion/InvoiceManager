@@ -3,7 +3,6 @@ package de.heinerion.invoice;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.invoice.view.GuiStarter;
-import de.heinerion.invoice.view.common.StatusComponent;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
 import de.heinerion.invoice.view.swing.PanelFactory;
@@ -40,9 +39,6 @@ public class InvoiceManagerTest {
   @Mock
   private ApplicationFrame applicationFrame;
 
-  @Mock
-  private StatusComponent statusComponent;
-
   @InjectMocks
   private GuiStarter guiStarter;
 
@@ -52,11 +48,8 @@ public class InvoiceManagerTest {
   public void setUp() {
     manager = new InvoiceManager(guiStarter);
 
-    when(statusComponent.getContainer()).thenReturn(new JPanel());
-
     mockStatic(PanelFactory.class);
     when(PanelFactory.createBackgroundPanel(Matchers.<PanelSides>anyVararg())).thenReturn(new JPanel());
-    when(PanelFactory.createStatusComponent()).thenReturn(statusComponent);
 
     mockStatic(LookAndFeelUtil.class);
 
