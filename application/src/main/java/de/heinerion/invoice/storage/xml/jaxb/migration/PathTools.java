@@ -3,9 +3,8 @@ package de.heinerion.invoice.storage.xml.jaxb.migration;
 import de.heinerion.betriebe.util.PathUtilNG;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class PathTools {
 
@@ -13,45 +12,25 @@ public final class PathTools {
 
   private static final String FILE_ENDING = "fileEnding";
 
-  private static final Map<String, Map<String, String>> FILE_INFOS = Collections.unmodifiableMap(generateInfoMap());
-
-  private static Map<String, Map<String, String>> generateInfoMap() {
-    Map<String, Map<String, String>> infoMap = new HashMap<>();
-
-    infoMap.put("Address", createEntries("Addresses", "address"));
-    infoMap.put("Client", createEntries("Clients", "client"));
-    infoMap.put("Company", createEntries("Companies", "company"));
-    infoMap.put("Invoice", createEntries("Invoices", "invoice"));
-    infoMap.put("Letter", createEntries("Letters", "letter"));
-
-    return infoMap;
-  }
+  private static final Map<String, Map<String, String>> FILE_INFOS = Map.of(
+      "Address", createEntries("Addresses", "address"),
+      "Client", createEntries("Clients", "client"),
+      "Company", createEntries("Companies", "company"),
+      "Invoice", createEntries("Invoices", "invoice"),
+      "Letter", createEntries("Letters", "letter")
+  );
 
   private PathTools() {
   }
 
-  /**
-   * Generiert Mapeinträge
-   *
-   * @param folder
-   *     Ordnername
-   * @param fileEnding
-   *     Dateiendung
-   *
-   * @return Eine Map mit den korrekten Einträgen
-   */
   private static Map<String, String> createEntries(String folder, String fileEnding) {
     return Map.of(FOLDER, folder, FILE_ENDING, fileEnding);
   }
 
   public static String determineFolderName(Class<?> clazz) {
-    Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
-
-    if (details == null) {
-      throw new NoFileInfoException(clazz);
-    } else {
-      return details.get(FOLDER);
-    }
+    return Optional.ofNullable(FILE_INFOS.get(clazz.getSimpleName()))
+        .map(infos -> infos.get(FOLDER))
+        .orElseThrow(() -> new NoFileInfoException(clazz));
   }
 
   public static String getPath(Class<?> clazz, PathUtilNG pathUtil) {
