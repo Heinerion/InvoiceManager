@@ -1,4 +1,4 @@
-package de.heinerion.invoice.storage.loading;
+package de.heinerion.invoice.storage.xml.jaxb.migration;
 
 import lombok.extern.flogger.Flogger;
 

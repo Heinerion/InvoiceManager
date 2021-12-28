@@ -2,7 +2,6 @@ package de.heinerion.invoice.storage.xml.jaxb.migration;
 
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.storage.loading.AbstractTextFileLoader;
 
 import java.io.File;
 import java.util.Map;

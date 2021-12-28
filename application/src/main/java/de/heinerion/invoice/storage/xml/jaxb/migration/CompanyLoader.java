@@ -4,7 +4,6 @@ import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.storage.loading.AbstractTextFileLoader;
 import lombok.extern.flogger.Flogger;
 
 import java.io.File;

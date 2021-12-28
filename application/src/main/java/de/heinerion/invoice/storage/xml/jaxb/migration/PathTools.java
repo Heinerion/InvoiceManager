@@ -1,6 +1,5 @@
-package de.heinerion.invoice.storage;
+package de.heinerion.invoice.storage.xml.jaxb.migration;
 
-import de.heinerion.betriebe.models.Storable;
 import de.heinerion.betriebe.util.PathUtilNG;
 
 import java.io.File;
@@ -34,49 +33,24 @@ public final class PathTools {
   /**
    * Generiert Mapeinträge
    *
-   * @param folder     Ordnername
-   * @param fileEnding Dateiendung
+   * @param folder
+   *     Ordnername
+   * @param fileEnding
+   *     Dateiendung
+   *
    * @return Eine Map mit den korrekten Einträgen
    */
   private static Map<String, String> createEntries(String folder, String fileEnding) {
-    final Map<String, String> ret = new HashMap<>();
-    ret.put(FOLDER, folder);
-    ret.put(FILE_ENDING, fileEnding);
-
-    return ret;
-  }
-
-  public static String determineFileEnding(Class<?> clazz) {
-    return get(clazz, FILE_ENDING);
+    return Map.of(FOLDER, folder, FILE_ENDING, fileEnding);
   }
 
   public static String determineFolderName(Class<?> clazz) {
-    return get(clazz, FOLDER);
-  }
-
-  private static String generatePath(String rootPath, Storable storable) {
-    StringBuilder path = new StringBuilder(rootPath);
-
-    for (String classification : storable.getClassification()) {
-      path.append(File.separator)
-          .append(classification);
-    }
-
-    path.append(File.separator)
-        .append(storable.getEntryName())
-        .append(".")
-        .append(storable.getIdentification());
-
-    return path.toString();
-  }
-
-  private static String get(Class<?> clazz, String key) {
-    final Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
+    Map<String, String> details = FILE_INFOS.get(clazz.getSimpleName());
 
     if (details == null) {
       throw new NoFileInfoException(clazz);
     } else {
-      return details.get(key);
+      return details.get(FOLDER);
     }
   }
 
@@ -86,10 +60,6 @@ public final class PathTools {
     } else {
       throw new NoFileInfoException(clazz);
     }
-  }
-
-  public static String getPath(Storable storable, PathUtilNG pathUtil) {
-    return generatePath(pathUtil.getSystemPath(), storable);
   }
 
   static class NoFileInfoException extends RuntimeException {
