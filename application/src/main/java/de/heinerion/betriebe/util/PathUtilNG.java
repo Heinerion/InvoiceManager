@@ -17,24 +17,16 @@ public class PathUtilNG {
     return ConfigurationService.get(FOLDER_SYSTEM);
   }
 
-  public String getTemplateFolderName() {
+  private String getTemplateFolderName() {
     return ConfigurationService.get(FOLDER_TEMPLATES);
-  }
-
-  private String getTexTemplateFolderName() {
-    return ConfigurationService.get(FOLDER_TEX_TEMPLATES);
   }
 
   public String getSystemPath() {
     return buildPath(getSystemFolderName());
   }
 
-  public String getTemplatePath() {
+  private String getTemplatePath() {
     return buildPath(getSystemPath(), getTemplateFolderName());
-  }
-
-  public String getTexTemplatePath() {
-    return buildPath(getTexTemplateFolderName());
   }
 
   public String determinePath(Class<? extends Letter> itemClass) {
@@ -46,17 +38,15 @@ public class PathUtilNG {
   }
 
   private String determineFolderName(Class<? extends Letter> itemClass) {
-    String folder;
-
     if (itemClass.isAssignableFrom(Letter.class)) {
-      folder = ConfigurationService.get(FOLDER_LETTERS);
-    } else if (itemClass.isAssignableFrom(Invoice.class)) {
-      folder = ConfigurationService.get(FOLDER_INVOICES);
-    } else {
-      throw new NoValidLetterException(itemClass);
+      return ConfigurationService.get(FOLDER_LETTERS);
     }
 
-    return folder;
+    if (itemClass.isAssignableFrom(Invoice.class)) {
+      return ConfigurationService.get(FOLDER_INVOICES);
+    }
+
+    throw new NoValidLetterException(itemClass);
   }
 
   private String buildPath(String folderName) {

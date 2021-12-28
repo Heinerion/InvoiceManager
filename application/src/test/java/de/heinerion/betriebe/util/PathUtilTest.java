@@ -38,23 +38,6 @@ public class PathUtilTest {
   }
 
   @Test
-  public void getTemplatePath() {
-    String expected = combine(baseDir, property(FOLDER_SYSTEM), property(FOLDER_TEMPLATES));
-    assertEquals(expected, pathUtil.getTemplatePath());
-  }
-
-  @Test
-  public void getTemplateFolderName() {
-    assertEquals(property(FOLDER_TEMPLATES), pathUtil.getTemplateFolderName());
-  }
-
-  @Test
-  public void getTexTemplatePath() {
-    String expected = combine(baseDir, property(FOLDER_TEX_TEMPLATES));
-    assertEquals(expected, pathUtil.getTexTemplatePath());
-  }
-
-  @Test
   public void determineLetterPath() {
     String expected = combine(baseDir, property(FOLDER_LETTERS));
     assertEquals(expected, pathUtil.determinePath(Letter.class));
