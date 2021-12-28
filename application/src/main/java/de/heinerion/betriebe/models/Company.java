@@ -7,7 +7,7 @@ import java.text.Collator;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Company implements Storable, Comparable<Company> {
+public final class Company implements Comparable<Company> {
   private UUID id;
 
   private String descriptiveName;
@@ -81,11 +81,6 @@ public final class Company implements Storable, Comparable<Company> {
 
   public void setDescriptiveName(String descriptiveName) {
     this.descriptiveName = descriptiveName;
-  }
-
-  @Override
-  public String getEntryName() {
-    return this.getOfficialName();
   }
 
   public int getInvoiceNumber() {

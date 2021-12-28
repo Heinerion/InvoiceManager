@@ -54,11 +54,6 @@ public class Invoice extends Letter {
 
   // TODO removeItem?
 
-  @Override
-  public String getEntryName() {
-    return this.number + " " + this.receiver.getRecipient();
-  }
-
   public double getGross() {
     return this.gross;
   }
@@ -123,8 +118,12 @@ public class Invoice extends Letter {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Invoice invoice = (Invoice) o;
     return number == invoice.number &&
         Double.compare(invoice.net, net) == 0 &&

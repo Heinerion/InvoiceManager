@@ -3,7 +3,7 @@ package de.heinerion.betriebe.models;
 import java.util.Objects;
 import java.util.Optional;
 
-public final class Address implements Storable {
+public final class Address {
   private String apartment;
   private String company;
   private String district;
@@ -23,11 +23,6 @@ public final class Address implements Storable {
 
   public Optional<String> getDistrict() {
     return Optional.ofNullable(district);
-  }
-
-  @Override
-  public String getEntryName() {
-    return getRecipient();
   }
 
   public String getLocation() {
@@ -94,8 +89,12 @@ public final class Address implements Storable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Address address = (Address) o;
     return Objects.equals(apartment, address.apartment) &&
         Objects.equals(company, address.company) &&

@@ -1,13 +1,11 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.invoice.storage.PathTools;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Letter implements Storable {
+public class Letter {
   private Company company;
   private LocalDate date;
 
@@ -34,12 +32,6 @@ public class Letter implements Storable {
     this.messageLines.add(messageLine);
   }
 
-  @Override
-  public String[] getClassification() {
-    return new String[]{this.company.getDescriptiveName(),
-        PathTools.determineFolderName(this.getClass())};
-  }
-
   public Company getCompany() {
     return this.company;
   }
@@ -54,12 +46,6 @@ public class Letter implements Storable {
 
   public void setDate(LocalDate date) {
     this.date = date;
-  }
-
-  @Override
-  public String getEntryName() {
-    return this.getDate().toString() + " - "
-        + this.getReceiver().getRecipient();
   }
 
   public List<String> getMessageLines() {
@@ -94,8 +80,12 @@ public class Letter implements Storable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Letter letter = (Letter) o;
     return Objects.equals(company, letter.company) &&
         Objects.equals(date, letter.date) &&
