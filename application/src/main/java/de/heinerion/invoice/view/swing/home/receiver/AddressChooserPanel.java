@@ -59,12 +59,12 @@ class AddressChooserPanel extends JPanel {
   }
 
   private void addButtons() {
-    PositionCoordinates position;
-    position = new PositionCoordinates();
-    position.setPosX(SECOND);
-    position.setPosY(SECOND);
-    position.setHeight(SIZE1);
-    position.setWidth(SIZE1);
+    PositionCoordinates position = PositionCoordinates.builder()
+        .withPosX(SECOND)
+        .withPosY(SECOND)
+        .withHeight(SIZE1)
+        .withWidth(SIZE1)
+        .build();
 
     final JPanel pnlButtons = create(new JPanel(), position);
     pnlButtons.setLayout(new GridLayout(ANY, 1));
@@ -83,18 +83,19 @@ class AddressChooserPanel extends JPanel {
   }
 
   private void addAddressChooser() {
-    PositionCoordinates position;
     // place address boxes left to their labels
-    position = new PositionCoordinates();
-    position.setHeight(SIZE1);
-    position.setWidth(SIZE1);
+    PositionCoordinates position = PositionCoordinates.builder()
+        .withHeight(SIZE1)
+        .withWidth(SIZE1)
+        .build();
 
     addressBox = create(new JComboBox<>(new Address[1]), position);
 
-    position = new PositionCoordinates();
-    position.setPosX(SECOND);
-    position.setHeight(SIZE1);
-    position.setWidth(SIZE1);
+    position = PositionCoordinates.builder()
+        .withPosX(SECOND)
+        .withHeight(SIZE1)
+        .withWidth(SIZE1)
+        .build();
 
     final JLabel newLabel = new JLabel(Translator.translate("address.title"));
     newLabel.setFont(this.getFont().deriveFont(BOLD));
@@ -109,10 +110,11 @@ class AddressChooserPanel extends JPanel {
 
   private void addAddressField(Formatter formatter) {
     PositionCoordinates position;
-    position = new PositionCoordinates();
-    position.setPosY(SECOND);
-    position.setHeight(SIZE1);
-    position.setWidth(SIZE1);
+    position = PositionCoordinates.builder()
+        .withPosY(SECOND)
+        .withHeight(SIZE1)
+        .withWidth(SIZE1)
+        .build();
     addressForm = new AddressForm(formatter);
     JTextArea addressArea = create(new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS), position);
     addressArea.setPreferredSize(DimensionUtil.ADDRESS_AREA);

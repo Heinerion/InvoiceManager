@@ -49,7 +49,7 @@ class BGPanel extends JPanel {
     determineColorSettings();
   }
 
-  static BGPanel createBackgroundPanel(PanelSides... coloredSides){
+  static BGPanel createBackgroundPanel(PanelSides... coloredSides) {
     return new BGPanel(coloredSides);
   }
 
@@ -122,10 +122,10 @@ class BGPanel extends JPanel {
   }
 
   private PositionCoordinates determineCoordinates() {
-    PositionCoordinates position = new PositionCoordinates();
-    position.setHeight(getHeight() - CORNER_SIZE);
-    position.setWidth(getWidth() - CORNER_SIZE);
-    return position;
+    return PositionCoordinates.builder()
+        .withHeight(getHeight() - CORNER_SIZE)
+        .withWidth(getWidth() - CORNER_SIZE)
+        .build();
   }
 
   private void initColors(PositionCoordinates position) {

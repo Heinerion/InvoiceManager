@@ -1,10 +1,17 @@
 package de.heinerion.invoice.view.swing;
 
 public class PositionCoordinates {
-  private int posX = 0;
-  private int posY = 0;
-  private int width = 0;
-  private int height = 0;
+  private final int posX;
+  private final int posY;
+  private final int width;
+  private final int height;
+
+  private PositionCoordinates(Builder builder) {
+    this.posX = builder.posX;
+    this.posY = builder.posY;
+    this.width = builder.width;
+    this.height = builder.height;
+  }
 
   public int getPosX() {
     return posX;
@@ -22,19 +29,38 @@ public class PositionCoordinates {
     return height;
   }
 
-  public void setPosX(int xPosition) {
-    this.posX = xPosition;
+  public static Builder builder() {
+    return new Builder();
   }
 
-  public void setPosY(int yPosition) {
-    this.posY = yPosition;
-  }
+  public static class Builder {
+    private int posX = 0;
+    private int posY = 0;
+    private int width = 0;
+    private int height = 0;
 
-  public void setWidth(int aWidth) {
-    this.width = aWidth;
-  }
+    public Builder withPosX(int x) {
+      posX = x;
+      return this;
+    }
 
-  public void setHeight(int aHeight) {
-    this.height = aHeight;
+    public Builder withPosY(int y) {
+      posY = y;
+      return this;
+    }
+
+    public Builder withWidth(int w) {
+      width = w;
+      return this;
+    }
+
+    public Builder withHeight(int h) {
+      height = h;
+      return this;
+    }
+
+    public PositionCoordinates build() {
+      return new PositionCoordinates(this);
+    }
   }
 }
