@@ -48,7 +48,7 @@ public class InvoiceManager implements CommandLineRunner {
   }
 
   public static void setupGlobalExceptionHandling() {
-    Thread.setDefaultUncaughtExceptionHandler((_unused, e) -> ErrorDialog.show(e));
+    Thread.setDefaultUncaughtExceptionHandler((ignored, e) -> ErrorDialog.show(e));
   }
 
   private void evaluateArgument(String string) {

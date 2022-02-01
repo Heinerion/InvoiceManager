@@ -5,13 +5,13 @@ import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
 
-public abstract class  TabContent {
+public abstract class TabContent {
   private final String title;
   private final JButton delete;
 
-  private JPanel panel;
+  private final JPanel panel;
 
-  public TabContent(String aTitle) {
+  protected TabContent(String aTitle) {
     panel = PanelFactory.createBackgroundPanel(PanelSides.LEFT, PanelSides.RIGHT);
 
     this.title = aTitle;
@@ -20,7 +20,9 @@ public abstract class  TabContent {
     delete.addActionListener(e -> clear());
   }
 
-  public JPanel getPanel() {return panel;}
+  public JPanel getPanel() {
+    return panel;
+  }
 
   protected abstract void clear();
 
