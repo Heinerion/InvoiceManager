@@ -6,10 +6,8 @@ import java.util.Locale;
 
 public final class FormatUtil {
   private static final String DECIMAL_PATTERN = ",##0.00";
-  private static final String PERCENTAGE_PATTERN = "##0%";
 
-  private static DecimalFormat dfLocale;
-  private static DecimalFormat dfPercentage = new DecimalFormat(PERCENTAGE_PATTERN);
+  private static final DecimalFormat dfLocale;
 
   static {
     dfLocale = (DecimalFormat) NumberFormat.getNumberInstance(Locale.GERMANY);
@@ -21,9 +19,5 @@ public final class FormatUtil {
 
   public static String formatLocaleDecimal(double value) {
     return dfLocale.format(value);
-  }
-
-  public static String formatPercentage(double value) {
-    return dfPercentage.format(value);
   }
 }

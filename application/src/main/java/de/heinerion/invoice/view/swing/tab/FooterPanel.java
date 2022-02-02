@@ -11,10 +11,9 @@ import java.awt.*;
 
 import static java.awt.BorderLayout.PAGE_END;
 
-class FooterPanel extends JPanel implements
-    ConveyableListener {
-  private JLabel currentTotalNet = new JLabel();
-  private JLabel currentTotalGross = new JLabel();
+class FooterPanel extends JPanel implements ConveyableListener {
+  private final JLabel currentTotalNet = new JLabel();
+  private final JLabel currentTotalGross = new JLabel();
 
   FooterPanel(JButton deleteButton) {
     super(new GridLayout(0, 1));

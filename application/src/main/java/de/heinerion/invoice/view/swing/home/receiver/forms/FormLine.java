@@ -122,7 +122,7 @@ public class FormLine<T, A> {
     return hintComponent;
   }
 
-  public static <X, Y> Builder<X, Y> builder(Class<X> __, Class<Y> attribute) {
+  public static <X, Y> Builder<X, Y> builder(Class<X> type, Class<Y> attribute) {
     return new Builder<X, Y>().component(determineComponent(attribute));
   }
 
@@ -164,7 +164,6 @@ public class FormLine<T, A> {
       line.predicate = condition;
       return this;
     }
-
 
     public Builder<X, Y> component(JComponent component) {
       line.setComponent(component);
