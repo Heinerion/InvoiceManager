@@ -5,15 +5,12 @@ import de.heinerion.invoice.testsupport.builder.SessionPreparer;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;
-import de.heinerion.invoice.view.swing.PanelFactory;
-import de.heinerion.invoice.view.swing.PanelSides;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -28,7 +25,7 @@ import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PanelFactory.class, LookAndFeelUtil.class})
+@PrepareForTest({LookAndFeelUtil.class})
 @PowerMockIgnore({"javax.management.*", "javax.swing.*"})
 // Ignore as long powermock is needed but not fixed
 @Ignore
@@ -47,9 +44,6 @@ public class InvoiceManagerTest {
   @Before
   public void setUp() {
     manager = new InvoiceManager(guiStarter);
-
-    mockStatic(PanelFactory.class);
-    when(PanelFactory.createBackgroundPanel(Matchers.<PanelSides>anyVararg())).thenReturn(new JPanel());
 
     mockStatic(LookAndFeelUtil.class);
 

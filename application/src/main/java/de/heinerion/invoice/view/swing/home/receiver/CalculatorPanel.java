@@ -4,8 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.business.calculator.CalculationResult;
-import de.heinerion.invoice.view.swing.PanelFactory;
-import de.heinerion.invoice.view.swing.PanelSides;
+import de.heinerion.invoice.view.swing.BGPanel;
 import de.heinerion.invoice.view.swing.home.DimensionUtil;
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 
@@ -13,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class CalculatorPanel {
-  private JPanel panel;
+  private final JPanel panel;
 
   private JTextField fldAmount;
   private JTextField fldNet;
@@ -28,7 +27,7 @@ class CalculatorPanel {
   private JButton btnMinus;
 
   CalculatorPanel() {
-    panel = PanelFactory.createBackgroundPanel(PanelSides.ALL);
+    panel = BGPanel.createWithAllSidesColored();
 
     initLayout();
     createWidgets();

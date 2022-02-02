@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.invoice.view.swing.PanelFactory;
-import de.heinerion.invoice.view.swing.PanelSides;
+import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +57,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
     header = new JLabel(Menu.translate("invoiceNumbers.lastIssuedNumber"),
         SwingConstants.CENTER);
 
-    pnlNumbers = PanelFactory.createBackgroundPanel(PanelSides.ALL);
+    pnlNumbers = BGPanel.createWithAllSidesColored();
     pnlNumbers.setLayout(new GridLayout(2, 2));
   }
 

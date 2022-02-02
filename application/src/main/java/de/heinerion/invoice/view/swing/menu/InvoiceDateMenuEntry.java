@@ -3,8 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
-import de.heinerion.invoice.view.swing.PanelFactory;
-import de.heinerion.invoice.view.swing.PanelSides;
+import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +47,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
   }
 
   private JPanel createDatePanel() {
-    final JPanel pnlDatum = PanelFactory.createBackgroundPanel(PanelSides.ALL);
+    final JPanel pnlDatum = BGPanel.createWithAllSidesColored();
 
     int rows = 2;
     int cols = 3;

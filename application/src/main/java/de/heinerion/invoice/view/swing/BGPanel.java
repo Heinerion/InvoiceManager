@@ -6,9 +6,11 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.Serial;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
-class BGPanel extends JPanel {
+import static de.heinerion.invoice.view.swing.PanelSides.*;
+
+public class BGPanel extends JPanel {
   private static final int CORNER_SIZE = 15;
 
   @Serial
@@ -40,7 +42,7 @@ class BGPanel extends JPanel {
   private transient GradientPaint topPaint;
   private transient GradientPaint bottomPaint;
 
-  private BGPanel(PanelSides... sides) {
+  private BGPanel(Collection<PanelSides> sides) {
     determineSidesToDraw(sides);
 
     Border panelBorder = createPanelBorder();
@@ -49,17 +51,19 @@ class BGPanel extends JPanel {
     determineColorSettings();
   }
 
-  static BGPanel createBackgroundPanel(PanelSides... coloredSides) {
-    return new BGPanel(coloredSides);
+  public static BGPanel createWithColoredSides(PanelSides sideA, PanelSides sideB) {
+    return new BGPanel(Arrays.asList(sideA, sideB));
   }
 
-  private void determineSidesToDraw(PanelSides[] sides) {
-    List<PanelSides> panelSides = Arrays.asList(sides);
-    boolean colorAll = panelSides.contains(PanelSides.ALL);
-    drawTop = colorAll || panelSides.contains(PanelSides.TOP);
-    drawBottom = colorAll || panelSides.contains(PanelSides.BOTTOM);
-    drawLeft = colorAll || panelSides.contains(PanelSides.LEFT);
-    drawRight = colorAll || panelSides.contains(PanelSides.RIGHT);
+  public static BGPanel createWithAllSidesColored() {
+    return new BGPanel(Arrays.asList(TOP, RIGHT, BOTTOM, LEFT));
+  }
+
+  private void determineSidesToDraw(Collection<PanelSides> panelSides) {
+    drawTop = panelSides.contains(TOP);
+    drawBottom = panelSides.contains(BOTTOM);
+    drawLeft = panelSides.contains(LEFT);
+    drawRight = panelSides.contains(RIGHT);
   }
 
   private Border createPanelBorder() {

@@ -12,7 +12,7 @@ public abstract class TabContent {
   private final JPanel panel;
 
   protected TabContent(String aTitle) {
-    panel = PanelFactory.createBackgroundPanel(PanelSides.LEFT, PanelSides.RIGHT);
+    panel = BGPanel.createWithColoredSides(PanelSides.LEFT, PanelSides.RIGHT);
 
     this.title = aTitle;
 
