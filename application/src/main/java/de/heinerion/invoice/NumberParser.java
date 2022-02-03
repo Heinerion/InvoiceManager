@@ -5,41 +5,41 @@ import lombok.extern.flogger.Flogger;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.logging.Level;
 
 @Flogger
 public final class NumberParser {
+
   private NumberParser() {
   }
 
-  public static double parseDouble(String input) {
+  public static OptionalDouble parseDouble(String input) {
+    String cleaned = input.strip().replace(" ", "");
+
+    if (cleaned.isBlank() || !cleaned.matches("[\\d.,]*\\d")) {
+      return OptionalDouble.empty();
+    }
+
     try {
-      return parseByLocale(input, Locale.US);
-    } catch (ParseException ex) {
-      try {
-        return parseByLocale(input, Locale.GERMANY);
-      } catch (ParseException exe) {
-        log.at(Level.WARNING).withCause(exe).log();
-        throw new ParsingException(exe);
-      }
+      return OptionalDouble.of(parseByLocale(
+          cleaned,
+          cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.')
+              ? Locale.GERMANY
+              : Locale.US));
+    } catch (ParseException exe) {
+      log.at(Level.WARNING).withCause(exe).log();
+      throw new ParsingException(exe);
     }
   }
 
   private static double parseByLocale(String input, Locale locale)
       throws ParseException {
-    double result;
-    if (input == null || input.trim().isEmpty()) {
-      result = 0;
-    } else {
-      final NumberFormat format = NumberFormat.getInstance(locale);
-      final Number number = format.parse(input);
-      if (number == null) {
-        result = 0;
-      } else {
-        result = number.doubleValue();
-      }
-    }
-    return result;
+    return Optional
+        .of(NumberFormat.getInstance(locale).parse(input))
+        .map(Number::doubleValue)
+        .orElse(0d);
   }
 
   static class ParsingException extends RuntimeException {

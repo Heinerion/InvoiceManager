@@ -108,7 +108,7 @@ class InvoiceTableModel extends AbstractTableModel {
 
   private double parseDouble(Object aValue) {
     if (aValue instanceof String string) {
-      return NumberParser.parseDouble(string);
+      return NumberParser.parseDouble(string).orElse(0);
     }
 
     if (aValue instanceof Double dbl) {

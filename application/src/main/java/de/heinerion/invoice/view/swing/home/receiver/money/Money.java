@@ -24,7 +24,7 @@ public class Money implements Comparable<Money> {
   }
 
   public static Money parse(String text) {
-    return of(NumberParser.parseDouble(text));
+    return of(NumberParser.parseDouble(text).orElse(0));
   }
 
   public static Money of(double theValue) {
