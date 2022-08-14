@@ -1,6 +1,5 @@
 package de.heinerion.betriebe.models.jpa;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 public class LetterEntity {
   //  @Id
