@@ -112,8 +112,7 @@ public final class Address {
   }
 
   @Override
-  // TODO where used? Should something like "description" be used instead?
   public String toString() {
-    return this.recipient;
+    return recipient;
   }
 }

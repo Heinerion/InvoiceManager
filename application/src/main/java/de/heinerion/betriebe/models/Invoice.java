@@ -140,15 +140,6 @@ public class Invoice extends Letter {
 
   @Override
   public String toString() {
-    return "Invoice{" +
-        "number=" + number +
-        ", items=" + items +
-        ", net=" + net +
-        ", vat=" + vat +
-        ", tax=" + tax +
-        ", gross=" + gross +
-        ", subject='" + subject + '\'' +
-        ", receiver=" + receiver +
-        '}';
+    return "Invoice{number=%d, receiver=%s}".formatted(number, receiver);
   }
 }
