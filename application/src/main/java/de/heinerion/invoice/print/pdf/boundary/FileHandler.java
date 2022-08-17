@@ -30,7 +30,7 @@ class FileHandler {
     File destination = prepareFile(destinationPath);
     try {
       Files.move(output.toPath(), destination.toPath(), StandardCopyOption.ATOMIC_MOVE);
-      log.atInfo().log("File moved to %s", destination.getAbsolutePath());
+      log.atFine().log("File moved to %s", destination.getAbsolutePath());
     } catch (IOException ioe) {
       log.atWarning().withCause(ioe).log("File could not be moved to %s."
       );
@@ -55,7 +55,7 @@ class FileHandler {
           .mkdirs();
 
       boolean fileCreated = texDestination.createNewFile();
-      log.atInfo().log(createLogMessage(texDestination, dirsCreated, fileCreated));
+      log.atFine().log(createLogMessage(texDestination, dirsCreated, fileCreated));
     } catch (IOException e) {
       log.atSevere()
           .withCause(e)
