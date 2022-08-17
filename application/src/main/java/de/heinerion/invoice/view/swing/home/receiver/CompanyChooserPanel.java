@@ -2,33 +2,71 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.view.swing.home.ComponentSize;
 import de.heinerion.invoice.view.swing.home.Refreshable;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.Comparator;
 
 class CompanyChooserPanel implements Refreshable {
-  private SidePanel sidePanel;
-  private CompanyCreateDialog companyCreateDialog;
-  private JPanel content = new JPanel();
+  private final JPanel sidePanel;
+  private JComponent companies;
 
   CompanyChooserPanel(CompanyCreateDialog companyCreateDialog) {
-    this.sidePanel = new SidePanel();
-    this.companyCreateDialog = companyCreateDialog;
+    this.sidePanel = new JPanel();
+    ComponentSize.COMPANY_PANEL.applyTo(sidePanel);
+    sidePanel.setOpaque(false);
+    sidePanel.setLayout(new BorderLayout());
+    sidePanel.add(companyCreateDialog.getButton(), BorderLayout.LINE_END);
+    // spacing
+    sidePanel.add(new SidePanel(), BorderLayout.PAGE_END);
     refresh();
   }
 
   public void refresh() {
-    sidePanel.remove(content);
-    content = new JPanel();
-    for (Company c : Session.getAvailableCompanies()) {
-      content.add(new CompanyButton(c).getButton());
+    if (companies != null) {
+      sidePanel.remove(companies);
     }
-    content.add(companyCreateDialog.getButton());
-    sidePanel.add(content);
+    companies = createCompanyBox();
+    sidePanel.add(companies, BorderLayout.CENTER);
+  }
+
+  private JComponent createCompanyBox() {
+    JComboBox<CompanyWrapper> companyBox = new JComboBox<>(
+        Session
+            .getAvailableCompanies()
+            .stream()
+            .sorted(Comparator.comparing(Company::getOfficialName))
+            .map(CompanyWrapper::new)
+            .toArray(CompanyWrapper[]::new)
+    );
+    companyBox.addActionListener(e -> Session
+        .setActiveCompany(companyBox
+            .getItemAt(companyBox.getSelectedIndex())
+            .getCompany()));
+    companyBox.setOpaque(false);
+
+    return companyBox;
   }
 
   @Override
   public JPanel getPanel() {
     return sidePanel;
+  }
+
+  @RequiredArgsConstructor
+  private static class CompanyWrapper {
+    private final Company company;
+
+    public Company getCompany() {
+      return company;
+    }
+
+    @Override
+    public String toString() {
+      return company.getOfficialName();
+    }
   }
 }

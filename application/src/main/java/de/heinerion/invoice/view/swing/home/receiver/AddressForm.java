@@ -9,7 +9,7 @@ import java.util.List;
 class AddressForm {
   private JTextArea addressArea;
 
-  private Formatter formatter;
+  private final Formatter formatter;
 
   AddressForm(Formatter formatter) {
     this.formatter = formatter;
