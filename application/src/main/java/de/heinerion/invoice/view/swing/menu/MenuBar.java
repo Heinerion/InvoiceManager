@@ -4,9 +4,11 @@ import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.view.swing.home.ComponentPainter;
 import de.heinerion.invoice.view.swing.menu.info.InfoMenuEntry;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +27,8 @@ class MenuBar extends JMenuBar {
     this.addressRepository = addressRepository;
     this.invoiceRepository = invoiceRepository;
     this.companyRepository = companyRepository;
+    this.setOpaque(false);
+    this.setBorderPainted(false);
     createWidgets();
     addWidgets();
   }
@@ -42,11 +46,23 @@ class MenuBar extends JMenuBar {
   private JMenuItem createItem(MenuEntry menuEntry) {
     menuEntry.setBusyFrame(origin);
     JMenuItem item = new JMenuItem(menuEntry.getLinkText());
+    item.setOpaque(false);
     item.addActionListener(e -> menuEntry.showDialog());
     return item;
   }
 
   private void addWidgets() {
     menuItems.forEach(this::add);
+  }
+  
+  @Override
+  protected void paintComponent(Graphics g) {
+    ComponentPainter.paintComponent(
+        (Graphics2D) g,
+        this,
+        ComponentPainter.Details
+            .builder()
+            .decorWidth(10)
+            .build());
   }
 }
