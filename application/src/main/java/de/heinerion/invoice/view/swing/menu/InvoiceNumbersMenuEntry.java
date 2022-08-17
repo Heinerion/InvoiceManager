@@ -31,7 +31,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   @Override
   protected void addWidgets(JDialog dialog) {
     numbers = new HashMap<>();
-    for (Company c : Session.getAvailableCompanies()) {
+    for (Company c : Session.getAvailableCompanies().stream().sorted().toList()) {
       pnlNumbers.add(new JLabel(c.getDescriptiveName()));
       SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
           c.getInvoiceNumber(), 0, 500, 1);
@@ -66,7 +66,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
         SwingConstants.CENTER);
 
     pnlNumbers = BGPanel.createWithAllSidesColored();
-    pnlNumbers.setLayout(new GridLayout(2, 2));
+    pnlNumbers.setLayout(new GridLayout(0, 2));
   }
 
   @Override
