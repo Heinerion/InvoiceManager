@@ -4,6 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
+import de.heinerion.betriebe.repositories.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,10 @@ import java.awt.event.ActionListener;
 @Service
 @RequiredArgsConstructor
 public class PrintAction implements ActionListener {
-  private Letter letter;
-
+  private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
+
+  private Letter letter;
 
   @Override
   public void actionPerformed(ActionEvent arg0) {
@@ -33,8 +35,9 @@ public class PrintAction implements ActionListener {
       Company company = letter.getCompany();
 
       company.increaseInvoiceNumber();
-      log.atFine().log("Rechnungsnummer von %s auf %d erhöht.",
+      log.atFine().log("raise invoice number of %s to %d.",
           company.getDescriptiveName(), company.getInvoiceNumber());
+      companyRepository.save(company);
     }
 
     if (letter.isPrintable()) {
