@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public enum ComponentSize {
+  COMPANY_PANEL(230, 40),
   CALCULATOR(200, 150),
   ADDRESS_AREA(230, 60);
 
