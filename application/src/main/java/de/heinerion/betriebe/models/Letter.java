@@ -101,12 +101,6 @@ public class Letter {
 
   @Override
   public String toString() {
-    return "Letter{" +
-        "company=" + company +
-        ", date=" + date +
-        ", subject='" + subject + '\'' +
-        ", messageLines=" + messageLines +
-        ", receiver=" + receiver +
-        '}';
+    return "Letter{%s - %s}".formatted(date, subject);
   }
 }

@@ -64,10 +64,6 @@ public final class Account {
 
   @Override
   public String toString() {
-    return "Account{" +
-        "bic='" + bic + '\'' +
-        ", iban='" + iban + '\'' +
-        ", name='" + name + '\'' +
-        '}';
+    return name;
   }
 }
