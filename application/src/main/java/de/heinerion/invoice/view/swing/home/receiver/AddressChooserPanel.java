@@ -6,7 +6,7 @@ import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
-import de.heinerion.invoice.view.swing.home.DimensionUtil;
+import de.heinerion.invoice.view.swing.home.ComponentSize;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
@@ -117,9 +117,7 @@ class AddressChooserPanel extends JPanel {
         .build();
     addressForm = new AddressForm(formatter);
     JTextArea addressArea = create(new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS), position);
-    addressArea.setPreferredSize(DimensionUtil.ADDRESS_AREA);
-    addressArea.setMinimumSize(DimensionUtil.ADDRESS_AREA);
-    addressArea.setMaximumSize(DimensionUtil.ADDRESS_AREA);
+    ComponentSize.ADDRESS_AREA.applyTo(addressArea);
     addressArea.setBackground(Color.WHITE);
     // set opacity (although it should already be set to true)
     addressArea.setOpaque(true);
