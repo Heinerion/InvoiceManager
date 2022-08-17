@@ -70,7 +70,7 @@ class InvoiceTabContent extends TabContent {
   }
 
   private JButton createTemplateSaveBtn() {
-    Icon saveIcon = (Icon) UIManager.get(Translator.translate("icons.save"));
+    Icon saveIcon = UIManager.getIcon(Translator.translate("icons.save"));
     JButton saveTemplateBtn = new JButton(saveIcon);
     saveTemplateBtn.addActionListener(e -> saveTemplate());
 
