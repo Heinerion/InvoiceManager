@@ -4,14 +4,13 @@ import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.view.DateUtil;
+import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.io.File;
 
-/**
- * @author heiner
- */
+@Flogger
 @Service
 class PrintOperations {
   private static final int STATE_LETTER = 0;
@@ -46,7 +45,10 @@ class PrintOperations {
   void createDocument(Letter letter) {
     updateState(letter);
 
-    SwingUtilities.invokeLater(() -> printer.writeFile(letter, generatePath(letter), generateTitle(letter)));
+    String title = generateTitle(letter);
+    File folder = generatePath(letter);
+    log.atInfo().log("print %s to %s", title, folder);
+    SwingUtilities.invokeLater(() -> printer.writeFile(letter, folder, title));
   }
 
   private void updateState(Letter letter) {
@@ -61,7 +63,11 @@ class PrintOperations {
     File folder = getGenerator().getFolder(conveyable);
 
     if (!folder.exists()) {
-      folder.mkdirs();
+      log.atInfo().log("create directory %s", folder);
+      boolean dirCreated = folder.mkdirs();
+      if (!dirCreated) {
+        log.atSevere().log("directory %s could not be created", folder);
+      }
     }
 
     return folder;
