@@ -16,7 +16,7 @@ class SystemCall {
     String program = "pdflatex";
     String fileArgument = processRunner.quote(tex.getAbsolutePath());
 
-    log.atInfo().log("command '%s %s'", program, fileArgument);
+    log.atFine().log("command '%s %s'", program, fileArgument);
 
     String errorLogMessage = Boundary.translate("error.pdflatex");
     processRunner.startProcess(errorLogMessage, program, fileArgument);
