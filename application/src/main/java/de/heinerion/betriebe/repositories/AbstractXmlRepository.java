@@ -11,6 +11,7 @@ abstract class AbstractXmlRepository<T> implements Repository<T> {
   public T save(T entry) {
     saveInMemory(entry);
     saveOnDisk();
+    log.atInfo().log("save %s", entry);
     return entry;
   }
 
