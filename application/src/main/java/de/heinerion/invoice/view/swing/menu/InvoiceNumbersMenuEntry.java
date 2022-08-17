@@ -2,6 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
+import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
@@ -14,11 +15,18 @@ import java.util.Map;
  */
 class InvoiceNumbersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceNumbers");
+
+  private final CompanyRepository companyRepository;
+
   private JPanel pnlNumbers;
 
   private Map<Company, JSpinner> numbers;
 
   private JLabel header;
+
+  public InvoiceNumbersMenuEntry(CompanyRepository companyRepository) {
+    this.companyRepository = companyRepository;
+  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -74,9 +82,14 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   @Override
   protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(arg0 -> {
-      for (Company c : Session.getAvailableCompanies()) {
-        c.setInvoiceNumber(calculateInvoiceNumber(numbers.get(c).getValue() + ""));
-        Session.notifyCompany();
+      for (Company company : Session.getAvailableCompanies()) {
+        int invoiceNumber = company.getInvoiceNumber();
+        int guiNumber = calculateInvoiceNumber(numbers.get(company).getValue() + "");
+        if (invoiceNumber != guiNumber) {
+          company.setInvoiceNumber(guiNumber);
+          companyRepository.save(company);
+          Session.notifyCompany();
+        }
       }
 
       getCloser().windowClosing(null);
