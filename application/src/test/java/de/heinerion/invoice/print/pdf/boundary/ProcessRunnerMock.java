@@ -1,8 +1,10 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
+import de.heinerion.betriebe.util.PathUtilNG;
+
 public class ProcessRunnerMock extends ProcessRunner {
-  ProcessRunnerMock() {
-    super();
+  ProcessRunnerMock(PathUtilNG pathUtil) {
+    super(pathUtil);
   }
 
   @Override
