@@ -25,6 +25,10 @@ public class PathUtilNG {
     return buildPath(getSystemFolderName());
   }
 
+  public String getLogPath(String folderName) {
+    return getSystemPath() + File.separator + "logs" + File.separator + folderName;
+  }
+
   private String getTemplatePath() {
     return buildPath(getSystemPath(), getTemplateFolderName());
   }
