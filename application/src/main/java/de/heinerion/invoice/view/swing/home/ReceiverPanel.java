@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 @Service
 public class ReceiverPanel implements Refreshable {
@@ -59,31 +58,15 @@ public class ReceiverPanel implements Refreshable {
     addressPanel.refresh();
   }
 
-  private static class FancyPanel extends JPanel {
+  public static class FancyPanel extends JPanel {
     @Override
     public void paintComponent(final Graphics g) {
-      Graphics2D g2 = initGraphic((Graphics2D) g);
-
-      g2.setPaint(Color.gray);
-
-      Color decor = getBackground().darker();
-      Color base = getBackground();
-
-      int decorWidth = 10;
-      int x = 0;
-      int y = 0;
-
-      GradientPaint baseToDecorGradient = new GradientPaint(x, y, decor, decorWidth,
-          y, base);
-      g2.setPaint(baseToDecorGradient);
-      // Tab area
-      g2.fill(new Rectangle2D.Double(x, y, getWidth(), getHeight()));
-    }
-
-    private Graphics2D initGraphic(Graphics2D g) {
-      g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-          RenderingHints.VALUE_ANTIALIAS_ON);
-      return g;
+      ComponentPainter.paintComponent(
+          (Graphics2D) g,
+          this,
+          ComponentPainter.Details.builder()
+              .decorWidth(10)
+              .build());
     }
   }
 }
