@@ -99,6 +99,9 @@ public final class Session {
 
   public static void setActiveAddress(Address theActiveAddress) {
     Session.activeAddress = theActiveAddress;
+    if (activeConveyable != null) {
+      activeConveyable.setReceiver(theActiveAddress);
+    }
   }
 
   public static Optional<Company> getActiveCompany() {
@@ -149,12 +152,12 @@ public final class Session {
   }
 
   public static void notifyCompany() {
-    log.atFine().log("notifyCompany");
+    log.atFine().log("notifyCompany %s", getActiveCompany().map(String::valueOf).orElse("-none-"));
     getCompanyListeners().forEach(CompanyListener::notifyCompany);
   }
 
   private static void notifyConveyable() {
-    log.atFine().log("notifyConveyable");
+    log.atFine().log("notifyConveyable %s", getActiveConveyable());
     getConveyableListeners().forEach(ConveyableListener::notifyConveyable);
   }
 
