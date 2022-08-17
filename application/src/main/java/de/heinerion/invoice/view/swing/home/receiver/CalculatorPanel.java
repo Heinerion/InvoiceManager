@@ -5,7 +5,7 @@ import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.business.calculator.CalculationResult;
 import de.heinerion.invoice.view.swing.BGPanel;
-import de.heinerion.invoice.view.swing.home.DimensionUtil;
+import de.heinerion.invoice.view.swing.home.ComponentSize;
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 
 import javax.swing.*;
@@ -41,7 +41,7 @@ class CalculatorPanel {
 
   private void initLayout() {
     panel.setLayout(new BorderLayout());
-    panel.setPreferredSize(DimensionUtil.CALCULATOR);
+    ComponentSize.CALCULATOR.applyTo(panel);
     panel.setOpaque(false);
   }
 
