@@ -1,14 +1,15 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels.invoices;
 
 import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.invoice.view.swing.menu.tablemodels.RowSelectionTableModel;
 
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
-public class InvoiceTable implements TableModel {
+public class InvoiceTable implements RowSelectionTableModel<Invoice> {
   private final List<Invoice> invoices;
 
   public InvoiceTable(Collection<Invoice> invoices) {
@@ -60,6 +61,12 @@ public class InvoiceTable implements TableModel {
   @Override
   public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
     throw new UnsupportedOperationException();
+  }
+
+  public Optional<Invoice> getRow(int rowIndex) {
+    return (rowIndex < 0 || rowIndex > invoices.size())
+        ? Optional.empty()
+        : Optional.of(invoices.get(rowIndex));
   }
 
   @Override

@@ -1,10 +1,15 @@
 package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
+import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
+import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.print.PrintOperations;
 import de.heinerion.invoice.view.swing.FormatUtil;
+import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
 import de.heinerion.invoice.view.swing.menu.tablemodels.invoices.InvoiceTable;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import javax.swing.table.TableColumnModel;
@@ -13,13 +18,17 @@ import java.awt.*;
 /**
  * @author heiner
  */
+@Flogger
 @RequiredArgsConstructor
 class InvoicesMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoices");
   private final InvoiceRepository invoiceRepository;
+  private final PrintOperations printOperations;
 
+  private JButton btnPrint;
   private InvoiceTable model;
 
+  private NiceTable<Invoice> tblInvoices;
   private JScrollPane spInvoices;
 
   public static final int INDEX_NUMBER = 0;
@@ -32,26 +41,34 @@ class InvoicesMenuEntry extends MenuEntry {
   @Override
   protected void addWidgets(JDialog dialog) {
     dialog.setLayout(new BorderLayout());
-    dialog.add(getBtnOk(), BorderLayout.PAGE_END);
+    dialog.add(getButtonPanel(), BorderLayout.PAGE_END);
     dialog.add(spInvoices, BorderLayout.CENTER);
+  }
+
+  private JPanel getButtonPanel() {
+    JPanel container = new JPanel(new BorderLayout());
+    container.add(btnPrint, BorderLayout.LINE_START);
+    container.add(getBtnOk(), BorderLayout.LINE_END);
+    return container;
   }
 
   @Override
   protected void createWidgets() {
+    btnPrint = new JButton(Translator.translate("controls.print"));
+    btnPrint.setEnabled(false);
+
     model = new InvoiceTable(invoiceRepository.findAllBySender(Session.getActiveCompany().orElse(null)));
-    JTable tblInvoices = new JTable(model);
-    tblInvoices.setAutoCreateRowSorter(true);
-    tblInvoices.setRowSelectionAllowed(true);
-    final TableColumnModel cols = tblInvoices.getColumnModel();
-    setColumnWidths(cols);
-    // order by number
-    tblInvoices.getRowSorter().toggleSortOrder(INDEX_NUMBER);
-    // start with highest / latest
-    tblInvoices.getRowSorter().toggleSortOrder(INDEX_NUMBER);
+    tblInvoices = new NiceTable<>(model);
+    setColumnWidths(tblInvoices.getColumnModel());
+    tblInvoices.sortBy(INDEX_NUMBER, SortOrder.ASCENDING);
+    tblInvoices.addSelectionListener(this::refreshPrintButtonState);
 
-    spInvoices = new JScrollPane(tblInvoices);
-
+    spInvoices = new JScrollPane(tblInvoices.asJTable());
     spInvoices.setPreferredSize(getBusyFrame().getSize());
+  }
+
+  private void refreshPrintButtonState(ListSelectionModel lsm) {
+    btnPrint.setEnabled(!lsm.isSelectionEmpty());
   }
 
   private void setColumnWidths(TableColumnModel cols) {
@@ -79,6 +96,11 @@ class InvoicesMenuEntry extends MenuEntry {
 
   @Override
   protected void setupInteractions(JDialog dialog) {
-    getBtnOk().addActionListener(arg0 -> getCloser().windowClosing(null));
+    getBtnOk().addActionListener(ignored -> getCloser().windowClosing(null));
+    btnPrint.addActionListener(ignored -> printSelectedInvoice());
+  }
+
+  private void printSelectedInvoice() {
+    tblInvoices.getSelectedRowObject().ifPresent(printOperations::createDocument);
   }
 }
