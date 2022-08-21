@@ -12,7 +12,7 @@ import java.io.File;
 
 @Flogger
 @Service
-class PrintOperations {
+public class PrintOperations {
   private static final int STATE_LETTER = 0;
   private static final int STATE_INVOICE = 1;
 
@@ -42,7 +42,7 @@ class PrintOperations {
    * @param letter
    *     the conveyable to be written to pdf
    */
-  void createDocument(Letter letter) {
+  public void createDocument(Letter letter) {
     updateState(letter);
 
     String title = generateTitle(letter);
