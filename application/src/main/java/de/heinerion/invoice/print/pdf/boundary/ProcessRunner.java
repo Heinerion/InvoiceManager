@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 @Flogger
 @Service
@@ -36,7 +37,11 @@ class ProcessRunner {
 
     try {
       Process p = pb.start();
-      p.waitFor();
+      boolean completedInTime = p.waitFor(10, TimeUnit.SECONDS);
+      if (!completedInTime) {
+        log.atWarning().log("process '%s' did not complete in time", program);
+        throw new RuntimeException("process '%s' did not complete in time".formatted(program));
+      }
     } catch (IOException e) {
       log.atSevere().withCause(e).log(errorLogMessage);
 
