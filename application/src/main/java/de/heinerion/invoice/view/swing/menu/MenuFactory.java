@@ -3,6 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
+import de.heinerion.betriebe.repositories.LetterRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.PrintOperations;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,12 @@ import javax.swing.*;
 public class MenuFactory {
   private final AddressRepository addressRepository;
   private final InvoiceRepository invoiceRepository;
+  private final LetterRepository letterRepository;
   private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
   private final PathUtilNG pathUtil;
 
   public JMenuBar createMenuBar(JFrame frame) {
-    return new MenuBar(frame, pathUtil, addressRepository, invoiceRepository, companyRepository, printOperations);
+    return new MenuBar(frame, pathUtil, addressRepository, invoiceRepository, letterRepository, companyRepository, printOperations);
   }
 }
