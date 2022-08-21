@@ -3,6 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
+import de.heinerion.betriebe.repositories.LetterRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.PrintOperations;
 import de.heinerion.invoice.view.swing.home.ComponentPainter;
@@ -20,14 +21,16 @@ class MenuBar extends JMenuBar {
   private final transient PathUtilNG pathUtil;
   private final transient AddressRepository addressRepository;
   private final transient InvoiceRepository invoiceRepository;
+  private final transient LetterRepository letterRepository;
   private final transient CompanyRepository companyRepository;
   private final transient PrintOperations printOperations;
 
-  MenuBar(JFrame origin, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
+  MenuBar(JFrame origin, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
     this.origin = origin;
     this.pathUtil = pathUtil;
     this.addressRepository = addressRepository;
     this.invoiceRepository = invoiceRepository;
+    this.letterRepository = letterRepository;
     this.companyRepository = companyRepository;
     this.printOperations = printOperations;
     this.setOpaque(false);
@@ -40,6 +43,7 @@ class MenuBar extends JMenuBar {
     menuItems = Arrays.asList(
         createItem(new AddressBookMenuEntry(addressRepository)),
         createItem(new InvoicesMenuEntry(invoiceRepository, printOperations)),
+        createItem(new LettersMenuEntry(letterRepository, printOperations)),
         createItem(new InvoiceNumbersMenuEntry(companyRepository)),
         createItem(new InvoiceDateMenuEntry()),
         createItem(new InfoMenuEntry(pathUtil))
