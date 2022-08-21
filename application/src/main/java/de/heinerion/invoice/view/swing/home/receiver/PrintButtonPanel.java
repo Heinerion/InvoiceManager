@@ -5,6 +5,7 @@ import de.heinerion.betriebe.models.Invoice;
 import de.heinerion.betriebe.models.Letter;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
 import de.heinerion.betriebe.repositories.LetterRepository;
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.print.PrintAction;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
 import lombok.extern.flogger.Flogger;
@@ -28,7 +29,7 @@ public class PrintButtonPanel implements PanelHolder {
   }
 
   private JButton createPrintButton(PrintAction printAction) {
-    JButton btnDrucken = new JButton("Drucken");
+    JButton btnDrucken = new JButton(Translator.translate("controls.print"));
     btnDrucken.setName("print");
     btnDrucken.addActionListener(printAction);
     btnDrucken.addActionListener(this::saveInvoice);
