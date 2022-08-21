@@ -32,8 +32,9 @@ class FileHandler {
       Files.move(output.toPath(), destination.toPath(), StandardCopyOption.ATOMIC_MOVE);
       log.atFine().log("File moved to %s", destination.getAbsolutePath());
     } catch (IOException ioe) {
-      log.atWarning().withCause(ioe).log("File could not be moved to %s."
-      );
+      log.atWarning()
+          .withCause(ioe)
+          .log("File could not be moved to %s.", destination.getAbsolutePath());
     }
   }
 
