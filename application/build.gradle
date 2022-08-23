@@ -3,7 +3,7 @@
  */
 
 plugins {
-    id 'org.springframework.boot' version '2.6.1'
+    id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
 }
@@ -19,35 +19,35 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
+    implementation 'org.apache.pdfbox:pdfbox:2.0.26'
     implementation 'com.sun.xml.bind:jaxb-core:2.3.0.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
-    implementation 'org.javassist:javassist:3.25.0-GA'
-    implementation 'org.freemarker:freemarker:2.3.28'
-    implementation 'com.thoughtworks.xstream:xstream:1.4.18'
-    implementation 'com.google.flogger:flogger:0.7.2'
-    implementation 'com.google.flogger:flogger-system-backend:0.7.2'
+    implementation 'org.javassist:javassist:3.29.0-GA'
+    implementation 'org.freemarker:freemarker:2.3.31'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.19'
+    implementation 'com.google.flogger:flogger:0.7.4'
+    implementation 'com.google.flogger:flogger-system-backend:0.7.4'
     implementation 'org.springframework.boot:spring-boot-starter'
 
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
     implementation 'org.freemarker:freemarker:2.3.31'
 
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'org.mockito:mockito-core:3.5.13'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.7'
-    testImplementation 'org.easytesting:fest-swing-junit:1.2'
-    testImplementation 'org.assertj:assertj-core:3.9.0'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:4.7.0'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
+    testImplementation 'org.easytesting:fest-swing-junit:1.2.1'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.3'
 
     // https://mvnrepository.com/artifact/org.easymock/easymock
-    testImplementation group: 'org.easymock', name: 'easymock', version: '4.0.2'
+    testImplementation 'org.easymock:easymock:4.3'
 }
 
 group = 'de.heinerion'
