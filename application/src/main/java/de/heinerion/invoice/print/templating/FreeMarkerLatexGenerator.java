@@ -1,6 +1,6 @@
-package de.heinerion.invoice.tool.boundary.templating;
+package de.heinerion.invoice.print.templating;
 
-import de.heinerion.invoice.tool.boundary.Translator;
+import de.heinerion.invoice.boundary.Translator;
 import de.heinerion.invoice.tool.domain.*;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

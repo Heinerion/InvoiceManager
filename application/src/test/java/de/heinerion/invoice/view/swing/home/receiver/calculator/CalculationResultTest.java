@@ -1,4 +1,4 @@
-package de.heinerion.invoice.tool.business.calculator;
+package de.heinerion.invoice.view.swing.home.receiver.calculator;
 
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
 import org.junit.Test;
