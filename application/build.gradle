@@ -30,6 +30,9 @@ dependencies {
     implementation 'com.google.flogger:flogger-system-backend:0.7.2'
     implementation 'org.springframework.boot:spring-boot-starter'
 
+    // https://mvnrepository.com/artifact/org.freemarker/freemarker
+    implementation 'org.freemarker:freemarker:2.3.31'
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
@@ -42,6 +45,9 @@ dependencies {
     testImplementation 'org.easytesting:fest-swing-junit:1.2'
     testImplementation 'org.assertj:assertj-core:3.9.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testImplementation group: 'org.easymock', name: 'easymock', version: '4.0.2'
 }
 
 group = 'de.heinerion'
