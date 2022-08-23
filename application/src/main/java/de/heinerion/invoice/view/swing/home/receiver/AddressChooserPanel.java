@@ -14,6 +14,8 @@ import java.awt.*;
 
 @Flogger
 class AddressChooserPanel extends JPanel {
+  private final transient Session session;
+
   private static final int BOLD = Font.BOLD;
   private static final int CENTER = SwingConstants.CENTER;
 
@@ -37,8 +39,9 @@ class AddressChooserPanel extends JPanel {
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel(Formatter formatter, AddressRepository addressRepository) {
+  AddressChooserPanel(Formatter formatter, AddressRepository addressRepository, Session session) {
     this.addressRepository = addressRepository;
+    this.session = session;
 
     init();
 
@@ -143,7 +146,7 @@ class AddressChooserPanel extends JPanel {
     // delete old addresses
     addressBox.removeAllItems();
 
-    Session.getActiveCompany().ifPresent(activeCompany ->
+    session.getActiveCompany().ifPresent(activeCompany ->
         addressRepository
             .findByCompany(activeCompany)
             .forEach(addressBox::addItem)
@@ -152,7 +155,7 @@ class AddressChooserPanel extends JPanel {
 
   private void useGivenAddress() {
     final Address address = (Address) this.addressBox.getSelectedItem();
-    Session.setActiveAddress(address);
+    session.setActiveAddress(address);
     addressForm.setAddress(address);
   }
 

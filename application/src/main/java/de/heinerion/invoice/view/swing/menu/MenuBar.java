@@ -1,5 +1,6 @@
 package de.heinerion.invoice.view.swing.menu;
 
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 
 class MenuBar extends JMenuBar {
   private final JFrame origin;
+  private final transient Session session;
 
   private transient List<JMenuItem> menuItems;
   private final transient PathUtilNG pathUtil;
@@ -25,8 +27,9 @@ class MenuBar extends JMenuBar {
   private final transient CompanyRepository companyRepository;
   private final transient PrintOperations printOperations;
 
-  MenuBar(JFrame origin, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
+  MenuBar(JFrame origin, Session session, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
     this.origin = origin;
+    this.session = session;
     this.pathUtil = pathUtil;
     this.addressRepository = addressRepository;
     this.invoiceRepository = invoiceRepository;
@@ -41,12 +44,12 @@ class MenuBar extends JMenuBar {
 
   private void createWidgets() {
     menuItems = Arrays.asList(
-        createItem(new AddressBookMenuEntry(addressRepository)),
-        createItem(new InvoicesMenuEntry(invoiceRepository, printOperations)),
-        createItem(new LettersMenuEntry(letterRepository, printOperations)),
-        createItem(new InvoiceNumbersMenuEntry(companyRepository)),
-        createItem(new InvoiceDateMenuEntry()),
-        createItem(new InfoMenuEntry(pathUtil))
+        createItem(new AddressBookMenuEntry(addressRepository, session)),
+        createItem(new InvoicesMenuEntry(invoiceRepository, printOperations, session)),
+        createItem(new LettersMenuEntry(letterRepository, printOperations, session)),
+        createItem(new InvoiceNumbersMenuEntry(session, companyRepository)),
+        createItem(new InvoiceDateMenuEntry(session)),
+        createItem(new InfoMenuEntry(pathUtil, session))
     );
   }
 

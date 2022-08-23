@@ -26,6 +26,7 @@ import java.util.Optional;
  */
 @Service
 class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateListener {
+  private final Session session = Session.getInstance();
   private final JFrame frame;
 
   private final Refreshable receiverPanel;
@@ -64,9 +65,9 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   }
 
   private void setupInteractions() {
-    Session.addCompanyListener(this);
-    Session.addDateListener(this);
-    Session.setApplicationFrame(this);
+    session.addCompanyListener(this);
+    session.addDateListener(this);
+    session.setApplicationFrame(this);
 
     frame.addWindowListener(getShutDownAdapter());
     frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -114,15 +115,15 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   private void refreshTitle() {
     List<String> token = new ArrayList<>();
 
-    Session.getActiveCompany()
+    session.getActiveCompany()
         .map(this::getCompanyToken)
         .ifPresent(token::addAll);
 
-    Optional.ofNullable(Session.getDate())
+    Optional.ofNullable(session.getDate())
         .map(DateUtil::format)
         .ifPresent(token::add);
 
-    if (Session.isDebugMode()) {
+    if (session.isDebugMode()) {
       addDebugMarks(token);
     }
 
@@ -132,7 +133,7 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
 
   private void addDebugMarks(List<String> token) {
     String debug = "##DEBUG##";
-    String version = "(%s)".formatted(Session.getVersion());
+    String version = "(%s)".formatted(session.getVersion());
 
     token.add(0, debug);
 

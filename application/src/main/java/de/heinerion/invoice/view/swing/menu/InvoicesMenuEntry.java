@@ -24,6 +24,7 @@ class InvoicesMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoices");
   private final InvoiceRepository invoiceRepository;
   private final PrintOperations printOperations;
+  private final Session session;
 
   private JButton btnPrint;
   private InvoiceTable model;
@@ -57,7 +58,7 @@ class InvoicesMenuEntry extends MenuEntry {
     btnPrint = new JButton(Translator.translate("controls.print"));
     btnPrint.setEnabled(false);
 
-    model = new InvoiceTable(invoiceRepository.findAllBySender(Session.getActiveCompany().orElse(null)));
+    model = new InvoiceTable(invoiceRepository.findAllBySender(session.getActiveCompany().orElse(null)));
     tblInvoices = new NiceTable<>(model);
     setColumnWidths(tblInvoices.getColumnModel());
     tblInvoices.sortBy(INDEX_NUMBER, SortOrder.ASCENDING);

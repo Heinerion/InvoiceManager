@@ -16,6 +16,8 @@ import java.time.format.DateTimeParseException;
 class InvoiceDateMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceDate");
 
+  private final Session session;
+
   private JSpinner fldYY;
   private JSpinner fldMM;
   private JSpinner fldDD;
@@ -26,6 +28,10 @@ class InvoiceDateMenuEntry extends MenuEntry {
   private LocalDate date;
 
   private JLabel header;
+
+  InvoiceDateMenuEntry(Session session) {
+    this.session = session;
+  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -70,7 +76,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
     lblMM = new JLabel(Translator.translate("date.month"));
     lblDD = new JLabel(Translator.translate("date.day"));
 
-    LocalDate invoiceDate = Session.getDate();
+    LocalDate invoiceDate = session.getDate();
     int currentDay = invoiceDate.getDayOfMonth();
     int currentMonth = invoiceDate.getMonthValue();
     int currentYear = invoiceDate.getYear();
@@ -89,6 +95,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
     return new JSpinner(new SpinnerNumberModel(preselected, min, max, stepSize));
   }
 
+  // TODO refactor this to return an Optional LocalDate
   private boolean isValidDate() {
     boolean correct = true;
 
@@ -114,9 +121,9 @@ class InvoiceDateMenuEntry extends MenuEntry {
   @Override
   protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(
-        arg0 -> {
+        ignored -> {
           if (isValidDate()) {
-            Session.setDate(date);
+            session.setDate(date);
             getCloser().windowClosing(null);
           } else {
             JOptionPane.showMessageDialog(dialog.getRootPane(),

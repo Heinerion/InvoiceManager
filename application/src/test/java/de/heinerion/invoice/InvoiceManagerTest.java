@@ -57,14 +57,14 @@ public class InvoiceManagerTest {
   public void testMainSetDebugMode() {
     manager.invoke(new String[]{"debug"});
 
-    assertTrue(Session.isDebugMode());
+    assertTrue(Session.getInstance().isDebugMode());
   }
 
   @Test
   public void testMainNotSetDebugMode() {
     manager.invoke(new String[]{});
 
-    assertFalse(Session.isDebugMode());
+    assertFalse(Session.getInstance().isDebugMode());
   }
 
   @Test

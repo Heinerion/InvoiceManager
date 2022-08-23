@@ -18,6 +18,7 @@ import java.awt.*;
 @Service
 @Profile("Prod")
 public class InvoiceManager implements CommandLineRunner {
+  private final Session session = Session.getInstance();
   private final GuiStarter starter;
 
   InvoiceManager(GuiStarter swingStarter) {
@@ -36,24 +37,24 @@ public class InvoiceManager implements CommandLineRunner {
   }
 
   private void parseArguments(String... args) {
-    Session.isDebugMode(false);
+    session.isDebugMode(false);
 
     for (String argument : args) {
       evaluateArgument(argument);
     }
 
-    if (!Session.isDebugMode()) {
+    if (!session.isDebugMode()) {
       log.atWarning().log("PRODUCTION MODE");
     }
   }
 
-  public static void setupGlobalExceptionHandling() {
-    Thread.setDefaultUncaughtExceptionHandler((ignored, e) -> ErrorDialog.show(e));
+  public void setupGlobalExceptionHandling() {
+    Thread.setDefaultUncaughtExceptionHandler((ignored, e) -> new ErrorDialog(session).show(e));
   }
 
   private void evaluateArgument(String string) {
     if ("debug".equals(string)) {
-      Session.isDebugMode(true);
+      session.isDebugMode(true);
     }
   }
 

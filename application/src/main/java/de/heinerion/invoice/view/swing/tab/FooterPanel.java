@@ -12,12 +12,14 @@ import java.awt.*;
 import static java.awt.BorderLayout.PAGE_END;
 
 class FooterPanel extends JPanel implements ConveyableListener {
+  private final transient Session session;
   private final JLabel currentTotalNet = new JLabel();
   private final JLabel currentTotalGross = new JLabel();
 
-  FooterPanel(JButton deleteButton) {
+  FooterPanel(JButton deleteButton, Session session) {
     super(new GridLayout(0, 1));
-    Session.addConveyableListener(this);
+    this.session = session;
+    session.addConveyableListener(this);
 
     setOpaque(false);
     add(createSumPanel(), PAGE_END);
@@ -42,7 +44,7 @@ class FooterPanel extends JPanel implements ConveyableListener {
 
   @Override
   public void notifyConveyable() {
-    if (Session.getActiveConveyable() instanceof Invoice invoice) {
+    if (session.getActiveConveyable() instanceof Invoice invoice) {
       currentTotalGross.setText(FormatUtil.formatLocaleDecimal(invoice
           .getGross()));
       currentTotalNet

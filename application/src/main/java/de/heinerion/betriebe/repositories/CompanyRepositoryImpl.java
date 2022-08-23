@@ -18,6 +18,7 @@ import java.util.*;
 class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements CompanyRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
+  private final Session session = Session.getInstance();
 
   private Collection<Company> companies = new HashSet<>();
 
@@ -27,7 +28,7 @@ class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements Co
     log.atInfo().log("%d companies loaded", companies.size());
     companies.stream()
         .sorted(Comparator.comparing(Company::getDescriptiveName))
-        .forEach(Session::addAvailableCompany);
+        .forEach(session::addAvailableCompany);
   }
 
   @Override

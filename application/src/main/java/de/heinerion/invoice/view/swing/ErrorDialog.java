@@ -12,12 +12,13 @@ import java.io.StringWriter;
 
 @Flogger
 public class ErrorDialog {
+  private final Session session;
 
-  private ErrorDialog() {
-    // hide public constructor
+  public ErrorDialog(Session session) {
+    this.session = session;
   }
 
-  public static void show(Throwable exception) {
+  public void show(Throwable exception) {
     log.atSevere().withCause(exception).log();
 
     // Strings will bes displayed as JLabels
@@ -27,13 +28,15 @@ public class ErrorDialog {
         bold("Stacktrace"),
         createStacktraceComponent(getStackTrace(exception))};
 
+    JFrame activeFrame = session.getApplicationFrame().getFrame();
+
     JOptionPane.showMessageDialog(
-        /* parent component = */  Session.getApplicationFrame().getFrame(),
+        /* parent component = */  activeFrame,
         /* Array of messages = */ completeMessage,
         /* title = */ Menu.translate("error.title"),
         /* type / symbol = */ JOptionPane.ERROR_MESSAGE);
 
-    new BusyFrame(Session.getApplicationFrame().getFrame()).setBusy(false);
+    new BusyFrame(activeFrame).setBusy(false);
   }
 
   private static String getStackTrace(Throwable e) {
@@ -64,11 +67,11 @@ public class ErrorDialog {
     return jLabel;
   }
 
-  public static void catchAll(Runnable intf) {
+  public void catchAll(Runnable intf) {
     try {
       intf.run();
     } catch (RuntimeException e) {
-      ErrorDialog.show(e);
+      show(e);
     }
   }
 }

@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 @Service
 public class ContentTabPane {
+  private final Session session = Session.getInstance();
   private final List<TabContent> tabContents;
   private final JTabbedPane pane;
 
@@ -24,7 +25,7 @@ public class ContentTabPane {
 
     pane.addChangeListener(e -> {
       final TabContent selectedComponent = getSelectedTabContent();
-      Session.setActiveConveyable(selectedComponent.getContent());
+      this.session.setActiveConveyable(selectedComponent.getContent());
     });
   }
 

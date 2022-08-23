@@ -1,5 +1,6 @@
 package de.heinerion.invoice.view.swing.menu;
 
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.repositories.AddressRepository;
 import de.heinerion.betriebe.repositories.CompanyRepository;
 import de.heinerion.betriebe.repositories.InvoiceRepository;
@@ -20,8 +21,9 @@ public class MenuFactory {
   private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
   private final PathUtilNG pathUtil;
+  private final Session session = Session.getInstance();
 
   public JMenuBar createMenuBar(JFrame frame) {
-    return new MenuBar(frame, pathUtil, addressRepository, invoiceRepository, letterRepository, companyRepository, printOperations);
+    return new MenuBar(frame, session, pathUtil, addressRepository, invoiceRepository, letterRepository, companyRepository, printOperations);
   }
 }

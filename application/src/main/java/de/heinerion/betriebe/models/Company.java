@@ -1,7 +1,5 @@
 package de.heinerion.betriebe.models;
 
-import de.heinerion.betriebe.data.Session;
-
 import java.io.File;
 import java.text.Collator;
 import java.util.Objects;
@@ -145,7 +143,6 @@ public final class Company implements Comparable<Company> {
 
   public void increaseInvoiceNumber() {
     this.invoiceNumber++;
-    Session.notifyCompany();
   }
 
   @Override

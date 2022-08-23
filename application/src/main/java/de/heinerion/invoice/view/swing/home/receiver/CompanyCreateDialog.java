@@ -21,6 +21,7 @@ import java.awt.event.WindowEvent;
 
 @Flogger
 public class CompanyCreateDialog {
+  private final Session session;
   private ApplicationFrame applicationFrame;
   private BusyFrame originFrame;
   /**
@@ -42,14 +43,15 @@ public class CompanyCreateDialog {
 
   private final CompanyRepository companyRepository;
 
-  public CompanyCreateDialog(CompanyRepository companyRepository) {
+  public CompanyCreateDialog(Session session, CompanyRepository companyRepository) {
+    this.session = session;
     this.companyRepository = companyRepository;
 
     button = new JButton("+");
     button.addActionListener(e -> {
       Container contentPane = button.getRootPane().getParent();
       if (contentPane instanceof JFrame) {
-        applicationFrame = Session.getApplicationFrame();
+        applicationFrame = session.getApplicationFrame();
         originFrame = new BusyFrame(applicationFrame.getFrame());
         showDialog();
       } else {
@@ -132,7 +134,7 @@ public class CompanyCreateDialog {
       Account account = accountForm.getValue();
       company.setAccount(account);
       if (address != null && account != null) {
-        Session.addAvailableCompany(company);
+        session.addAvailableCompany(company);
         companyRepository.save(company);
         applicationFrame.refresh();
         closeDialog(dialog);

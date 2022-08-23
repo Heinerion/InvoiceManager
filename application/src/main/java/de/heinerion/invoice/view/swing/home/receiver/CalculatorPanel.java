@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 
 class CalculatorPanel {
+  private final Session session;
+
   private final JPanel panel;
 
   private JTextField fldAmount;
@@ -26,7 +28,9 @@ class CalculatorPanel {
   private JButton btnPlus;
   private JButton btnMinus;
 
-  CalculatorPanel() {
+  CalculatorPanel(Session session) {
+    this.session = session;
+
     panel = BGPanel.createWithAllSidesColored();
 
     initLayout();
@@ -121,7 +125,7 @@ class CalculatorPanel {
   }
 
   private double getTaxes() {
-    return Session.getActiveCompany()
+    return session.getActiveCompany()
         .map(Company::getValueAddedTax)
         .orElse(Double.NaN);
   }

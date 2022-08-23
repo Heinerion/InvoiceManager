@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 class ProcessRunner {
   private final PathUtilNG pathUtil;
+  private final Session session = Session.getInstance();
 
   String quote(String string) {
     return "\"" + string + "\"";
@@ -81,7 +82,7 @@ class ProcessRunner {
   private void showExceptionMessage(Exception exception, String message) {
     JOptionPane.showMessageDialog(null, message,
         Translator.translate("error.pdflatex"), JOptionPane.ERROR_MESSAGE);
-    if (Session.isDebugMode()) {
+    if (session.isDebugMode()) {
       StringBuilder out = new StringBuilder();
       for (StackTraceElement ste : exception.getStackTrace()) {
         out.append(ste.getMethodName())

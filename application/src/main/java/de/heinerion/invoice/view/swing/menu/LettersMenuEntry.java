@@ -23,6 +23,7 @@ class LettersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("letters");
   private final LetterRepository letterRepository;
   private final PrintOperations printOperations;
+  private final Session session;
 
   private JButton btnPrint;
 
@@ -52,7 +53,7 @@ class LettersMenuEntry extends MenuEntry {
     btnPrint = new JButton(Translator.translate("controls.print"));
     btnPrint.setEnabled(false);
 
-    LetterTable model = new LetterTable(letterRepository.findAllBySender(Session.getActiveCompany().orElse(null)));
+    LetterTable model = new LetterTable(letterRepository.findAllBySender(session.getActiveCompany().orElse(null)));
     tblLetters = new NiceTable<>(model);
     setColumnWidths(tblLetters.getColumnModel());
     tblLetters.sortBy(INDEX_DATE, SortOrder.ASCENDING);
