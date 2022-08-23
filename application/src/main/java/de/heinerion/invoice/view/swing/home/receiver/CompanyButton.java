@@ -7,10 +7,12 @@ import de.heinerion.betriebe.models.Company;
 import javax.swing.*;
 
 class CompanyButton implements CompanyListener {
+  private final Session session;
+  private final JButton button;
   private Company company;
-  private JButton button;
 
-  CompanyButton(Company aCompany) {
+  CompanyButton(Company aCompany, Session session) {
+    this.session = session;
     button = new JButton(aCompany.getDescriptiveName());
     setCompany(aCompany);
     updateEnabledState();
@@ -26,14 +28,14 @@ class CompanyButton implements CompanyListener {
   }
 
   private boolean isCurrentlySelected() {
-    return Session.getActiveCompany()
+    return session.getActiveCompany()
         .map(c -> c.equals(this.company))
         .orElse(false);
   }
 
   private void registerListeners() {
-    Session.addCompanyListener(this);
-    button.addActionListener(e -> Session.setActiveCompany(this.company));
+    session.addCompanyListener(this);
+    button.addActionListener(e -> session.setActiveCompany(this.company));
   }
 
   public JButton getButton() {

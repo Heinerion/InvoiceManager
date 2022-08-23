@@ -57,15 +57,16 @@ public class SessionPreparer {
   }
 
   public void prepare() {
-    Session.setActiveAddress(getActiveAddress().orElseGet(() -> new AddressBuilder().withRecipient("").build()));
+    Session session = Session.getInstance();
+    session.setActiveAddress(getActiveAddress().orElseGet(() -> new AddressBuilder().withRecipient("").build()));
 
-    Session.setActiveCompany(getActiveCompany().orElseGet(() -> new CompanyBuilder().build()));
+    session.setActiveCompany(getActiveCompany().orElseGet(() -> new CompanyBuilder().build()));
 
-    Session.setActiveConveyable(getActiveConveyable().orElseGet(() ->
-        Session.getActiveCompany()
+    session.setActiveConveyable(getActiveConveyable().orElseGet(() ->
+        session.getActiveCompany()
             .map(company -> new InvoiceBuilder()
                 .withCompany(company)
-                .withReceiver(Session.getActiveAddress())
+                .withReceiver(session.getActiveAddress())
                 .build())
             .orElse(null)
     ));

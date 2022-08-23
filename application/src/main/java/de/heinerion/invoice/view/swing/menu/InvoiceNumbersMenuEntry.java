@@ -16,6 +16,7 @@ import java.util.Map;
 class InvoiceNumbersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceNumbers");
 
+  private final Session session;
   private final CompanyRepository companyRepository;
 
   private JPanel pnlNumbers;
@@ -24,14 +25,15 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
 
   private JLabel header;
 
-  public InvoiceNumbersMenuEntry(CompanyRepository companyRepository) {
+  public InvoiceNumbersMenuEntry(Session session, CompanyRepository companyRepository) {
+    this.session = session;
     this.companyRepository = companyRepository;
   }
 
   @Override
   protected void addWidgets(JDialog dialog) {
     numbers = new HashMap<>();
-    for (Company c : Session.getAvailableCompanies().stream().sorted().toList()) {
+    for (Company c : session.getAvailableCompanies().stream().sorted().toList()) {
       pnlNumbers.add(new JLabel(c.getDescriptiveName()));
       SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
           c.getInvoiceNumber(), 0, 500, 1);
@@ -82,13 +84,13 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   @Override
   protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(arg0 -> {
-      for (Company company : Session.getAvailableCompanies()) {
+      for (Company company : session.getAvailableCompanies()) {
         int invoiceNumber = company.getInvoiceNumber();
         int guiNumber = calculateInvoiceNumber(numbers.get(company).getValue() + "");
         if (invoiceNumber != guiNumber) {
           company.setInvoiceNumber(guiNumber);
           companyRepository.save(company);
-          Session.notifyCompany();
+          session.notifyCompany();
         }
       }
 

@@ -1,5 +1,6 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
+import de.heinerion.betriebe.data.Session;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
 
 import javax.swing.*;
@@ -7,9 +8,9 @@ import javax.swing.*;
 class CalculatorSidePanel implements PanelHolder {
   private SidePanel sidePanel;
 
-  CalculatorSidePanel() {
+  CalculatorSidePanel(Session session) {
     sidePanel = new SidePanel();
-    sidePanel.add(new CalculatorPanel().getPanel());
+    sidePanel.add(new CalculatorPanel(session).getPanel());
   }
 
   @Override

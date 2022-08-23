@@ -11,6 +11,7 @@ import de.heinerion.invoice.view.swing.ApplicationFrame;
 import lombok.extern.flogger.Flogger;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -19,19 +20,19 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.RE
 
 @Flogger
 public final class Session {
-  private static String version;
+  private final String version = ConfigurationService.get(REVISION);
 
-  private static Set<CompanyListener> companyListeners;
-  private static Set<ConveyableListener> conveyableListeners;
-  private static Set<DateListener> dateListeners;
-  private static Set<Company> availableCompanies;
-  private static Company activeCompany;
-  private static Address activeAddress;
-  private static Letter activeConveyable;
+  private final Set<CompanyListener> companyListeners = new HashSet<>();
+  private final Set<ConveyableListener> conveyableListeners = new HashSet<>();
+  private final Set<DateListener> dateListeners = new HashSet<>();
+  private final Set<Company> availableCompanies = new HashSet<>();
+  private Company activeCompany;
+  private Address activeAddress;
+  private Letter activeConveyable;
 
-  private static LocalDate date;
-  private static boolean debugMode = false;
-  private static ApplicationFrame applicationFrame;
+  private LocalDate date = LocalDate.now();
+  private boolean debugMode = false;
+  private ApplicationFrame applicationFrame;
 
   /**
    * Hides the default public Constructor
@@ -39,138 +40,110 @@ public final class Session {
   private Session() {
   }
 
-  public static boolean isDebugMode() {
+  public boolean isDebugMode() {
     return debugMode;
   }
 
-  public static void isDebugMode(boolean isDebugActivated) {
+  public void isDebugMode(boolean isDebugActivated) {
     debugMode = isDebugActivated;
   }
 
-  private static Set<CompanyListener> getCompanyListeners() {
-    if (companyListeners == null) {
-      companyListeners = new HashSet<>();
-    }
+  public void addAvailableCompany(Company company) {
+    availableCompanies.add(company);
 
-    return companyListeners;
-  }
-
-  private static Set<ConveyableListener> getConveyableListeners() {
-    if (conveyableListeners == null) {
-      conveyableListeners = new HashSet<>();
-    }
-
-    return conveyableListeners;
-  }
-
-  private static Set<DateListener> getDateListeners() {
-    if (dateListeners == null) {
-      dateListeners = new HashSet<>();
-    }
-
-    return dateListeners;
-  }
-
-  public static void addAvailableCompany(Company company) {
-    Set<Company> companies = getAvailableCompanies();
-
-    companies.add(company);
-
-    if (companies.size() == 1) {
+    if (availableCompanies.size() == 1) {
       setActiveCompany(company);
     }
   }
 
-  public static void addCompanyListener(CompanyListener listener) {
-    getCompanyListeners().add(listener);
+  public void addCompanyListener(CompanyListener listener) {
+    companyListeners.add(listener);
   }
 
-  public static void addConveyableListener(ConveyableListener listener) {
-    getConveyableListeners().add(listener);
+  public void addConveyableListener(ConveyableListener listener) {
+    conveyableListeners.add(listener);
   }
 
-  public static void addDateListener(DateListener listener) {
-    getDateListeners().add(listener);
+  public void addDateListener(DateListener listener) {
+    dateListeners.add(listener);
   }
 
-  public static Address getActiveAddress() {
+  public Address getActiveAddress() {
     return activeAddress;
   }
 
-  public static void setActiveAddress(Address theActiveAddress) {
-    Session.activeAddress = theActiveAddress;
+  public void setActiveAddress(Address theActiveAddress) {
+    activeAddress = theActiveAddress;
     if (activeConveyable != null) {
       activeConveyable.setReceiver(theActiveAddress);
     }
   }
 
-  public static Optional<Company> getActiveCompany() {
+  public Optional<Company> getActiveCompany() {
     return Optional.ofNullable(activeCompany);
   }
 
-  public static void setActiveCompany(Company aCompany) {
-    Session.activeCompany = aCompany;
+  public void setActiveCompany(Company aCompany) {
+    activeCompany = aCompany;
     notifyCompany();
   }
 
-  public static Letter getActiveConveyable() {
+  public Letter getActiveConveyable() {
     return activeConveyable;
   }
 
-  public static void setActiveConveyable(Letter theActiveConveyable) {
-    Session.activeConveyable = theActiveConveyable;
+  public void setActiveConveyable(Letter theActiveConveyable) {
+    activeConveyable = theActiveConveyable;
     notifyConveyable();
   }
 
-  public static Set<Company> getAvailableCompanies() {
-    if (availableCompanies == null) {
-      availableCompanies = new HashSet<>();
-    }
-
-    return availableCompanies;
+  public Set<Company> getAvailableCompanies() {
+    return Collections.unmodifiableSet(availableCompanies);
   }
 
-  public static LocalDate getDate() {
-    if (Session.date == null) {
-      Session.date = LocalDate.now();
-    }
-
-    return Session.date;
+  public LocalDate getDate() {
+    return date;
   }
 
-  public static void setDate(LocalDate aDate) {
-    Session.date = aDate;
+  public void setDate(LocalDate aDate) {
+    date = aDate == null
+        ? LocalDate.now()
+        : aDate;
     notifyDate();
   }
 
-  public static String getVersion() {
-    if (version == null) {
-      version = ConfigurationService.get(REVISION);
-    }
-
+  public String getVersion() {
     return version;
   }
 
-  public static void notifyCompany() {
+  public void notifyCompany() {
     log.atFine().log("notifyCompany %s", getActiveCompany().map(String::valueOf).orElse("-none-"));
-    getCompanyListeners().forEach(CompanyListener::notifyCompany);
+    companyListeners.forEach(CompanyListener::notifyCompany);
   }
 
-  private static void notifyConveyable() {
+  private void notifyConveyable() {
     log.atFine().log("notifyConveyable %s", getActiveConveyable());
-    getConveyableListeners().forEach(ConveyableListener::notifyConveyable);
+    conveyableListeners.forEach(ConveyableListener::notifyConveyable);
   }
 
-  private static void notifyDate() {
+  private void notifyDate() {
     log.atFine().log("notifyDate");
-    getDateListeners().forEach(DateListener::notifyDate);
+    dateListeners.forEach(DateListener::notifyDate);
   }
 
-  public static void setApplicationFrame(ApplicationFrame frame) {
+  public void setApplicationFrame(ApplicationFrame frame) {
     applicationFrame = frame;
   }
 
-  public static ApplicationFrame getApplicationFrame() {
+  public ApplicationFrame getApplicationFrame() {
     return applicationFrame;
+  }
+
+  public static Session getInstance() {
+    return InstanceHolder.INSTANCE;
+  }
+
+  private static class InstanceHolder {
+    private static final Session INSTANCE = new Session();
   }
 }

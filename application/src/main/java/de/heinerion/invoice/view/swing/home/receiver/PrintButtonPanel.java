@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 @Flogger
 @Service
 public class PrintButtonPanel implements PanelHolder {
+  private final Session session = Session.getInstance();
   private final SidePanel sidePanel;
   private final InvoiceRepository invoiceRepository;
   private final LetterRepository letterRepository;
@@ -37,8 +38,8 @@ public class PrintButtonPanel implements PanelHolder {
   }
 
   private void saveInvoice(ActionEvent ignored) {
-    Letter letter = Session.getActiveConveyable();
-    if (Session.getActiveConveyable() instanceof Invoice invoice) {
+    Letter letter = session.getActiveConveyable();
+    if (session.getActiveConveyable() instanceof Invoice invoice) {
       log.atInfo().log("save invoice %s", invoice);
       invoiceRepository.save(invoice);
     } else {

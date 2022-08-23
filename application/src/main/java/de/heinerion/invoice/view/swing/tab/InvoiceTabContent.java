@@ -24,6 +24,7 @@ import static java.awt.BorderLayout.*;
 @Service
 @Order(2)
 class InvoiceTabContent extends TabContent {
+  private final Session session = Session.getInstance();
   private final List<Item> contentPositions = new ArrayList<>();
   private final JTable tabPositions;
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
@@ -37,7 +38,7 @@ class InvoiceTabContent extends TabContent {
     this.templateRepository = templateRepository;
 
     model = new InvoiceTableModel(contentPositions);
-    model.addTableModelListener(e -> Session.setActiveConveyable(getContent()));
+    model.addTableModelListener(e -> session.setActiveConveyable(getContent()));
     tabPositions = new JTable(model);
 
     setupPanel(getPanel());
@@ -88,7 +89,7 @@ class InvoiceTabContent extends TabContent {
   }
 
   private void addToTemplates() {
-    Company activeCompany = Session.getActiveCompany()
+    Company activeCompany = session.getActiveCompany()
         .orElseThrow(() -> new ContractBrokenException("active company is not null"));
     templateRepository.save(createTemplate(activeCompany));
     refresh();
@@ -100,7 +101,7 @@ class InvoiceTabContent extends TabContent {
 
   @Override
   public void refresh() {
-    Collection<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+    Collection<InvoiceTemplate> activeTemplates = session.getActiveCompany()
         .map(templateRepository::findByCompany)
         .orElse(Collections.emptyList());
     if (!activeTemplates.equals(templates)) {
@@ -109,7 +110,7 @@ class InvoiceTabContent extends TabContent {
       addTemplates(activeTemplates);
       templates = activeTemplates;
     }
-    Session.setActiveConveyable(getContent());
+    session.setActiveConveyable(getContent());
   }
 
   private void clearTemplates() {
@@ -125,7 +126,7 @@ class InvoiceTabContent extends TabContent {
   }
 
   private JPanel createFooterPnl() {
-    return new FooterPanel(getDeleteBtn());
+    return new FooterPanel(getDeleteBtn(), session);
   }
 
   private void setUpInteractions() {
@@ -136,7 +137,7 @@ class InvoiceTabContent extends TabContent {
     int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // replace table positions with those of the template
-      Collection<InvoiceTemplate> activeTemplates = Session.getActiveCompany()
+      Collection<InvoiceTemplate> activeTemplates = session.getActiveCompany()
           .map(templateRepository::findByCompany)
           .orElse(Collections.emptyList());
       fillTable(new ArrayList<>(activeTemplates).get(pos).getInhalt());
@@ -183,13 +184,13 @@ class InvoiceTabContent extends TabContent {
 
   @Override
   protected Letter getConveyable() {
-    Company company = Session.getActiveCompany().orElse(null);
+    Company company = session.getActiveCompany().orElse(null);
     if (company == null) {
       return null;
     }
 
-    Address receiver = Session.getActiveAddress();
-    Invoice invoice = new Invoice(Session.getDate(), company, receiver);
+    Address receiver = session.getActiveAddress();
+    Invoice invoice = new Invoice(session.getDate(), company, receiver);
 
     for (int row = 0; row < tabPositions.getRowCount(); row++) {
       String name = stringAt(row, Col.NAME);

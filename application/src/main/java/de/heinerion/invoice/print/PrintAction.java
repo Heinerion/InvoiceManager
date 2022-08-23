@@ -18,12 +18,13 @@ import java.awt.event.ActionListener;
 public class PrintAction implements ActionListener {
   private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
+  private final Session session = Session.getInstance();
 
   private Letter letter;
 
   @Override
   public void actionPerformed(ActionEvent arg0) {
-    letter = Session.getActiveConveyable();
+    letter = session.getActiveConveyable();
 
     if (letter != null) {
       createLetter();
@@ -35,6 +36,7 @@ public class PrintAction implements ActionListener {
       Company company = letter.getCompany();
 
       company.increaseInvoiceNumber();
+      session.notifyCompany();
       log.atFine().log("raise invoice number of %s to %d.",
           company.getDescriptiveName(), company.getInvoiceNumber());
       companyRepository.save(company);

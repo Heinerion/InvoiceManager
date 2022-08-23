@@ -11,10 +11,12 @@ import java.awt.*;
 import java.util.Comparator;
 
 class CompanyChooserPanel implements Refreshable {
+  private final Session session;
   private final JPanel sidePanel;
   private JComponent companies;
 
-  CompanyChooserPanel(CompanyCreateDialog companyCreateDialog) {
+  CompanyChooserPanel(CompanyCreateDialog companyCreateDialog, Session session) {
+    this.session = session;
     this.sidePanel = new JPanel();
     ComponentSize.COMPANY_PANEL.applyTo(sidePanel);
     sidePanel.setOpaque(false);
@@ -35,14 +37,14 @@ class CompanyChooserPanel implements Refreshable {
 
   private JComponent createCompanyBox() {
     JComboBox<CompanyWrapper> companyBox = new JComboBox<>(
-        Session
+        session
             .getAvailableCompanies()
             .stream()
             .sorted(Comparator.comparing(Company::getOfficialName))
             .map(CompanyWrapper::new)
             .toArray(CompanyWrapper[]::new)
     );
-    companyBox.addActionListener(e -> Session
+    companyBox.addActionListener(e -> session
         .setActiveCompany(companyBox
             .getItemAt(companyBox.getSelectedIndex())
             .getCompany()));

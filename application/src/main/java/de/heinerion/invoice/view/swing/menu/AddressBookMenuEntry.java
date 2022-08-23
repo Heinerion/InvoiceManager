@@ -18,8 +18,10 @@ import java.util.Comparator;
 @RequiredArgsConstructor
 class AddressBookMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("addressBook");
-  private JScrollPane spAddresses;
   private final AddressRepository addressRepository;
+  private final Session session;
+
+  private JScrollPane spAddresses;
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -30,7 +32,7 @@ class AddressBookMenuEntry extends MenuEntry {
 
   @Override
   protected void createWidgets() {
-    Collection<Address> addresses = Session.getActiveCompany()
+    Collection<Address> addresses = session.getActiveCompany()
         .map(addressRepository::findByCompany)
         .orElse(Collections.emptyList());
 

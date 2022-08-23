@@ -12,6 +12,7 @@ import static de.heinerion.betriebe.services.ConfigurationService.PropertyKey.*;
 
 @Service
 public class PathUtilNG {
+  private final Session session = Session.getInstance();
 
   private String getSystemFolderName() {
     return ConfigurationService.get(FOLDER_SYSTEM);
@@ -58,7 +59,10 @@ public class PathUtilNG {
   }
 
   private String buildPath(String baseDir, String folderName) {
-    return baseDir + File.separator + folderName + (Session.isDebugMode() ? File.separator + "Debug" : "");
+    return baseDir
+        + File.separator
+        + folderName
+        + (session.isDebugMode() ? File.separator + "Debug" : "");
   }
 
   public String getTemplateFileName(String descriptiveName) {

@@ -18,6 +18,8 @@ import static java.awt.BorderLayout.*;
 @Service
 @Order(1)
 class LetterTabContent extends TabContent {
+  private final Session session = Session.getInstance();
+
   private JTextField subjectFld;
   private JPanel subjectPnl;
   private JLabel subjectLbl;
@@ -84,7 +86,7 @@ class LetterTabContent extends TabContent {
   }
 
   private void setConveyableOnSession(CaretEvent e) {
-    Session.setActiveConveyable(getContent());
+    session.setActiveConveyable(getContent());
   }
 
   @Override
@@ -103,14 +105,14 @@ class LetterTabContent extends TabContent {
 
   @Override
   protected Letter getConveyable() {
-    Company company = Session.getActiveCompany().orElse(null);
+    Company company = session.getActiveCompany().orElse(null);
     if (company == null) {
       return null;
     }
 
-    Address receiver = Session.getActiveAddress();
+    Address receiver = session.getActiveAddress();
 
-    Letter ltr = new Letter(Session.getDate(), company, receiver);
+    Letter ltr = new Letter(session.getDate(), company, receiver);
     ltr.setSubject(getBetreff());
 
     for (String line : getLetterText().split("\n")) {

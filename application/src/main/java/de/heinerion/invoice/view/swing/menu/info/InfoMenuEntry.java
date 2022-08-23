@@ -15,11 +15,13 @@ import java.util.Map;
 public class InfoMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("info");
   private final PathUtilNG pathUtil;
+  private final Session session;
 
   private JScrollPane spInfos;
 
-  public InfoMenuEntry (PathUtilNG pathUtil) {
+  public InfoMenuEntry(PathUtilNG pathUtil, Session session) {
     this.pathUtil = pathUtil;
+    this.session = session;
   }
 
   @Override
@@ -46,7 +48,7 @@ public class InfoMenuEntry extends MenuEntry {
     editor.addHTML(bold(Info.translate("available.companies")));
 
     Map<String, String> compInfos = new HashMap<>();
-    for (Company company: Session.getAvailableCompanies()) {
+    for (Company company : session.getAvailableCompanies()) {
       String template = "<p>%s<br />%s<br />%s</p>";
       String valueMarkup = String.format(template,
           Info.translate("company.invoice.number", company.getInvoiceNumber()),
@@ -58,11 +60,11 @@ public class InfoMenuEntry extends MenuEntry {
 
     editor
         .addLine(bold(Info.translate("version")))
-        .addLine(Session.getVersion());
+        .addLine(session.getVersion());
   }
 
   private String bold(String content) {
-    return "<strong>"+content+"</strong>";
+    return "<strong>" + content + "</strong>";
   }
 
   @Override
