@@ -1,4 +1,4 @@
-package de.heinerion.invoice.tool.boundary;
+package de.heinerion.invoice.boundary;
 
 import java.io.*;
 

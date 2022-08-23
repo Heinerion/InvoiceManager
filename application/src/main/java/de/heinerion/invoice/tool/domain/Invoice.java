@@ -1,6 +1,6 @@
 package de.heinerion.invoice.tool.domain;
 
-import de.heinerion.invoice.tool.boundary.Translator;
+import de.heinerion.invoice.boundary.Translator;
 
 import java.util.Collection;
 import java.util.HashSet;
