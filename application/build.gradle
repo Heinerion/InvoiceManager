@@ -20,9 +20,9 @@ repositories {
 
 dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.26'
-    implementation 'com.sun.xml.bind:jaxb-core:2.3.0.1'
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
+    implementation 'jakarta.activation:jakarta.activation-api:2.1.0'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+    implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
     implementation 'org.javassist:javassist:3.29.0-GA'
     implementation 'org.freemarker:freemarker:2.3.31'
     implementation 'com.thoughtworks.xstream:xstream:1.4.19'

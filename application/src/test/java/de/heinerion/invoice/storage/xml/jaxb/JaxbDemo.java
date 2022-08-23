@@ -2,10 +2,10 @@ package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.models.Company;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
