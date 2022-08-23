@@ -1,6 +1,7 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
 import de.heinerion.betriebe.models.InvoiceTemplate;
+import de.heinerion.betriebe.repositories.template.TemplateManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

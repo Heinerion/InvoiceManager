@@ -4,7 +4,7 @@ import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Account;
 import de.heinerion.betriebe.models.Address;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.repositories.CompanyRepository;
+import de.heinerion.betriebe.repositories.company.CompanyRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;

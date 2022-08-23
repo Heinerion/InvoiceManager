@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.repositories.AddressRepository;
-import de.heinerion.betriebe.repositories.CompanyRepository;
-import de.heinerion.betriebe.repositories.InvoiceRepository;
-import de.heinerion.betriebe.repositories.LetterRepository;
+import de.heinerion.betriebe.repositories.address.AddressRepository;
+import de.heinerion.betriebe.repositories.company.CompanyRepository;
+import de.heinerion.betriebe.repositories.invoice.InvoiceRepository;
+import de.heinerion.betriebe.repositories.letter.LetterRepository;
 import de.heinerion.betriebe.util.PathUtilNG;
 import de.heinerion.invoice.print.PrintOperations;
 import lombok.RequiredArgsConstructor;

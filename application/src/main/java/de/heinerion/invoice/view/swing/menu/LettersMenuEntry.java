@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.repositories.LetterRepository;
+import de.heinerion.betriebe.repositories.letter.LetterRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.print.PrintOperations;
 import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
