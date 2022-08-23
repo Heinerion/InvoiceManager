@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.repositories.AddressRepository;
+import de.heinerion.betriebe.repositories.address.AddressRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;

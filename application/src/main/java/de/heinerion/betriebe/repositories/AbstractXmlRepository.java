@@ -1,12 +1,13 @@
 package de.heinerion.betriebe.repositories;
 
+import de.heinerion.betriebe.repositories.Repository;
 import lombok.extern.flogger.Flogger;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 @Flogger
-abstract class AbstractXmlRepository<T> implements Repository<T> {
+public abstract class AbstractXmlRepository<T> implements Repository<T> {
   @Override
   public T save(T entry) {
     saveInMemory(entry);

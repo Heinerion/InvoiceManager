@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.repositories.InvoiceRepository;
+import de.heinerion.betriebe.repositories.invoice.InvoiceRepository;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.print.PrintOperations;
 import de.heinerion.invoice.view.swing.FormatUtil;

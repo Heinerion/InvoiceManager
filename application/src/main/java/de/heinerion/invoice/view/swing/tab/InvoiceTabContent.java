@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.*;
-import de.heinerion.betriebe.repositories.TemplateRepository;
+import de.heinerion.betriebe.repositories.template.TemplateRepository;
 import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.NumberParser;
 import de.heinerion.invoice.Translator;

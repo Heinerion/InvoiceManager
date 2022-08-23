@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.betriebe.data.Session;
 import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.repositories.CompanyRepository;
+import de.heinerion.betriebe.repositories.company.CompanyRepository;
 import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
