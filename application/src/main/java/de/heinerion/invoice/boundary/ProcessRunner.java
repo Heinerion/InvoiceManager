@@ -8,8 +8,9 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,10 +31,11 @@ public class ProcessRunner {
     String program = command[0];
 
     ProcessBuilder pb = new ProcessBuilder(command);
+    pb.directory(pathUtil.getWorkingDirectory().toFile());
     // map process IO to stdin / stdout
     pb.inheritIO();
-    File logFile = createLogFile(program);
-    pb.redirectOutput(logFile);
+    Path logFile = createLogFile(program);
+    pb.redirectOutput(logFile.toFile());
     log.atInfo().log("writing output to %s", logFile);
 
     try {
@@ -55,23 +57,14 @@ public class ProcessRunner {
     }
   }
 
-  private File createLogFile(String program) {
-    var logDir = new File(pathUtil.getLogPath(program));
-    if (!logDir.exists()) {
-      boolean dirsCreated = logDir.mkdirs();
-      if (!dirsCreated) {
-        log.atSevere().log("%s could not be created", logDir);
-      }
-    }
-
+  private Path createLogFile(String program) {
     var timestamp = ZonedDateTime
         .now(ZoneId.systemDefault())
         .format(DateTimeFormatter.ofPattern("uuuu-MM-dd HHmmssSSS"));
-    File logFile = new File(logDir, timestamp + ".log");
+
+    var logFile = pathUtil.getLogPath(program).resolve(timestamp + ".log");
     try {
-      if (!logFile.createNewFile()) {
-        throw new RuntimeException(logFile + " could not be created");
-      }
+      Files.createFile(logFile);
     } catch (IOException e) {
       throw new RuntimeException(logFile + " could not be created", e);
     }

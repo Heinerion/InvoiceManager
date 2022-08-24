@@ -1,13 +1,14 @@
 package de.heinerion.invoice.print.xml;
 
 import com.thoughtworks.xstream.XStream;
+import de.heinerion.invoice.boundary.HostSystem;
 import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.print.Printer;
-import de.heinerion.invoice.boundary.HostSystem;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @Flogger
 @Service("XML")
@@ -30,10 +31,10 @@ public class XmlPrinter implements Printer {
 
   @Override
   public void writeFile(Letter letter, File parentFolder, String title) {
-    String path = parentFolder.getPath() + File.separator + title + ".xml";
+    Path path = Path.of(parentFolder.getPath()).resolve(title + ".xml");
     String content = xstream.toXML(letter);
-    File result = hostSystem.writeToFile(path, content);
+    hostSystem.writeToFile(path, content);
 
-    log.atInfo().log("%s written", result.getAbsolutePath());
+    log.atInfo().log("%s written", path.toAbsolutePath());
   }
 }
