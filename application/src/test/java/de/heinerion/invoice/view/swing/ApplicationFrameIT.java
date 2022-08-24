@@ -6,7 +6,7 @@ import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.util.PathUtilBuilder;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.print.pdf.boundary.TestContext;
+import de.heinerion.invoice.boundary.TestContext;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.invoice.testsupport.builder.InvoiceBuilder;

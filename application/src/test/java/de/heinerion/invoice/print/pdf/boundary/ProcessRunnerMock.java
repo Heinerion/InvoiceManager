@@ -1,5 +1,6 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
+import de.heinerion.invoice.boundary.ProcessRunner;
 import de.heinerion.invoice.util.PathUtilNG;
 
 public class ProcessRunnerMock extends ProcessRunner {
@@ -8,7 +9,7 @@ public class ProcessRunnerMock extends ProcessRunner {
   }
 
   @Override
-  void startProcess(String errorLogMessage, String... command) {
+  public void startProcess(String errorLogMessage, String... command) {
     TestContext.addMessage("call [" + String.join(" ") + "]");
   }
 }
