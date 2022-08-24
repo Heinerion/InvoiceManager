@@ -43,7 +43,7 @@ public class ProcessStarter {
       p.waitFor();
       return true;
     } catch (IOException e) {
-      String message = String.format("command could not be executed.\nIs %s installed?", command[0]);
+      String message = String.format("command could not be executed.%nIs %s installed?", command[0]);
       throw new RuntimeException(message, e);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();

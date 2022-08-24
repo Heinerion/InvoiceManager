@@ -9,12 +9,12 @@ import java.util.Objects;
 public class Euro {
   public static final Euro ZERO = new Euro(0, 0);
 
-  private final int euro;
-  private final int cent;
+  private final int euros;
+  private final int cents;
 
-  private Euro(int euro, int cent) {
-    this.euro = euro;
-    this.cent = Math.abs(cent);
+  private Euro(int euros, int cents) {
+    this.euros = euros;
+    this.cents = Math.abs(cents);
   }
 
   public static Euro of(int euro) {
@@ -30,8 +30,8 @@ public class Euro {
   }
 
   public Euro add(Euro b) {
-    int cent = this.cent + b.cent;
-    return new Euro(this.euro + b.euro + cent / 100, cent % 100);
+    int newCents = this.cents + b.cents;
+    return new Euro(this.euros + b.euros + newCents / 100, newCents % 100);
   }
 
   public Euro multiply(Percent percentage) {
@@ -45,18 +45,18 @@ public class Euro {
 
   public int asCents() {
     int factor = 1;
-    if (euro < 0) {
+    if (euros < 0) {
       factor = -1;
     }
-    return euro * 100 + factor * cent;
+    return euros * 100 + factor * cents;
   }
 
   public int getEuros() {
-    return euro;
+    return euros;
   }
 
   public int getCents() {
-    return cent;
+    return cents;
   }
 
   @Override
@@ -77,6 +77,6 @@ public class Euro {
 
   @Override
   public String toString() {
-    return String.format("%d,%02d €", euro, cent);
+    return String.format("%d,%02d €", euros, cents);
   }
 }

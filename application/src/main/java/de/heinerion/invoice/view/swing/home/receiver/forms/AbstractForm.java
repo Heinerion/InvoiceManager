@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class AbstractForm<T> implements Form<T> {
   private JPanel content;
@@ -83,7 +82,6 @@ public abstract class AbstractForm<T> implements Form<T> {
     return translate(String.format("%s.%s", getTitle(), attribute));
   }
 
-
   private String translate(String key) {
     return Forms.translate(key);
   }
@@ -95,9 +93,7 @@ public abstract class AbstractForm<T> implements Form<T> {
   }
 
   private boolean isValid() {
-    List<FormLine<T, ?>> invalidFields = getProperties().stream()
-        .filter(p -> !p.isValid())
-        .collect(Collectors.toList());
-    return invalidFields.isEmpty();
+    return getProperties().stream()
+        .anyMatch(p -> !p.isValid());
   }
 }
