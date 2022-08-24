@@ -1,13 +1,29 @@
 package de.heinerion.invoice.boundary;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
+import java.nio.file.Path;
 
-public interface HostSystem {
-  void pdfLatex(File tex);
+@Service
+@Flogger
+@RequiredArgsConstructor
+public
+class HostSystem {
+  private final FileHandler fileHandler;
+  private final SystemCall systemCall;
 
-  File writeToFile(String path, String content);
+  public void pdfLatex(File tex) {
+    log.atInfo().log("create pdf from latex sources");
+    systemCall.pdfLatex(tex);
+    // twice, for page numbering
+    log.atInfo().log("recreate pdf to update references and page numbering");
+    systemCall.pdfLatex(tex);
+  }
 
-  void moveFile(String destinationPath, File file);
-
-  void deleteFile(String filename);
+  public void writeToFile(Path path, String content) {
+    fileHandler.writeToFile(path, content);
+  }
 }

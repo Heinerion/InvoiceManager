@@ -1,16 +1,22 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.invoice.models.Letter;
-import de.heinerion.invoice.util.PathUtilNG;
-import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.boundary.HostSystem;
+import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.print.Printer;
+import de.heinerion.invoice.util.PathUtilNG;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 @Flogger
 @Service("Latex")
+@RequiredArgsConstructor
 public class LatexPrinter implements Printer {
   private static final String TEX = ".tex";
   private static final String PDF = ".pdf";
@@ -19,64 +25,46 @@ public class LatexPrinter implements Printer {
   private final LatexGenerator latexGenerator;
   private final PathUtilNG pathUtil;
 
-  LatexPrinter(HostSystem hostSystem, LatexGenerator latexGenerator, PathUtilNG pathUtil) {
-    this.hostSystem = hostSystem;
-    this.latexGenerator = latexGenerator;
-    this.pathUtil = pathUtil;
-  }
-
   @Override
-  public void writeFile(Letter letter, File parentFolder, String title) {
-    String pathname = determineFilename(title);
+  public void writeFile(Letter letter, File targetFolder, String title) {
+    Path workingDirectory = pathUtil.getWorkingDirectory();
+    String texName = title + TEX;
+
+    Path sourceFile = workingDirectory.resolve(texName);
     String content = latexGenerator.generateSourceContent(letter);
-    File tex = hostSystem.writeToFile(pathname, content);
+    hostSystem.writeToFile(sourceFile, content);
 
-    hostSystem.pdfLatex(tex);
+    hostSystem.pdfLatex(sourceFile.toFile());
 
-    moveSource(parentFolder, pathname, tex);
-    moveDocument(parentFolder, title);
+    moveSource(targetFolder, workingDirectory.resolve(title + TEX));
+    moveSource(targetFolder, workingDirectory.resolve(title + PDF));
 
-    removeTempFiles(pathname);
+    removeTempFiles(workingDirectory, title);
 
-    log.atFine().log("%s created, temp files cleaned", pathname);
+    log.atFine().log("%s created, temp files cleaned", sourceFile);
   }
 
-  private String determineFilename(String title) {
-    return title + TEX;
+  private void moveSource(File targetFolder, Path sourceFile) {
+    Path target = Path.of(targetFolder.getAbsolutePath()).resolve(sourceFile.getFileName());
+    try {
+      log.atInfo().log("Move from %s to %s", sourceFile, target);
+      Files.move(sourceFile, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+    } catch (IOException ioe) {
+      log.atWarning()
+          .withCause(ioe)
+          .log("File could not be moved to %s.", target);
+    }
   }
 
-  private void moveSource(File parentFolder, String pathname, File tex) {
-    String temp = combineAbsolutePath(parentFolder, pathname);
-
-    String destinationPath = changePathFromBaseToSystem(temp);
-
-    hostSystem.moveFile(destinationPath, tex);
-  }
-
-  private String changePathFromBaseToSystem(String temp) {
-    String oldRoot = pathUtil.getBaseDir() + File.separator;
-    String destinationRoot = pathUtil.getSystemPath() + File.separator;
-
-    return temp.replace(oldRoot, destinationRoot);
-  }
-
-  private String combineAbsolutePath(File parentFolder, String pathname) {
-    return parentFolder + File.separator + pathname;
-  }
-
-  private void moveDocument(File parentFolder, String title) {
-    String pdfPathname = title + PDF;
-    String destinationPath = combineAbsolutePath(parentFolder, pdfPathname);
-
-    File output = new File(pdfPathname);
-    hostSystem.moveFile(destinationPath, output);
-  }
-
-  private void removeTempFiles(String pathname) {
-    String[] endings = {"aux", "log", "out"};
+  private void removeTempFiles(Path directory, String title) {
+    String[] endings = {".aux", ".log", ".out"};
     for (String ending : endings) {
-      String filename = pathname.replace("tex", ending);
-      hostSystem.deleteFile(filename);
+      Path filename = directory.resolve(title + ending);
+      try {
+        Files.delete(filename);
+      } catch (IOException e) {
+        log.atWarning().log("%s could not be removed", filename);
+      }
     }
   }
 }

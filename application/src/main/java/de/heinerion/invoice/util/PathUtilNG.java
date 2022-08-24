@@ -7,6 +7,9 @@ import de.heinerion.invoice.services.ConfigurationService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 
@@ -26,8 +29,26 @@ public class PathUtilNG {
     return buildPath(getSystemFolderName());
   }
 
-  public String getLogPath(String folderName) {
-    return getSystemPath() + File.separator + "logs" + File.separator + folderName;
+  public Path getWorkingDirectory() {
+    return ensureDirectory(Path.of(getSystemPath(), "workspace"));
+  }
+
+  public Path getLogPath(String folderName) {
+    return ensureDirectory(Path.of(getSystemPath(), "logs", folderName));
+  }
+
+  Path ensureDirectory(Path path) {
+    if (Files.exists(path) &&
+        Files.isDirectory(path)) {
+      return path;
+    }
+
+    try {
+      return Files.createDirectories(path);
+    } catch (IOException e) {
+      throw new RuntimeException(
+          String.format("%s is no directory and could not be created", path), e);
+    }
   }
 
   private String getTemplatePath() {
