@@ -1,11 +1,11 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Account;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.repositories.company.CompanyRepository;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;

@@ -16,7 +16,7 @@ public abstract class Document {
   private Customer customer;
   private LocalDate date = LocalDate.now();
 
-  public Document(Company company, String subject) {
+  protected Document(Company company, String subject) {
     this.company = company;
     this.subject = subject;
     this.keywords = new HashSet<>();

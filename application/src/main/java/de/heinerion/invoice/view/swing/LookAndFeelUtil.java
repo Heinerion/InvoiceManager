@@ -7,10 +7,6 @@ public final class LookAndFeelUtil {
   private LookAndFeelUtil() {
   }
 
-  public static String getClassName() {
-    return UIManager.getLookAndFeel().getClass().getName();
-  }
-
   public static String getName() {
     return UIManager.getLookAndFeel().getName();
   }

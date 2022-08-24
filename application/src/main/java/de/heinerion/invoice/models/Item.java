@@ -82,14 +82,17 @@ public final class Item implements Buyable {
   }
 
   private void updateValues() {
-    final double pricePerUnit = this.getPricePerUnit();
-    this.total = pricePerUnit * this.quantity;
+    total = pricePerUnit * quantity;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Item item = (Item) o;
     return Double.compare(item.quantity, quantity) == 0 &&
         Double.compare(item.total, total) == 0 &&

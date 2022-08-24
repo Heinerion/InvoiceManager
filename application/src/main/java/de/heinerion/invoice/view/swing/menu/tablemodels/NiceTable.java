@@ -3,7 +3,6 @@ package de.heinerion.invoice.view.swing.menu.tablemodels;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -50,8 +49,6 @@ public class NiceTable<T> {
 
   public void addSelectionListener(Consumer<ListSelectionModel> action) {
     table.getSelectionModel()
-        .addListSelectionListener((ListSelectionEvent e) -> {
-          action.accept((ListSelectionModel) e.getSource());
-        });
+        .addListSelectionListener(e -> action.accept((ListSelectionModel) e.getSource()));
   }
 }

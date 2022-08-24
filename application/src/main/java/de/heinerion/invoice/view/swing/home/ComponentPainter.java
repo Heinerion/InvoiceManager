@@ -20,8 +20,8 @@ public final class ComponentPainter {
     Color decor = component.getBackground().darker();
     Color base = component.getBackground();
 
-    int componentHeight = component.getHeight();
-    int componentWidth = component.getWidth();
+    double componentHeight = component.getHeight();
+    double componentWidth = component.getWidth();
 
     int decorHeight = details.getDecorHeight();
     int decorWidth = details.getDecorWidth();
