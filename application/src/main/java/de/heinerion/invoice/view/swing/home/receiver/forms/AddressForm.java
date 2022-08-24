@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
-import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.models.Address;
 
 import java.util.Arrays;
 import java.util.List;

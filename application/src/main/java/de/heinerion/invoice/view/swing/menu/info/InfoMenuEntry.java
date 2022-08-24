@@ -1,9 +1,9 @@
 package de.heinerion.invoice.view.swing.menu.info;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.Menu;
 import de.heinerion.invoice.view.swing.menu.MenuEntry;
 

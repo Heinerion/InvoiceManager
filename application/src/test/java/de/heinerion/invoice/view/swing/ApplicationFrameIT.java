@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.services.ConfigurationService;
-import de.heinerion.betriebe.util.PathUtilBuilder;
-import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.models.Address;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.services.ConfigurationService;
+import de.heinerion.invoice.util.PathUtilBuilder;
+import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.print.pdf.boundary.TestContext;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;

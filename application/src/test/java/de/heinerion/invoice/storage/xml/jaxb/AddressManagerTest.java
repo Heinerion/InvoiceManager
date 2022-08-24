@@ -1,7 +1,7 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.repositories.address.AddressManager;
+import de.heinerion.invoice.models.Address;
+import de.heinerion.invoice.repositories.address.AddressManager;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,8 +1,8 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.DateUtil;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.models.Letter;
 
 import java.io.File;
 

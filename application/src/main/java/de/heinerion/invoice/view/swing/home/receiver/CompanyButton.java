@@ -1,8 +1,8 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.listener.CompanyListener;
-import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.listener.CompanyListener;
+import de.heinerion.invoice.models.Company;
 
 import javax.swing.*;
 

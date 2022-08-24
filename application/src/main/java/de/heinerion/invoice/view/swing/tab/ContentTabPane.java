@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.swing.TabContent;
 import org.springframework.stereotype.Service;
 

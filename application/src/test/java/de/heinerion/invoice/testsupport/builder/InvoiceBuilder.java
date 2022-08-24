@@ -1,6 +1,6 @@
 package de.heinerion.invoice.testsupport.builder;
 
-import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.invoice.models.Invoice;
 
 import java.time.LocalDate;
 

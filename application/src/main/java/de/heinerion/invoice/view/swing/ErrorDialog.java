@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
 import lombok.extern.flogger.Flogger;

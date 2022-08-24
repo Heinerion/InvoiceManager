@@ -1,7 +1,7 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.repositories.company.CompanyManager;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.repositories.company.CompanyManager;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Assert;
 import org.junit.Before;

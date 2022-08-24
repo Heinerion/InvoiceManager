@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels.invoices;
 
-import de.heinerion.betriebe.models.*;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.Translator;
 import lombok.RequiredArgsConstructor;
 

@@ -4,7 +4,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
-import de.heinerion.betriebe.models.*;
+import de.heinerion.invoice.models.*;
 
 import java.util.Collection;
 

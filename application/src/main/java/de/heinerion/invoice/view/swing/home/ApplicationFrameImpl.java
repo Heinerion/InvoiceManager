@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing.home;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.listener.CompanyListener;
-import de.heinerion.betriebe.listener.DateListener;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.services.ConfigurationService;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.listener.CompanyListener;
+import de.heinerion.invoice.listener.DateListener;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.swing.ApplicationFrame;

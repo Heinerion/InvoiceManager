@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.print.pdf.boundary.HostSystem;
 import lombok.extern.flogger.Flogger;
