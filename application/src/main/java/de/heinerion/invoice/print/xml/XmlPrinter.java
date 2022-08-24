@@ -3,7 +3,7 @@ package de.heinerion.invoice.print.xml;
 import com.thoughtworks.xstream.XStream;
 import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.print.Printer;
-import de.heinerion.invoice.print.pdf.boundary.HostSystem;
+import de.heinerion.invoice.boundary.HostSystem;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 

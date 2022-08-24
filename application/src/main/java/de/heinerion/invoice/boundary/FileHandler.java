@@ -1,4 +1,4 @@
-package de.heinerion.invoice.print.pdf.boundary;
+package de.heinerion.invoice.boundary;
 
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;

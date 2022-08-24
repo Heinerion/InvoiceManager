@@ -1,5 +1,7 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
+import de.heinerion.invoice.boundary.HostSystem;
+
 import java.io.File;
 
 class HostSystemMock implements HostSystem {

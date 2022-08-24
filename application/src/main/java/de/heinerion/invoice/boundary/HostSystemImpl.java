@@ -1,4 +1,4 @@
-package de.heinerion.invoice.print.pdf.boundary;
+package de.heinerion.invoice.boundary;
 
 import org.springframework.stereotype.Service;
 

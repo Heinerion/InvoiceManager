@@ -1,8 +1,8 @@
-package de.heinerion.invoice.print.pdf.boundary;
+package de.heinerion.invoice.boundary;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.util.PathUtilNG;
-import de.heinerion.invoice.Translator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Flogger
 @Service
 @RequiredArgsConstructor
-class ProcessRunner {
+public class ProcessRunner {
   private final PathUtilNG pathUtil;
   private final Session session = Session.getInstance();
 
@@ -26,7 +26,7 @@ class ProcessRunner {
     return "\"" + string + "\"";
   }
 
-  void startProcess(String errorLogMessage, String... command) {
+  public void startProcess(String errorLogMessage, String... command) {
     String program = command[0];
 
     ProcessBuilder pb = new ProcessBuilder(command);
