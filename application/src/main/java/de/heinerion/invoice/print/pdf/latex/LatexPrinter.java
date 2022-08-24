@@ -36,19 +36,27 @@ public class LatexPrinter implements Printer {
 
     hostSystem.pdfLatex(sourceFile.toFile());
 
-    moveSource(targetFolder, workingDirectory.resolve(title + TEX));
-    moveSource(targetFolder, workingDirectory.resolve(title + PDF));
+    Path target = Path.of(targetFolder.getAbsolutePath());
+    moveSource(switchToSystem(target), workingDirectory, title + TEX);
+    moveSource(target, workingDirectory, title + PDF);
 
     removeTempFiles(workingDirectory, title);
 
     log.atFine().log("%s created, temp files cleaned", sourceFile);
   }
 
-  private void moveSource(File targetFolder, Path sourceFile) {
-    Path target = Path.of(targetFolder.getAbsolutePath()).resolve(sourceFile.getFileName());
+  private Path switchToSystem(Path target) {
+    Path relativePath = pathUtil.getBasePath().relativize(target);
+
+    return pathUtil.getSystemPath().resolve(relativePath);
+  }
+
+  private void moveSource(Path targetFolder, Path sourceFolder, String fileName) {
+    Path target = targetFolder.resolve(fileName);
+    Path source = sourceFolder.resolve(fileName);
     try {
-      log.atInfo().log("Move from %s to %s", sourceFile, target);
-      Files.move(sourceFile, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+      log.atInfo().log("Move from %s to %s", source, target);
+      Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     } catch (IOException ioe) {
       log.atWarning()
           .withCause(ioe)
