@@ -66,6 +66,6 @@ class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements Co
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getSystemPath(), "companies.xml");
+    return pathUtilNG.getSystemPath().resolve("companies.xml").toFile();
   }
 }

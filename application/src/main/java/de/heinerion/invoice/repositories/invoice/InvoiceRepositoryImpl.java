@@ -62,6 +62,6 @@ class InvoiceRepositoryImpl extends AbstractXmlRepository<Invoice> implements In
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getSystemPath(), "invoices.xml");
+    return pathUtilNG.getSystemPath().resolve("invoices.xml").toFile();
   }
 }

@@ -1,10 +1,10 @@
 package de.heinerion.invoice.repositories.template;
 
-import de.heinerion.invoice.models.InvoiceTemplate;
 import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.InvoiceTemplate;
 import de.heinerion.invoice.repositories.AbstractXmlRepository;
-import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.repositories.XmlPersistence;
+import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ class TemplateRepositoryImpl extends AbstractXmlRepository<InvoiceTemplate> impl
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getSystemPath(), "templates.xml");
+    return pathUtilNG.getSystemPath().resolve("templates.xml").toFile();
   }
 
   @Override

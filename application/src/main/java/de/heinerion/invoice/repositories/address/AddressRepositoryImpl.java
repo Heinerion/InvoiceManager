@@ -29,7 +29,7 @@ class AddressRepositoryImpl extends AbstractXmlRepository<Address> implements Ad
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getSystemPath(), "addresses.xml");
+    return pathUtilNG.getSystemPath().resolve("addresses.xml").toFile();
   }
 
   @Override
@@ -56,7 +56,7 @@ class AddressRepositoryImpl extends AbstractXmlRepository<Address> implements Ad
   public Collection<Address> findAll() {
     return Collections.unmodifiableCollection(addresses);
   }
-  
+
   protected Address saveInMemory(Address address) {
     findByRecipient(address.getRecipient())
         .ifPresent(addresses::remove);

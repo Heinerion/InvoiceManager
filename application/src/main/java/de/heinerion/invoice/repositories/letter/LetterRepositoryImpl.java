@@ -62,6 +62,6 @@ class LetterRepositoryImpl extends AbstractXmlRepository<Letter> implements Lett
   }
 
   private File getFilename() {
-    return new File(pathUtilNG.getSystemPath(), "letters.xml");
+    return pathUtilNG.getSystemPath().resolve("letters.xml").toFile();
   }
 }
