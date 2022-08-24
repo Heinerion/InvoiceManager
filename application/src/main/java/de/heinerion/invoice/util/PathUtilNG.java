@@ -25,16 +25,16 @@ public class PathUtilNG {
     return ConfigurationService.get(FOLDER_TEMPLATES);
   }
 
-  public String getSystemPath() {
-    return buildPath(getSystemFolderName());
+  public Path getSystemPath() {
+    return getBasePath().resolve(getSystemFolderName());
   }
 
   public Path getWorkingDirectory() {
-    return ensureDirectory(Path.of(getSystemPath(), "workspace"));
+    return ensureDirectory(getSystemPath().resolve("workspace"));
   }
 
   public Path getLogPath(String folderName) {
-    return ensureDirectory(Path.of(getSystemPath(), "logs", folderName));
+    return ensureDirectory(getSystemPath().resolve("logs").resolve(folderName));
   }
 
   Path ensureDirectory(Path path) {
@@ -52,7 +52,7 @@ public class PathUtilNG {
   }
 
   private String getTemplatePath() {
-    return buildPath(getSystemPath(), getTemplateFolderName());
+    return buildPath(getSystemPath().toString(), getTemplateFolderName());
   }
 
   public String determinePath(Class<? extends Letter> itemClass) {
@@ -61,6 +61,10 @@ public class PathUtilNG {
 
   public String getBaseDir() {
     return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get(FOLDER_DATA);
+  }
+
+  public Path getBasePath() {
+    return Path.of(java.lang.System.getProperty("user.home"), ConfigurationService.get(FOLDER_DATA));
   }
 
   private String determineFolderName(Class<? extends Letter> itemClass) {
