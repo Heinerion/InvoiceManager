@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.print.pdf.latex.LatexPrinter;
 import de.heinerion.invoice.print.xml.XmlPrinter;
 import org.springframework.context.annotation.Primary;

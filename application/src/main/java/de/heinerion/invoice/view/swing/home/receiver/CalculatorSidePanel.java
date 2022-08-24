@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
 
 import javax.swing.*;

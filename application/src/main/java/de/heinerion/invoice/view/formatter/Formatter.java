@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.formatter;
 
-import de.heinerion.betriebe.models.Address;
+import de.heinerion.invoice.models.Address;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

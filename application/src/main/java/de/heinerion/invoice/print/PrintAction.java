@@ -1,10 +1,10 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Letter;
-import de.heinerion.betriebe.repositories.company.CompanyRepository;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.repositories.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;

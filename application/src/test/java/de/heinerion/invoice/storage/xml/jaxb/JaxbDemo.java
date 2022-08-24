@@ -1,7 +1,7 @@
 package de.heinerion.invoice.storage.xml.jaxb;
 
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.repositories.company.CompanyListWrapper;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.repositories.company.CompanyListWrapper;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;

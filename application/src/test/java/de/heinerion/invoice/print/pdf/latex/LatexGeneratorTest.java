@@ -1,9 +1,9 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Invoice;
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.models.Address;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Assert;

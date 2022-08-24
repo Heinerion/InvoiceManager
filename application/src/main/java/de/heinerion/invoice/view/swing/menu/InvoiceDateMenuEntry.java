@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.menu;
 
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.swing.BGPanel;

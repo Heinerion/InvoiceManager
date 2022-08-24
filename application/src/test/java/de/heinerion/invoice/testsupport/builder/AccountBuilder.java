@@ -1,6 +1,6 @@
 package de.heinerion.invoice.testsupport.builder;
 
-import de.heinerion.betriebe.models.Account;
+import de.heinerion.invoice.models.Account;
 
 import java.util.Optional;
 

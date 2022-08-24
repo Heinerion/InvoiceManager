@@ -1,8 +1,8 @@
 package de.heinerion.invoice.testsupport.builder;
 
-import de.heinerion.betriebe.models.Address;
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.models.Address;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.Letter;
 
 import java.time.LocalDate;
 import java.time.Month;

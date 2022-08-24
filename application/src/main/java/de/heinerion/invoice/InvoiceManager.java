@@ -1,6 +1,6 @@
 package de.heinerion.invoice;
 
-import de.heinerion.betriebe.data.Session;
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ErrorDialog;
 import de.heinerion.invoice.view.swing.LookAndFeelUtil;

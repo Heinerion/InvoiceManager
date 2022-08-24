@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.pdf.boundary;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.util.PathUtilNG;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.Translator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;

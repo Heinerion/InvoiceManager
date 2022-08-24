@@ -1,6 +1,6 @@
 package de.heinerion.invoice.storage.loading;
 
-import de.heinerion.betriebe.repositories.migration.FileHandler;
+import de.heinerion.invoice.repositories.migration.FileHandler;
 import org.junit.Assert;
 import org.junit.Test;
 

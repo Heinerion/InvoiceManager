@@ -1,8 +1,8 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.betriebe.models.Company;
-import de.heinerion.betriebe.models.InvoiceTemplate;
-import de.heinerion.betriebe.models.Item;
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.InvoiceTemplate;
+import de.heinerion.invoice.models.Item;
 import de.heinerion.invoice.NumberParser;
 import de.heinerion.invoice.Translator;
 

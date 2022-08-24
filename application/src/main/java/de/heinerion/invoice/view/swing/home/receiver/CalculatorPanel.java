@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.models.Company;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.BGPanel;
 import de.heinerion.invoice.view.swing.home.ComponentSize;

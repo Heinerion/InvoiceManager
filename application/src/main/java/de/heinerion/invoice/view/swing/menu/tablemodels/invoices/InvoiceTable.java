@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels.invoices;
 
-import de.heinerion.betriebe.models.Invoice;
+import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.view.swing.menu.tablemodels.RowSelectionTableModel;
 
 import javax.swing.event.TableModelListener;

@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.betriebe.models.Letter;
+import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.Translator;
 
 import javax.swing.*;

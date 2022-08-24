@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
-import de.heinerion.betriebe.data.Session;
-import de.heinerion.betriebe.repositories.address.AddressRepository;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.repositories.address.AddressRepository;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.Refreshable;
 
