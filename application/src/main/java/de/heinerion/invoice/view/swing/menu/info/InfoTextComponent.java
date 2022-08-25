@@ -8,8 +8,8 @@ import java.util.Map;
 
 @Service
 class InfoTextComponent {
-  private StringBuilder content;
-  private JEditorPane pane;
+  private final StringBuilder content;
+  private final JEditorPane pane;
 
   InfoTextComponent() {
     content = new StringBuilder();

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AddressForm extends AbstractForm<Address> {
 
-  private List<FormLine<Address, ?>> properties = Arrays.asList(
+  private final List<FormLine<Address, ?>> properties = Arrays.asList(
       FormLine.builder(Address.class, String.class).name("recipient").setter(Address::setRecipient).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Address.class, String.class).name("company").setter(Address::setCompany).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Address.class, String.class).name("street").setter(Address::setStreet).valid(s -> !s.isEmpty()).build(),

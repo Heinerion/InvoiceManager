@@ -6,7 +6,7 @@ import de.heinerion.invoice.view.swing.home.PanelHolder;
 import javax.swing.*;
 
 class CalculatorSidePanel implements PanelHolder {
-  private SidePanel sidePanel;
+  private final SidePanel sidePanel;
 
   CalculatorSidePanel(Session session) {
     sidePanel = new SidePanel();

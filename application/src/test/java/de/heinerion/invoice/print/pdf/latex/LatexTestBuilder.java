@@ -39,7 +39,7 @@ public class LatexTestBuilder {
     private String net;
     private String gross;
     private String sum;
-    private List<String> lines = new ArrayList<>();
+    private final List<String> lines = new ArrayList<>();
 
     public Builder withArticles(String articles) {
       this.articles = articles;
