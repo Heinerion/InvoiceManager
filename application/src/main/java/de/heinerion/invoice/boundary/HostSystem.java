@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.nio.file.Path;
 
 @Service
@@ -15,7 +14,7 @@ class HostSystem {
   private final FileHandler fileHandler;
   private final SystemCall systemCall;
 
-  public void pdfLatex(File tex) {
+  public void pdfLatex(Path tex) {
     log.atInfo().log("create pdf from latex sources");
     systemCall.pdfLatex(tex);
     // twice, for page numbering

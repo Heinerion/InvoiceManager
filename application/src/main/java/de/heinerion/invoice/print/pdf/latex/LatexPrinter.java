@@ -33,7 +33,7 @@ public class LatexPrinter implements Printer {
     String content = latexGenerator.generateSourceContent(letter);
     hostSystem.writeToFile(sourceFile, content);
 
-    hostSystem.pdfLatex(sourceFile.toFile());
+    hostSystem.pdfLatex(sourceFile);
 
     Path target = targetFolder.toAbsolutePath();
     moveSource(switchToSystem(target), workingDirectory, title + TEX);
