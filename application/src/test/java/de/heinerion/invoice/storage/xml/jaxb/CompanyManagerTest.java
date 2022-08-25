@@ -7,7 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,13 +33,12 @@ public class CompanyManagerTest {
     manager = new CompanyManager();
     manager.setBeautify(true);
 
-    File out = new File("companiesBeauty.xml");
+    Path out = Path.of("companiesBeauty.xml");
     manager.marshal(companies, out);
 
     List<Company> result = manager.unmarshal(out);
-    boolean deleted = out.delete();
+    Files.delete(out);
 
-    Assert.assertTrue(deleted);
     Assert.assertEquals(map(companies), map(result));
   }
 
@@ -52,13 +52,12 @@ public class CompanyManagerTest {
   public void roundTripUgly() throws Exception {
     manager = new CompanyManager();
 
-    File out = new File("companiesUgly.xml");
+    Path out = Path.of("companiesUgly.xml");
     manager.marshal(companies, out);
 
     List<Company> result = manager.unmarshal(out);
-    boolean deleted = out.delete();
+    Files.delete(out);
 
-    Assert.assertTrue(deleted);
     Assert.assertEquals(map(companies), map(result));
   }
 }

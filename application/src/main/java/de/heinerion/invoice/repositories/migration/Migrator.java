@@ -238,8 +238,8 @@ public class Migrator {
   private static boolean isOfCompany(Company company, Path file) {
     String author = company.getOfficialName();
 
-    return file.endsWith("pdf") && pdfHasAuthor(file, author)
-        || file.endsWith("tex") && texHasAuthor(file, author);
+    return file.toString().endsWith("pdf") && pdfHasAuthor(file, author)
+        || file.toString().endsWith("tex") && texHasAuthor(file, author);
   }
 
   private static boolean pdfHasAuthor(Path path, String author) {

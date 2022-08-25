@@ -28,7 +28,8 @@ class TemplateRepositoryImpl extends AbstractXmlRepository<InvoiceTemplate> impl
     log.atInfo().log("%d templates loaded", templates.size());
   }
 
-  private Path getFilename() {
+  @Override
+  protected Path getFilename() {
     return pathUtilNG.getSystemPath().resolve("templates.xml");
   }
 

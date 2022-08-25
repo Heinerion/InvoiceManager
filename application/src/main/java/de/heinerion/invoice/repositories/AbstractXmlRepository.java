@@ -2,6 +2,7 @@ package de.heinerion.invoice.repositories;
 
 import lombok.extern.flogger.Flogger;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -34,4 +35,6 @@ public abstract class AbstractXmlRepository<T> implements Repository<T> {
     saveOnDisk();
     return savedEntries;
   }
+
+  protected abstract Path getFilename();
 }
