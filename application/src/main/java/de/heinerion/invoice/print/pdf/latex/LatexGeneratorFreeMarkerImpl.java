@@ -1,8 +1,8 @@
 package de.heinerion.invoice.print.pdf.latex;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.models.Letter;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.formatter.Formatter;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -31,7 +31,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
 
   private static void initConfig() {
     if (cfg == null) {
-      cfg = new Configuration(Configuration.VERSION_2_3_27);
+      cfg = new Configuration(Configuration.VERSION_2_3_28);
       cfg.setClassForTemplateLoading(LatexGeneratorFreeMarkerImpl.class, "templates");
       cfg.setDefaultEncoding("UTF-8");
       cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
