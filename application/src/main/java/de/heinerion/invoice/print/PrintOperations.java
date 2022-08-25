@@ -8,7 +8,9 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
-import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Flogger
 @Service
@@ -46,7 +48,7 @@ public class PrintOperations {
     updateState(letter);
 
     String title = generateTitle(letter);
-    File folder = generatePath(letter);
+    Path folder = generatePath(letter);
     log.atInfo().log("print %s to %s", title, folder);
     SwingUtilities.invokeLater(() -> printer.writeFile(letter, folder, title));
   }
@@ -59,18 +61,20 @@ public class PrintOperations {
     }
   }
 
-  private File generatePath(Letter conveyable) {
-    File folder = getGenerator().getFolder(conveyable);
+  private Path generatePath(Letter conveyable) {
+    Path folder = getGenerator().getFolder(conveyable);
 
-    if (!folder.exists()) {
-      log.atInfo().log("create directory %s", folder);
-      boolean dirCreated = folder.mkdirs();
-      if (!dirCreated) {
-        log.atSevere().log("directory %s could not be created", folder);
-      }
+    if (Files.exists(folder)) {
+      return folder;
     }
 
-    return folder;
+    log.atInfo().log("create directory %s", folder);
+    try {
+      return Files.createDirectories(folder);
+    } catch (IOException e) {
+      throw new RuntimeException(
+          String.format("directory %s could not be created", folder), e);
+    }
   }
 
   private FileInfoGenerator getGenerator() {
@@ -89,7 +93,7 @@ public class PrintOperations {
   private interface FileInfoGenerator {
     String getTitle(Letter letter);
 
-    File getFolder(Letter conveyable);
+    Path getFolder(Letter conveyable);
   }
 
   private class LetterInfoGenerator implements FileInfoGenerator {
@@ -99,8 +103,8 @@ public class PrintOperations {
     }
 
     @Override
-    public File getFolder(Letter conveyable) {
-      return pathUtil.determinePath(Letter.class).toFile();
+    public Path getFolder(Letter conveyable) {
+      return pathUtil.determinePath(Letter.class);
     }
   }
 
@@ -112,11 +116,10 @@ public class PrintOperations {
     }
 
     @Override
-    public File getFolder(Letter conveyable) {
+    public Path getFolder(Letter conveyable) {
       return conveyable
           .getCompany()
-          .getFolderFile(pathUtil.determinePath(conveyable.getClass()))
-          .toFile();
+          .getFolderFile(pathUtil.determinePath(conveyable.getClass()));
     }
   }
 }

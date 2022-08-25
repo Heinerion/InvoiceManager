@@ -7,7 +7,6 @@ import de.heinerion.invoice.print.Printer;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.nio.file.Path;
 
 @Flogger
@@ -30,8 +29,8 @@ public class XmlPrinter implements Printer {
   }
 
   @Override
-  public void writeFile(Letter letter, File parentFolder, String title) {
-    Path path = Path.of(parentFolder.getPath()).resolve(title + ".xml");
+  public void writeFile(Letter letter, Path parentFolder, String title) {
+    Path path = parentFolder.resolve(title + ".xml");
     String content = xstream.toXML(letter);
     hostSystem.writeToFile(path, content);
 
