@@ -1,26 +1,25 @@
 package de.heinerion.invoice.repositories.migration;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @Flogger
+@RequiredArgsConstructor
 abstract class Loader<T> {
   private static final String VALID = "File: %s, compatible with %s";
   private static final String INVALID = "File: %s, not compatible with %s";
 
-  private List<File> files;
-  private final File loadDirectory;
-
-  Loader(File aLoadDirectory) {
-    loadDirectory = aLoadDirectory;
-  }
+  private List<Path> files;
+  private final Path loadDirectory;
 
   public abstract String getDescriptiveName();
 
@@ -32,7 +31,7 @@ abstract class Loader<T> {
     return 0;
   }
 
-  private List<File> getFiles() {
+  private List<Path> getFiles() {
     return files == null
         ? Collections.emptyList()
         : files;
@@ -46,17 +45,20 @@ abstract class Loader<T> {
   }
 
   private void listFiles() {
-    log.atFine().log("loadDirectory %s", loadDirectory.getAbsolutePath());
-    if (!loadDirectory.isDirectory()) {
-      log.atInfo().log("%s is no directory", loadDirectory.getAbsolutePath());
+    log.atFine().log("loadDirectory %s", loadDirectory.toAbsolutePath());
+    if (!Files.isDirectory(loadDirectory)) {
+      log.atInfo().log("%s is no directory", loadDirectory.toAbsolutePath());
       return;
     }
 
-    File[] fileArray = loadDirectory.listFiles((File file) -> matchFiles(file, getPattern()));
-    if (null != fileArray) {
-      files = Arrays.asList(fileArray);
+    try (Stream<Path> filesInDirectory = Files.list(loadDirectory)) {
+      files = filesInDirectory
+          .filter(file -> matchFiles(file, getPattern()))
+          .toList();
+      log.atFine().log("%d documents found", getFileNumber());
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    log.atFine().log("%d documents found", getFileNumber());
   }
 
   public final List<T> load() {
@@ -70,31 +72,20 @@ abstract class Loader<T> {
     return resultList;
   }
 
-  abstract T loopAction(File file);
+  abstract T loopAction(Path file);
 
-  private boolean matchFiles(File file, Pattern fileNamePattern) {
-    try {
-      String filename = file.getCanonicalPath();
-      Matcher matcher = fileNamePattern.matcher(filename);
+  private boolean matchFiles(Path file, Pattern fileNamePattern) {
+    String filename = file.toAbsolutePath().toString();
+    Matcher matcher = fileNamePattern.matcher(filename);
 
-      boolean result = matcher.matches();
+    boolean result = matcher.matches();
 
-      if (result) {
-        log.atFine().log(VALID, filename, getClass().getSimpleName());
-      } else {
-        log.atInfo().log(INVALID, filename, getClass().getSimpleName());
-      }
-
-      return result;
-    } catch (IOException e) {
-      log.atSevere().withCause(e).log("could not match files");
-      throw new Loader.MatchFilesException(e);
+    if (result) {
+      log.atFine().log(VALID, filename, getClass().getSimpleName());
+    } else {
+      log.atInfo().log(INVALID, filename, getClass().getSimpleName());
     }
-  }
 
-  private static class MatchFilesException extends RuntimeException {
-    MatchFilesException(Throwable cause) {
-      super(cause);
-    }
+    return result;
   }
 }

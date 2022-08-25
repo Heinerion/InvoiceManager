@@ -2,6 +2,7 @@ package de.heinerion.invoice.repositories.migration;
 
 import de.heinerion.invoice.util.PathUtilNG;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,9 +33,9 @@ public final class PathTools {
         .orElseThrow(() -> new NoFileInfoException(clazz));
   }
 
-  public static String getPath(Class<?> clazz, PathUtilNG pathUtil) {
+  public static Path getPath(Class<?> clazz, PathUtilNG pathUtil) {
     if (FILE_INFOS.containsKey(clazz.getSimpleName())) {
-      return pathUtil.getSystemPath().resolve(determineFolderName(clazz)).toAbsolutePath().toString();
+      return pathUtil.getSystemPath().resolve(determineFolderName(clazz)).toAbsolutePath();
     } else {
       throw new NoFileInfoException(clazz);
     }

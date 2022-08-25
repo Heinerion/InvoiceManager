@@ -98,7 +98,7 @@ public class Migrator {
 
   public void migrateCompanies() {
     // transfer companies to new approach
-    File companyDir = new File(PathTools.getPath(Company.class, pathUtil));
+    Path companyDir = PathTools.getPath(Company.class, pathUtil);
     log.atFine().log("read %s", companyDir);
     CompanyLoader legacyLoader = new CompanyLoader(companyDir);
     legacyLoader.init();
@@ -126,7 +126,7 @@ public class Migrator {
   }
 
   private void migrateAddresses() {
-    File addressDir = new File(PathTools.getPath(Address.class, pathUtil));
+    Path addressDir = PathTools.getPath(Address.class, pathUtil);
     AddressLoader legacyAddressLoader = new AddressLoader(addressDir);
     legacyAddressLoader.init();
     List<Address> addresses = legacyAddressLoader.load().stream()

@@ -1,12 +1,12 @@
 package de.heinerion.invoice.repositories.migration;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.models.Account;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.Translator;
 import lombok.extern.flogger.Flogger;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -39,7 +39,7 @@ class CompanyLoader extends AbstractTextFileLoader<Company> {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  public CompanyLoader(File aLoadDirectory) {
+  public CompanyLoader(Path aLoadDirectory) {
     super(aLoadDirectory);
   }
 
