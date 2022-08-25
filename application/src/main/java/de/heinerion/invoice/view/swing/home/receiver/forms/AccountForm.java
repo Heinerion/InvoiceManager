@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AccountForm extends AbstractForm<Account> {
 
-  private List<FormLine<Account, ?>> properties = Arrays.asList(
+  private final List<FormLine<Account, ?>> properties = Arrays.asList(
       FormLine.builder(Account.class, String.class).name("name").setter(Account::setName).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Account.class, String.class).name("iban").setter(Account::setIban).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Account.class, String.class).name("bic").setter(Account::setBic).valid(s -> !s.isEmpty()).build()

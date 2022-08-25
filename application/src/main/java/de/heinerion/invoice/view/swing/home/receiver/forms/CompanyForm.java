@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CompanyForm extends AbstractForm<Company> {
 
-  private List<FormLine<Company, ?>> properties = Arrays.asList(
+  private final List<FormLine<Company, ?>> properties = Arrays.asList(
       FormLine.builder(Company.class, String.class).name("descriptiveName").setter(Company::setDescriptiveName).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Company.class, String.class).name("officialName").setter(Company::setOfficialName).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Company.class, String.class).name("signer").setter(Company::setSigner).valid(s -> !s.isEmpty()).build(),
