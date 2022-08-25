@@ -5,7 +5,7 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public abstract class JaxbManager<T> {
     return this;
   }
 
-  public void marshal(List<T> items, File destination) {
+  public void marshal(List<T> items, Path destination) {
     try {
       JAXBContext context = getContext();
       Marshaller m = context.createMarshaller();
@@ -32,18 +32,18 @@ public abstract class JaxbManager<T> {
       Object wrapper = getRootObject();
       setContent(wrapper, items);
 
-      m.marshal(wrapper, destination);
+      m.marshal(wrapper, destination.toFile());
     } catch (JAXBException e) {
       throw new MarshallingException(e);
     }
   }
 
-  public List<T> unmarshal(File source) {
+  public List<T> unmarshal(Path source) {
     try {
       JAXBContext context = getContext();
       Unmarshaller um = context.createUnmarshaller();
 
-      Object rootObject = um.unmarshal(source);
+      Object rootObject = um.unmarshal(source.toFile());
       return Optional
           .ofNullable(getContent(rootObject))
           .orElse(Collections.emptyList());

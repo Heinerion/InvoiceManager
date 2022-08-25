@@ -6,7 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,13 +32,12 @@ public class TemplateManagerTest {
     manager = new TemplateManager();
     manager.setBeautify(true);
 
-    File out = new File("templatesBeauty.xml");
+    Path out = Path.of("templatesBeauty.xml");
     manager.marshal(templates, out);
 
     List<InvoiceTemplate> result = manager.unmarshal(out);
-    boolean deleted = out.delete();
+    Files.delete(out);
 
-    Assert.assertTrue(deleted);
     Assert.assertEquals(map(templates), map(result));
   }
 
@@ -51,13 +51,12 @@ public class TemplateManagerTest {
   public void roundTripUgly() throws Exception {
     manager = new TemplateManager();
 
-    File out = new File("templatesUgly.xml");
+    Path out = Path.of("templatesUgly.xml");
     manager.marshal(templates, out);
 
     List<InvoiceTemplate> result = manager.unmarshal(out);
-    boolean deleted = out.delete();
+    Files.delete(out);
 
-    Assert.assertTrue(deleted);
     Assert.assertEquals(map(templates), map(result));
   }
 }

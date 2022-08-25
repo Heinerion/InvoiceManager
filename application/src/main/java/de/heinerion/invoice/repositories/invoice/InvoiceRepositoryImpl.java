@@ -10,7 +10,7 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,7 +61,7 @@ class InvoiceRepositoryImpl extends AbstractXmlRepository<Invoice> implements In
     );
   }
 
-  private File getFilename() {
-    return pathUtilNG.getSystemPath().resolve("invoices.xml").toFile();
+  protected Path getFilename() {
+    return pathUtilNG.getSystemPath().resolve("invoices.xml");
   }
 }

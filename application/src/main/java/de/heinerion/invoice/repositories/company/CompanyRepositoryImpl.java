@@ -10,7 +10,7 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 
 @Flogger
@@ -65,7 +65,8 @@ class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements Co
     );
   }
 
-  private File getFilename() {
-    return pathUtilNG.getSystemPath().resolve("companies.xml").toFile();
+  @Override
+  protected Path getFilename() {
+    return pathUtilNG.getSystemPath().resolve("companies.xml");
   }
 }

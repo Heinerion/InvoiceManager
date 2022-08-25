@@ -10,7 +10,7 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 
 @Service
@@ -28,8 +28,9 @@ class AddressRepositoryImpl extends AbstractXmlRepository<Address> implements Ad
     log.atInfo().log("%d addresses loaded", addresses.size());
   }
 
-  private File getFilename() {
-    return pathUtilNG.getSystemPath().resolve("addresses.xml").toFile();
+  @Override
+  protected Path getFilename() {
+    return pathUtilNG.getSystemPath().resolve("addresses.xml");
   }
 
   @Override

@@ -10,7 +10,7 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,7 +61,8 @@ class LetterRepositoryImpl extends AbstractXmlRepository<Letter> implements Lett
     );
   }
 
-  private File getFilename() {
-    return pathUtilNG.getSystemPath().resolve("letters.xml").toFile();
+  @Override
+  protected Path getFilename() {
+    return pathUtilNG.getSystemPath().resolve("letters.xml");
   }
 }
