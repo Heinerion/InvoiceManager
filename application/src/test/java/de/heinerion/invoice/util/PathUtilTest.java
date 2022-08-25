@@ -34,7 +34,7 @@ public class PathUtilTest {
   @Test
   public void getSystemPath() {
     String expected = combine(baseDir, property(FOLDER_SYSTEM));
-    assertEquals(expected, pathUtil.getSystemPath());
+    assertEquals(expected, pathUtil.getSystemPath().toString());
   }
 
   @Test
