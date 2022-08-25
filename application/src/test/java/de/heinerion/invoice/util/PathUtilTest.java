@@ -40,24 +40,24 @@ public class PathUtilTest {
   @Test
   public void determineLetterPath() {
     String expected = combine(baseDir, property(FOLDER_LETTERS));
-    assertEquals(expected, pathUtil.determinePath(Letter.class));
+    assertEquals(expected, pathUtil.determinePath(Letter.class).toString());
   }
 
   @Test
   public void determineInvoicePath() {
     String expected = combine(baseDir, property(FOLDER_INVOICES));
-    assertEquals(expected, pathUtil.determinePath(Invoice.class));
+    assertEquals(expected, pathUtil.determinePath(Invoice.class).toString());
   }
 
   @Test
   public void getBaseDir() {
-    assertEquals(baseDir, pathUtil.getBaseDir());
+    assertEquals(baseDir, pathUtil.getBasePath().toString());
   }
 
   @Test
   public void getTemplateFileName() {
     String descriptiveName = "descriptiveName";
     String expected = combine(baseDir, property(FOLDER_SYSTEM), property(FOLDER_TEMPLATES), descriptiveName + ".sav");
-    assertEquals(expected, pathUtil.getTemplateFileName(descriptiveName));
+    assertEquals(expected, pathUtil.getTemplateFilePath(descriptiveName).toString());
   }
 }

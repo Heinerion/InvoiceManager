@@ -10,7 +10,7 @@ import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
+import java.nio.file.Path;
 import java.util.*;
 
 @Flogger
@@ -28,8 +28,8 @@ class TemplateRepositoryImpl extends AbstractXmlRepository<InvoiceTemplate> impl
     log.atInfo().log("%d templates loaded", templates.size());
   }
 
-  private File getFilename() {
-    return pathUtilNG.getSystemPath().resolve("templates.xml").toFile();
+  private Path getFilename() {
+    return pathUtilNG.getSystemPath().resolve("templates.xml");
   }
 
   @Override

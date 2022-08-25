@@ -100,7 +100,7 @@ public class PrintOperations {
 
     @Override
     public File getFolder(Letter conveyable) {
-      return new File(pathUtil.determinePath(Letter.class));
+      return pathUtil.determinePath(Letter.class).toFile();
     }
   }
 
@@ -113,7 +113,10 @@ public class PrintOperations {
 
     @Override
     public File getFolder(Letter conveyable) {
-      return conveyable.getCompany().getFolderFile(pathUtil.determinePath(conveyable.getClass()));
+      return conveyable
+          .getCompany()
+          .getFolderFile(pathUtil.determinePath(conveyable.getClass()))
+          .toFile();
     }
   }
 }

@@ -1,15 +1,16 @@
 package de.heinerion.invoice.repositories;
 
+import de.heinerion.contract.Contract;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.address.AddressManager;
 import de.heinerion.invoice.repositories.company.CompanyManager;
 import de.heinerion.invoice.repositories.invoice.InvoiceManager;
 import de.heinerion.invoice.repositories.letter.LetterManager;
 import de.heinerion.invoice.repositories.template.TemplateManager;
-import de.heinerion.contract.Contract;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,12 +32,12 @@ public class XmlPersistence {
     write(new CompanyManager(), companies, destination);
   }
 
-  public List<InvoiceTemplate> readTemplates(File source) {
-    return read(new TemplateManager(), source);
+  public List<InvoiceTemplate> readTemplates(Path source) {
+    return read(new TemplateManager(), source.toFile());
   }
 
-  public void writeTemplates(File destination, List<InvoiceTemplate> templates) {
-    write(new TemplateManager(), templates, destination);
+  public void writeTemplates(Path destination, List<InvoiceTemplate> templates) {
+    write(new TemplateManager(), templates, destination.toFile());
   }
 
   public List<Invoice> readInvoices(File source) {
