@@ -53,7 +53,7 @@ public class InfoMenuEntry extends MenuEntry {
       String valueMarkup = String.format(template,
           Info.translate("company.invoice.number", company.getInvoiceNumber()),
           Info.translate("company.vat", company.getValueAddedTax()),
-          company.getFolderFile(pathUtil.determinePath(Invoice.class)).getAbsolutePath());
+          company.getFolderFile(pathUtil.determinePath(Invoice.class)).toAbsolutePath());
       compInfos.put(company.toString(), valueMarkup);
     }
     editor.addDefinitionList(compInfos);

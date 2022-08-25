@@ -1,16 +1,16 @@
 package de.heinerion.invoice.view.swing;
 
+import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.boundary.TestContext;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
-import de.heinerion.invoice.util.PathUtilBuilder;
-import de.heinerion.invoice.util.PathUtilNG;
-import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.boundary.TestContext;
 import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.invoice.testsupport.builder.InvoiceBuilder;
 import de.heinerion.invoice.testsupport.builder.SessionPreparer;
+import de.heinerion.invoice.util.PathUtilBuilder;
+import de.heinerion.invoice.util.PathUtilNG;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
 import org.junit.Before;
@@ -76,7 +76,7 @@ public class ApplicationFrameIT {
     expectedMessages.add("pdflatex \"path\"");
 
     PathUtilNG pathUtil = new PathUtilBuilder().build();
-    String baseDir = pathUtil.getBaseDir();
+    String baseDir = pathUtil.getBasePath().toString();
     String folder = Translator.translate("invoice.title");
     expectedMessages.add("moveFile(\"" + baseDir + "/System/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
     expectedMessages.add("moveFile(\"" + baseDir + "/" + folder + "/descriptiveName/1  01.05.2017.pdf\", \"1  01.05.2017.pdf\")");

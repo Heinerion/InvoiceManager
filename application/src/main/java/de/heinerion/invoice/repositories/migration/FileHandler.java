@@ -4,6 +4,7 @@ import lombok.extern.flogger.Flogger;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,11 +41,10 @@ class FileHandler {
     return objClass.equals(clazz);
   }
 
-  public static <T> List<T> load(T element, String path) {
+  public static <T> List<T> load(T element, Path path) {
     Object content = new ArrayList<>();
 
-    File source = new File(path);
-    if (source.exists()) {
+    if (Files.exists(path)) {
       content = loadFromFile(path);
     } else {
       log.atWarning().log("Nothing to load in %s", path);
@@ -53,10 +53,10 @@ class FileHandler {
     return asList(element, content);
   }
 
-  private static Object loadFromFile(String path) {
+  private static Object loadFromFile(Path path) {
     Object content = new ArrayList<>();
 
-    try (FileInputStream inFile = new FileInputStream(path);
+    try (InputStream inFile = Files.newInputStream(path);
          ObjectInputStream inObject = new ObjectInputStream(inFile)) {
       content = inObject.readObject();
     } catch (IOException e) {
@@ -69,20 +69,20 @@ class FileHandler {
     return content;
   }
 
-  private static Object convertLegacyTemplates(String path) {
+  private static Object convertLegacyTemplates(Path path) {
     String backupPath = path + "_backup_" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ").format(new Date());
 
     log.atInfo().log("backup legacy template to %s", backupPath);
 
     try {
-      Files.copy(Paths.get(path), Paths.get(backupPath));
+      Files.copy(path, Paths.get(backupPath));
     } catch (IOException e) {
       throw new FileCouldNotBeCopiedException(e);
     }
 
     Object content = new ArrayList<>();
 
-    try (FileInputStream inFile = new FileInputStream(path);
+    try (InputStream inFile = Files.newInputStream(path);
          ObjectInputStream inObject = new LegacyTemplateReader(inFile)) {
       log.atInfo().log("try to read %s as old Template", path);
       content = inObject.readObject();
@@ -96,11 +96,10 @@ class FileHandler {
     return content;
   }
 
-  static void writeObject(Object obj, String path) {
+  static void writeObject(Object obj, Path path) {
     try {
-      File pathToFile = new File(path);
-      boolean dirsCreated = pathToFile.getParentFile().mkdirs();
-      if (dirsCreated || pathToFile.exists()) {
+      Files.createDirectories(path.getParent());
+      if (Files.exists(path)) {
         writeToFile(path, obj);
       } else {
         throw new FileCouldNotBeCreatedException(path);
@@ -111,8 +110,8 @@ class FileHandler {
     }
   }
 
-  private static void writeToFile(String path, Object obj) throws IOException {
-    try (FileOutputStream fOut = new FileOutputStream(path);
+  private static void writeToFile(Path path, Object obj) throws IOException {
+    try (OutputStream fOut = Files.newOutputStream(path);
          ObjectOutputStream objOut = new ObjectOutputStream(fOut)) {
       objOut.writeObject(obj);
     }
@@ -131,7 +130,7 @@ class FileHandler {
   }
 
   private static class FileCouldNotBeCreatedException extends RuntimeException {
-    FileCouldNotBeCreatedException(String path) {
+    FileCouldNotBeCreatedException(Path path) {
       super("File " + path + " could not be created.");
     }
   }

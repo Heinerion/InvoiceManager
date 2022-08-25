@@ -6,7 +6,6 @@ import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.services.ConfigurationService;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,7 +25,7 @@ public class PathUtilNG {
   }
 
   public Path getSystemPath() {
-    return getBasePath().resolve(getSystemFolderName());
+    return ensureDirectory(getBasePath().resolve(getSystemFolderName()));
   }
 
   public Path getWorkingDirectory() {
@@ -51,20 +50,16 @@ public class PathUtilNG {
     }
   }
 
-  private String getTemplatePath() {
-    return buildPath(getSystemPath().toString(), getTemplateFolderName());
+  private Path getTemplatePath() {
+    return ensureDirectory(getSystemPath().resolve(getTemplateFolderName()));
   }
 
-  public String determinePath(Class<? extends Letter> itemClass) {
-    return buildPath(determineFolderName(itemClass));
-  }
-
-  public String getBaseDir() {
-    return java.lang.System.getProperty("user.home") + File.separator + ConfigurationService.get(FOLDER_DATA);
+  public Path determinePath(Class<? extends Letter> itemClass) {
+    return ensureDirectory(buildPath(determineFolderName(itemClass)));
   }
 
   public Path getBasePath() {
-    return Path.of(java.lang.System.getProperty("user.home"), ConfigurationService.get(FOLDER_DATA));
+    return ensureDirectory(Path.of(java.lang.System.getProperty("user.home"), ConfigurationService.get(FOLDER_DATA)));
   }
 
   private String determineFolderName(Class<? extends Letter> itemClass) {
@@ -79,23 +74,34 @@ public class PathUtilNG {
     throw new NoValidLetterException(itemClass);
   }
 
-  private String buildPath(String folderName) {
-    return buildPath(getBaseDir(), folderName);
+  private Path buildPath(String folderName) {
+    return buildPath(getBasePath(), folderName);
   }
 
-  private String buildPath(String baseDir, String folderName) {
-    return baseDir
-        + File.separator
-        + folderName
-        + (session.isDebugMode() ? File.separator + "Debug" : "");
+  private Path buildPath(Path baseDir, String folderName) {
+    Path prodPath = baseDir.resolve(folderName);
+    return session.isDebugMode()
+        ? prodPath.resolve("Debug")
+        : prodPath;
   }
 
-  public String getTemplateFileName(String descriptiveName) {
-    return generateSavFileName(getTemplatePath(), descriptiveName);
+  public Path getTemplateFilePath(String descriptiveName) {
+    return ensureFile(getTemplatePath().resolve(descriptiveName + ".sav"));
   }
 
-  private String generateSavFileName(String path, String name) {
-    return path + File.separator + name + ".sav";
+  Path ensureFile(Path path) {
+    if (Files.exists(path) &&
+        Files.isRegularFile(path)) {
+      return path;
+    }
+
+    try {
+      Files.createDirectories(path.getParent());
+      return Files.createFile(path);
+    } catch (IOException e) {
+      throw new RuntimeException(
+          String.format("%s is no directory and could not be created", path), e);
+    }
   }
 
   private static class NoValidLetterException extends RuntimeException {
