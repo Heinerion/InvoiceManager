@@ -2,8 +2,8 @@ package de.heinerion.invoice.repositories.migration;
 
 import lombok.extern.flogger.Flogger;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public abstract class AbstractTextFileLoader<T> extends Loader<T> {
   private final Reader reader = new Reader();
 
-  protected AbstractTextFileLoader(File aLoadDirectory) {
+  protected AbstractTextFileLoader(Path aLoadDirectory) {
     super(aLoadDirectory);
   }
 
@@ -20,7 +20,7 @@ public abstract class AbstractTextFileLoader<T> extends Loader<T> {
   protected abstract Pattern getPattern();
 
   @Override
-  public final T loopAction(final File file) {
+  public final T loopAction(Path file) {
     final Map<String, String> attributes = this.readAttributes(file);
     final T data = this.parse(attributes);
 
@@ -31,11 +31,11 @@ public abstract class AbstractTextFileLoader<T> extends Loader<T> {
 
   protected abstract T parse(Map<String, String> attributes);
 
-  private Map<String, String> readAttributes(File path) {
+  private Map<String, String> readAttributes(Path path) {
     final Map<String, String> attributes = new HashMap<>();
 
     try {
-      this.readAttributesFromFile(path.getCanonicalPath(), attributes);
+      this.readAttributesFromFile(path, attributes);
     } catch (final IOException e) {
       throw new ParseAttributeException(e);
     }
@@ -43,7 +43,7 @@ public abstract class AbstractTextFileLoader<T> extends Loader<T> {
     return attributes;
   }
 
-  private void readAttributesFromFile(String path, Map<String, String> attributes) throws IOException {
+  private void readAttributesFromFile(Path path, Map<String, String> attributes) throws IOException {
     this.reader.prepareFile(path);
 
     Map<String, String> current;

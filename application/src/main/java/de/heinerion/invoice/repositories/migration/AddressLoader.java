@@ -1,9 +1,9 @@
 package de.heinerion.invoice.repositories.migration;
 
-import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.models.Address;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -17,7 +17,7 @@ public class AddressLoader extends AbstractTextFileLoader<Address> {
   private static final String RECIPIENT = "Recipient";
   private static final String STREET = "Street";
 
-  public AddressLoader(File aLoadDirectory) {
+  public AddressLoader(Path aLoadDirectory) {
     super(aLoadDirectory);
   }
 

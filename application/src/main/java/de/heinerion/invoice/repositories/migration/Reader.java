@@ -1,9 +1,9 @@
 package de.heinerion.invoice.repositories.migration;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,10 +19,8 @@ public class Reader {
     }
   }
 
-  void prepareFile(String path) throws IOException {
-    final File file = new File(path);
-
-    this.reader = new BufferedReader(new FileReader(file));
+  void prepareFile(Path path) throws IOException {
+    this.reader = Files.newBufferedReader(path);
     this.isOpen = true;
   }
 
