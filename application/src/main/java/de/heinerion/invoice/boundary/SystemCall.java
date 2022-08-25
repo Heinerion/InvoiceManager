@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.nio.file.Path;
 
 @Flogger
 @Service
@@ -12,9 +12,9 @@ import java.io.File;
 class SystemCall {
   private final ProcessRunner processRunner;
 
-  void pdfLatex(File tex) {
+  void pdfLatex(Path tex) {
     String program = "pdflatex";
-    String fileArgument = processRunner.quote(tex.getAbsolutePath());
+    String fileArgument = processRunner.quote(tex.toAbsolutePath().toString());
 
     log.atFine().log("command '%s %s'", program, fileArgument);
 
