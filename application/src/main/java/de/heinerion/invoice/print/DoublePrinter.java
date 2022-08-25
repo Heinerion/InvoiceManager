@@ -6,7 +6,7 @@ import de.heinerion.invoice.print.xml.XmlPrinter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.nio.file.Path;
 
 /**
  * uses two printers
@@ -23,7 +23,7 @@ public class DoublePrinter implements Printer {
   }
 
   @Override
-  public void writeFile(Letter letter, File parentFolder, String title) {
+  public void writeFile(Letter letter, Path parentFolder, String title) {
     masterPrinter.writeFile(letter, parentFolder, title);
     backupPrinter.writeFile(letter, parentFolder, title);
   }

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,7 +25,7 @@ public class LatexPrinter implements Printer {
   private final PathUtilNG pathUtil;
 
   @Override
-  public void writeFile(Letter letter, File targetFolder, String title) {
+  public void writeFile(Letter letter, Path targetFolder, String title) {
     Path workingDirectory = pathUtil.getWorkingDirectory();
     String texName = title + TEX;
 
@@ -36,7 +35,7 @@ public class LatexPrinter implements Printer {
 
     hostSystem.pdfLatex(sourceFile.toFile());
 
-    Path target = Path.of(targetFolder.getAbsolutePath());
+    Path target = targetFolder.toAbsolutePath();
     moveSource(switchToSystem(target), workingDirectory, title + TEX);
     moveSource(target, workingDirectory, title + PDF);
 
