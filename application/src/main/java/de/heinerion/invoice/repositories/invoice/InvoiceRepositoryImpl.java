@@ -56,7 +56,9 @@ class InvoiceRepositoryImpl extends AbstractXmlRepository<Invoice> implements In
   @Override
   protected void saveOnDisk() {
     persistence.writeInvoices(getFilename(), invoices.stream()
-        .sorted(Comparator.comparing(Invoice::getCompany).thenComparing(Invoice::getNumber))
+        .sorted(Comparator
+            .comparing(Invoice::getCompany)
+            .thenComparing(Invoice::getNumber))
         .toList()
     );
   }

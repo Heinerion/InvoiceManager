@@ -3,7 +3,7 @@ package de.heinerion.invoice.testsupport.builder;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class SessionPreparer {
   private Address activeAddress;
   private Company activeCompany;
-  private Letter activeConveyable;
+  private Conveyable activeConveyable;
 
   private ApplicationFrame applicationFrame;
 
@@ -33,17 +33,22 @@ public class SessionPreparer {
     return this;
   }
 
-  private Optional<Letter> getActiveConveyable() {
+  private Optional<Conveyable> getActiveConveyable() {
     return Optional.ofNullable(activeConveyable);
   }
 
-  public SessionPreparer withActiveConveyable(Letter activeConveyable) {
+  public SessionPreparer withActiveConveyable(Conveyable activeConveyable) {
     this.activeConveyable = activeConveyable;
     return this;
   }
 
   public SessionPreparer withActiveConveyable(LetterBuilder letterBuilder) {
     this.activeConveyable = letterBuilder.build();
+    return this;
+  }
+
+  public SessionPreparer withActiveConveyable(InvoiceBuilder invoiceBuilder) {
+    this.activeConveyable = invoiceBuilder.build();
     return this;
   }
 

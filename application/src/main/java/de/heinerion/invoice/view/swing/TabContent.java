@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing;
 
-import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.models.Conveyable;
 
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ public abstract class TabContent {
 
   protected abstract void clear();
 
-  public final Letter getContent() {
+  public final Conveyable getContent() {
     return getConveyable();
   }
 
@@ -38,7 +38,7 @@ public abstract class TabContent {
     return title;
   }
 
-  protected abstract Letter getConveyable();
+  protected abstract Conveyable getConveyable();
 
   public void refresh() {
     // Do nothing

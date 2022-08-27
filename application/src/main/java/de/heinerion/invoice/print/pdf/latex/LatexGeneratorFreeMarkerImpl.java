@@ -1,8 +1,8 @@
 package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.view.formatter.Formatter;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -43,14 +43,14 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
   }
 
   @Override
-  public String generateSourceContent(Letter letter) {
-    Variant variant = letter instanceof Invoice ? Variant.INVOICE : Variant.LETTER;
+  public String generateSourceContent(Conveyable conveyable) {
+    Variant variant = conveyable instanceof Invoice ? Variant.INVOICE : Variant.LETTER;
 
     try {
       Map<String, Object> root = new HashMap<>();
-      root.put(variant.rootElement, letter);
+      root.put(variant.rootElement, conveyable);
       root.put("labels", createLabels(variant));
-      root.put("address", formatter.formatAddress(letter.getReceiver()));
+      root.put("address", formatter.formatAddress(conveyable.getReceiver()));
 
       Template temp = cfg.getTemplate(variant.template);
       StringWriter writer = new StringWriter();

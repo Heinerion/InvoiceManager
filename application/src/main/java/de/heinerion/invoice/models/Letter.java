@@ -1,77 +1,37 @@
 package de.heinerion.invoice.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Letter {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Letter implements Conveyable {
   private Company company;
   private LocalDate date;
 
-  String subject;
+  private String subject;
 
-  private List<String> messageLines;
-  protected Address receiver;
+  private List<String> messageLines = new ArrayList<>();
+  private Address receiver;
 
-  /**
-   * For persistence only
-   */
-  public Letter() {
-  }
-
-  public Letter(LocalDate date, Company sender, Address receiver) {
+  public Letter(LocalDate date, Company company, Address receiver) {
     this.date = date;
-    this.company = sender;
+    this.company = company;
     this.receiver = receiver;
-
-    this.messageLines = new ArrayList<>();
   }
 
   public void addMessageLine(String messageLine) {
     this.messageLines.add(messageLine);
   }
 
-  public Company getCompany() {
-    return this.company;
-  }
-
-  public void setCompany(Company company) {
-    this.company = company;
-  }
-
-  public LocalDate getDate() {
-    return this.date;
-  }
-
-  public void setDate(LocalDate date) {
-    this.date = date;
-  }
-
-  public List<String> getMessageLines() {
-    return this.messageLines;
-  }
-
-  public void setMessageLines(List<String> messageLines) {
-    this.messageLines = messageLines;
-  }
-
-  public Address getReceiver() {
-    return this.receiver;
-  }
-
-  public void setReceiver(Address receiver) {
-    this.receiver = receiver;
-  }
-
-  public String getSubject() {
-    return this.subject;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
+  @Override
   public boolean isPrintable() {
     final boolean hasSubject = !(subject == null || subject.trim().isEmpty());
     final boolean hasContent = !messageLines.isEmpty();

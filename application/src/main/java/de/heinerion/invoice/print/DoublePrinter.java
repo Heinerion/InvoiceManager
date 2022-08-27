@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.print.pdf.latex.LatexPrinter;
 import de.heinerion.invoice.print.xml.XmlPrinter;
 import org.springframework.context.annotation.Primary;
@@ -23,8 +23,8 @@ public class DoublePrinter implements Printer {
   }
 
   @Override
-  public void writeFile(Letter letter, Path parentFolder, String title) {
-    masterPrinter.writeFile(letter, parentFolder, title);
-    backupPrinter.writeFile(letter, parentFolder, title);
+  public void writeFile(Conveyable conveyable, Path parentFolder, String title) {
+    masterPrinter.writeFile(conveyable, parentFolder, title);
+    backupPrinter.writeFile(conveyable, parentFolder, title);
   }
 }

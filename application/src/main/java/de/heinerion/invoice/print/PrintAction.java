@@ -2,8 +2,8 @@ package de.heinerion.invoice.print;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.repositories.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
@@ -20,7 +20,7 @@ public class PrintAction implements ActionListener {
   private final PrintOperations printOperations;
   private final Session session = Session.getInstance();
 
-  private Letter letter;
+  private Conveyable letter;
 
   @Override
   public void actionPerformed(ActionEvent arg0) {

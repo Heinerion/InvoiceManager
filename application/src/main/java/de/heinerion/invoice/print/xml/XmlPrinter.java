@@ -2,7 +2,7 @@ package de.heinerion.invoice.print.xml;
 
 import com.thoughtworks.xstream.XStream;
 import de.heinerion.invoice.boundary.HostSystem;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.print.Printer;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -29,9 +29,9 @@ public class XmlPrinter implements Printer {
   }
 
   @Override
-  public void writeFile(Letter letter, Path parentFolder, String title) {
+  public void writeFile(Conveyable conveyable, Path parentFolder, String title) {
     Path path = parentFolder.resolve(title + ".xml");
-    String content = xstream.toXML(letter);
+    String content = xstream.toXML(conveyable);
     hostSystem.writeToFile(path, content);
 
     log.atInfo().log("%s written", path.toAbsolutePath());

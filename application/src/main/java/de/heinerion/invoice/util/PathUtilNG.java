@@ -1,6 +1,7 @@
 package de.heinerion.invoice.util;
 
 import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.services.ConfigurationService;
@@ -54,7 +55,7 @@ public class PathUtilNG {
     return ensureDirectory(getSystemPath().resolve(getTemplateFolderName()));
   }
 
-  public Path determinePath(Class<? extends Letter> itemClass) {
+  public Path determinePath(Class<? extends Conveyable> itemClass) {
     return ensureDirectory(buildPath(determineFolderName(itemClass)));
   }
 
@@ -62,7 +63,7 @@ public class PathUtilNG {
     return ensureDirectory(Path.of(java.lang.System.getProperty("user.home"), ConfigurationService.get(FOLDER_DATA)));
   }
 
-  private String determineFolderName(Class<? extends Letter> itemClass) {
+  private String determineFolderName(Class<? extends Conveyable> itemClass) {
     if (itemClass.isAssignableFrom(Letter.class)) {
       return ConfigurationService.get(FOLDER_LETTERS);
     }
