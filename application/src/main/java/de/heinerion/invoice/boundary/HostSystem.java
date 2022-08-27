@@ -4,14 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 
 @Service
 @Flogger
 @RequiredArgsConstructor
 public
 class HostSystem {
-  private final FileHandler fileHandler;
   private final SystemCall systemCall;
 
   public void pdfLatex(Path tex) {
@@ -23,6 +26,10 @@ class HostSystem {
   }
 
   public void writeToFile(Path path, String content) {
-    fileHandler.writeToFile(path, content);
+    try {
+      Files.write(path, Collections.singleton(content));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 }
