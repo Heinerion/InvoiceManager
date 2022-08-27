@@ -1,106 +1,60 @@
 package de.heinerion.invoice.models;
 
 import de.heinerion.invoice.Translator;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Invoice extends Letter {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Invoice implements Conveyable {
   private static final int PERCENT = 100;
 
+  private Company company;
+  private LocalDate date;
+  private Address receiver;
   private int number;
-
-  private List<Item> items;
+  private List<Item> items = new ArrayList<>();
+  private double vat;
 
   private double net;
-  private double vat;
   private double tax;
   private double gross;
 
-  /**
-   * For persistence only
-   */
-  public Invoice() {
-    super();
-  }
-
-  public Invoice(LocalDate aDate, Company theSender, Address theReceiver) {
-    super(aDate, theSender, theReceiver);
-    subject = Translator.translate("invoice.title");
-
-    this.items = new ArrayList<>();
-
-    this.vat = theSender.getValueAddedTax();
-    this.updateValues();
-
-    this.number = theSender.getInvoiceNumber();
-  }
-
-  public void add(String article, String unit, double price, double count) {
-    this.addItem(new Item(article, unit, price, count));
+  public Invoice(LocalDate invoiceDate, Company sender, Address receiversAddress) {
+    date = invoiceDate;
+    company = sender;
+    receiver = receiversAddress;
+    vat = sender.getValueAddedTax();
+    updateValues();
+    number = sender.getInvoiceNumber();
   }
 
   @Override
+  public String getSubject() {
+    return Translator.translate("invoice.title");
+  }
+
+  public void add(String article, String unit, double price, double count) {
+    addItem(new Item(article, unit, price, count));
+  }
+
   public void addMessageLine(String messageLine) {
     add(messageLine, null, 0, 0);
   }
 
   private void addItem(Item item) {
-    this.items.add(item);
-    this.updateValues();
+    items.add(item);
+    updateValues();
   }
 
   // TODO removeItem?
-
-  public double getGross() {
-    return this.gross;
-  }
-
-  public void setGross(double gross) {
-    this.gross = gross;
-  }
-
-  public List<Item> getItems() {
-    return this.items;
-  }
-
-  public void setItems(List<Item> items) {
-    this.items = items;
-  }
-
-  public double getNet() {
-    return this.net;
-  }
-
-  public void setNet(double net) {
-    this.net = net;
-  }
-
-  public int getNumber() {
-    return this.number;
-  }
-
-  public void setNumber(int number) {
-    this.number = number;
-  }
-
-  public double getTax() {
-    return this.tax;
-  }
-
-  public void setTax(double tax) {
-    this.tax = tax;
-  }
-
-  public double getVat() {
-    return this.vat;
-  }
-
-  public void setVat(double vat) {
-    this.vat = vat;
-  }
 
   @Override
   public boolean isPrintable() {
@@ -108,12 +62,12 @@ public class Invoice extends Letter {
   }
 
   private void updateValues() {
-    this.net = 0;
-    for (Item item : this.getItems()) {
-      this.net += item.getTotal();
+    net = 0;
+    for (Item item : items) {
+      net += item.getTotal();
     }
-    this.tax = this.net * this.vat / PERCENT;
-    this.gross = this.net + this.tax;
+    tax = net * vat / PERCENT;
+    gross = net + tax;
   }
 
   @Override

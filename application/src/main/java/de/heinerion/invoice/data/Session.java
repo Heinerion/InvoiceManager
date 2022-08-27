@@ -5,7 +5,7 @@ import de.heinerion.invoice.listener.ConveyableListener;
 import de.heinerion.invoice.listener.DateListener;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import lombok.extern.flogger.Flogger;
@@ -28,7 +28,7 @@ public final class Session {
   private final Set<Company> availableCompanies = new HashSet<>();
   private Company activeCompany;
   private Address activeAddress;
-  private Letter activeConveyable;
+  private Conveyable activeConveyable;
 
   private LocalDate date = LocalDate.now();
   private boolean debugMode = false;
@@ -88,11 +88,11 @@ public final class Session {
     notifyCompany();
   }
 
-  public Letter getActiveConveyable() {
+  public Conveyable getActiveConveyable() {
     return activeConveyable;
   }
 
-  public void setActiveConveyable(Letter theActiveConveyable) {
+  public void setActiveConveyable(Conveyable theActiveConveyable) {
     activeConveyable = theActiveConveyable;
     notifyConveyable();
   }

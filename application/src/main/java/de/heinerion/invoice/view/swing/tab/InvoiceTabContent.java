@@ -1,11 +1,11 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.template.TemplateRepository;
 import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.NumberParser;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.*;
+import de.heinerion.invoice.repositories.template.TemplateRepository;
 import de.heinerion.invoice.view.swing.TabContent;
 import lombok.extern.flogger.Flogger;
 import org.springframework.core.annotation.Order;
@@ -183,7 +183,7 @@ class InvoiceTabContent extends TabContent {
   }
 
   @Override
-  protected Letter getConveyable() {
+  protected Conveyable getConveyable() {
     Company company = session.getActiveCompany().orElse(null);
     if (company == null) {
       return null;

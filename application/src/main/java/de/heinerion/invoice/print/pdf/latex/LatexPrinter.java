@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.invoice.boundary.HostSystem;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +25,12 @@ public class LatexPrinter implements Printer {
   private final PathUtilNG pathUtil;
 
   @Override
-  public void writeFile(Letter letter, Path targetFolder, String title) {
+  public void writeFile(Conveyable conveyable, Path targetFolder, String title) {
     Path workingDirectory = pathUtil.getWorkingDirectory();
     String texName = title + TEX;
 
     Path sourceFile = workingDirectory.resolve(texName);
-    String content = latexGenerator.generateSourceContent(letter);
+    String content = latexGenerator.generateSourceContent(conveyable);
     hostSystem.writeToFile(sourceFile, content);
 
     hostSystem.pdfLatex(sourceFile);
