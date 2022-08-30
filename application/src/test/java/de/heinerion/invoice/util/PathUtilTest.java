@@ -1,8 +1,8 @@
 package de.heinerion.invoice.util;
 
-import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
+import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,6 +13,8 @@ import static org.junit.Assert.assertEquals;
 
 public class PathUtilTest {
   private static String baseDir;
+
+  private static Company company;
 
   private static String combine(String... token) {
     return String.join(File.separator, token);
@@ -27,8 +29,8 @@ public class PathUtilTest {
   @Before
   public void setUp() {
     baseDir = combine(java.lang.System.getProperty("user.home"), property(FOLDER_DATA));
-
-    pathUtil = new PathUtilBuilder().build();
+    company = new CompanyBuilder().withDescriptiveName("descriptive").build();
+    pathUtil = new PathUtilNG();
   }
 
   @Test
@@ -40,13 +42,13 @@ public class PathUtilTest {
   @Test
   public void determineLetterPath() {
     String expected = combine(baseDir, property(FOLDER_LETTERS));
-    assertEquals(expected, pathUtil.determinePath(Letter.class).toString());
+    assertEquals(expected, pathUtil.determineLetterPath().toString());
   }
 
   @Test
   public void determineInvoicePath() {
-    String expected = combine(baseDir, property(FOLDER_INVOICES));
-    assertEquals(expected, pathUtil.determinePath(Invoice.class).toString());
+    String expected = combine(baseDir, property(FOLDER_INVOICES), company.getDescriptiveName());
+    assertEquals(expected, pathUtil.determineInvoicePath(company).toString());
   }
 
   @Test

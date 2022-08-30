@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.menu.info;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.Menu;
 import de.heinerion.invoice.view.swing.menu.MenuEntry;
@@ -53,7 +52,7 @@ public class InfoMenuEntry extends MenuEntry {
       String valueMarkup = String.format(template,
           Info.translate("company.invoice.number", company.getInvoiceNumber()),
           Info.translate("company.vat", company.getValueAddedTax()),
-          company.getFolderFile(pathUtil.determinePath(Invoice.class)).toAbsolutePath());
+          pathUtil.determineInvoicePath(company).toAbsolutePath());
       compInfos.put(company.toString(), valueMarkup);
     }
     editor.addDefinitionList(compInfos);

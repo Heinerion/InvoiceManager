@@ -1,6 +1,5 @@
 package de.heinerion.invoice.models;
 
-import java.nio.file.Path;
 import java.text.Collator;
 import java.util.Objects;
 import java.util.UUID;
@@ -95,10 +94,6 @@ public final class Company implements Comparable<Company> {
 
   public void setOfficialName(String officialName) {
     this.officialName = officialName;
-  }
-
-  public Path getFolderFile(Path basePath) {
-    return basePath.resolve(getDescriptiveName());
   }
 
   public String getPhoneNumber() {
