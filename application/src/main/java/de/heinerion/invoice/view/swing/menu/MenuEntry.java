@@ -27,23 +27,20 @@ public abstract class MenuEntry {
    * shows an always on top modal menu and sets the origin frame busy.
    */
   void showDialog() {
-    busyFrame.setBusy(true);
-
-    dialog = new JDialog(busyFrame.frame(), true);
+    dialog = new JDialog(busyFrame.frame());
     showDialog(dialog);
   }
 
-  private void showDialog(JDialog modalDialog) {
-    modalDialog.setAlwaysOnTop(true);
-    modalDialog.addWindowListener(closer);
+  private void showDialog(JDialog dialog) {
+    dialog.addWindowListener(closer);
+    dialog.setAlwaysOnTop(false);
     createWidgets();
-    addWidgets(modalDialog);
-    setupInteractions(modalDialog);
-    setTitle(modalDialog);
-    modalDialog.pack();
+    addWidgets(dialog);
+    setupInteractions(dialog);
+    setTitle(dialog);
+    dialog.pack();
 
-    modalDialog.setLocationRelativeTo(busyFrame.frame());
-    modalDialog.setVisible(true);
+    dialog.setVisible(true);
   }
 
   protected abstract void addWidgets(JDialog dialog);
