@@ -105,7 +105,7 @@ public class PrintOperations {
 
     @Override
     public Path getFolder(Conveyable conveyable) {
-      return pathUtil.determinePath(Letter.class);
+      return pathUtil.determineLetterPath();
     }
   }
 
@@ -117,9 +117,7 @@ public class PrintOperations {
 
     @Override
     public Path getFolder(Conveyable invoice) {
-      return invoice
-          .getCompany()
-          .getFolderFile(pathUtil.determinePath(invoice.getClass()));
+      return pathUtil.determineInvoicePath(invoice.getCompany());
     }
   }
 }

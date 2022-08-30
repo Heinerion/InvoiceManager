@@ -1,9 +1,7 @@
 package de.heinerion.invoice.util;
 
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.Conveyable;
-import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
 import org.springframework.stereotype.Service;
 
@@ -55,24 +53,16 @@ public class PathUtilNG {
     return ensureDirectory(getSystemPath().resolve(getTemplateFolderName()));
   }
 
-  public Path determinePath(Class<? extends Conveyable> itemClass) {
-    return ensureDirectory(buildPath(determineFolderName(itemClass)));
+  public Path determineInvoicePath(Company company) {
+    return ensureDirectory(buildPath(ConfigurationService.get(FOLDER_INVOICES)).resolve(company.getDescriptiveName()));
+  }
+
+  public Path determineLetterPath() {
+    return ensureDirectory(buildPath(ConfigurationService.get(FOLDER_LETTERS)));
   }
 
   public Path getBasePath() {
     return ensureDirectory(Path.of(java.lang.System.getProperty("user.home"), ConfigurationService.get(FOLDER_DATA)));
-  }
-
-  private String determineFolderName(Class<? extends Conveyable> itemClass) {
-    if (itemClass.isAssignableFrom(Letter.class)) {
-      return ConfigurationService.get(FOLDER_LETTERS);
-    }
-
-    if (itemClass.isAssignableFrom(Invoice.class)) {
-      return ConfigurationService.get(FOLDER_INVOICES);
-    }
-
-    throw new NoValidLetterException(itemClass);
   }
 
   private Path buildPath(String folderName) {

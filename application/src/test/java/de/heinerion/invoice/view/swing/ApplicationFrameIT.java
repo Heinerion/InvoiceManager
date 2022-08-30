@@ -9,7 +9,6 @@ import de.heinerion.invoice.testsupport.builder.AddressBuilder;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import de.heinerion.invoice.testsupport.builder.InvoiceBuilder;
 import de.heinerion.invoice.testsupport.builder.SessionPreparer;
-import de.heinerion.invoice.util.PathUtilBuilder;
 import de.heinerion.invoice.util.PathUtilNG;
 import org.fest.swing.fixture.FrameFixture;
 import org.junit.After;
@@ -75,7 +74,7 @@ public class ApplicationFrameIT {
 
     expectedMessages.add("pdflatex \"path\"");
 
-    PathUtilNG pathUtil = new PathUtilBuilder().build();
+    PathUtilNG pathUtil = new PathUtilNG();
     String baseDir = pathUtil.getBasePath().toString();
     String folder = Translator.translate("invoice.title");
     expectedMessages.add("moveFile(\"" + baseDir + "/System/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");
