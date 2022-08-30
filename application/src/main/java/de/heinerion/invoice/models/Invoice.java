@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Invoice implements Conveyable {
+public class Invoice implements Conveyable<Invoice> {
   private static final int PERCENT = 100;
 
   private Company company;

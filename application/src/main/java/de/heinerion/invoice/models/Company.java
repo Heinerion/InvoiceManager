@@ -1,9 +1,14 @@
 package de.heinerion.invoice.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.text.Collator;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
+@Setter
 public final class Company implements Comparable<Company> {
   private UUID id;
 
@@ -45,95 +50,6 @@ public final class Company implements Comparable<Company> {
   public int compareTo(Company company) {
     return Collator.getInstance().compare(this.getDescriptiveName(),
         company.getDescriptiveName());
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public Company setId(UUID id) {
-    this.id = id;
-    return this;
-  }
-
-  public Account getAccount() {
-    return account;
-  }
-
-  public void setAccount(Account account) {
-    this.account = account;
-  }
-
-  public Address getAddress() {
-    return this.address;
-  }
-
-  public void setAddress(Address address) {
-    this.address = address;
-  }
-
-  public String getDescriptiveName() {
-    return this.descriptiveName;
-  }
-
-  public void setDescriptiveName(String descriptiveName) {
-    this.descriptiveName = descriptiveName;
-  }
-
-  public int getInvoiceNumber() {
-    return this.invoiceNumber;
-  }
-
-  public void setInvoiceNumber(int nextInvoiceNumber) {
-    this.invoiceNumber = nextInvoiceNumber;
-  }
-
-  public String getOfficialName() {
-    return this.officialName;
-  }
-
-  public void setOfficialName(String officialName) {
-    this.officialName = officialName;
-  }
-
-  public String getPhoneNumber() {
-    return this.phoneNumber;
-  }
-
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
-  }
-
-  public String getSigner() {
-    return this.signer;
-  }
-
-  public void setSigner(String signer) {
-    this.signer = signer;
-  }
-
-  public String getTaxNumber() {
-    return this.taxNumber;
-  }
-
-  public void setTaxNumber(String taxNumber) {
-    this.taxNumber = taxNumber;
-  }
-
-  public double getValueAddedTax() {
-    return this.valueAddedTax;
-  }
-
-  public void setValueAddedTax(double valueAddedTax) {
-    this.valueAddedTax = valueAddedTax;
-  }
-
-  public double getWagesPerHour() {
-    return this.wagesPerHour;
-  }
-
-  public void setWagesPerHour(double wagesPerHour) {
-    this.wagesPerHour = wagesPerHour;
   }
 
   public void increaseInvoiceNumber() {

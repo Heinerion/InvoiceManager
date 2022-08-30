@@ -1,8 +1,13 @@
 package de.heinerion.invoice.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 import java.util.Optional;
 
+@Getter
+@Setter
 public final class Address {
   private String apartment;
   private String company;
@@ -25,62 +30,25 @@ public final class Address {
     return Optional.ofNullable(district);
   }
 
-  public String getLocation() {
-    return this.location;
-  }
-
-  public String getNumber() {
-    return this.number;
-  }
-
-  public String getPostalCode() {
-    return this.postalCode;
-  }
-
-  public String getRecipient() {
-    return this.recipient;
-  }
-
-  public String getStreet() {
-    return this.street;
-  }
-
-  public void setApartment(String apartment) {
+  public Address setApartment(String apartment) {
     if (isValidMessage(apartment)) {
       this.apartment = apartment;
     }
+    return this;
   }
 
-  public void setCompany(String company) {
+  public Address setCompany(String company) {
     if (isValidMessage(company)) {
       this.company = company;
     }
+    return this;
   }
 
-  public void setDistrict(String district) {
+  public Address setDistrict(String district) {
     if (isValidMessage(district)) {
       this.district = district;
     }
-  }
-
-  public void setLocation(String location) {
-    this.location = location;
-  }
-
-  public void setNumber(String number) {
-    this.number = number;
-  }
-
-  public void setPostalCode(String postalCode) {
-    this.postalCode = postalCode;
-  }
-
-  public void setRecipient(String recipient) {
-    this.recipient = recipient;
-  }
-
-  public void setStreet(String street) {
-    this.street = street;
+    return this;
   }
 
   private boolean isValidMessage(String message) {
