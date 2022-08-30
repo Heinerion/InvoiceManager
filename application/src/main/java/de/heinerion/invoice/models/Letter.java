@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Letter implements Conveyable {
+public class Letter implements Conveyable<Letter> {
   private Company company;
   private LocalDate date;
 

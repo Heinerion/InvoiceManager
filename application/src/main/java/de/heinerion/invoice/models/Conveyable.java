@@ -2,7 +2,7 @@ package de.heinerion.invoice.models;
 
 import java.time.LocalDate;
 
-public interface Conveyable {
+public interface Conveyable<T extends Conveyable<T>> {
   Company getCompany();
 
   LocalDate getDate();
@@ -13,5 +13,5 @@ public interface Conveyable {
 
   boolean isPrintable();
 
-  void setReceiver(Address address);
+  T setReceiver(Address address);
 }
