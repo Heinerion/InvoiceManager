@@ -4,8 +4,7 @@ import lombok.extern.flogger.Flogger;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Flogger

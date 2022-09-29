@@ -7,8 +7,7 @@ import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author heiner

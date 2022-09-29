@@ -1,19 +1,13 @@
 package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.models.Conveyable;
-import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.view.formatter.Formatter;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.*;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 @Service("FreemarkerImpl")
 class LatexGeneratorFreeMarkerImpl implements LatexGenerator {

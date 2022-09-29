@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.view.swing.home.ComponentSize;
-import de.heinerion.invoice.view.swing.home.Refreshable;
+import de.heinerion.invoice.view.swing.home.*;
 import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;

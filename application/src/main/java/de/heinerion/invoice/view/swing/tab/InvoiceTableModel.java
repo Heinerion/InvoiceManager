@@ -1,10 +1,7 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.InvoiceTemplate;
-import de.heinerion.invoice.models.Item;
-import de.heinerion.invoice.NumberParser;
-import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.*;
+import de.heinerion.invoice.models.*;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;

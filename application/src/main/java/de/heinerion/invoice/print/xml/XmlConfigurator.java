@@ -1,9 +1,7 @@
 package de.heinerion.invoice.print.xml;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.NoTypePermission;
-import com.thoughtworks.xstream.security.NullPermission;
-import com.thoughtworks.xstream.security.PrimitiveTypePermission;
+import com.thoughtworks.xstream.security.*;
 import de.heinerion.invoice.models.*;
 
 import java.util.Collection;

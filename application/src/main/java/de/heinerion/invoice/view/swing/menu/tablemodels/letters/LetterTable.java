@@ -4,10 +4,7 @@ import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.view.swing.menu.tablemodels.RowSelectionTableModel;
 
 import javax.swing.event.TableModelListener;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class LetterTable implements RowSelectionTableModel<Letter> {
   private final List<Letter> letters;

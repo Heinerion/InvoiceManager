@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.models.Account;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class AccountForm extends AbstractForm<Account> {
 
@@ -12,7 +11,6 @@ public class AccountForm extends AbstractForm<Account> {
       FormLine.builder(Account.class, String.class).name("iban").setter(Account::setIban).valid(s -> !s.isEmpty()).build(),
       FormLine.builder(Account.class, String.class).name("bic").setter(Account::setBic).valid(s -> !s.isEmpty()).build()
   );
-
 
   @Override
   protected Account createInstance() {

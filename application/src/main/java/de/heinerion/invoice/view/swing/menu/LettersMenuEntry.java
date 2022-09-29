@@ -1,10 +1,10 @@
 package de.heinerion.invoice.view.swing.menu;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Letter;
-import de.heinerion.invoice.repositories.letter.LetterRepository;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.print.PrintOperations;
+import de.heinerion.invoice.repositories.letter.LetterRepository;
 import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
 import de.heinerion.invoice.view.swing.menu.tablemodels.letters.LetterTable;
 import lombok.RequiredArgsConstructor;

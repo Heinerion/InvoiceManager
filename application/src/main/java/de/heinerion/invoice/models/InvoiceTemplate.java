@@ -1,10 +1,8 @@
 package de.heinerion.invoice.models;
 
-import java.io.Serial;
-import java.io.Serializable;
+import java.io.*;
 import java.text.Collator;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
 
 public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate> {
   @Serial

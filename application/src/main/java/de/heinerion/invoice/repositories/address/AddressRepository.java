@@ -1,11 +1,9 @@
 package de.heinerion.invoice.repositories.address;
 
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.Repository;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 public interface AddressRepository extends Repository<Address> {
   Collection<Address> findByCompany(Company company);

@@ -1,7 +1,6 @@
 package de.heinerion.invoice.view.swing;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.*;
 import java.util.Locale;
 
 public final class FormatUtil {

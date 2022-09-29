@@ -1,9 +1,7 @@
 package de.heinerion.invoice.repositories.invoice;
 
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.repositories.AbstractXmlRepository;
-import de.heinerion.invoice.repositories.XmlPersistence;
+import de.heinerion.invoice.models.*;
+import de.heinerion.invoice.repositories.*;
 import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
@@ -11,10 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.*;
 
 @Flogger
 @Service

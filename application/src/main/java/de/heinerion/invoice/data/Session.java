@@ -1,20 +1,13 @@
 package de.heinerion.invoice.data;
 
-import de.heinerion.invoice.listener.CompanyListener;
-import de.heinerion.invoice.listener.ConveyableListener;
-import de.heinerion.invoice.listener.DateListener;
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Conveyable;
+import de.heinerion.invoice.listener.*;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import lombok.extern.flogger.Flogger;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.REVISION;
 

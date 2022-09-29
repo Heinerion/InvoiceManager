@@ -1,9 +1,9 @@
 package de.heinerion.invoice.view.swing.tab;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.listener.ConveyableListener;
 import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.swing.FormatUtil;
 
 import javax.swing.*;

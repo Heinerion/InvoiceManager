@@ -1,8 +1,7 @@
 package de.heinerion.invoice.view.swing.home;
 
 import de.heinerion.invoice.view.formatter.Formatter;
-import de.heinerion.invoice.view.swing.home.receiver.PrintButtonPanel;
-import de.heinerion.invoice.view.swing.home.receiver.SidePanelFactory;
+import de.heinerion.invoice.view.swing.home.receiver.*;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;

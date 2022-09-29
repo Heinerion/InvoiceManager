@@ -1,8 +1,6 @@
 package de.heinerion.invoice.repositories.migration;
 
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.InvoiceTemplate;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.XmlPersistence;
 import de.heinerion.invoice.repositories.address.AddressRepository;
 import de.heinerion.invoice.repositories.company.CompanyRepository;
@@ -11,19 +9,15 @@ import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.*;
+import java.nio.file.*;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Stream;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;

@@ -1,10 +1,7 @@
 package de.heinerion.invoice;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * The Translator reads replacements (or translations) for a given key from a given Resource Bundle

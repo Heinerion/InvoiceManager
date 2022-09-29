@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels;
 
-import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.models.Address;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;

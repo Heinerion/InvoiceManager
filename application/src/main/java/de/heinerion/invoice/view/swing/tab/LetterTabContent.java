@@ -1,10 +1,8 @@
 package de.heinerion.invoice.view.swing.tab;
 
-import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.view.swing.TabContent;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

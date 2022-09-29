@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.models.Address;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class AddressForm extends AbstractForm<Address> {
 

@@ -1,11 +1,10 @@
 package de.heinerion.invoice.view.swing.home;
 
+import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.listener.CompanyListener;
-import de.heinerion.invoice.listener.DateListener;
+import de.heinerion.invoice.listener.*;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
-import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
@@ -14,12 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.event.*;
 import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * ApplicationFrameImpl.java heiner 27.03.2012

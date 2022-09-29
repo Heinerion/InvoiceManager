@@ -2,11 +2,8 @@ package de.heinerion.invoice;
 
 import lombok.extern.flogger.Flogger;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.OptionalDouble;
+import java.text.*;
+import java.util.*;
 import java.util.logging.Level;
 
 @Flogger

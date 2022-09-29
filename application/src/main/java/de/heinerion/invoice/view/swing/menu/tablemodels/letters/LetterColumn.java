@@ -1,8 +1,7 @@
 package de.heinerion.invoice.view.swing.menu.tablemodels.letters;
 
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.models.*;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;

@@ -1,14 +1,9 @@
 package de.heinerion.invoice.repositories;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.*;
 
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class JaxbManager<T> {
   private boolean beautify;
