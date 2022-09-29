@@ -1,8 +1,6 @@
 package de.heinerion.invoice.tool.domain;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Represents a customer and is mainly intended to be used for assignments and addresses

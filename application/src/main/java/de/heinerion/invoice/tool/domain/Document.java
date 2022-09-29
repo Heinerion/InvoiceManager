@@ -1,10 +1,7 @@
 package de.heinerion.invoice.tool.domain;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents a printable document and defines minimal requirements for those

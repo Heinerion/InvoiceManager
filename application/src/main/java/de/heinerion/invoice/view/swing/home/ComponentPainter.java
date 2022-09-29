@@ -1,7 +1,6 @@
 package de.heinerion.invoice.view.swing.home;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,8 +1,7 @@
 package de.heinerion.invoice.repositories.letter;
 
 import de.heinerion.invoice.models.Letter;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.*;
 
 import java.util.List;
 

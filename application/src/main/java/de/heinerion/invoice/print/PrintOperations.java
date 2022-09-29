@@ -1,7 +1,6 @@
 package de.heinerion.invoice.print;
 
-import de.heinerion.invoice.models.Conveyable;
-import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.DateUtil;
 import lombok.extern.flogger.Flogger;

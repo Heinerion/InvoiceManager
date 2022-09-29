@@ -2,9 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.Conveyable;
-import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.print.PrintAction;
 import de.heinerion.invoice.repositories.invoice.InvoiceRepository;
 import de.heinerion.invoice.repositories.letter.LetterRepository;

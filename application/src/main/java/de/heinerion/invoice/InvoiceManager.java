@@ -2,8 +2,7 @@ package de.heinerion.invoice;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.GuiStarter;
-import de.heinerion.invoice.view.swing.ErrorDialog;
-import de.heinerion.invoice.view.swing.LookAndFeelUtil;
+import de.heinerion.invoice.view.swing.*;
 import lombok.extern.flogger.Flogger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

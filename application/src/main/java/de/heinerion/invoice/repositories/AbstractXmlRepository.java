@@ -3,8 +3,7 @@ package de.heinerion.invoice.repositories;
 import lombok.extern.flogger.Flogger;
 
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 @Flogger
 public abstract class AbstractXmlRepository<T> implements Repository<T> {

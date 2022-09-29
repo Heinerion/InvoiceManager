@@ -2,22 +2,18 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.Account;
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.company.CompanyRepository;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
-import de.heinerion.invoice.view.swing.home.receiver.forms.AccountForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
-import de.heinerion.invoice.view.swing.home.receiver.forms.CompanyForm;
-import de.heinerion.invoice.view.swing.menu.BusyFrame;
+import de.heinerion.invoice.view.swing.home.receiver.forms.*;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import de.heinerion.invoice.view.swing.menu.*;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 @Flogger
 public class CompanyCreateDialog {

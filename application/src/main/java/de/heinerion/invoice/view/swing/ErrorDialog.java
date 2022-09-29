@@ -1,14 +1,13 @@
 package de.heinerion.invoice.view.swing;
 
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import de.heinerion.invoice.view.swing.menu.*;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 
 @Flogger
 public class ErrorDialog {

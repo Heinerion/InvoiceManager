@@ -6,8 +6,7 @@ import de.heinerion.invoice.services.ConfigurationService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 

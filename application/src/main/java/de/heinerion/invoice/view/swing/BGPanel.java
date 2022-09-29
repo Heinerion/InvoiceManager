@@ -5,8 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.Serial;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.*;
 
 import static de.heinerion.invoice.view.swing.PanelSides.*;
 

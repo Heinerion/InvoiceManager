@@ -1,7 +1,6 @@
 package de.heinerion.invoice.tool.domain;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.math.*;
 import java.util.Objects;
 
 public class Percent implements Comparable<Percent> {

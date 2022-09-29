@@ -3,8 +3,7 @@ package de.heinerion.invoice.view.swing.menu;
 import de.heinerion.invoice.Translator;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public abstract class MenuEntry {
   /**

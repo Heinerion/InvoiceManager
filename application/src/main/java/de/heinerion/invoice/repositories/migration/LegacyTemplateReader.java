@@ -2,10 +2,7 @@ package de.heinerion.invoice.repositories.migration;
 
 import de.heinerion.invoice.models.InvoiceTemplate;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectStreamClass;
+import java.io.*;
 import java.util.Arrays;
 
 class LegacyTemplateReader extends ObjectInputStream {

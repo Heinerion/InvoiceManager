@@ -1,16 +1,13 @@
 package de.heinerion.invoice.print;
 
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Conveyable;
-import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.company.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 @Flogger
 @Service

@@ -1,9 +1,7 @@
 package de.heinerion.invoice.repositories.migration;
 
 import de.heinerion.invoice.Translator;
-import de.heinerion.invoice.models.Account;
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.models.*;
 import lombok.extern.flogger.Flogger;
 
 import java.nio.file.Path;

@@ -4,12 +4,11 @@ import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.menu.Menu;
-import de.heinerion.invoice.view.swing.menu.MenuEntry;
+import de.heinerion.invoice.view.swing.menu.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class InfoMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("info");

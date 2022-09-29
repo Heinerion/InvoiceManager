@@ -1,8 +1,7 @@
 package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.contract.ContractBrokenException;
-import de.heinerion.invoice.NumberParser;
-import de.heinerion.invoice.Translator;
+import de.heinerion.invoice.*;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.template.TemplateRepository;
@@ -13,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.*;
 
 import static java.awt.BorderLayout.*;
 

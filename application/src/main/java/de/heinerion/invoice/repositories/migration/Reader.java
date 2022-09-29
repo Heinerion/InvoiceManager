@@ -1,11 +1,8 @@
 package de.heinerion.invoice.repositories.migration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 
 public class Reader {
   private static final String PROPERTY_DIVIDER = ":";

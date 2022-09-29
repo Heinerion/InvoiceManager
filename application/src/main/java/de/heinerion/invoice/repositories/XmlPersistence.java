@@ -9,10 +9,8 @@ import de.heinerion.invoice.repositories.letter.LetterManager;
 import de.heinerion.invoice.repositories.template.TemplateManager;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collections;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
 
 @Service
 public class XmlPersistence {

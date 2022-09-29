@@ -2,8 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.models.Company;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class CompanyForm extends AbstractForm<Company> {
 
@@ -20,7 +19,6 @@ public class CompanyForm extends AbstractForm<Company> {
 
   public CompanyForm(AddressForm addressForm, AccountForm accountForm) {
   }
-
 
   @Override
   protected List<FormLine<Company, ?>> getProperties() {

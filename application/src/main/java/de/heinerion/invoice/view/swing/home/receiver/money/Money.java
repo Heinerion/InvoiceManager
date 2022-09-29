@@ -3,8 +3,7 @@ package de.heinerion.invoice.view.swing.home.receiver.money;
 import de.heinerion.invoice.NumberParser;
 
 import java.text.DecimalFormat;
-import java.util.Currency;
-import java.util.Locale;
+import java.util.*;
 
 public class Money implements Comparable<Money> {
   /**
