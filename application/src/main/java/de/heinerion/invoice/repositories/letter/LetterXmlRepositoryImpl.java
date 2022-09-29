@@ -14,7 +14,7 @@ import java.util.*;
 @Flogger
 @Service
 @RequiredArgsConstructor
-class LetterRepositoryImpl extends AbstractXmlRepository<Letter> implements LetterRepository {
+class LetterXmlRepositoryImpl extends AbstractXmlRepository<Letter> implements LetterXmlRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
 

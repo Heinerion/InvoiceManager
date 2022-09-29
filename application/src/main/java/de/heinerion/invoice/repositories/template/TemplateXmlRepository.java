@@ -1,11 +1,11 @@
 package de.heinerion.invoice.repositories.template;
 
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.Repository;
+import de.heinerion.invoice.repositories.XmlRepository;
 
 import java.util.*;
 
-public interface TemplateRepository extends Repository<InvoiceTemplate> {
+public interface TemplateXmlRepository extends XmlRepository<InvoiceTemplate> {
   Collection<InvoiceTemplate> findByCompany(Company company);
 
   Optional<InvoiceTemplate> findByCompanyAndName(Company company, String name);

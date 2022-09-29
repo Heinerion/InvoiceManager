@@ -4,8 +4,8 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.print.PrintAction;
-import de.heinerion.invoice.repositories.invoice.InvoiceRepository;
-import de.heinerion.invoice.repositories.letter.LetterRepository;
+import de.heinerion.invoice.repositories.invoice.InvoiceXmlRepository;
+import de.heinerion.invoice.repositories.letter.LetterXmlRepository;
 import de.heinerion.invoice.view.swing.home.PanelHolder;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import java.awt.event.ActionEvent;
 public class PrintButtonPanel implements PanelHolder {
   private final Session session = Session.getInstance();
   private final SidePanel sidePanel;
-  private final InvoiceRepository invoiceRepository;
-  private final LetterRepository letterRepository;
+  private final InvoiceXmlRepository invoiceRepository;
+  private final LetterXmlRepository letterRepository;
 
-  PrintButtonPanel(PrintAction printAction, InvoiceRepository invoiceRepository, LetterRepository letterRepository) {
+  PrintButtonPanel(PrintAction printAction, InvoiceXmlRepository invoiceRepository, LetterXmlRepository letterRepository) {
     this.invoiceRepository = invoiceRepository;
     this.letterRepository = letterRepository;
     this.sidePanel = new SidePanel();

@@ -2,10 +2,10 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.print.PrintOperations;
-import de.heinerion.invoice.repositories.address.AddressRepository;
-import de.heinerion.invoice.repositories.company.CompanyRepository;
-import de.heinerion.invoice.repositories.invoice.InvoiceRepository;
-import de.heinerion.invoice.repositories.letter.LetterRepository;
+import de.heinerion.invoice.repositories.address.AddressXmlRepository;
+import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
+import de.heinerion.invoice.repositories.invoice.InvoiceXmlRepository;
+import de.heinerion.invoice.repositories.letter.LetterXmlRepository;
 import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import javax.swing.*;
 @Service
 @RequiredArgsConstructor
 public class MenuFactory {
-  private final AddressRepository addressRepository;
-  private final InvoiceRepository invoiceRepository;
-  private final LetterRepository letterRepository;
-  private final CompanyRepository companyRepository;
+  private final AddressXmlRepository addressRepository;
+  private final InvoiceXmlRepository invoiceRepository;
+  private final LetterXmlRepository letterRepository;
+  private final CompanyXmlRepository companyRepository;
   private final PrintOperations printOperations;
   private final PathUtilNG pathUtil;
   private final Session session = Session.getInstance();

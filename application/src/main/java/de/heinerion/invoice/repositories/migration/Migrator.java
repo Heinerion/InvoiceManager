@@ -2,9 +2,9 @@ package de.heinerion.invoice.repositories.migration;
 
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.XmlPersistence;
-import de.heinerion.invoice.repositories.address.AddressRepository;
-import de.heinerion.invoice.repositories.company.CompanyRepository;
-import de.heinerion.invoice.repositories.template.TemplateRepository;
+import de.heinerion.invoice.repositories.address.AddressXmlRepository;
+import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
+import de.heinerion.invoice.repositories.template.TemplateXmlRepository;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
@@ -72,9 +72,9 @@ import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 @RequiredArgsConstructor
 public class Migrator {
   private final PathUtilNG pathUtil;
-  private final AddressRepository addressRepository;
-  private final CompanyRepository companyRepository;
-  private final TemplateRepository templateRepository;
+  private final AddressXmlRepository addressRepository;
+  private final CompanyXmlRepository companyRepository;
+  private final TemplateXmlRepository templateRepository;
   private final XmlPersistence persistence;
 
   public static void main(String... args) {

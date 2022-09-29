@@ -2,7 +2,7 @@ package de.heinerion.invoice.print;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.company.CompanyRepository;
+import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.awt.event.*;
 @Service
 @RequiredArgsConstructor
 public class PrintAction implements ActionListener {
-  private final CompanyRepository companyRepository;
+  private final CompanyXmlRepository companyRepository;
   private final PrintOperations printOperations;
   private final Session session = Session.getInstance();
 

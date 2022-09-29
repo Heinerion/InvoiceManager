@@ -1,10 +1,10 @@
 package de.heinerion.invoice.repositories.company;
 
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.repositories.Repository;
+import de.heinerion.invoice.repositories.XmlRepository;
 
 import java.util.Optional;
 
-public interface CompanyRepository extends Repository<Company> {
+public interface CompanyXmlRepository extends XmlRepository<Company> {
   Optional<Company> findByOfficialName(String companyName);
 }

@@ -14,7 +14,7 @@ import java.util.*;
 @Flogger
 @Service
 @RequiredArgsConstructor
-class InvoiceRepositoryImpl extends AbstractXmlRepository<Invoice> implements InvoiceRepository {
+class InvoiceXmlRepositoryImpl extends AbstractXmlRepository<Invoice> implements InvoiceXmlRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
 

@@ -4,7 +4,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.print.PrintOperations;
-import de.heinerion.invoice.repositories.invoice.InvoiceRepository;
+import de.heinerion.invoice.repositories.invoice.InvoiceXmlRepository;
 import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
 import de.heinerion.invoice.view.swing.menu.tablemodels.invoices.InvoiceTable;
@@ -22,7 +22,7 @@ import java.awt.*;
 @RequiredArgsConstructor
 class InvoicesMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoices");
-  private final InvoiceRepository invoiceRepository;
+  private final InvoiceXmlRepository invoiceRepository;
   private final PrintOperations printOperations;
   private final Session session;
 

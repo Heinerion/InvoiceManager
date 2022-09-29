@@ -2,10 +2,10 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.print.PrintOperations;
-import de.heinerion.invoice.repositories.address.AddressRepository;
-import de.heinerion.invoice.repositories.company.CompanyRepository;
-import de.heinerion.invoice.repositories.invoice.InvoiceRepository;
-import de.heinerion.invoice.repositories.letter.LetterRepository;
+import de.heinerion.invoice.repositories.address.AddressXmlRepository;
+import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
+import de.heinerion.invoice.repositories.invoice.InvoiceXmlRepository;
+import de.heinerion.invoice.repositories.letter.LetterXmlRepository;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.home.ComponentPainter;
 import de.heinerion.invoice.view.swing.menu.info.InfoMenuEntry;
@@ -21,13 +21,13 @@ class MenuBar extends JMenuBar {
 
   private transient List<JMenuItem> menuItems;
   private final transient PathUtilNG pathUtil;
-  private final transient AddressRepository addressRepository;
-  private final transient InvoiceRepository invoiceRepository;
-  private final transient LetterRepository letterRepository;
-  private final transient CompanyRepository companyRepository;
+  private final transient AddressXmlRepository addressRepository;
+  private final transient InvoiceXmlRepository invoiceRepository;
+  private final transient LetterXmlRepository letterRepository;
+  private final transient CompanyXmlRepository companyRepository;
   private final transient PrintOperations printOperations;
 
-  MenuBar(JFrame origin, Session session, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
+  MenuBar(JFrame origin, Session session, PathUtilNG pathUtil, AddressXmlRepository addressRepository, InvoiceXmlRepository invoiceRepository, LetterXmlRepository letterRepository, CompanyXmlRepository companyRepository, PrintOperations printOperations) {
     this.origin = origin;
     this.session = session;
     this.pathUtil = pathUtil;

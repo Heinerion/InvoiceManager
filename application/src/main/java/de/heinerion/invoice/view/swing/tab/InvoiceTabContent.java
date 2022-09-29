@@ -4,7 +4,7 @@ import de.heinerion.contract.ContractBrokenException;
 import de.heinerion.invoice.*;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.template.TemplateRepository;
+import de.heinerion.invoice.repositories.template.TemplateXmlRepository;
 import de.heinerion.invoice.view.swing.TabContent;
 import lombok.extern.flogger.Flogger;
 import org.springframework.core.annotation.Order;
@@ -26,11 +26,11 @@ class InvoiceTabContent extends TabContent {
   private final JTable tabPositions;
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
   private final InvoiceTableModel model;
-  private final TemplateRepository templateRepository;
+  private final TemplateXmlRepository templateRepository;
 
   private Collection<InvoiceTemplate> templates = new ArrayList<>();
 
-  InvoiceTabContent(TemplateRepository templateRepository) {
+  InvoiceTabContent(TemplateXmlRepository templateRepository) {
     super(Translator.translate("invoice.title"));
     this.templateRepository = templateRepository;
 

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 @Flogger
-public abstract class AbstractXmlRepository<T> implements Repository<T> {
+public abstract class AbstractXmlRepository<T> implements XmlRepository<T> {
   @Override
   public T save(T entry) {
     saveInMemory(entry);

@@ -3,7 +3,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.repositories.address.AddressRepository;
+import de.heinerion.invoice.repositories.address.AddressXmlRepository;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
 import de.heinerion.invoice.view.swing.home.ComponentSize;
@@ -32,14 +32,14 @@ class AddressChooserPanel extends JPanel {
   private transient AddressForm addressForm;
   private GridBagConstraints gridConstraints = new GridBagConstraints();
 
-  private final transient AddressRepository addressRepository;
+  private final transient AddressXmlRepository addressRepository;
 
   /**
    * ComboBox for addresses
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel(Formatter formatter, AddressRepository addressRepository, Session session) {
+  AddressChooserPanel(Formatter formatter, AddressXmlRepository addressRepository, Session session) {
     this.addressRepository = addressRepository;
     this.session = session;
 

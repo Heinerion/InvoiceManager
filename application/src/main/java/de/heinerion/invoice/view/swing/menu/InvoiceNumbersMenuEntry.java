@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.repositories.company.CompanyRepository;
+import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
 import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
@@ -16,7 +16,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceNumbers");
 
   private final Session session;
-  private final CompanyRepository companyRepository;
+  private final CompanyXmlRepository companyRepository;
 
   private JPanel pnlNumbers;
 
@@ -24,7 +24,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
 
   private JLabel header;
 
-  public InvoiceNumbersMenuEntry(Session session, CompanyRepository companyRepository) {
+  public InvoiceNumbersMenuEntry(Session session, CompanyXmlRepository companyRepository) {
     this.session = session;
     this.companyRepository = companyRepository;
   }

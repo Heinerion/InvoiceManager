@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.repositories.address.AddressRepository;
+import de.heinerion.invoice.repositories.address.AddressXmlRepository;
 import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.Refreshable;
 
@@ -11,7 +11,7 @@ class AddressPanel implements Refreshable {
   private final SidePanel sidePanel;
   private final AddressChooserPanel addressChooser;
 
-  AddressPanel(Formatter formatter, AddressRepository addressRepository, Session session) {
+  AddressPanel(Formatter formatter, AddressXmlRepository addressRepository, Session session) {
     this.addressChooser = new AddressChooserPanel(formatter, addressRepository, session);
     sidePanel = new SidePanel();
 

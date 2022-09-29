@@ -14,7 +14,7 @@ import java.util.*;
 @Service
 @Flogger
 @RequiredArgsConstructor
-class AddressRepositoryImpl extends AbstractXmlRepository<Address> implements AddressRepository {
+class AddressXmlRepositoryImpl extends AbstractXmlRepository<Address> implements AddressXmlRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
 

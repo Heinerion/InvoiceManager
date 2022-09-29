@@ -15,7 +15,7 @@ import java.util.*;
 @Flogger
 @Service
 @RequiredArgsConstructor
-class CompanyRepositoryImpl extends AbstractXmlRepository<Company> implements CompanyRepository {
+class CompanyXmlRepositoryImpl extends AbstractXmlRepository<Company> implements CompanyXmlRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
   private final Session session = Session.getInstance();
