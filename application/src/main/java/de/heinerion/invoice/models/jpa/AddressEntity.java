@@ -1,11 +1,8 @@
-package de.heinerion.betriebe.models.jpa;
+package de.heinerion.invoice.models.jpa;
 
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 // TODO embedded
 @NoArgsConstructor

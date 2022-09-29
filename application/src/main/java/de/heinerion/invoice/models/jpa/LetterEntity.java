@@ -1,12 +1,9 @@
-package de.heinerion.betriebe.models.jpa;
+package de.heinerion.invoice.models.jpa;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
