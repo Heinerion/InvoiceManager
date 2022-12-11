@@ -10,7 +10,6 @@ import de.heinerion.invoice.util.PathUtilNG;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.apache.pdfbox.pdmodel.*;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
 import javax.annotation.PostConstruct;
@@ -68,7 +67,8 @@ import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
  * </p>
  */
 @Flogger
-@Service
+// deactivated
+//@Service
 @RequiredArgsConstructor
 public class Migrator {
   private final PathUtilNG pathUtil;
@@ -99,12 +99,6 @@ public class Migrator {
     List<Company> legacyCompanies = legacyLoader.load().stream()
         .map(Company.class::cast)
         .sorted(Company::compareTo)
-        .map(company -> {
-          if (company.getId() != null) {
-            return company;
-          }
-          return company.setId(UUID.randomUUID());
-        })
         .toList();
     log.atInfo().log("Companies found: %s", legacyCompanies);
 

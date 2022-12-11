@@ -1,19 +1,26 @@
 package de.heinerion.invoice.models;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.Objects;
 
-public final class Item implements Buyable {
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "item")
+public class Item implements Buyable {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+
   private String name;
   private String unit;
+  @Column(name = "price")
   private double pricePerUnit;
   private double quantity;
   private double total;
-
-  /**
-   * For persistence only
-   */
-  public Item() {
-  }
 
   public Item(String name, String unit, double pricePerUnit) {
     this(name, unit, pricePerUnit, 0);
@@ -32,53 +39,9 @@ public final class Item implements Buyable {
     this.updateValues();
   }
 
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String newName) {
-    this.name = newName;
-  }
-
-  @Override
-  public double getPricePerUnit() {
-    return pricePerUnit;
-  }
-
-  public void setPricePerUnit(double newPrice) {
-    this.pricePerUnit = newPrice;
-  }
-
-  public double getQuantity() {
-    return this.quantity;
-  }
-
   public void setQuantity(double newQuantity) {
     this.quantity = newQuantity;
     this.updateValues();
-  }
-
-  public double getTotal() {
-    return this.total;
-  }
-
-  public void setTotal(double total) {
-    this.total = total;
-  }
-
-  @Override
-  public String getUnit() {
-    return unit;
-  }
-
-  public void setUnit(String newUnit) {
-    unit = newUnit;
-  }
-
-  @Override
-  public String toString() {
-    return this.getName();
   }
 
   private void updateValues() {

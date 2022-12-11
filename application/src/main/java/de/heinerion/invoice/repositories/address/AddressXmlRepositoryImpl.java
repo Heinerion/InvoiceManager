@@ -17,13 +17,31 @@ import java.util.*;
 class AddressXmlRepositoryImpl extends AbstractXmlRepository<Address> implements AddressXmlRepository {
   private final XmlPersistence persistence;
   private final PathUtilNG pathUtilNG;
+  private final AddressRepository addressRepository;
 
   private Collection<Address> addresses = new HashSet<>();
 
   @PostConstruct
   private void load() {
-    this.addresses = new HashSet<>(persistence.readAddresses(getFilename()));
-    log.atInfo().log("%d addresses loaded", addresses.size());
+    boolean persisted = false;
+    Set<Address> set = new HashSet<>();
+    for (Address a : persistence.readAddresses(getFilename())) {
+      boolean needsPersisting = isNotPersisted(a);
+      persisted |= needsPersisting;
+      set.add(needsPersisting ? addressRepository.save(a) : a);
+    }
+    this.addresses = set;
+    log.atInfo().log("%d addresses loaded", this.addresses.size());
+
+    if (persisted) {
+      log.atInfo().log("needs write to disk");
+      saveOnDisk();
+    }
+  }
+
+  private boolean isNotPersisted(Address a) {
+    log.atInfo().log("check %s@%s", a, a.getId());
+    return a.getId() == null || addressRepository.findById(a.getId()).isEmpty();
   }
 
   @Override
@@ -57,10 +75,9 @@ class AddressXmlRepositoryImpl extends AbstractXmlRepository<Address> implements
   }
 
   protected Address saveInMemory(Address address) {
-    findByRecipient(address.getRecipient())
-        .ifPresent(addresses::remove);
-    addresses.add(address);
-    return address;
+    Address persisted = addressRepository.save(address);
+    addresses.add(persisted);
+    return persisted;
   }
 
   protected void saveOnDisk() {

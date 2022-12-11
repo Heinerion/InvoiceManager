@@ -17,18 +17,46 @@ import java.util.*;
 @RequiredArgsConstructor
 class CompanyXmlRepositoryImpl extends AbstractXmlRepository<Company> implements CompanyXmlRepository {
   private final XmlPersistence persistence;
-  private final PathUtilNG pathUtilNG;
+  private final CompanyRepository companyRepository;
+  private final AccountRepository accountRepository;
+  private final AddressRepository addressRepository;
   private final Session session = Session.getInstance();
+  private final PathUtilNG pathUtilNG;
 
   private Collection<Company> companies = new HashSet<>();
 
   @PostConstruct
   private void load() {
-    this.companies = new HashSet<>(persistence.readCompanies(getFilename()));
-    log.atInfo().log("%d companies loaded", companies.size());
-    companies.stream()
+    boolean persisted = false;
+    Set<Company> set = new HashSet<>();
+    for (Company c : persistence.readCompanies(getFilename())) {
+      boolean needsPersisting = isNotPersisted(c);
+      persisted |= needsPersisting;
+      set.add(needsPersisting ? persist(c) : c);
+    }
+    this.companies = set;
+    log.atInfo().log("%d companies loaded", this.companies.size());
+
+    this.companies.stream()
         .sorted(Comparator.comparing(Company::getDescriptiveName))
         .forEach(session::addAvailableCompany);
+
+    if (persisted) {
+      log.atInfo().log("needs write to disk");
+      saveOnDisk();
+    }
+  }
+
+  private Company persist(Company c) {
+    c.setAccount(accountRepository.save(c.getAccount()));
+    c.setAddress(addressRepository.save(c.getAddress()));
+
+    return companyRepository.save(c);
+  }
+
+  private boolean isNotPersisted(Company a) {
+    log.atInfo().log("check %s@%s", a, a.getId());
+    return a.getId() == null || companyRepository.findById(a.getId()).isEmpty();
   }
 
   @Override
@@ -49,11 +77,9 @@ class CompanyXmlRepositoryImpl extends AbstractXmlRepository<Company> implements
 
   @Override
   protected Company saveInMemory(Company entry) {
-    companies.add(entry);
-    if (entry.getId() == null) {
-      entry.setId(UUID.randomUUID());
-    }
-    return entry;
+    Company company = persist(entry);
+    companies.add(company);
+    return company;
   }
 
   @Override

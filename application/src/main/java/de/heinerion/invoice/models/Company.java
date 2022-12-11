@@ -2,33 +2,46 @@ package de.heinerion.invoice.models;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.text.Collator;
-import java.util.*;
+import java.util.Objects;
 
 @Getter
 @Setter
-public final class Company implements Comparable<Company> {
-  private UUID id;
+// public because of CompanyForm
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Entity
+@Table(name = "company")
+public class Company implements Comparable<Company> {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
 
+  @Column(name = "descriptive")
   private String descriptiveName;
+  @Column(name = "official")
   private String officialName;
+
+  @ManyToOne
+  @JoinColumn(name = "address_id")
   private Address address;
   private String signer;
+  @Column(name = "tax")
   private String taxNumber;
+  @Column(name = "phone")
   private String phoneNumber;
 
+  @ManyToOne
+  @JoinColumn(name = "account_id")
   private Account account;
 
+  @Column(name = "vat")
   private double valueAddedTax;
+  @Column(name = "per_hour")
   private double wagesPerHour;
 
+  @Column(name = "invoice_number")
   private int invoiceNumber;
-
-  /**
-   * For persistence only
-   */
-  public Company() {
-  }
 
   public Company(String descriptiveName, String officialName, Address address,
                  String signer, String phoneNumber, String taxNumber,
@@ -68,8 +81,10 @@ public final class Company implements Comparable<Company> {
       return false;
     }
     Company company = (Company) o;
-    return Objects.equals(id, company.id) &&
-        Double.compare(company.valueAddedTax, valueAddedTax) == 0 &&
+    if (id != null && id.equals(company.id)) {
+      return true;
+    }
+    return Double.compare(company.valueAddedTax, valueAddedTax) == 0 &&
         Double.compare(company.wagesPerHour, wagesPerHour) == 0 &&
         invoiceNumber == company.invoiceNumber &&
         Objects.equals(descriptiveName, company.descriptiveName) &&

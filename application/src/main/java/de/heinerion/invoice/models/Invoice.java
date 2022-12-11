@@ -3,20 +3,36 @@ package de.heinerion.invoice.models;
 import de.heinerion.invoice.Translator;
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "invoice")
 public class Invoice implements Conveyable<Invoice> {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+
   private static final int PERCENT = 100;
 
+  @ManyToOne
+  @JoinColumn(name = "company_id")
   private Company company;
   private LocalDate date;
+  @ManyToOne
+  @JoinColumn(name = "receiver_id")
   private Address receiver;
   private int number;
-  private List<Item> items = new ArrayList<>();
+
+  @OneToMany
+  @JoinTable(name = "invoice_items",
+      joinColumns = @JoinColumn(name = "invoice_id"),
+      inverseJoinColumns = @JoinColumn(name = "item_id"))
+  private Set<Item> items = new HashSet<>();
   private double vat;
 
   private double net;

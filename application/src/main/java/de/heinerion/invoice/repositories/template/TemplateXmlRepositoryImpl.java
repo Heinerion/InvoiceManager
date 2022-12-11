@@ -34,7 +34,7 @@ class TemplateXmlRepositoryImpl extends AbstractXmlRepository<InvoiceTemplate> i
   @Override
   public Collection<InvoiceTemplate> findByCompany(Company company) {
     return templates.stream()
-        .filter(template -> template.getCompanyId().equals(company.getId()))
+        .filter(template -> Objects.equals(template.getCompanyId(), company.getId()))
         .toList();
   }
 

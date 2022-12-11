@@ -1,46 +1,29 @@
 package de.heinerion.invoice.models;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.Objects;
 
-public final class Account {
+@Getter
+@Setter
+// public for AccountForm
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Entity
+@Table(name = "account")
+public class Account {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+
   private String bic;
   private String iban;
   private String name;
-
-  /**
-   * For persistence only
-   */
-  public Account() {
-  }
 
   public Account(String aName, String aBic, String anIban) {
     this.name = aName;
     this.bic = aBic;
     this.iban = anIban;
-  }
-
-  public String getBic() {
-    return bic;
-  }
-
-  public void setBic(String bic) {
-    this.bic = bic;
-  }
-
-  public String getIban() {
-    return iban;
-  }
-
-  public void setIban(String iban) {
-    this.iban = iban;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   @Override

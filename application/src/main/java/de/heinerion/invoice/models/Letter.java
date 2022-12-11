@@ -1,20 +1,35 @@
 package de.heinerion.invoice.models;
 
 import lombok.*;
+import org.apache.logging.log4j.util.Strings;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "letter")
 public class Letter implements Conveyable<Letter> {
+  public static final String LINE_SEPARATOR = "##/##";
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+
+  @ManyToOne
+  @JoinColumn(name = "company_id")
   private Company company;
   private LocalDate date;
 
   private String subject;
 
-  private List<String> messageLines = new ArrayList<>();
+  @Lob
+  @Column(name = "message")
+  private String messageLinesCombined;
+  @ManyToOne
+  @JoinColumn(name = "receiver_id")
   private Address receiver;
 
   public Letter(LocalDate date, Company company, Address receiver) {
@@ -23,14 +38,38 @@ public class Letter implements Conveyable<Letter> {
     this.receiver = receiver;
   }
 
-  public void addMessageLine(String messageLine) {
-    this.messageLines.add(messageLine);
+  public void addMessageLine(String newLine) {
+    messageLinesCombined = (messageLinesCombined == null)
+        ? newLine
+        : messageLinesCombined + LINE_SEPARATOR + newLine;
+  }
+
+  private String getMessageLinesCombined() {
+    // to hide the method explicitly
+    return messageLinesCombined;
+  }
+
+  private void setMessageLinesCombined(String messageLinesCombined) {
+    // to hide the method explicitly
+    this.messageLinesCombined = messageLinesCombined;
+  }
+
+  public List<String> getMessageLines() {
+    return Arrays.stream(Optional
+            .ofNullable(messageLinesCombined)
+            .orElse("")
+            .split(LINE_SEPARATOR))
+        .toList();
+  }
+
+  public void setMessageLines(List<String> lines) {
+    this.messageLinesCombined = lines == null ? null : String.join(LINE_SEPARATOR, lines);
   }
 
   @Override
   public boolean isPrintable() {
-    final boolean hasSubject = !(subject == null || subject.trim().isEmpty());
-    final boolean hasContent = !messageLines.isEmpty();
+    final boolean hasSubject = Strings.isNotBlank(subject);
+    final boolean hasContent = Strings.isNotBlank(messageLinesCombined);
     return hasSubject && hasContent;
   }
 
@@ -46,13 +85,13 @@ public class Letter implements Conveyable<Letter> {
     return Objects.equals(company, letter.company) &&
         Objects.equals(date, letter.date) &&
         Objects.equals(subject, letter.subject) &&
-        Objects.equals(messageLines, letter.messageLines) &&
+        Objects.equals(messageLinesCombined, letter.messageLinesCombined) &&
         Objects.equals(receiver, letter.receiver);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(company, date, subject, messageLines, receiver);
+    return Objects.hash(company, date, subject, messageLinesCombined, receiver);
   }
 
   @Override

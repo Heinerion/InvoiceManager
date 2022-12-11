@@ -16,14 +16,49 @@ import java.util.*;
 @RequiredArgsConstructor
 class LetterXmlRepositoryImpl extends AbstractXmlRepository<Letter> implements LetterXmlRepository {
   private final XmlPersistence persistence;
+  private final LetterRepository letterRepository;
+  private final CompanyRepository companyRepository;
+  private final AccountRepository accountRepository;
+  private final AddressRepository addressRepository;
   private final PathUtilNG pathUtilNG;
 
   private Collection<Letter> letters = new HashSet<>();
 
   @PostConstruct
   private void load() {
-    this.letters = new HashSet<>(persistence.readLetters(getFilename()));
-    log.atInfo().log("%d invoices loaded", letters.size());
+    boolean persisted = false;
+    Set<Letter> set = new HashSet<>();
+    for (Letter letter : persistence.readLetters(getFilename())) {
+      boolean needsPersisting = isNotPersisted(letter);
+      persisted |= needsPersisting;
+      set.add(needsPersisting ? persist(letter) : letter);
+    }
+    this.letters = set;
+    log.atInfo().log("%d letters loaded", letters.size());
+
+    if (persisted) {
+      log.atInfo().log("needs write to disk");
+      saveOnDisk();
+    }
+  }
+
+  private Letter persist(Letter invoice) {
+    invoice.setCompany(persist(invoice.getCompany()));
+    invoice.setReceiver(addressRepository.save(invoice.getReceiver()));
+
+    return letterRepository.save(invoice);
+  }
+
+  private Company persist(Company c) {
+    c.setAccount(accountRepository.save(c.getAccount()));
+    c.setAddress(addressRepository.save(c.getAddress()));
+
+    return companyRepository.save(c);
+  }
+
+  private boolean isNotPersisted(Letter invoice) {
+    log.atInfo().log("check %s@%s", invoice, invoice.getId());
+    return invoice.getId() == null || letterRepository.findById(invoice.getId()).isEmpty();
   }
 
   @Override
@@ -44,8 +79,9 @@ class LetterXmlRepositoryImpl extends AbstractXmlRepository<Letter> implements L
 
   @Override
   protected Letter saveInMemory(Letter entry) {
-    letters.add(entry);
-    return entry;
+    Letter letter = letterRepository.save(entry);
+    letters.add(letter);
+    return letter;
   }
 
   @Override

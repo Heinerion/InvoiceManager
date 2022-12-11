@@ -1,3 +1,21 @@
 spring:
   profiles:
     active: Prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/INVOICE_MANAGER
+    password: INVOICE_MANAGER
+    username: INVOICE_MANAGER
+  liquibase:
+    change-log: classpath:db/changelog/00-master.yml
+    password: INVOICE_MANAGER
+    user: INVOICE_MANAGER
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+logging:
+  level:
+    de.heinerion: info
+  file:
+    name: logs/app.log

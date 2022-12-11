@@ -2,16 +2,26 @@ package de.heinerion.invoice.models;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.util.*;
 
 @Getter
 @Setter
-public final class Address {
+// public because of AddressForm, AddressLoader & CompanyLoader
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Entity
+@Table(name = "address")
+public class Address {
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
+
   private String apartment;
   private String company;
   private String district;
   private String location;
   private String number;
+  @Column(name = "postal_code")
   private String postalCode;
   private String recipient;
   private String street;
@@ -61,7 +71,11 @@ public final class Address {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
+
     Address address = (Address) o;
+    if (id != null && id.equals(address.id)) {
+      return true;
+    }
     return Objects.equals(apartment, address.apartment) &&
         Objects.equals(company, address.company) &&
         Objects.equals(district, address.district) &&
@@ -74,7 +88,7 @@ public final class Address {
 
   @Override
   public int hashCode() {
-    return Objects.hash(apartment, company, district, location, number, postalCode, recipient, street);
+    return Objects.hash(id);
   }
 
   @Override

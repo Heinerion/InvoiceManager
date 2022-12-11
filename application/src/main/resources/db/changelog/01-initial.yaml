@@ -1,0 +1,355 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1670725123989-1
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: accountPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: bic
+                  type: VARCHAR(255)
+              - column:
+                  name: iban
+                  type: VARCHAR(255)
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+            tableName: account
+  - changeSet:
+      id: 1670725123989-2
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: addressPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: apartment
+                  type: VARCHAR(255)
+              - column:
+                  name: company
+                  type: VARCHAR(255)
+              - column:
+                  name: district
+                  type: VARCHAR(255)
+              - column:
+                  name: location
+                  type: VARCHAR(255)
+              - column:
+                  name: number
+                  type: VARCHAR(255)
+              - column:
+                  name: postal_code
+                  type: VARCHAR(255)
+              - column:
+                  name: recipient
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+            tableName: address
+  - changeSet:
+      id: 1670725123989-3
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: companyPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: descriptive
+                  type: VARCHAR(255)
+              - column:
+                  name: invoice_number
+                  type: INTEGER
+              - column:
+                  name: official
+                  type: VARCHAR(255)
+              - column:
+                  name: phone
+                  type: VARCHAR(255)
+              - column:
+                  name: signer
+                  type: VARCHAR(255)
+              - column:
+                  name: tax
+                  type: VARCHAR(255)
+              - column:
+                  name: vat
+                  type: FLOAT8
+              - column:
+                  name: per_hour
+                  type: FLOAT8
+              - column:
+                  name: account_id
+                  type: BIGINT
+              - column:
+                  name: address_id
+                  type: BIGINT
+            tableName: company
+  - changeSet:
+      id: 1670725123989-4
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: invoicePK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  constraints:
+                    nullable: false
+                  name: gross
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: net
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: number
+                  type: INTEGER
+              - column:
+                  constraints:
+                    nullable: false
+                  name: tax
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: vat
+                  type: FLOAT8
+              - column:
+                  name: company_id
+                  type: BIGINT
+              - column:
+                  name: receiver_id
+                  type: BIGINT
+            tableName: invoice
+  - changeSet:
+      id: 1670725123989-5
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: invoice_itemsPK
+                  name: invoice_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: invoice_itemsPK
+                  name: item_id
+                  type: BIGINT
+            tableName: invoice_items
+  - changeSet:
+      id: 1670725123989-6
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: itemPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: price
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: total
+                  type: FLOAT8
+              - column:
+                  name: unit
+                  type: VARCHAR(255)
+            tableName: item
+  - changeSet:
+      id: 1670725123989-7
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: letterPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: message
+                  type: OID
+              - column:
+                  name: subject
+                  type: VARCHAR(255)
+              - column:
+                  name: company_id
+                  type: BIGINT
+              - column:
+                  name: receiver_id
+                  type: BIGINT
+            tableName: letter
+  - changeSet:
+      id: 1670725123989-8
+      author: Heiner Specht
+      changes:
+        - addUniqueConstraint:
+            columnNames: item_id
+            constraintName: UK_k6rj0i8k6kvbuexrhkqyub6vu
+            tableName: invoice_items
+  - changeSet:
+      id: 1670725123989-9
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: account_id
+            baseTableName: company
+            constraintName: FK75jxrkyqa7rjrx2sv72j7mnrf
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: account
+            validate: true
+  - changeSet:
+      id: 1670725123989-10
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: company_id
+            baseTableName: invoice
+            constraintName: FKaslug8pfl346tbeuslh98n7k5
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: company
+            validate: true
+  - changeSet:
+      id: 1670725123989-11
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: receiver_id
+            baseTableName: invoice
+            constraintName: FKb9qosfm65gwmoh61ng84vr3eu
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: address
+            validate: true
+  - changeSet:
+      id: 1670725123989-12
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: company
+            constraintName: FKgfifm4874ce6mecwj54wdb3ma
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: address
+            validate: true
+  - changeSet:
+      id: 1670725123989-13
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: item_id
+            baseTableName: invoice_items
+            constraintName: FKk96eu3fmxangwi9huw76g9geb
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: item
+            validate: true
+  - changeSet:
+      id: 1670725123989-14
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: company_id
+            baseTableName: letter
+            constraintName: FKkhwpl345ovc2c4vxjljcief92
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: company
+            validate: true
+  - changeSet:
+      id: 1670725123989-15
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: invoice_id
+            baseTableName: invoice_items
+            constraintName: FKoxy5jo4jluo0w69ncg5tsitn4
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: invoice
+            validate: true
+  - changeSet:
+      id: 1670725123989-16
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: receiver_id
+            baseTableName: letter
+            constraintName: FKqr656hj1a0rii7vag8vxrjhec
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: address
+            validate: true
