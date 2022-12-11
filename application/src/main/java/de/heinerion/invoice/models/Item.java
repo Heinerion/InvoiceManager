@@ -15,6 +15,8 @@ public class Item implements Buyable {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
+  private Integer position;
+
   private String name;
   private String unit;
   @Column(name = "price")

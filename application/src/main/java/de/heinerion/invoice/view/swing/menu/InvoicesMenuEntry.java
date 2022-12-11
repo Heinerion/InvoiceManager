@@ -4,7 +4,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Invoice;
 import de.heinerion.invoice.print.PrintOperations;
-import de.heinerion.invoice.repositories.invoice.InvoiceXmlRepository;
+import de.heinerion.invoice.repositories.InvoiceRepository;
 import de.heinerion.invoice.view.swing.FormatUtil;
 import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
 import de.heinerion.invoice.view.swing.menu.tablemodels.invoices.InvoiceTable;
@@ -22,7 +22,7 @@ import java.awt.*;
 @RequiredArgsConstructor
 class InvoicesMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoices");
-  private final InvoiceXmlRepository invoiceRepository;
+  private final InvoiceRepository invoiceRepository;
   private final PrintOperations printOperations;
   private final Session session;
 
@@ -58,7 +58,7 @@ class InvoicesMenuEntry extends MenuEntry {
     btnPrint = new JButton(Translator.translate("controls.print"));
     btnPrint.setEnabled(false);
 
-    model = new InvoiceTable(invoiceRepository.findAllBySender(session.getActiveCompany().orElse(null)));
+    model = new InvoiceTable(invoiceRepository.findByCompany(session.getActiveCompany().orElse(null)));
     tblInvoices = new NiceTable<>(model);
     setColumnWidths(tblInvoices.getColumnModel());
     tblInvoices.sortBy(INDEX_NUMBER, SortOrder.ASCENDING);

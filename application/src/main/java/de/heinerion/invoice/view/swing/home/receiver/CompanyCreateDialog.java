@@ -3,7 +3,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.company.CompanyXmlRepository;
+import de.heinerion.invoice.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.*;
@@ -37,9 +37,9 @@ public class CompanyCreateDialog {
   private AddressForm addressForm;
   private AccountForm accountForm;
 
-  private final CompanyXmlRepository companyRepository;
+  private final CompanyRepository companyRepository;
 
-  public CompanyCreateDialog(Session session, CompanyXmlRepository companyRepository) {
+  public CompanyCreateDialog(Session session, CompanyRepository companyRepository) {
     this.session = session;
     this.companyRepository = companyRepository;
 

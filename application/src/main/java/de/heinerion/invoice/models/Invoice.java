@@ -1,5 +1,6 @@
 package de.heinerion.invoice.models;
 
+import de.heinerion.contract.Contract;
 import de.heinerion.invoice.Translator;
 import lombok.*;
 
@@ -62,8 +63,45 @@ public class Invoice implements Conveyable<Invoice> {
   }
 
   private void addItem(Item item) {
+    if (items == null) {
+      items = new HashSet<>();
+    }
+    item.setPosition(items.size());
     items.add(item);
     updateValues();
+  }
+
+  public List<Item> getItems() {
+    if (items == null) {
+      items = new HashSet<>();
+    }
+    return items.stream()
+        .sorted(Comparator.nullsLast(Comparator.comparing(Item::getPosition, Integer::compareTo)))
+        .toList();
+  }
+
+  public void setItems(List<Item> items) {
+    Contract.requireNotNull(items, "items");
+    this.items = updateItemPositions(items == null
+        ? Collections.emptyList()
+        : items);
+  }
+
+  private Set<Item> updateItemPositions(List<Item> items) {
+    Contract.requireNotNull(items, "items");
+    Set<Item> set = new HashSet<>();
+    for (Item item : items) {
+      // Items could've been reordered
+      set.add(updatePosition(item, items.indexOf(item)));
+    }
+    return set;
+  }
+
+  private Item updatePosition(Item item, int newPosition) {
+    Contract.requireNotNull(item, "item");
+    return Objects.equals(item.getPosition(), newPosition)
+        ? item
+        : item.setPosition(newPosition);
   }
 
   // TODO removeItem?

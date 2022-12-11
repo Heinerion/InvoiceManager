@@ -2,6 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.home.*;
 import lombok.RequiredArgsConstructor;
 
@@ -12,11 +13,13 @@ import java.util.Comparator;
 class CompanyChooserPanel implements Refreshable {
   private final Session session;
   private final JPanel sidePanel;
+  private final CompanyRepository companyRepository;
   private JComponent companies;
 
-  CompanyChooserPanel(CompanyCreateDialog companyCreateDialog, Session session) {
+  CompanyChooserPanel(CompanyCreateDialog companyCreateDialog, Session session, CompanyRepository companyRepository) {
     this.session = session;
     this.sidePanel = new JPanel();
+    this.companyRepository = companyRepository;
     ComponentSize.COMPANY_PANEL.applyTo(sidePanel);
     sidePanel.setOpaque(false);
     sidePanel.setLayout(new BorderLayout());
@@ -36,8 +39,8 @@ class CompanyChooserPanel implements Refreshable {
 
   private JComponent createCompanyBox() {
     JComboBox<CompanyWrapper> companyBox = new JComboBox<>(
-        session
-            .getAvailableCompanies()
+        companyRepository
+            .findAll()
             .stream()
             .sorted(Comparator.comparing(Company::getOfficialName))
             .map(CompanyWrapper::new)

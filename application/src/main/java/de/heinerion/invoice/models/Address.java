@@ -16,6 +16,10 @@ public class Address {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "owner_id")
+  private Company owner;
+
   private String apartment;
   private String company;
   private String district;

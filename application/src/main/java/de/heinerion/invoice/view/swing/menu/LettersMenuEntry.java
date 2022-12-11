@@ -4,7 +4,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Letter;
 import de.heinerion.invoice.print.PrintOperations;
-import de.heinerion.invoice.repositories.letter.LetterXmlRepository;
+import de.heinerion.invoice.repositories.LetterRepository;
 import de.heinerion.invoice.view.swing.menu.tablemodels.NiceTable;
 import de.heinerion.invoice.view.swing.menu.tablemodels.letters.LetterTable;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.awt.*;
 @RequiredArgsConstructor
 class LettersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("letters");
-  private final LetterXmlRepository letterRepository;
+  private final LetterRepository letterRepository;
   private final PrintOperations printOperations;
   private final Session session;
 
@@ -53,7 +53,7 @@ class LettersMenuEntry extends MenuEntry {
     btnPrint = new JButton(Translator.translate("controls.print"));
     btnPrint.setEnabled(false);
 
-    LetterTable model = new LetterTable(letterRepository.findAllBySender(session.getActiveCompany().orElse(null)));
+    LetterTable model = new LetterTable(letterRepository.findByCompany(session.getActiveCompany().orElse(null)));
     tblLetters = new NiceTable<>(model);
     setColumnWidths(tblLetters.getColumnModel());
     tblLetters.sortBy(INDEX_DATE, SortOrder.ASCENDING);

@@ -25,7 +25,6 @@ public class Letter implements Conveyable<Letter> {
 
   private String subject;
 
-  @Lob
   @Column(name = "message")
   private String messageLinesCombined;
   @ManyToOne
@@ -46,12 +45,12 @@ public class Letter implements Conveyable<Letter> {
 
   private String getMessageLinesCombined() {
     // to hide the method explicitly
-    return messageLinesCombined;
+    return Optional.ofNullable(messageLinesCombined).orElse("");
   }
 
   private void setMessageLinesCombined(String messageLinesCombined) {
     // to hide the method explicitly
-    this.messageLinesCombined = messageLinesCombined;
+    this.messageLinesCombined = Optional.ofNullable(messageLinesCombined).orElse("");
   }
 
   public List<String> getMessageLines() {
@@ -63,7 +62,7 @@ public class Letter implements Conveyable<Letter> {
   }
 
   public void setMessageLines(List<String> lines) {
-    this.messageLinesCombined = lines == null ? null : String.join(LINE_SEPARATOR, lines);
+    this.messageLinesCombined = lines == null ? "" : String.join(LINE_SEPARATOR, lines);
   }
 
   @Override

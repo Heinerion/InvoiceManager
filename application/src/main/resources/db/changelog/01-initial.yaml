@@ -61,6 +61,9 @@ databaseChangeLog:
               - column:
                   name: street
                   type: VARCHAR(255)
+              - column:
+                  name: owner_id
+                  type: BIGINT
             tableName: address
   - changeSet:
       id: 1670725123989-3
@@ -195,6 +198,9 @@ databaseChangeLog:
                   name: name
                   type: VARCHAR(255)
               - column:
+                  name: position
+                  type: INTEGER
+              - column:
                   name: price
                   type: FLOAT8
               - column:
@@ -230,7 +236,7 @@ databaseChangeLog:
                   type: date
               - column:
                   name: message
-                  type: OID
+                  type: VARCHAR(255)
               - column:
                   name: subject
                   type: VARCHAR(255)
@@ -319,6 +325,19 @@ databaseChangeLog:
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
+            baseColumnNames: owner_id
+            baseTableName: address
+            constraintName: FKkdo9nxnryahljvsmkwjdwn5ae
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: company
+            validate: true
+  - changeSet:
+      id: 1670725123989-15
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
             baseColumnNames: company_id
             baseTableName: letter
             constraintName: FKkhwpl345ovc2c4vxjljcief92
@@ -328,7 +347,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-15
+      id: 1670725123989-16
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -341,7 +360,7 @@ databaseChangeLog:
             referencedTableName: invoice
             validate: true
   - changeSet:
-      id: 1670725123989-16
+      id: 1670725123989-17
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:

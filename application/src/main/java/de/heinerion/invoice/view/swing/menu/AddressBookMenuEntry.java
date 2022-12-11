@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.menu;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.repositories.address.AddressXmlRepository;
+import de.heinerion.invoice.repositories.AddressRepository;
 import de.heinerion.invoice.view.swing.menu.tablemodels.AddressModel;
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +16,7 @@ import java.util.*;
 @RequiredArgsConstructor
 class AddressBookMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("addressBook");
-  private final AddressXmlRepository addressRepository;
+  private final AddressRepository addressRepository;
   private final Session session;
 
   private JScrollPane spAddresses;
@@ -31,7 +31,7 @@ class AddressBookMenuEntry extends MenuEntry {
   @Override
   protected void createWidgets() {
     Collection<Address> addresses = session.getActiveCompany()
-        .map(addressRepository::findByCompany)
+        .map(addressRepository::findByOwner)
         .orElse(Collections.emptyList());
 
     AddressModel model = new AddressModel(addresses.stream()
