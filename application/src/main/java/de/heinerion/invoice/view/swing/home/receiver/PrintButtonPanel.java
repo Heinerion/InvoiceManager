@@ -19,10 +19,12 @@ public class PrintButtonPanel implements PanelHolder {
   private final SidePanel sidePanel;
   private final InvoiceRepository invoiceRepository;
   private final LetterRepository letterRepository;
+  private final ItemRepository itemRepository;
 
-  PrintButtonPanel(PrintAction printAction, InvoiceRepository invoiceRepository, LetterRepository letterRepository) {
+  PrintButtonPanel(PrintAction printAction, InvoiceRepository invoiceRepository, LetterRepository letterRepository, ItemRepository itemRepository) {
     this.invoiceRepository = invoiceRepository;
     this.letterRepository = letterRepository;
+    this.itemRepository = itemRepository;
     this.sidePanel = new SidePanel();
     sidePanel.add(createPrintButton(printAction));
   }
@@ -39,11 +41,18 @@ public class PrintButtonPanel implements PanelHolder {
     Conveyable conveyable = session.getActiveConveyable();
     if (session.getActiveConveyable() instanceof Invoice invoice) {
       log.atInfo().log("save invoice %s", invoice);
-      invoiceRepository.save(invoice);
+      persist(invoice);
     } else {
       log.atInfo().log("save conveyable %s", conveyable);
       letterRepository.save((Letter) conveyable);
     }
+  }
+
+  private void persist(Invoice invoice) {
+    invoiceRepository.save(invoice
+        .setItems(invoice.getItems().stream()
+            .map(itemRepository::save)
+            .toList()));
   }
 
   @Override

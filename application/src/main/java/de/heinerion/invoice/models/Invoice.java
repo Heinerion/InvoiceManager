@@ -10,7 +10,7 @@ import java.util.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 @Entity
 @Table(name = "invoice")
 public class Invoice implements Conveyable<Invoice> {
@@ -40,13 +40,13 @@ public class Invoice implements Conveyable<Invoice> {
   private double tax;
   private double gross;
 
-  public Invoice(LocalDate invoiceDate, Company sender, Address receiversAddress) {
+  public Invoice(LocalDate invoiceDate, Company sender, Address receiversAddress, int invoiceNumber) {
     date = invoiceDate;
     company = sender;
     receiver = receiversAddress;
     vat = sender.getValueAddedTax();
     updateValues();
-    number = sender.getInvoiceNumber();
+    number = invoiceNumber;
   }
 
   @Override
@@ -55,36 +55,29 @@ public class Invoice implements Conveyable<Invoice> {
   }
 
   public void add(String article, String unit, double price, double count) {
-    addItem(new Item(article, unit, price, count));
-  }
-
-  public void addMessageLine(String messageLine) {
-    add(messageLine, null, 0, 0);
-  }
-
-  private void addItem(Item item) {
-    if (items == null) {
-      items = new HashSet<>();
-    }
-    item.setPosition(items.size());
-    items.add(item);
+    items.add(Item.of(items.size(), article, unit, price, count));
     updateValues();
   }
 
+  public void add(String message) {
+    items.add(Item.of(items.size(), message));
+    updateValues();
+  }
+
+  public void addMessageLine(String messageLine) {
+    add(messageLine);
+  }
+
   public List<Item> getItems() {
-    if (items == null) {
-      items = new HashSet<>();
-    }
     return items.stream()
         .sorted(Comparator.nullsLast(Comparator.comparing(Item::getPosition, Integer::compareTo)))
         .toList();
   }
 
-  public void setItems(List<Item> items) {
+  public Invoice setItems(List<Item> items) {
     Contract.requireNotNull(items, "items");
-    this.items = updateItemPositions(items == null
-        ? Collections.emptyList()
-        : items);
+    this.items = updateItemPositions(items);
+    return this;
   }
 
   private Set<Item> updateItemPositions(List<Item> items) {
@@ -112,10 +105,12 @@ public class Invoice implements Conveyable<Invoice> {
   }
 
   private void updateValues() {
-    net = 0;
-    for (Item item : items) {
-      net += item.getTotal();
-    }
+    net = items.stream()
+        .map(Item::getTotal)
+        .filter(Objects::nonNull)
+        .reduce(Double::sum)
+        .orElse(0d);
+
     tax = net * vat / PERCENT;
     gross = net + tax;
   }

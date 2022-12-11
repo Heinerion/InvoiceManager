@@ -9,7 +9,7 @@ import java.util.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 @Entity
 @Table(name = "letter")
 public class Letter implements Conveyable<Letter> {

@@ -1,18 +1,10 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Invoice;
-import de.heinerion.invoice.models.Letter;
-import de.heinerion.invoice.testsupport.builder.AddressBuilder;
-import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import de.heinerion.invoice.models.*;
+import de.heinerion.invoice.testsupport.builder.*;
+import org.junit.*;
 
-import java.time.LocalDate;
-import java.time.Month;
+import java.time.*;
 
 public abstract class LatexGeneratorTest {
   private static final Month MONTH = Month.JUNE;
@@ -173,7 +165,7 @@ public abstract class LatexGeneratorTest {
     letter = new Letter(date, sender, receiverAddress);
     letter.setSubject("Test");
 
-    invoice = new Invoice(date, sender, receiverAddress);
+    invoice = new Invoice(date, sender, receiverAddress, sender.getInvoiceNumber());
     invoice.add("Artikel 1", "Stück", 1.50, 2);
   }
 

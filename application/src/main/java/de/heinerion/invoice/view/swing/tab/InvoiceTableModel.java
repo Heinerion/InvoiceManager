@@ -98,7 +98,7 @@ class InvoiceTableModel extends AbstractTableModel {
       return contents.get(rowIndex);
     }
 
-    Item item = new Item(null, null, 0);
+    Item item = Item.empty(rowIndex);
     contents.add(item);
     return item;
   }

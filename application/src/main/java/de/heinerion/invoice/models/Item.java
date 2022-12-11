@@ -7,10 +7,10 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Entity
 @Table(name = "item")
-public class Item implements Buyable {
+public class Item {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -19,35 +19,27 @@ public class Item implements Buyable {
 
   private String name;
   private String unit;
-  @Column(name = "price")
-  private double pricePerUnit;
-  private double quantity;
-  private double total;
+  @Column(name = "price_per_unit")
+  private Double pricePerUnit;
+  private Double quantity;
+  private Double total;
 
-  public Item(String name, String unit, double pricePerUnit) {
-    this(name, unit, pricePerUnit, 0);
-  }
-
-  public Item(String name, String unit, double pricePerUnit, double aQuantity) {
-    this.name = name;
-    this.unit = unit;
+  public Item setPricePerUnit(double pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
-    this.quantity = aQuantity;
     this.updateValues();
+    return this;
   }
 
-  public void addQuantity(double additionalQuantity) {
-    this.quantity += additionalQuantity;
-    this.updateValues();
-  }
-
-  public void setQuantity(double newQuantity) {
+  public Item setQuantity(double newQuantity) {
     this.quantity = newQuantity;
     this.updateValues();
+    return this;
   }
 
   private void updateValues() {
-    total = pricePerUnit * quantity;
+    total = pricePerUnit != null && quantity != null
+        ? pricePerUnit * quantity
+        : null;
   }
 
   @Override
@@ -59,15 +51,33 @@ public class Item implements Buyable {
       return false;
     }
     Item item = (Item) o;
-    return Double.compare(item.quantity, quantity) == 0 &&
-        Double.compare(item.total, total) == 0 &&
-        Objects.equals(name, item.name) &&
-        Objects.equals(pricePerUnit, item.pricePerUnit) &&
-        Objects.equals(unit, item.unit);
+    return id != null && Objects.equals(id, item.id)
+        || Objects.equals(name, item.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, pricePerUnit, unit, quantity, total);
+    return Objects.hash(id, name);
+  }
+
+  public static Item of(int position, String name, String unit, double pricePerUnit, double quantity) {
+    return new Item()
+        .setPosition(position)
+        .setName(name)
+        .setUnit(unit)
+        .setPricePerUnit(pricePerUnit)
+        .setQuantity(quantity)
+        .setTotal(quantity * pricePerUnit);
+  }
+
+  public static Item of(int position, String message) {
+    return new Item()
+        .setPosition(position)
+        .setName(message);
+  }
+
+  public static Item empty(int position) {
+    return new Item()
+        .setPosition(position);
   }
 }

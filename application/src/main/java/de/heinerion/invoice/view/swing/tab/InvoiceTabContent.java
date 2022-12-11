@@ -82,7 +82,7 @@ class InvoiceTabContent extends TabContent {
   }
 
   private boolean isNotEmpty(Item item) {
-    return !(item == null || item.getName() == null || "".equals(item.getName().trim()));
+    return !(item == null || item.getName() == null || item.getName().isBlank());
   }
 
   private void addToTemplates() {
@@ -187,13 +187,13 @@ class InvoiceTabContent extends TabContent {
     }
 
     Address receiver = session.getActiveAddress();
-    Invoice invoice = new Invoice(session.getDate(), company, receiver);
+    Invoice invoice = new Invoice(session.getDate(), company, receiver, company.getInvoiceNumber());
 
     for (int row = 0; row < tabPositions.getRowCount(); row++) {
       String name = stringAt(row, Col.NAME);
       String unit = stringAt(row, Col.UNIT);
-      Double price = doubleAt(row, Col.PRICE);
-      Double count = doubleAt(row, Col.COUNT);
+      double price = doubleAt(row, Col.PRICE);
+      double count = doubleAt(row, Col.COUNT);
 
       if (isEmpty(unit)) {
         if (!isEmpty(name)) {
@@ -221,13 +221,13 @@ class InvoiceTabContent extends TabContent {
     return result;
   }
 
-  private Double doubleAt(int row, Col col) {
+  private double doubleAt(int row, Col col) {
     Double result = null;
     Object value = getPositionAt(row, col);
     if (value instanceof Double doubleValue) {
       result = doubleValue;
     }
-    return result;
+    return Optional.ofNullable(result).orElse(0d);
   }
 
   private Object getPositionAt(int row, Col col) {

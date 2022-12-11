@@ -1,13 +1,9 @@
 package de.heinerion.invoice.testsupport.builder;
 
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
-import de.heinerion.invoice.models.Invoice;
+import de.heinerion.invoice.models.*;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
-import java.util.Optional;
+import java.time.*;
+import java.util.*;
 
 public class InvoiceBuilder implements TestDataBuilder<Invoice> {
   private Company company;
@@ -80,10 +76,11 @@ public class InvoiceBuilder implements TestDataBuilder<Invoice> {
 
   @Override
   public Invoice build() {
+    final Company sender = getCompany().orElseGet(() -> new CompanyBuilder().build());
     return new Invoice(
         getDate().orElse(LocalDate.now()),
-        getCompany().orElseGet(() -> new CompanyBuilder().build()),
-        getReceiver().orElseGet(() -> new AddressBuilder().build())
+        sender,
+        getReceiver().orElseGet(() -> new AddressBuilder().build()), sender.getInvoiceNumber()
     );
   }
 }
