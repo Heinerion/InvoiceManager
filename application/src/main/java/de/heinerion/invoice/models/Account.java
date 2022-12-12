@@ -1,5 +1,6 @@
 package de.heinerion.invoice.models;
 
+import de.heinerion.invoice.domain.values.DvIban;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,13 +18,14 @@ public class Account {
   private Long id;
 
   private String bic;
-  private String iban;
+  @Embedded
+  private DvIban iban;
   private String name;
 
   public Account(String aName, String aBic, String anIban) {
     this.name = aName;
     this.bic = aBic;
-    this.iban = anIban;
+    this.iban = DvIban.of(anIban);
   }
 
   @Override
