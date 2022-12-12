@@ -2,10 +2,13 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.invoice.*;
 import de.heinerion.invoice.models.*;
+import de.heinerion.util.Strings;
+import lombok.extern.flogger.Flogger;
 
 import javax.swing.table.AbstractTableModel;
-import java.util.List;
+import java.util.*;
 
+@Flogger
 class InvoiceTableModel extends AbstractTableModel {
 
   private static final int NAME = 0;
@@ -59,6 +62,14 @@ class InvoiceTableModel extends AbstractTableModel {
     return isValidIndex(rowIndex)
         ? getPropertyValue(rowIndex, columnIndex)
         : null;
+  }
+
+  public void clear() {
+    contents.clear();
+  }
+
+  public void addRow(Item item) {
+    contents.add(item.copy());
   }
 
   private Object getPropertyValue(int rowIndex, int columnIndex) {
@@ -119,19 +130,18 @@ class InvoiceTableModel extends AbstractTableModel {
     InvoiceTemplate result = new InvoiceTemplate();
     result.setCompany(company);
     result.setName(contents.get(0).getName());
-    result.setInhalt(createContentTable());
+    result.setItems(getItems());
     return result;
   }
 
-  private String[][] createContentTable() {
-    String[][] contentTable = new String[contents.size()][getColumnCount()];
-    for (int i = 0; i < contents.size(); i++) {
-      Item item = contents.get(i);
-      contentTable[i][NAME] = item.getName();
-      contentTable[i][UNIT] = item.getUnit();
-      contentTable[i][PPU] = "" + item.getPricePerUnit();
-      contentTable[i][COUNT] = "" + item.getQuantity();
-    }
-    return contentTable;
+  public Set<Item> getItems() {
+    List<Item> filtered = contents.stream()
+        .filter(i -> Strings.isNotBlank(i.getName()))
+        .toList();
+    filtered.stream()
+        .map(item -> item.setId(null))
+        .forEach(c -> c.setPosition(filtered.indexOf(c)));
+    log.atInfo().log("gefiltert: %s", filtered);
+    return new HashSet<>(filtered);
   }
 }

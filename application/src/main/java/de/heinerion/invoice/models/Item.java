@@ -24,13 +24,13 @@ public class Item {
   private Double quantity;
   private Double total;
 
-  public Item setPricePerUnit(double pricePerUnit) {
+  public Item setPricePerUnit(Double pricePerUnit) {
     this.pricePerUnit = pricePerUnit;
     this.updateValues();
     return this;
   }
 
-  public Item setQuantity(double newQuantity) {
+  public Item setQuantity(Double newQuantity) {
     this.quantity = newQuantity;
     this.updateValues();
     return this;
@@ -60,6 +60,10 @@ public class Item {
     return Objects.hash(id, name);
   }
 
+  public Item copy() {
+    return Item.copyOf(this);
+  }
+
   public static Item of(int position, String name, String unit, double pricePerUnit, double quantity) {
     return new Item()
         .setPosition(position)
@@ -79,5 +83,14 @@ public class Item {
   public static Item empty(int position) {
     return new Item()
         .setPosition(position);
+  }
+
+  public static Item copyOf(Item item) {
+    return new Item()
+        .setPosition(item.getPosition())
+        .setName(item.getName())
+        .setUnit(item.getUnit())
+        .setPricePerUnit(item.getPricePerUnit())
+        .setQuantity(item.getQuantity());
   }
 }

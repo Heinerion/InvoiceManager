@@ -54,18 +54,9 @@ public class Invoice implements Conveyable<Invoice> {
     return Translator.translate("invoice.title");
   }
 
-  public void add(String article, String unit, double price, double count) {
-    items.add(Item.of(items.size(), article, unit, price, count));
+  public void addItem(Item item) {
+    items.add(item);
     updateValues();
-  }
-
-  public void add(String message) {
-    items.add(Item.of(items.size(), message));
-    updateValues();
-  }
-
-  public void addMessageLine(String messageLine) {
-    add(messageLine);
   }
 
   public List<Item> getItems() {

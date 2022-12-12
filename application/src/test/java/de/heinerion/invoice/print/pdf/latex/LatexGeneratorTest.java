@@ -166,7 +166,7 @@ public abstract class LatexGeneratorTest {
     letter.setSubject("Test");
 
     invoice = new Invoice(date, sender, receiverAddress, sender.getInvoiceNumber());
-    invoice.add("Artikel 1", "Stück", 1.50, 2);
+    invoice.addItem(Item.of(invoice.getItems().size(), "Artikel 1", "Stück", 1.50, 2));
   }
 
   protected abstract LatexGenerator getLatexGenerator();
@@ -203,7 +203,7 @@ public abstract class LatexGeneratorTest {
 
   @Test
   public final void buildsCorrectInvoiceForMultipleItems() {
-    invoice.add("Artikel 2", "Stück", 3.44, 3);
+    invoice.addItem(Item.of(invoice.getItems().size(), "Artikel 2", "Stück", 3.44, 3));
     final String result = getLatexGenerator().generateSourceContent(invoice);
 
     Assert.assertEquals(EXPECTATION_INVOICE_OF_TWO, result);
@@ -211,7 +211,7 @@ public abstract class LatexGeneratorTest {
 
   @Test
   public final void invoiceWithTextLine() {
-    invoice.addMessageLine("Message");
+    invoice.addItem(Item.of(invoice.getItems().size(), "Message"));
 
     final String result = getLatexGenerator().generateSourceContent(invoice);
 

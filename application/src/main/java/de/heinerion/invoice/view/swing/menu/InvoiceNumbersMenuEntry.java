@@ -88,8 +88,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
         int guiNumber = calculateInvoiceNumber(numbers.get(company).getValue() + "");
         if (invoiceNumber != guiNumber) {
           company.setInvoiceNumber(guiNumber);
-          companyRepository.save(company);
-          session.notifyCompany();
+          session.setActiveCompany(companyRepository.save(company));
         }
       }
 

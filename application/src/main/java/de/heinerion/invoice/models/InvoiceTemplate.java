@@ -3,7 +3,6 @@ package de.heinerion.invoice.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.text.Collator;
 import java.util.*;
 
@@ -12,7 +11,7 @@ import java.util.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "template")
-public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate> {
+public class InvoiceTemplate implements Comparable<InvoiceTemplate> {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -21,16 +20,9 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
   @JoinColumn(name = "company_id")
   private Company company;
 
-  @Transient
-  private Long companyId;
-
   private String name;
 
-  @Transient
-  // just for XML-Reading
-  private String[][] inhalt;
-
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "template_items",
       joinColumns = @JoinColumn(name = "template_id"),
       inverseJoinColumns = @JoinColumn(name = "item_id"))
@@ -43,13 +35,19 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
 
   @Override
   public boolean equals(Object obj) {
-    return obj instanceof InvoiceTemplate other
-        && compareTo(other) == 0;
+    if (this == obj) {
+      return true;
+    }
+    if (obj instanceof InvoiceTemplate other) {
+      return id != null && id.equals(other.id)
+          || compareTo(other) == 0;
+    }
+    return false;
   }
 
   @Override
   public int hashCode() {
-    return getName().hashCode();
+    return Objects.hash(getId(), getName());
   }
 
   @Override
