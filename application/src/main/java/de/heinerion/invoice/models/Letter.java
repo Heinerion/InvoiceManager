@@ -1,7 +1,7 @@
 package de.heinerion.invoice.models;
 
+import de.heinerion.util.Strings;
 import lombok.*;
-import org.apache.logging.log4j.util.Strings;
 
 import javax.persistence.*;
 import java.time.LocalDate;
