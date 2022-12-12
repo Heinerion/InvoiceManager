@@ -84,20 +84,11 @@ public class Company implements Comparable<Company> {
     if (id != null && id.equals(company.id)) {
       return true;
     }
-    return Double.compare(company.valueAddedTax, valueAddedTax) == 0 &&
-        Double.compare(company.wagesPerHour, wagesPerHour) == 0 &&
-        invoiceNumber == company.invoiceNumber &&
-        Objects.equals(descriptiveName, company.descriptiveName) &&
-        Objects.equals(officialName, company.officialName) &&
-        Objects.equals(address, company.address) &&
-        Objects.equals(signer, company.signer) &&
-        Objects.equals(taxNumber, company.taxNumber) &&
-        Objects.equals(phoneNumber, company.phoneNumber) &&
-        Objects.equals(account, company.account);
+    return Objects.equals(officialName, company.officialName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, descriptiveName, officialName, address, signer, taxNumber, phoneNumber, account, valueAddedTax, wagesPerHour, invoiceNumber);
+    return Objects.hash(id, descriptiveName);
   }
 }
