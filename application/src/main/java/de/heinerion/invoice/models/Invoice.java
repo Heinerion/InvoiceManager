@@ -29,7 +29,7 @@ public class Invoice implements Conveyable<Invoice> {
   private Address receiver;
   private int number;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "invoice_items",
       joinColumns = @JoinColumn(name = "invoice_id"),
       inverseJoinColumns = @JoinColumn(name = "item_id"))

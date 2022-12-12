@@ -60,6 +60,11 @@ public class Item {
     return Objects.hash(id, name);
   }
 
+  @Override
+  public String toString() {
+    return getName();
+  }
+
   public Item copy() {
     return Item.copyOf(this);
   }
