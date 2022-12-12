@@ -1,16 +1,40 @@
 package de.heinerion.invoice.models;
 
-import java.io.*;
+import lombok.*;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.text.Collator;
 import java.util.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "template")
 public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate> {
-  @Serial
-  private static final long serialVersionUID = 5654884407643922708L;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  private Long id;
 
-  private String name = "";
+  @ManyToOne
+  @JoinColumn(name = "company_id")
+  private Company company;
+
+  @Transient
+  private Long companyId;
+
+  private String name;
+
+  @Transient
+  // just for XML-Reading
   private String[][] inhalt;
-  private UUID companyId;
+
+  @OneToMany
+  @JoinTable(name = "template_items",
+      joinColumns = @JoinColumn(name = "template_id"),
+      inverseJoinColumns = @JoinColumn(name = "item_id"))
+  Set<Item> items = new HashSet<>();
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
@@ -26,30 +50,6 @@ public class InvoiceTemplate implements Serializable, Comparable<InvoiceTemplate
   @Override
   public int hashCode() {
     return getName().hashCode();
-  }
-
-  public UUID getCompanyId() {
-    return companyId;
-  }
-
-  public void setCompanyId(UUID companyId) {
-    this.companyId = companyId;
-  }
-
-  public final String[][] getInhalt() {
-    return inhalt;
-  }
-
-  public final String getName() {
-    return this.name;
-  }
-
-  public final void setInhalt(String[][] content) {
-    this.inhalt = Arrays.copyOf(content, content.length);
-  }
-
-  public final void setName(String aName) {
-    this.name = aName;
   }
 
   @Override

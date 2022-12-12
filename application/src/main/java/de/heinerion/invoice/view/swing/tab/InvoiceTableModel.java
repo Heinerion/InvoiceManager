@@ -117,7 +117,7 @@ class InvoiceTableModel extends AbstractTableModel {
 
   InvoiceTemplate createTemplate(Company company) {
     InvoiceTemplate result = new InvoiceTemplate();
-    result.setCompanyId(company.getId());
+    result.setCompany(company);
     result.setName(contents.get(0).getName());
     result.setInhalt(createContentTable());
     return result;
