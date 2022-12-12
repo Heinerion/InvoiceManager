@@ -14,7 +14,7 @@ class CompanyChooserPanel implements Refreshable {
   private final Session session;
   private final JPanel sidePanel;
   private final CompanyRepository companyRepository;
-  private JComponent companies;
+  private JComboBox<CompanyWrapper> companies;
 
   CompanyChooserPanel(CompanyCreateDialog companyCreateDialog, Session session, CompanyRepository companyRepository) {
     this.session = session;
@@ -35,9 +35,10 @@ class CompanyChooserPanel implements Refreshable {
     }
     companies = createCompanyBox();
     sidePanel.add(companies, BorderLayout.CENTER);
+    notifySession();
   }
 
-  private JComponent createCompanyBox() {
+  private JComboBox<CompanyWrapper> createCompanyBox() {
     JComboBox<CompanyWrapper> companyBox = new JComboBox<>(
         companyRepository
             .findAll()
@@ -46,13 +47,17 @@ class CompanyChooserPanel implements Refreshable {
             .map(CompanyWrapper::new)
             .toArray(CompanyWrapper[]::new)
     );
-    companyBox.addActionListener(e -> session
-        .setActiveCompany(companyBox
-            .getItemAt(companyBox.getSelectedIndex())
-            .getCompany()));
+    companyBox.addActionListener(e -> notifySession());
     companyBox.setOpaque(false);
 
     return companyBox;
+  }
+
+  private void notifySession() {
+    session
+        .setActiveCompany(companies
+            .getItemAt(companies.getSelectedIndex())
+            .getCompany());
   }
 
   @Override
