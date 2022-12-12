@@ -3,6 +3,8 @@ package de.heinerion.invoice.util;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
+import lombok.NonNull;
+import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.nio.file.*;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 
+@Flogger
 @Service
 public class PathUtilNG {
   private final Session session = Session.getInstance();
@@ -35,6 +38,7 @@ public class PathUtilNG {
   }
 
   Path ensureDirectory(Path path) {
+    log.atFine().log("ensureDirectory %s", path);
     if (Files.exists(path) &&
         Files.isDirectory(path)) {
       return path;
@@ -94,9 +98,22 @@ public class PathUtilNG {
     }
   }
 
-  private static class NoValidLetterException extends RuntimeException {
-    NoValidLetterException(Class<?> clazz) {
-      super(clazz.getSimpleName() + " is no valid letter extending class");
-    }
+  /**
+   * Changes the given {@link Path} to move to the {@link #getSystemPath() system directory}, keeping its subdirectory
+   * structure
+   * <p>
+   * This is accomplished by replacing the {@link #getBasePath() base path} with the {@link #getSystemPath() system
+   * path}.
+   *
+   * @param target
+   *     {@link Path} to be moved
+   *
+   * @return new {@link Path}, which is ensured to exist as directory.
+   */
+  @NonNull
+  public Path switchToSystem(@NonNull Path target) {
+    Path relativePath = getBasePath().relativize(target);
+
+    return ensureDirectory(getSystemPath().resolve(relativePath));
   }
 }

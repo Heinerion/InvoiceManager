@@ -1,5 +1,6 @@
 package de.heinerion.invoice.print.pdf.latex;
 
+import de.heinerion.contract.Contract;
 import de.heinerion.invoice.boundary.HostSystem;
 import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.print.Printer;
@@ -34,23 +35,27 @@ public class LatexPrinter implements Printer {
     hostSystem.pdfLatex(sourceFile);
 
     Path target = targetFolder.toAbsolutePath();
-    moveSource(switchToSystem(target), workingDirectory, title + TEX);
-    moveSource(target, workingDirectory, title + PDF);
+    moveSource(workingDirectory, pathUtil.switchToSystem(target), title + TEX);
+    moveSource(workingDirectory, target, title + PDF);
 
     removeTempFiles(workingDirectory, title);
 
     log.atFine().log("%s created, temp files cleaned", sourceFile);
   }
 
-  private Path switchToSystem(Path target) {
-    Path relativePath = pathUtil.getBasePath().relativize(target);
+  private void moveSource(Path sourceFolder, Path targetFolder, String fileName) {
+    Contract.require(Files.exists(sourceFolder), "Source folder exists: %s".formatted(sourceFolder));
+    Contract.require(Files.exists(targetFolder), "Target folder exists: %s".formatted(targetFolder));
 
-    return pathUtil.getSystemPath().resolve(relativePath);
-  }
-
-  private void moveSource(Path targetFolder, Path sourceFolder, String fileName) {
     Path target = targetFolder.resolve(fileName);
     Path source = sourceFolder.resolve(fileName);
+
+    move(source, target);
+  }
+
+  private void move(Path source, Path target) {
+    Contract.require(Files.exists(source), "Source file exists: %s".formatted(source));
+
     try {
       log.atInfo().log("Move from %s to %s", source, target);
       Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
