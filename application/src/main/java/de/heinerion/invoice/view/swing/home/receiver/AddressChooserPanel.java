@@ -2,6 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.listener.CompanyListener;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.repositories.AddressRepository;
 import de.heinerion.invoice.view.formatter.Formatter;
@@ -11,9 +12,11 @@ import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.Collator;
+import java.util.Comparator;
 
 @Flogger
-class AddressChooserPanel extends JPanel {
+class AddressChooserPanel extends JPanel implements CompanyListener {
   private final transient Session session;
 
   private static final int BOLD = Font.BOLD;
@@ -42,6 +45,8 @@ class AddressChooserPanel extends JPanel {
   AddressChooserPanel(Formatter formatter, AddressRepository addressRepository, Session session) {
     this.addressRepository = addressRepository;
     this.session = session;
+
+    session.addCompanyListener(this);
 
     init();
 
@@ -150,6 +155,7 @@ class AddressChooserPanel extends JPanel {
     session.getActiveCompany().ifPresent(activeCompany ->
         addressRepository
             .findByOwner(activeCompany)
+            .stream().sorted(Comparator.comparing(Address::getRecipient, Collator.getInstance()::compare))
             .forEach(addressBox::addItem)
     );
   }
@@ -182,5 +188,10 @@ class AddressChooserPanel extends JPanel {
     component.setForeground(getForeground());
     add(component);
     return component;
+  }
+
+  @Override
+  public void notifyCompany() {
+    refreshBoxes();
   }
 }
