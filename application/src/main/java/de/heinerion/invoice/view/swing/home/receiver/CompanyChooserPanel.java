@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Comparator;
+import java.util.*;
 
 class CompanyChooserPanel implements Refreshable {
   private final Session session;
@@ -54,10 +54,13 @@ class CompanyChooserPanel implements Refreshable {
   }
 
   private void notifySession() {
-    session
-        .setActiveCompany(companies
-            .getItemAt(companies.getSelectedIndex())
-            .getCompany());
+    getSelectedCompany()
+        .map(CompanyWrapper::getCompany)
+        .ifPresent(session::setActiveCompany);
+  }
+
+  private Optional<CompanyWrapper> getSelectedCompany() {
+    return Optional.ofNullable(companies.getItemAt(companies.getSelectedIndex()));
   }
 
   @Override
