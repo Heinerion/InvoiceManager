@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import java.awt.*;
+import java.util.Arrays;
 
 import static java.awt.BorderLayout.*;
 
@@ -110,13 +111,8 @@ class LetterTabContent extends TabContent {
 
     Address receiver = session.getActiveAddress();
 
-    Letter ltr = new Letter(session.getDate(), company, receiver);
-    ltr.setSubject(getBetreff());
-
-    for (String line : getLetterText().split("\n")) {
-      ltr.addMessageLine(line);
-    }
-
-    return ltr;
+    return new Letter(session.getDate(), company, receiver)
+        .setSubject(getBetreff())
+        .setMessageLines(Arrays.asList(getLetterText().split("\n")));
   }
 }

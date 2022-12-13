@@ -43,7 +43,7 @@ public class DvIban {
   private String format(String string) {
     return string == null
         ? null
-        : String.join(" ", splitInGroups(string, 4));
+        : String.join(" ", splitInGroups(string, 4)).trim();
   }
 
   public static List<String> splitInGroups(String input, int splitLength) {

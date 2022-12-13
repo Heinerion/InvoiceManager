@@ -43,26 +43,16 @@ public class Letter implements Conveyable<Letter> {
         : messageLinesCombined + LINE_SEPARATOR + newLine;
   }
 
-  private String getMessageLinesCombined() {
-    // to hide the method explicitly
-    return Optional.ofNullable(messageLinesCombined).orElse("");
-  }
-
-  private void setMessageLinesCombined(String messageLinesCombined) {
-    // to hide the method explicitly
-    this.messageLinesCombined = Optional.ofNullable(messageLinesCombined).orElse("");
-  }
-
+  // for the letter template
   public List<String> getMessageLines() {
-    return Arrays.stream(Optional
-            .ofNullable(messageLinesCombined)
-            .orElse("")
-            .split(LINE_SEPARATOR))
-        .toList();
+    return messageLinesCombined == null
+        ? Collections.emptyList()
+        : Arrays.stream(messageLinesCombined.split(LINE_SEPARATOR)).toList();
   }
 
-  public void setMessageLines(List<String> lines) {
+  public Letter setMessageLines(List<String> lines) {
     this.messageLinesCombined = lines == null ? "" : String.join(LINE_SEPARATOR, lines);
+    return this;
   }
 
   @Override

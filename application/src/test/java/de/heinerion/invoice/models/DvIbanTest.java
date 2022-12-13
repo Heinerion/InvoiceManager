@@ -10,6 +10,7 @@ public class DvIbanTest {
     Assertions.assertEquals("1234 5678 90", DvIban.of("1234567890").toString());
     Assertions.assertEquals("AB12 3456 7890 1234 5678 90", DvIban.of("AB12345678901234567890").toString());
     Assertions.assertEquals("AB12 3456 7890 1234 5678 90", DvIban.of("AB12 3456 7890 1234 5678 90").toString());
+    Assertions.assertEquals("AB12", DvIban.of("AB12").toString());
   }
 
   @Test
