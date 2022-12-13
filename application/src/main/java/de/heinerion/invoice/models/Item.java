@@ -3,7 +3,7 @@ package de.heinerion.invoice.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -83,6 +83,10 @@ public class Item {
     return new Item()
         .setPosition(position)
         .setName(message);
+  }
+
+  public static Optional<Item> of(TemplateItem templateItem) {
+    return templateItem.asItem();
   }
 
   public static Item empty(int position) {

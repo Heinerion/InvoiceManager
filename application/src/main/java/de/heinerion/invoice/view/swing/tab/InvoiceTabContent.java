@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.Collator;
 import java.util.List;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.awt.BorderLayout.*;
 
@@ -29,16 +29,16 @@ class InvoiceTabContent extends TabContent {
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
   private final InvoiceTableModel model;
   private final InvoiceTemplateRepository templateRepository;
-  private final ItemRepository itemRepository;
+  private final TemplateItemRepository templateItemRepository;
 
   private Collection<InvoiceTemplate> templates = new ArrayList<>();
 
-  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ItemRepository itemRepository) {
+  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ProductRepository productRepository, TemplateItemRepository templateItemRepository) {
     super(Translator.translate("invoice.title"));
     this.templateRepository = templateRepository;
-    this.itemRepository = itemRepository;
+    this.templateItemRepository = templateItemRepository;
 
-    model = new InvoiceTableModel(contentPositions);
+    model = new InvoiceTableModel(contentPositions, templateRepository, productRepository);
     model.addTableModelListener(e -> session.setActiveConveyable(getContent()));
     tabPositions = new JTable(model);
 
@@ -97,10 +97,10 @@ class InvoiceTabContent extends TabContent {
   }
 
   private void persist(InvoiceTemplate template) {
-    templateRepository.save(template
-        .setItems(template.getItems().stream()
-            .map(itemRepository::save)
-            .collect(Collectors.toSet())));
+    InvoiceTemplate t = templateRepository.save(template);
+    templateItemRepository.saveAll(template.getTemplateItems().stream()
+        .map(i -> i.setTemplate(t))
+        .toList());
   }
 
   private Optional<InvoiceTemplate> createTemplate(Company company) {
@@ -118,6 +118,7 @@ class InvoiceTabContent extends TabContent {
       clearTemplates();
       addTemplates(activeTemplates);
       templates = activeTemplates;
+      templateBox.setSelectedIndex(0);
     }
     session.setActiveConveyable(getContent());
   }
@@ -127,7 +128,9 @@ class InvoiceTabContent extends TabContent {
   }
 
   private void addTemplates(Collection<InvoiceTemplate> templates) {
-    templates.forEach(templateBox::addItem);
+    templates.stream()
+        .sorted(Comparator.comparing(InvoiceTemplate::getName, Collator.getInstance()::compare))
+        .forEach(templateBox::addItem);
   }
 
   private JScrollPane createTablePnl() {
@@ -146,10 +149,16 @@ class InvoiceTabContent extends TabContent {
     int pos = templateBox.getSelectedIndex();
     if (pos >= 0) {
       // replace table positions with those of the template
-      Collection<InvoiceTemplate> activeTemplates = session.getActiveCompany()
+      List<InvoiceTemplate> activeTemplates = session.getActiveCompany()
           .map(templateRepository::findByCompany)
-          .orElse(Collections.emptyList());
-      fillTable(new ArrayList<>(activeTemplates).get(pos).getItems());
+          .orElse(Collections.emptyList())
+          .stream()
+          .sorted(Comparator.comparing(
+              InvoiceTemplate::getName,
+              Collator.getInstance()::compare))
+          .toList();
+
+      fillTable(activeTemplates.get(pos).getItems());
       model.fireTableDataChanged();
     }
   }

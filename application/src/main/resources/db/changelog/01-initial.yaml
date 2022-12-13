@@ -254,6 +254,30 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
+                    primaryKeyName: productPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: price_per_unit
+                  type: FLOAT8
+              - column:
+                  name: unit
+                  type: VARCHAR(255)
+            tableName: product
+  - changeSet:
+      id: 1670725123989-9
+      author: Heiner Specht
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
                     primaryKeyName: templatePK
                   name: id
                   type: BIGINT
@@ -265,34 +289,36 @@ databaseChangeLog:
                   type: BIGINT
             tableName: template
   - changeSet:
-      id: 1670725123989-9
+      id: 1670725123989-10
       author: Heiner Specht
       changes:
         - createTable:
             columns:
               - column:
+                  autoIncrement: true
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: template_itemsPK
-                  name: template_id
+                    primaryKeyName: template_itemPK
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: position
+                  type: INTEGER
+              - column:
+                  name: quantity
+                  type: FLOAT8
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
                   type: BIGINT
               - column:
                   constraints:
                     nullable: false
-                    primaryKey: true
-                    primaryKeyName: template_itemsPK
-                  name: item_id
+                  name: template_id
                   type: BIGINT
-            tableName: template_items
-  - changeSet:
-      id: 1670725123989-10
-      author: Heiner Specht
-      changes:
-        - addUniqueConstraint:
-            columnNames: item_id
-            constraintName: UK_7t1hyip509ble5p81175uv83x
-            tableName: template_items
+            tableName: template_item
   - changeSet:
       id: 1670725123989-11
       author: Heiner Specht
@@ -332,6 +358,19 @@ databaseChangeLog:
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
+            baseColumnNames: template_id
+            baseTableName: template_item
+            constraintName: FK8vk17nwt5t804lscmf97evg8o
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: template
+            validate: true
+  - changeSet:
+      id: 1670725123989-15
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
             baseColumnNames: company_id
             baseTableName: invoice
             constraintName: FKaslug8pfl346tbeuslh98n7k5
@@ -341,7 +380,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-15
+      id: 1670725123989-16
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -354,7 +393,7 @@ databaseChangeLog:
             referencedTableName: address
             validate: true
   - changeSet:
-      id: 1670725123989-16
+      id: 1670725123989-17
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -365,19 +404,6 @@ databaseChangeLog:
             initiallyDeferred: false
             referencedColumnNames: id
             referencedTableName: address
-            validate: true
-  - changeSet:
-      id: 1670725123989-17
-      author: Heiner Specht
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: item_id
-            baseTableName: template_items
-            constraintName: FKjnvibly06ipuaglok316073ew
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: item
             validate: true
   - changeSet:
       id: 1670725123989-18
@@ -423,13 +449,13 @@ databaseChangeLog:
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: template_id
-            baseTableName: template_items
-            constraintName: FKo6ku38mghcyxu59y392b0u3ca
+            baseColumnNames: product_id
+            baseTableName: template_item
+            constraintName: FKn5tr76xvgitvtbvnb0xipih3r
             deferrable: false
             initiallyDeferred: false
             referencedColumnNames: id
-            referencedTableName: template
+            referencedTableName: product
             validate: true
   - changeSet:
       id: 1670725123989-22

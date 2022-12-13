@@ -2,11 +2,13 @@ package de.heinerion.invoice.view.swing.tab;
 
 import de.heinerion.invoice.*;
 import de.heinerion.invoice.models.*;
+import de.heinerion.invoice.repositories.*;
 import de.heinerion.util.Strings;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Flogger
 class InvoiceTableModel extends AbstractTableModel {
@@ -19,8 +21,14 @@ class InvoiceTableModel extends AbstractTableModel {
 
   private final transient List<Item> contents;
 
-  InvoiceTableModel(List<Item> items) {
+  // TODO find a way to move these repos out of the table model
+  private final InvoiceTemplateRepository invoiceTemplateRepository;
+  private final ProductRepository productRepository;
+
+  InvoiceTableModel(List<Item> items, InvoiceTemplateRepository invoiceTemplateRepository, ProductRepository productRepository) {
     contents = items;
+    this.productRepository = productRepository;
+    this.invoiceTemplateRepository = invoiceTemplateRepository;
   }
 
   @Override
@@ -127,11 +135,18 @@ class InvoiceTableModel extends AbstractTableModel {
   }
 
   InvoiceTemplate createTemplate(Company company) {
-    InvoiceTemplate result = new InvoiceTemplate();
-    result.setCompany(company);
-    result.setName(contents.get(0).getName());
-    result.setItems(getItems());
-    return result;
+    String templateName = contents.get(0).getName();
+    InvoiceTemplate template = invoiceTemplateRepository
+        .findByCompanyAndName(company, templateName)
+        .orElse(new InvoiceTemplate()
+            .setCompany(company)
+            .setName(templateName));
+    template
+        .setTemplateItems(getItems().stream()
+            .map(this::toTemplateItem)
+            .collect(Collectors.toSet())
+        );
+    return template;
   }
 
   public Set<Item> getItems() {
@@ -141,7 +156,25 @@ class InvoiceTableModel extends AbstractTableModel {
     filtered.stream()
         .map(item -> item.setId(null))
         .forEach(c -> c.setPosition(filtered.indexOf(c)));
-    log.atInfo().log("gefiltert: %s", filtered);
     return new HashSet<>(filtered);
+  }
+
+  private TemplateItem toTemplateItem(Item item) {
+    return new TemplateItem()
+        .setProduct(persist(mergeProduct(item)))
+        .setPosition(item.getPosition())
+        .setQuantity(item.getQuantity());
+  }
+
+  private Product mergeProduct(Item item) {
+    return productRepository
+        .findByName(item.getName())
+        .orElse(new Product().setName(item.getName()))
+        .setUnit(item.getUnit())
+        .setPricePerUnit(item.getPricePerUnit());
+  }
+
+  private Product persist(Product product) {
+    return productRepository.save(product);
   }
 }

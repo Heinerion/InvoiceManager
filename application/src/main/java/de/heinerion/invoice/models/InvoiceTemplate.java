@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.text.Collator;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -22,11 +23,26 @@ public class InvoiceTemplate implements Comparable<InvoiceTemplate> {
 
   private String name;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "template_items",
-      joinColumns = @JoinColumn(name = "template_id"),
-      inverseJoinColumns = @JoinColumn(name = "item_id"))
-  Set<Item> items = new HashSet<>();
+  @OneToMany(mappedBy = "template", fetch = FetchType.EAGER)
+  Set<TemplateItem> templateItems = new HashSet<>();
+
+  public InvoiceTemplate setTemplateItems(Set<TemplateItem> templateItems) {
+    this.templateItems = Optional
+        .ofNullable(templateItems)
+        .orElse(Collections.emptySet())
+        .stream().map(item -> item.setTemplate(this))
+        .collect(Collectors.toSet());
+    return this;
+  }
+
+  public List<Item> getItems() {
+    return getTemplateItems().stream()
+        .map(TemplateItem::asItem)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .sorted(Comparator.comparing(Item::getPosition))
+        .toList();
+  }
 
   @Override
   public final int compareTo(InvoiceTemplate o) {
