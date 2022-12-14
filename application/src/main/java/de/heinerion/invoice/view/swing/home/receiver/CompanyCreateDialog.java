@@ -130,7 +130,6 @@ public class CompanyCreateDialog {
       Account account = accountForm.getValue();
       company.setAccount(account);
       if (address != null && account != null) {
-        session.addAvailableCompany(company);
         companyRepository.save(company);
         applicationFrame.refresh();
         closeDialog(dialog);

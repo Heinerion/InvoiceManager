@@ -18,7 +18,6 @@ public final class Session {
   private final Set<CompanyListener> companyListeners = new HashSet<>();
   private final Set<ConveyableListener> conveyableListeners = new HashSet<>();
   private final Set<DateListener> dateListeners = new HashSet<>();
-  private final Set<Company> availableCompanies = new HashSet<>();
   private Company activeCompany;
   private Address activeAddress;
   private Conveyable activeConveyable;
@@ -39,14 +38,6 @@ public final class Session {
 
   public void isDebugMode(boolean isDebugActivated) {
     debugMode = isDebugActivated;
-  }
-
-  public void addAvailableCompany(Company company) {
-    availableCompanies.add(company);
-
-    if (availableCompanies.size() == 1) {
-      setActiveCompany(company);
-    }
   }
 
   public void addCompanyListener(CompanyListener listener) {
@@ -93,10 +84,6 @@ public final class Session {
   public void setActiveConveyable(Conveyable theActiveConveyable) {
     activeConveyable = theActiveConveyable;
     notifyConveyable();
-  }
-
-  public Set<Company> getAvailableCompanies() {
-    return Collections.unmodifiableSet(availableCompanies);
   }
 
   public LocalDate getDate() {
