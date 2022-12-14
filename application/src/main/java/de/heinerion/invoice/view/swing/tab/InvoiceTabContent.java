@@ -118,7 +118,9 @@ class InvoiceTabContent extends TabContent {
       clearTemplates();
       addTemplates(activeTemplates);
       templates = activeTemplates;
-      templateBox.setSelectedIndex(0);
+      if (!templates.isEmpty()) {
+        templateBox.setSelectedIndex(0);
+      }
     }
     session.setActiveConveyable(getContent());
   }
