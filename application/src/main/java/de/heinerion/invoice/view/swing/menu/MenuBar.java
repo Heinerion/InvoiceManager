@@ -46,7 +46,7 @@ class MenuBar extends JMenuBar {
         createItem(new LettersMenuEntry(letterRepository, printOperations, session)),
         createItem(new InvoiceNumbersMenuEntry(session, companyRepository)),
         createItem(new InvoiceDateMenuEntry(session)),
-        createItem(new InfoMenuEntry(pathUtil, session))
+        createItem(new InfoMenuEntry(pathUtil, companyRepository, session))
     );
   }
 

@@ -1,63 +1,81 @@
 package de.heinerion.invoice.view.swing.menu.info;
 
+import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.util.PathUtilNG;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 class InfoTextComponent {
-  private final StringBuilder content;
-  private final JEditorPane pane;
+  private final StringBuilder content = new StringBuilder();
+  private final JEditorPane pane = createHtmlPane();
+  private final PathUtilNG pathUtil;
 
-  InfoTextComponent() {
-    content = new StringBuilder();
-
-    pane = new JEditorPane();
-    pane.setContentType("text/html; charset=UTF-8");
-    pane.setEditable(false);
+  private static JEditorPane createHtmlPane() {
+    JEditorPane editorPane = new JEditorPane();
+    editorPane.setContentType("text/html; charset=UTF-8");
+    editorPane.setEditable(false);
+    return editorPane;
   }
 
-  InfoTextComponent addHTML(String htmlMarkup) {
+  void addHTML(String htmlMarkup) {
     content.append(htmlMarkup);
-    return this;
   }
 
-  InfoTextComponent addLine(String htmlMarkup) {
-    return addHTML(htmlMarkup)
-        .addNewline();
+  void addLine(String htmlMarkup) {
+    addHTML(htmlMarkup);
+    addNewline();
   }
 
-  private InfoTextComponent addNewline() {
+  private void addNewline() {
     content.append("<br />");
-    return this;
   }
 
-  InfoTextComponent addDefinitionList(Map<String, String> definitions) {
-    content.append("<dl>");
-
-    for (Map.Entry<String, String> entry : definitions.entrySet()) {
-      content
-          .append("<dt>")
-          .append(entry.getKey())
-          .append("</dt>")
-          .append("<dd>")
-          .append(entry.getValue())
-          .append("</dd>");
-    }
-
-    content.append("</dl>");
-
-    return this;
+  void addDefinitionList(Map<String, String> definitions) {
+    content.append(definitions
+        .entrySet()
+        .stream()
+        .map(entry -> "<dt>%s</dt><dd>%s</dd>".formatted(entry.getKey(), entry.getValue()))
+        .collect(Collectors.joining("", "<dl>", "</dl>")));
   }
 
-  InfoTextComponent render() {
+  void render() {
     pane.setText(content.toString());
-    return this;
   }
 
   Component getComponent() {
     return pane;
+  }
+
+  public void fillCompanyInfo(Collection<Company> companies) {
+    addHTML(bold(Info.translate("available.companies")));
+    addDefinitionList(companies
+        .stream()
+        .collect(Collectors.toMap(
+            Company::toString,
+            this::createCompanyMarkup,
+            (a, b) -> b)));
+  }
+
+  private String createCompanyMarkup(Company company) {
+    return "<p>%s<br />%s<br />%s</p>".formatted(
+        Info.translate("company.invoice.number", company.getInvoiceNumber()),
+        Info.translate("company.vat", company.getValueAddedTax()),
+        pathUtil.determineInvoicePath(company).toAbsolutePath());
+  }
+
+  public void fillVersionInfo(String version) {
+    addLine(bold(Info.translate("version")));
+    addLine(version);
+  }
+
+  private String bold(String content) {
+    return "<strong>%s</strong>".formatted(content);
   }
 }
