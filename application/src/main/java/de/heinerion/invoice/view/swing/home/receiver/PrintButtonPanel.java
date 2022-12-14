@@ -49,10 +49,10 @@ public class PrintButtonPanel implements PanelHolder {
   }
 
   private void persist(Invoice invoice) {
-    invoiceRepository.save(invoice
-        .setItems(invoice.getItems().stream()
-            .map(itemRepository::save)
-            .toList()));
+    Invoice persisted = invoiceRepository.save(invoice);
+    invoice.getItems().stream()
+        .map(i -> i.setInvoice(persisted))
+        .forEach(itemRepository::save);
   }
 
   @Override

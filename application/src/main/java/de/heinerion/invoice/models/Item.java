@@ -15,6 +15,10 @@ public class Item {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
+  @ManyToOne
+  @JoinColumn(name = "invoice_id")
+  private Invoice invoice;
+
   private Integer position;
 
   private String name;

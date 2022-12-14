@@ -24,15 +24,13 @@ public class Invoice implements Conveyable<Invoice> {
   @JoinColumn(name = "company_id")
   private Company company;
   private LocalDate date;
+
   @ManyToOne
   @JoinColumn(name = "receiver_id")
   private Address receiver;
   private int number;
 
-  @OneToMany(fetch = FetchType.EAGER)
-  @JoinTable(name = "invoice_items",
-      joinColumns = @JoinColumn(name = "invoice_id"),
-      inverseJoinColumns = @JoinColumn(name = "item_id"))
+  @OneToMany(mappedBy = "invoice", fetch = FetchType.EAGER)
   private Set<Item> items = new HashSet<>();
   private double vat;
 

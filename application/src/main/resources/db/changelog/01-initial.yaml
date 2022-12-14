@@ -174,27 +174,6 @@ databaseChangeLog:
         - createTable:
             columns:
               - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: invoice_itemsPK
-                  name: invoice_id
-                  type: BIGINT
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-                    primaryKeyName: invoice_itemsPK
-                  name: item_id
-                  type: BIGINT
-            tableName: invoice_items
-  - changeSet:
-      id: 1670725123989-7
-      author: Heiner Specht
-      changes:
-        - createTable:
-            columns:
-              - column:
                   autoIncrement: true
                   constraints:
                     nullable: false
@@ -220,9 +199,12 @@ databaseChangeLog:
               - column:
                   name: unit
                   type: VARCHAR(255)
+              - column:
+                  name: invoice_id
+                  type: BIGINT
             tableName: item
   - changeSet:
-      id: 1670725123989-8
+      id: 1670725123989-7
       author: Heiner Specht
       changes:
         - createTable:
@@ -252,7 +234,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: letter
   - changeSet:
-      id: 1670725123989-9
+      id: 1670725123989-8
       author: Heiner Specht
       changes:
         - createTable:
@@ -276,7 +258,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: product
   - changeSet:
-      id: 1670725123989-10
+      id: 1670725123989-9
       author: Heiner Specht
       changes:
         - createTable:
@@ -297,7 +279,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: template
   - changeSet:
-      id: 1670725123989-11
+      id: 1670725123989-10
       author: Heiner Specht
       changes:
         - createTable:
@@ -324,15 +306,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: template_item
   - changeSet:
-      id: 1670725123989-12
-      author: Heiner Specht
-      changes:
-        - addUniqueConstraint:
-            columnNames: item_id
-            constraintName: UK_k6rj0i8k6kvbuexrhkqyub6vu
-            tableName: invoice_items
-  - changeSet:
-      id: 1670725123989-13
+      id: 1670725123989-11
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -345,7 +319,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-14
+      id: 1670725123989-12
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -358,7 +332,7 @@ databaseChangeLog:
             referencedTableName: account
             validate: true
   - changeSet:
-      id: 1670725123989-15
+      id: 1670725123989-13
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -371,7 +345,7 @@ databaseChangeLog:
             referencedTableName: template
             validate: true
   - changeSet:
-      id: 1670725123989-16
+      id: 1670725123989-14
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -384,7 +358,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-17
+      id: 1670725123989-15
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -397,7 +371,20 @@ databaseChangeLog:
             referencedTableName: address
             validate: true
   - changeSet:
-      id: 1670725123989-18
+      id: 1670725123989-16
+      author: Heiner Specht
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: invoice_id
+            baseTableName: item
+            constraintName: FKfk1ol4trn6i72renhjm2x79mo
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: invoice
+            validate: true
+  - changeSet:
+      id: 1670725123989-17
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -410,20 +397,7 @@ databaseChangeLog:
             referencedTableName: address
             validate: true
   - changeSet:
-      id: 1670725123989-19
-      author: Heiner Specht
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: item_id
-            baseTableName: invoice_items
-            constraintName: FKk96eu3fmxangwi9huw76g9geb
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: item
-            validate: true
-  - changeSet:
-      id: 1670725123989-20
+      id: 1670725123989-18
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -436,7 +410,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-21
+      id: 1670725123989-19
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -449,7 +423,7 @@ databaseChangeLog:
             referencedTableName: company
             validate: true
   - changeSet:
-      id: 1670725123989-22
+      id: 1670725123989-20
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
@@ -462,20 +436,7 @@ databaseChangeLog:
             referencedTableName: product
             validate: true
   - changeSet:
-      id: 1670725123989-23
-      author: Heiner Specht
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: invoice_id
-            baseTableName: invoice_items
-            constraintName: FKoxy5jo4jluo0w69ncg5tsitn4
-            deferrable: false
-            initiallyDeferred: false
-            referencedColumnNames: id
-            referencedTableName: invoice
-            validate: true
-  - changeSet:
-      id: 1670725123989-24
+      id: 1670725123989-21
       author: Heiner Specht
       changes:
         - addForeignKeyConstraint:
