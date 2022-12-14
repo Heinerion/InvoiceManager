@@ -32,7 +32,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   @Override
   protected void addWidgets(JDialog dialog) {
     numbers = new HashMap<>();
-    for (Company c : session.getAvailableCompanies().stream().sorted().toList()) {
+    for (Company c : companyRepository.findAll().stream().sorted().toList()) {
       pnlNumbers.add(new JLabel(c.getDescriptiveName()));
       SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
           c.getInvoiceNumber(), 0, 500, 1);
@@ -83,12 +83,15 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
   @Override
   protected void setupInteractions(JDialog dialog) {
     getBtnOk().addActionListener(arg0 -> {
-      for (Company company : session.getAvailableCompanies()) {
+      for (Company company : companyRepository.findAll()) {
         int invoiceNumber = company.getInvoiceNumber();
         int guiNumber = calculateInvoiceNumber(numbers.get(company).getValue() + "");
         if (invoiceNumber != guiNumber) {
           company.setInvoiceNumber(guiNumber);
-          session.setActiveCompany(companyRepository.save(company));
+          Company persisted = companyRepository.save(company);
+          if (session.isActiveCompany(persisted)) {
+            session.setActiveCompany(persisted);
+          }
         }
       }
 

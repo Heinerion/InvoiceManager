@@ -76,6 +76,11 @@ public final class Session {
     return Optional.ofNullable(activeCompany);
   }
 
+  public boolean isActiveCompany(Company company) {
+    return company != null
+        && company.equals(activeCompany);
+  }
+
   public void setActiveCompany(Company aCompany) {
     activeCompany = aCompany;
     notifyCompany();
