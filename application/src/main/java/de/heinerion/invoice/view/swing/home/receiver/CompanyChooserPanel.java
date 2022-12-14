@@ -56,6 +56,7 @@ class CompanyChooserPanel implements Refreshable {
   private void notifySession() {
     getSelectedCompany()
         .map(CompanyWrapper::getCompany)
+        .flatMap(c -> companyRepository.findById(c.getId()))
         .ifPresent(session::setActiveCompany);
   }
 
