@@ -64,7 +64,7 @@ class InfoTextComponent {
   }
 
   private String createCompanyMarkup(Company company) {
-    return "<p>%s<br />%s<br />%s</p>".formatted(
+    return "<p>%s<br />%s<br />%s</p><br />".formatted(
         Info.translate("company.invoice.number", company.getInvoiceNumber()),
         Info.translate("company.vat", company.getValueAddedTax()),
         pathUtil.determineInvoicePath(company).toAbsolutePath());
