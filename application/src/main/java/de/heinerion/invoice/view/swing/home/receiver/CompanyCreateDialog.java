@@ -3,7 +3,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.repositories.CompanyRepository;
+import de.heinerion.invoice.repositories.*;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AddressForm;
 import de.heinerion.invoice.view.swing.home.receiver.forms.*;
@@ -38,10 +38,14 @@ public class CompanyCreateDialog {
   private AccountForm accountForm;
 
   private final CompanyRepository companyRepository;
+  private final AccountRepository accountRepository;
+  private final AddressRepository addressRepository;
 
-  public CompanyCreateDialog(Session session, CompanyRepository companyRepository) {
+  public CompanyCreateDialog(Session session, CompanyRepository companyRepository, AccountRepository accountRepository, AddressRepository addressRepository) {
     this.session = session;
     this.companyRepository = companyRepository;
+    this.accountRepository = accountRepository;
+    this.addressRepository = addressRepository;
 
     button = new JButton("+");
     button.addActionListener(e -> {
@@ -124,17 +128,31 @@ public class CompanyCreateDialog {
 
   private void saveCompany(JDialog dialog) {
     Company company = companyForm.getValue();
-    if (company != null) {
-      Address address = addressForm.getValue();
-      company.setAddress(address);
-      Account account = accountForm.getValue();
-      company.setAccount(account);
-      if (address != null && account != null) {
-        companyRepository.save(company);
-        applicationFrame.refresh();
-        closeDialog(dialog);
-      }
+    if (company == null) {
+      return;
     }
+    log.atFine().log("save company %s", company);
+
+    Address address = addressForm.getValue();
+    if (address == null) {
+      return;
+    }
+    log.atFine().log("set address %s", address);
+
+    Account account = accountForm.getValue();
+    if (account == null) {
+      return;
+    }
+    log.atFine().log("set account %s", account);
+
+    // only save if both values are safe to persist
+    company.setAccount(accountRepository.save(account));
+    company.setAddress(addressRepository.save(address));
+
+    companyRepository.save(company);
+
+    applicationFrame.refresh();
+    closeDialog(dialog);
   }
 
   private void closeDialog(JDialog dialog) {

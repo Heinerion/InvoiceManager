@@ -12,6 +12,7 @@ import javax.swing.*;
 @Service
 @RequiredArgsConstructor
 public class SidePanelFactory {
+  private final AccountRepository accountRepository;
   private final AddressRepository addressRepository;
   private final CompanyRepository companyRepository;
   private final Session session = Session.getInstance();
@@ -25,6 +26,6 @@ public class SidePanelFactory {
   }
 
   public Refreshable createCompanyChooserPanel() {
-    return new CompanyChooserPanel(new CompanyCreateDialog(session, companyRepository), session, companyRepository);
+    return new CompanyChooserPanel(new CompanyCreateDialog(session, companyRepository, accountRepository, addressRepository), session, companyRepository);
   }
 }

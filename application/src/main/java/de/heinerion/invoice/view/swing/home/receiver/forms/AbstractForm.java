@@ -1,12 +1,17 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
+import de.heinerion.contract.Contract;
+import lombok.extern.flogger.Flogger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+@Flogger
 public abstract class AbstractForm<T> implements Form<T> {
   private JPanel content;
   private GridBagConstraints constraints;
+  private int lineNumber;
 
   protected abstract List<FormLine<T, ?>> getProperties();
 
@@ -18,13 +23,20 @@ public abstract class AbstractForm<T> implements Form<T> {
   public final T getValue() {
     if (isValid()) {
       T result = createInstance();
-      for (FormLine<T, ?> property : getProperties()) {
-        property.applyValue(result);
-      }
+      fillInstance(result);
       return result;
     }
 
+    log.atFine().log("some property is not valid");
     return null;
+  }
+
+  private void fillInstance(T instance) {
+    Contract.requireNotNull(instance, "instance");
+    for (FormLine<T, ?> property : getProperties()) {
+      log.atFiner().log("set %s on %s", property, instance);
+      property.applyValue(instance);
+    }
   }
 
   @Override
@@ -50,28 +62,33 @@ public abstract class AbstractForm<T> implements Form<T> {
   }
 
   private void addWidgets() {
-    int lineNumber = 0;
-    for (FormLine<T, ?> property : getProperties()) {
-      JLabel hintComponent = property.getHintComponent();
-      String propertyName = property.getName();
-      hintComponent.setText(translateHint(propertyName));
+    lineNumber = 0;
+    getProperties().forEach(this::addProperty);
+  }
 
-      // name and textbox
-      constraints.insets = new Insets(5, 5, 1, 5);
-      constraints.fill = GridBagConstraints.HORIZONTAL;
-      setToPosition(0, lineNumber, new JLabel(translateProperty(propertyName)));
-      setToPosition(1, lineNumber, property.getComponent());
-      lineNumber++;
+  private void addProperty(FormLine<T, ?> property) {
+    log.atFiner().log("add property %s", property);
+    JLabel hintComponent = property.getHintComponent();
+    String propertyName = property.getName();
+    hintComponent.setText(translateHint(propertyName));
 
-      // placeholder and hint
-      constraints.insets = new Insets(0, 5, 5, 5);
-      setToPosition(0, lineNumber, new JLabel(" "));
-      setToPosition(1, lineNumber, hintComponent);
-      constraints.fill = GridBagConstraints.NONE;
-      lineNumber++;
+    Contract.requireNotNull(property.getComponent(), "component of %s".formatted(propertyName));
 
-      property.showValidity();
-    }
+    // name and textbox
+    constraints.insets = new Insets(5, 5, 1, 5);
+    constraints.fill = GridBagConstraints.HORIZONTAL;
+    setToPosition(0, lineNumber, new JLabel(translateProperty(propertyName)));
+    setToPosition(1, lineNumber, property.getComponent());
+    lineNumber++;
+
+    // placeholder and hint
+    constraints.insets = new Insets(0, 5, 5, 5);
+    setToPosition(0, lineNumber, new JLabel(" "));
+    setToPosition(1, lineNumber, hintComponent);
+    constraints.fill = GridBagConstraints.NONE;
+    lineNumber++;
+
+    property.showValidity();
   }
 
   private String translateHint(String attribute) {
@@ -87,6 +104,8 @@ public abstract class AbstractForm<T> implements Form<T> {
   }
 
   private void setToPosition(int x, int y, JComponent component) {
+    Contract.requireNotNull(component, "component");
+    Contract.requireNotNull(constraints, "constraints");
     constraints.gridx = x;
     constraints.gridy = y;
     content.add(component, constraints);
@@ -94,6 +113,10 @@ public abstract class AbstractForm<T> implements Form<T> {
 
   private boolean isValid() {
     return getProperties().stream()
-        .anyMatch(p -> !p.isValid());
+        .filter(p -> !p.isValid())
+        .map(FormLine::getName)
+        .peek(name -> log.atFine().log("%s is not valid", name))
+        .findAny()
+        .isEmpty();
   }
 }

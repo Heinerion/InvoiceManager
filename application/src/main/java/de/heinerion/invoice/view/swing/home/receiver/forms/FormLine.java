@@ -1,5 +1,8 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
+import de.heinerion.contract.*;
+import de.heinerion.invoice.domain.values.DvIban;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
@@ -112,6 +115,7 @@ public class FormLine<T, A> {
   }
 
   public JComponent getComponent() {
+    Contract.ensureNotNull(component, "component of %ss".formatted(name));
     return component;
   }
 
@@ -119,14 +123,22 @@ public class FormLine<T, A> {
     return hintComponent;
   }
 
-  public static <X, Y> Builder<X, Y> builder(Class<X> type, Class<Y> attribute) {
-    return new Builder<X, Y>().component(determineComponent(attribute));
+  public static <X, Y> Builder<X, Y> of(Class<X> type, Class<Y> attribute) {
+    return new Builder<X, Y>()
+        .type(attribute)
+        .component(determineComponent(attribute));
   }
 
   private static <Y> JComponent determineComponent(Class<Y> attribute) {
     if (attribute.equals(String.class)) {
       JTextField field = new JTextField();
       field.setColumns(20);
+      return field;
+    }
+
+    if (attribute.equals(DvIban.class)) {
+      JTextField field = new JTextField();
+      field.setColumns(27);
       return field;
     }
 
@@ -137,14 +149,27 @@ public class FormLine<T, A> {
           1));
     }
 
-    return null;
+    throw new ContractBrokenException("a component has been found for %s".formatted(attribute));
+  }
+
+  @Override
+  public String toString() {
+    return "FormLine{" +
+        "name='" + name + '\'' +
+        '}';
   }
 
   public static class Builder<X, Y> {
     private final FormLine<X, Y> line;
+    private Class<Y> valueType;
 
     Builder() {
       line = new FormLine<>();
+    }
+
+    public Builder<X, Y> type(Class<Y> type) {
+      this.valueType = type;
+      return this;
     }
 
     public Builder<X, Y> name(String name) {
@@ -169,6 +194,11 @@ public class FormLine<T, A> {
     }
 
     private Function<JComponent, Y> determineGetter(JComponent component) {
+      if (valueType.isAssignableFrom(DvIban.class)
+          && component instanceof JTextField jTextField) {
+        return c -> (Y) DvIban.of(jTextField.getText());
+      }
+
       if (component instanceof JTextField jTextField) {
         return c -> (Y) jTextField.getText();
       }
@@ -177,7 +207,8 @@ public class FormLine<T, A> {
         return c -> (Y) spinner.getValue();
       }
 
-      return null;
+      throw new ContractBrokenException("the getter for %s of type %s has been determined"
+          .formatted(line.name, valueType));
     }
 
     public FormLine<X, Y> build() {
@@ -186,7 +217,13 @@ public class FormLine<T, A> {
     }
 
     private void ensureAllFieldsAreSet() {
-      // TODO
+      String format = "%s of the form line %s";
+      Contract.requireNotNull(line.name, format.formatted("name", "?"));
+      Contract.requireNotNull(line.setter, format.formatted("setter", line.name));
+      Contract.requireNotNull(line.predicate, format.formatted("predicate", line.name));
+      Contract.requireNotNull(line.component, format.formatted("component", line.name));
+      Contract.requireNotNull(line.getter, format.formatted("getter", line.name));
     }
+
   }
 }

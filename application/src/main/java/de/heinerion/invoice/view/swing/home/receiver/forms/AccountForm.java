@@ -1,16 +1,16 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.domain.values.DvIban;
-import de.heinerion.invoice.models.*;
+import de.heinerion.invoice.models.Account;
 
 import java.util.*;
 
 public class AccountForm extends AbstractForm<Account> {
 
   private final List<FormLine<Account, ?>> properties = Arrays.asList(
-      FormLine.builder(Account.class, String.class).name("name").setter(Account::setName).valid(s -> !s.isEmpty()).build(),
-      FormLine.builder(Account.class, DvIban.class).name("iban").setter(Account::setIban).valid(DvIban::isValid).build(),
-      FormLine.builder(Account.class, String.class).name("bic").setter(Account::setBic).valid(s -> !s.isEmpty()).build()
+      FormLine.of(Account.class, String.class).name("name").setter(Account::setName).valid(s -> !s.isEmpty()).build(),
+      FormLine.of(Account.class, DvIban.class).name("iban").setter(Account::setIban).valid(DvIban::isValid).build(),
+      FormLine.of(Account.class, String.class).name("bic").setter(Account::setBic).valid(s -> !s.isEmpty()).build()
   );
 
   @Override
