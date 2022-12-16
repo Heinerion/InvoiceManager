@@ -17,9 +17,6 @@ public class CompanyForm extends AbstractForm<Company> {
 
   );
 
-  public CompanyForm(AddressForm addressForm, AccountForm accountForm) {
-  }
-
   @Override
   protected List<FormLine<Company, ?>> getProperties() {
     return properties;
