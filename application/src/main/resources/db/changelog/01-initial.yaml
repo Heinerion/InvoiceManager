@@ -222,7 +222,7 @@ databaseChangeLog:
                   type: date
               - column:
                   name: message
-                  type: VARCHAR(255)
+                  type: OID
               - column:
                   name: subject
                   type: VARCHAR(255)

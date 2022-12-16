@@ -13,7 +13,7 @@ import java.util.*;
 @Entity
 @Table(name = "letter")
 public class Letter implements Conveyable<Letter> {
-  public static final String LINE_SEPARATOR = "##/##";
+  public static final String LINE_SEPARATOR = "\n";
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -25,6 +25,7 @@ public class Letter implements Conveyable<Letter> {
 
   private String subject;
 
+  @Lob
   @Column(name = "message")
   private String messageLinesCombined;
   @ManyToOne
