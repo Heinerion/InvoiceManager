@@ -3,6 +3,7 @@ package de.heinerion.invoice.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.Collator;
 import java.util.*;
 
 @Getter
@@ -11,7 +12,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Comparable<Address> {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -98,5 +99,10 @@ public class Address {
   @Override
   public String toString() {
     return recipient;
+  }
+
+  @Override
+  public int compareTo(Address o) {
+    return Collator.getInstance().compare(recipient, o.recipient);
   }
 }

@@ -4,6 +4,7 @@ import de.heinerion.invoice.domain.values.DvIban;
 import lombok.*;
 
 import javax.persistence.*;
+import java.text.Collator;
 import java.util.Objects;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity
 @Table(name = "account")
-public class Account {
+public class Account implements Comparable<Account> {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
@@ -50,5 +51,10 @@ public class Account {
   @Override
   public String toString() {
     return name;
+  }
+
+  @Override
+  public int compareTo(Account o) {
+    return Collator.getInstance().compare(name, o.name);
   }
 }
