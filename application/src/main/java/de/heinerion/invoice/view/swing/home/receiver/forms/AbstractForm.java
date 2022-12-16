@@ -119,4 +119,8 @@ public abstract class AbstractForm<T> implements Form<T> {
         .findAny()
         .isEmpty();
   }
+
+  public void setEditable(boolean isEditable) {
+    getProperties().forEach(p -> p.getComponent().setEnabled(isEditable));
+  }
 }
