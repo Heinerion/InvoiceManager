@@ -13,7 +13,7 @@ import java.util.*;
 @NoArgsConstructor()
 @Entity
 @Table(name = "invoice")
-public class Invoice implements Conveyable<Invoice> {
+public class Invoice implements Conveyable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;

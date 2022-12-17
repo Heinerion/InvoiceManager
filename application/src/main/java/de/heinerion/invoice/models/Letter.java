@@ -12,7 +12,7 @@ import java.util.*;
 @NoArgsConstructor()
 @Entity
 @Table(name = "letter")
-public class Letter implements Conveyable<Letter> {
+public class Letter implements Conveyable {
   public static final String LINE_SEPARATOR = "\n";
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
