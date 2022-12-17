@@ -35,7 +35,7 @@ class AddressBookMenuEntry extends MenuEntry {
         .orElse(Collections.emptyList());
 
     AddressModel model = new AddressModel(addresses.stream()
-        .sorted(Comparator.comparing(Address::getRecipient))
+        .sorted()
         .toList());
 
     JTable tblAddresses = new JTable(model);

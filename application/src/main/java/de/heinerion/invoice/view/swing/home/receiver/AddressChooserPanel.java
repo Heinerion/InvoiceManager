@@ -12,8 +12,6 @@ import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.Collator;
-import java.util.Comparator;
 
 @Flogger
 class AddressChooserPanel extends JPanel implements CompanyListener {
@@ -82,12 +80,24 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     btnSave.addActionListener(e -> this.saveAddress());
     pnlButtons.add(btnSave);
 
-    final ImageIcon imgDelete = PanelControl.loadImage(Translator.translate("icons.delete"));
+    final ImageIcon imgDelete = loadImage(Translator.translate("icons.delete"));
     String toolTipText = Translator.translate("controls.delete");
     final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete) : new JButton(toolTipText);
     btnDelete.setToolTipText(toolTipText);
     btnDelete.addActionListener(e -> this.clearAddress());
     pnlButtons.add(btnDelete);
+  }
+
+  private static ImageIcon loadImage(String path) {
+    ImageIcon image = null;
+
+    // Benutze den Classloader um Bilder einzubinden
+    java.net.URL imageURL = Thread.currentThread().getContextClassLoader().getResource(path);
+    if (imageURL != null) {
+      image = new ImageIcon(imageURL);
+    }
+
+    return image;
   }
 
   private void addAddressChooser() {
@@ -139,7 +149,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
 
   private void saveAddress() {
     log.atFine().log("save...");
-    PanelControl.parseAddress(addressForm.getText())
+    Address.parse(addressForm.getText())
         .ifPresent(address -> {
           session.getActiveCompany().ifPresent(address::setOwner);
           addressRepository.save(address);
@@ -155,7 +165,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     session.getActiveCompany().ifPresent(activeCompany ->
         addressRepository
             .findByOwner(activeCompany)
-            .stream().sorted(Comparator.comparing(Address::getRecipient, Collator.getInstance()::compare))
+            .stream().sorted()
             .forEach(addressBox::addItem)
     );
   }

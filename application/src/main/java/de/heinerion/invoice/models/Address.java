@@ -1,5 +1,6 @@
 package de.heinerion.invoice.models;
 
+import de.heinerion.util.Strings;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,40 @@ public class Address implements Comparable<Address> {
   private String postalCode;
   private String recipient;
   private String street;
+
+  public static Optional<Address> parse(String address) {
+    if (Strings.isBlank(address)) {
+      return Optional.empty();
+    }
+
+    Address parsedAddress = new Address();
+
+    String[] stringToken = address.split("\\n");
+    int token = stringToken.length;
+    parsedAddress.setRecipient(stringToken[0]);
+
+    String streetAndNumber = stringToken[token - 2].trim();
+    String[] numberToken = streetAndNumber.split(" ");
+    StringBuilder streetTemp = new StringBuilder();
+    for (int i = 0; i < numberToken.length - 1; i++) {
+      streetTemp.append(numberToken[i].trim())
+          .append(" ");
+    }
+    parsedAddress.setStreet(streetTemp.toString().trim());
+    parsedAddress.setNumber(numberToken[numberToken.length - 1].trim());
+
+    String codeAndLocation = stringToken[token - 1].trim();
+    String[] locationToken = codeAndLocation.split(" ");
+    StringBuilder locationTemp = new StringBuilder();
+    for (int i = 1; i < locationToken.length; i++) {
+      locationTemp.append(locationToken[i].trim())
+          .append(" ");
+    }
+    parsedAddress.setLocation(locationTemp.toString().trim());
+    parsedAddress.setPostalCode(locationToken[0].trim());
+
+    return Optional.of(parsedAddress);
+  }
 
   public Optional<String> getApartment() {
     return Optional.ofNullable(apartment);
