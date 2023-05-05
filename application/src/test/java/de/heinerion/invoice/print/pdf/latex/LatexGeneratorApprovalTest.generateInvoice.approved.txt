@@ -1,0 +1,112 @@
+\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}
+\usepackage[utf8]{inputenc}
+\usepackage[ngermanb]{babel}
+\usepackage[right]{eurosym}
+\usepackage{longtable}
+\usepackage{lastpage}             % determine last page
+\usepackage{scrlayer-scrpage}     % scr-Styling
+\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting
+\hypersetup{
+  pdftitle={Rechnung},
+  pdfauthor={officialName},
+  pdfsubject={Artikel 1},
+  pdfkeywords={3.30}
+}
+\renewcommand{\raggedsignature}{\raggedright}
+\setkomavar{signature}{\underline{Unterschrift:\hspace{10cm}}}
+\setkomavar{subject}{Rechnung}
+\setkomavar{fromaddress}{street number, postalCode location}
+\setkomavar{fromphone}{123-456}
+\setkomavar{fromname}{{officialName}\tiny}
+\date{}
+\setkomavar{location}{
+  \vfill
+  \raggedright
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc Datum & : 25.06.2010\\
+  \textsc Rechnungs-Nr. & : 0\\
+  \textsc Steuernummer & : taxNumber\\
+  \textsc BIC & : bic\\
+  \textsc IBAN & : iban\\
+  \multicolumn{2}{l}{institute}
+  \end{tabular}
+}
+
+\setkomavar{firstfoot}{
+  \usekomafont{pageheadfoot}
+  \parbox{\useplength{firstfootwidth}}{
+    \rule{\linewidth}{.4pt}\\
+    \parbox[t]{0.8\linewidth}{
+      officialName, Rechnungs-Nr.: 0, 25.06.2010
+    }
+    \hfill
+    \parbox[t]{0.1\linewidth}{
+      Seite \thepage \hspace{1pt} von \pageref{LastPage}
+    }
+  }
+}
+\setkomafont{pageheadfoot}{\scriptsize}
+
+% Use the footer-style of the first page in following pages
+\DeclareNewLayer[
+  foreground,
+  textarea,
+  voffset=\useplength{firstfootvpos},
+  hoffset=\dimexpr.5\paperwidth-.5\useplength{firstfootwidth}\relax,
+  width=\useplength{firstfootwidth},
+  mode=picture,
+  contents=\putUL{\raisebox{\dimexpr-\height}{\usekomavar{firstfoot}}}
+]{likefirstpage.foot}
+
+\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
+\clearpairofpagestyles
+
+\usepackage{etoolbox}% http://ctan.org/pkg/etoolbox
+\makeatletter
+
+% allows for more horizontal space in the location
+\@setplength{lochpos}{\oddsidemargin}
+\@addtoplength{lochpos}{6cm}
+
+% pull signature closer to the table
+\patchcmd{\closing}% <cmd>
+  {\parbox}% <search>
+  {\parbox{\linewidth}{\raggedsignature\strut\ignorespaces\let\\\relax%
+      #1 \usekomavar{signature}}%
+   \@gobbletwo}%< <replace>
+  {}{}% <success><failure>
+\makeatother
+
+\begin{document}
+\begin{letter}{formatted\\
+address}
+
+\opening{}\vspace{-25pt}
+\begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}
+\hline
+\multicolumn{3}{|c|}{\textsc Bezeichnung}&\multicolumn{1}{c|}{\textsc Einzelpreis}&\multicolumn{1}{c|}{\textsc Gesamt}\\
+\hline
+\hline
+\multicolumn{1}{|l}{Artikel 1}&\multicolumn{1}{r}{2,00}&Stück&\hspace{12pt} á \EUR{1,50}&\EUR{3,00}\\
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&&&&\\
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&&&&\\
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&&&&\\
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&&&&\\
+\hline
+\multicolumn{1}{|l}{$\phantom{sth}$}&\multicolumn{1}{r}{\phantom{(\hfill000,00}}&&&\\
+\hline
+\multicolumn{1}{|l}{Netto}&&&&\EUR{3,00}\\
+\hline
+&&&\multicolumn{1}{|c|}{10,00\% MwSt}&\EUR{0,30}\\\cline{4-5}
+&&&\multicolumn{1}{|l|}{\textsc Gesamt}&\EUR{3,30}\\\cline{4-5}
+\end{longtable}
+\vfill
+\closing{}
+
+\end{letter}
+\end{document}

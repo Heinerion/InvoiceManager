@@ -50,6 +50,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.easymock/easymock
     testImplementation 'org.easymock:easymock:4.3'
+
+    // Approval Tests
+    testImplementation 'com.approvaltests:approvaltests:18.6.0'
 }
 
 group = 'de.heinerion'
@@ -95,7 +98,7 @@ static def buildTimestamp() {
     return formattedDate
 }
 
-//test {
-// JUnit 5 will need some migration...
-//    useJUnitPlatform()
-//}
+test {
+    testLogging { exceptionFormat = 'full' }
+    systemProperty 'spring.profiles.active', 'test'
+}

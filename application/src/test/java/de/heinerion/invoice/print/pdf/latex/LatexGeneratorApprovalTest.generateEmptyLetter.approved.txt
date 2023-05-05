@@ -1,0 +1,69 @@
+\documentclass[fontsize=12pt, fromalign=center, fromphone=true, paper=a4]{scrlttr2}
+\usepackage[utf8]{inputenc}
+\usepackage[ngermanb]{babel}
+\usepackage[right]{eurosym}
+\usepackage{longtable}
+\usepackage{lastpage}             % determine last page
+\usepackage{scrlayer-scrpage}     % scr-Styling
+\usepackage[hidelinks]{hyperref}  % use hyperref without link highlighting
+\hypersetup{
+  pdftitle={Brief},
+  pdfauthor={officialName},
+  pdfsubject={Test},
+  pdfkeywords={0.00}
+}
+\renewcommand{\raggedsignature}{\raggedright}
+\setkomavar{signature}{\underline{Unterschrift:\hspace{10cm}}}
+\setkomavar{subject}{Test}
+\setkomavar{fromaddress}{street number, postalCode location}
+\setkomavar{fromphone}{123-456}
+\setkomavar{fromname}{{officialName}\tiny}
+\date{}
+\setkomavar{location}{
+  \vfill
+  \raggedright
+  \footnotesize
+  \begin{tabular}{ll}
+  \textsc Datum & : 25.06.2010
+  \end{tabular}
+}
+
+\setkomavar{firstfoot}{
+  \usekomafont{pageheadfoot}
+  \parbox{\useplength{firstfootwidth}}{
+    \rule{\linewidth}{.4pt}\\
+    \parbox[t]{0.8\linewidth}{
+      officialName, Test, 25.06.2010
+    }
+    \hfill
+    \parbox[t]{0.1\linewidth}{
+      Seite \thepage \hspace{1pt} von \pageref{LastPage}
+    }
+  }
+}
+\setkomafont{pageheadfoot}{\scriptsize}
+
+% Use the footer-style of the first page in following pages
+\DeclareNewLayer[
+  foreground,
+  textarea,
+  voffset=\useplength{firstfootvpos},
+  hoffset=\dimexpr.5\paperwidth-.5\useplength{firstfootwidth}\relax,
+  width=\useplength{firstfootwidth},
+  mode=picture,
+  contents=\putUL{\raisebox{\dimexpr-\height}{\usekomavar{firstfoot}}}
+]{likefirstpage.foot}
+
+\AddLayersToPageStyle{scrheadings}{likefirstpage.foot}
+\clearpairofpagestyles
+
+\begin{document}
+\begin{letter}{formatted\\
+address}
+
+\opening{}\vspace{-25pt}
+\vfill
+\closing{}
+
+\end{letter}
+\end{document}
