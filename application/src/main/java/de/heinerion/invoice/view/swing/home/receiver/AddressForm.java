@@ -1,12 +1,14 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.models.Address;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 class AddressForm {
-  private JTextArea addressArea;
+  private final JTextArea addressArea;
 
   public void clear() {
     this.addressArea.setText("");
@@ -14,10 +16,6 @@ class AddressForm {
 
   public String getText() {
     return this.addressArea.getText();
-  }
-
-  public void setAddressArea(JTextArea addressArea) {
-    this.addressArea = addressArea;
   }
 
   public void setAddress(Address address) {

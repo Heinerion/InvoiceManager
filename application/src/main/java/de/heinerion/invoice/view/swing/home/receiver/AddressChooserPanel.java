@@ -12,6 +12,12 @@ import lombok.extern.flogger.Flogger;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel to choose and edit addresses.
+ * <p>
+ * This Panel consists of an address selection (drop-down by name) and an address field, showing the lines of the
+ * address
+ */
 @Flogger
 class AddressChooserPanel extends JPanel implements CompanyListener {
   private final transient Session session;
@@ -126,20 +132,25 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
   }
 
   private void addAddressField() {
-    PositionCoordinates position;
-    position = PositionCoordinates.builder()
+    JTextArea addressArea = createAddressArea();
+    addressForm = new AddressForm(addressArea);
+
+    var position = PositionCoordinates.builder()
         .withPosY(SECOND)
         .withHeight(SIZE1)
         .withWidth(SIZE1)
         .build();
-    addressForm = new AddressForm();
-    JTextArea addressArea = create(new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS), position);
-    ComponentSize.ADDRESS_AREA.applyTo(addressArea);
+    var scrollPane = create(new JScrollPane(addressArea), position);
+    ComponentSize.ADDRESS_AREA.applyTo(scrollPane);
+    scrollPane.setBorder(BorderFactory.createEtchedBorder());
+  }
+
+  private static JTextArea createAddressArea() {
+    var addressArea = new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS);
     addressArea.setBackground(Color.WHITE);
     // set opacity (although it should already be set to true)
     addressArea.setOpaque(true);
-    addressArea.setBorder(BorderFactory.createEtchedBorder());
-    addressForm.setAddressArea(addressArea);
+    return addressArea;
   }
 
   private void clearAddress() {
