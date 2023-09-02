@@ -58,8 +58,9 @@
 \clearpairofpagestyles
 
 \begin{document}
-\begin{letter}{formatted\\
-address}
+\begin{letter}{Receiver\\
+Street 7\\
+PC Somewhere©}
 
 \opening{}\vspace{-25pt}
 Hello new World\\

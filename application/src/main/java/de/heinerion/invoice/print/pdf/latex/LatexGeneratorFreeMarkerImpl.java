@@ -36,6 +36,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
     try {
       Map<String, Object> root = new HashMap<>();
       root.put(variant.rootElement, conveyable);
+      root.put("fromaddress", createFromAddress(conveyable.getCompany()));
       root.put("labels", createLabels(variant));
       root.put("address", conveyable.getReceiver().getLinesNonEmpty());
 
@@ -46,6 +47,10 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
     } catch (IOException | TemplateException e) {
       throw new LatexGeneratorException(e);
     }
+  }
+
+  private String createFromAddress(Company company) {
+    return String.join(", ", company.getAddress().getLinesNoNameNonEmpty());
   }
 
   private Map<String, String> createLabels(Variant variant) {

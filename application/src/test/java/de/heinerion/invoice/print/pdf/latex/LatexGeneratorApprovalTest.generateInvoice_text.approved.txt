@@ -79,8 +79,9 @@
 \makeatother
 
 \begin{document}
-\begin{letter}{formatted\\
-address}
+\begin{letter}{Receiver\\
+Street 7\\
+PC Somewhere©}
 
 \opening{}\vspace{-25pt}
 \begin{longtable}{p{5cm}p{1cm}p{3cm}|r|r|}
