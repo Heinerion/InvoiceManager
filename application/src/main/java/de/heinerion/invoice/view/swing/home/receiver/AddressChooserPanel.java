@@ -11,6 +11,7 @@ import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Optional;
 
 /**
  * Panel to choose and edit addresses.
@@ -22,16 +23,13 @@ import java.awt.*;
 class AddressChooserPanel extends JPanel implements CompanyListener {
   private final transient Session session;
 
-  private static final int BOLD = Font.BOLD;
-  private static final int CENTER = SwingConstants.CENTER;
-
   private static final int ADDRESS_FIELD_ROWS = 4;
   private static final int ADDRESS_FIELD_COLS = 1;
 
-  private static final int SECOND = 1;
-  private static final int SIZE1 = 1;
+  private static final int SECOND_ELEMENT = 1;
+  private static final int SINGLE_ELEMENT = 1;
 
-  private static final int ANY = 0;
+  private static final int ANY_ROW = 0;
   private static final int INSET = 3;
 
   private final GridBagLayout gridLayout = new GridBagLayout();
@@ -71,64 +69,91 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
 
   private void addButtons() {
     PositionCoordinates position = PositionCoordinates.builder()
-        .withPosX(SECOND)
-        .withPosY(SECOND)
-        .withHeight(SIZE1)
-        .withWidth(SIZE1)
+        .withPosX(SECOND_ELEMENT)
+        .withPosY(SECOND_ELEMENT)
+        .withHeight(SINGLE_ELEMENT)
+        .withWidth(SINGLE_ELEMENT)
         .build();
 
-    final JPanel pnlButtons = create(new JPanel(), position);
-    pnlButtons.setLayout(new GridLayout(ANY, 1));
-
-    final JButton btnSave = new JButton(UIManager.getIcon(Translator.translate("icons.save")));
-    btnSave.setToolTipText(Translator.translate("controls.save"));
-    btnSave.addActionListener(e -> this.saveAddress());
-    pnlButtons.add(btnSave);
-
-    final ImageIcon imgDelete = loadImage(Translator.translate("icons.delete"));
-    String toolTipText = Translator.translate("controls.delete");
-    final JButton btnDelete = (imgDelete != null) ? new JButton(imgDelete) : new JButton(toolTipText);
-    btnDelete.setToolTipText(toolTipText);
-    btnDelete.addActionListener(e -> this.clearAddress());
-    pnlButtons.add(btnDelete);
+    var pnlButtons = new JPanel();
+    initButtonPanel(pnlButtons);
+    styleComponent(pnlButtons);
+    addToGrid(pnlButtons, position);
   }
 
-  private static ImageIcon loadImage(String path) {
-    ImageIcon image = null;
+  private void initButtonPanel(JPanel pnlButtons) {
+    pnlButtons.setLayout(new GridLayout(ANY_ROW, 1));
+    pnlButtons.add(createSaveButton());
+    pnlButtons.add(createDeleteButton());
+  }
 
-    // Benutze den Classloader um Bilder einzubinden
+  private JButton createSaveButton() {
+    var btnSave = new JButton(UIManager.getIcon(Translator.translate("icons.save")));
+    btnSave.setToolTipText(Translator.translate("controls.save"));
+    btnSave.addActionListener(e -> this.saveAddress());
+    return btnSave;
+  }
+
+  private JButton createDeleteButton() {
+    var toolTipText = Translator.translate("controls.delete");
+    var btnDelete = loadImage(Translator.translate("icons.delete"))
+        .map(JButton::new)
+        .orElse(new JButton(toolTipText));
+    btnDelete.setToolTipText(toolTipText);
+    btnDelete.addActionListener(e -> this.clearAddress());
+    return btnDelete;
+  }
+
+  /**
+   * Loads a custom image using the class loader
+   *
+   * @param path
+   *     path to the image, relative to src/main/resources
+   *
+   * @return {@link  ImageIcon} for the given path or <br> {@link Optional#empty}, if no image could be found
+   */
+  private static Optional<ImageIcon> loadImage(String path) {
+    // Use class loader to use custom images
     java.net.URL imageURL = Thread.currentThread().getContextClassLoader().getResource(path);
     if (imageURL != null) {
-      image = new ImageIcon(imageURL);
+      return Optional.of(new ImageIcon(imageURL));
     }
 
-    return image;
+    return Optional.empty();
   }
 
   private void addAddressChooser() {
     // place address boxes left to their labels
     PositionCoordinates position = PositionCoordinates.builder()
-        .withHeight(SIZE1)
-        .withWidth(SIZE1)
+        .withHeight(SINGLE_ELEMENT)
+        .withWidth(SINGLE_ELEMENT)
         .build();
 
-    addressBox = create(new JComboBox<>(new Address[1]), position);
+    JComboBox<Address> component = new JComboBox<>(new Address[1]);
+    styleComponent(component);
+    addToGrid(component, position);
+    addressBox = component;
 
     position = PositionCoordinates.builder()
-        .withPosX(SECOND)
-        .withHeight(SIZE1)
-        .withWidth(SIZE1)
+        .withPosX(SECOND_ELEMENT)
+        .withHeight(SINGLE_ELEMENT)
+        .withWidth(SINGLE_ELEMENT)
         .build();
 
-    final JLabel newLabel = new JLabel(Translator.translate("address.title"));
-    newLabel.setFont(this.getFont().deriveFont(BOLD));
-    newLabel.setHorizontalAlignment(CENTER);
-
-    final JLabel l = create(newLabel, position);
-    l.setLabelFor(addressBox);
+    var newLabel = createTitleLabel();
+    styleComponent(newLabel);
+    addToGrid(newLabel, position);
 
     // apply address
     addressBox.addActionListener(e -> useGivenAddress());
+  }
+
+  private JLabel createTitleLabel() {
+    var label = new JLabel(Translator.translate("address.title"));
+    label.setFont(this.getFont().deriveFont(Font.BOLD));
+    label.setHorizontalAlignment(SwingConstants.CENTER);
+    label.setLabelFor(addressBox);
+    return label;
   }
 
   private void addAddressField() {
@@ -136,12 +161,18 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     addressForm = new AddressForm(addressArea);
 
     var position = PositionCoordinates.builder()
-        .withPosY(SECOND)
-        .withHeight(SIZE1)
-        .withWidth(SIZE1)
+        .withPosY(SECOND_ELEMENT)
+        .withHeight(SINGLE_ELEMENT)
+        .withWidth(SINGLE_ELEMENT)
         .build();
-    var scrollPane = create(new JScrollPane(addressArea), position);
+    var scrollPane = new JScrollPane(addressArea);
+    addToGrid(scrollPane, position);
     ComponentSize.ADDRESS_AREA.applyTo(scrollPane);
+    styleComponent(scrollPane);
+    setBorder(scrollPane);
+  }
+
+  private static void setBorder(JScrollPane scrollPane) {
     scrollPane.setBorder(BorderFactory.createEtchedBorder());
   }
 
@@ -186,28 +217,24 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     addressForm.setAddress(address);
   }
 
-  /**
-   * Creates a new component for the grid.<br> This method is to be called internally only and is used to streamline the
-   * creation of distinct components
-   *
-   * @param component
-   *     the component to be placed in the grid
-   *
-   * @return the created component for further customization
-   */
-  private <X extends JComponent> X create(X component, PositionCoordinates coordinates) {
+  private <X extends JComponent> void addToGrid(X component, PositionCoordinates coordinates) {
+    updateConstraints(coordinates);
+    gridLayout.setConstraints(component, gridConstraints);
+    add(component);
+  }
+
+  private <X extends JComponent> void styleComponent(X component) {
+    component.setOpaque(false);
+    component.setForeground(getForeground());
+  }
+
+  private void updateConstraints(PositionCoordinates coordinates) {
     gridConstraints.weightx = 0;
     gridConstraints.weighty = 0;
     gridConstraints.gridx = coordinates.getPosX();
     gridConstraints.gridy = coordinates.getPosY();
     gridConstraints.gridwidth = coordinates.getWidth();
     gridConstraints.gridheight = coordinates.getHeight();
-
-    gridLayout.setConstraints(component, gridConstraints);
-    component.setOpaque(false);
-    component.setForeground(getForeground());
-    add(component);
-    return component;
   }
 
   @Override
