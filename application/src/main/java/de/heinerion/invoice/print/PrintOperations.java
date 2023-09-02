@@ -53,7 +53,7 @@ public class PrintOperations {
   private String generateTitle(Conveyable letter) {
     String start = getTitle(letter);
 
-    String receiver = letter.getReceiver().getRecipient();
+    String receiver = letter.getReceiver().getName();
     String date = DateUtil.format(letter.getDate());
 
     return String.join(" ", start, receiver, date);

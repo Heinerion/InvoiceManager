@@ -40,7 +40,7 @@ public class ApplicationFrameIT {
 
   private static void prepareSession() {
     Company company = new CompanyBuilder().build();
-    Address theReceiver = new AddressBuilder().withRecipient("").build();
+    Address theReceiver = new AddressBuilder().withName("Receiver").build();
 
     new SessionPreparer()
         .withActiveCompany(company)

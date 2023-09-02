@@ -22,15 +22,13 @@ public class Address implements Comparable<Address> {
   @JoinColumn(name = "owner_id")
   private Company owner;
 
-  private String apartment;
-  private String company;
-  private String district;
-  private String location;
-  private String number;
-  @Column(name = "postal_code")
-  private String postalCode;
-  private String recipient;
-  private String street;
+  private String block;
+  private String name;
+
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
+  @Transient
+  private List<String> lines = new ArrayList<>();
 
   public static Optional<Address> parse(String address) {
     if (Strings.isBlank(address)) {
@@ -38,69 +36,37 @@ public class Address implements Comparable<Address> {
     }
 
     Address parsedAddress = new Address();
-
-    String[] stringToken = address.split("\\n");
-    int token = stringToken.length;
-    parsedAddress.setRecipient(stringToken[0]);
-
-    String streetAndNumber = stringToken[token - 2].trim();
-    String[] numberToken = streetAndNumber.split(" ");
-    StringBuilder streetTemp = new StringBuilder();
-    for (int i = 0; i < numberToken.length - 1; i++) {
-      streetTemp.append(numberToken[i].trim())
-          .append(" ");
-    }
-    parsedAddress.setStreet(streetTemp.toString().trim());
-    parsedAddress.setNumber(numberToken[numberToken.length - 1].trim());
-
-    String codeAndLocation = stringToken[token - 1].trim();
-    String[] locationToken = codeAndLocation.split(" ");
-    StringBuilder locationTemp = new StringBuilder();
-    for (int i = 1; i < locationToken.length; i++) {
-      locationTemp.append(locationToken[i].trim())
-          .append(" ");
-    }
-    parsedAddress.setLocation(locationTemp.toString().trim());
-    parsedAddress.setPostalCode(locationToken[0].trim());
-
+    parsedAddress.setName(address.split("\\n")[0]);
+    parsedAddress.block = address;
     return Optional.of(parsedAddress);
+//    TODO Adresse im Absender muss komplett aus adresse-block bestehen.
+    // derzeit company name + block
   }
 
-  public Optional<String> getApartment() {
-    return Optional.ofNullable(apartment);
-  }
-
-  public Optional<String> getCompany() {
-    return Optional.ofNullable(company);
-  }
-
-  public Optional<String> getDistrict() {
-    return Optional.ofNullable(district);
-  }
-
-  public Address setApartment(String apartment) {
-    if (isValidMessage(apartment)) {
-      this.apartment = apartment;
+  private void fillLines() {
+    lines.clear();
+    if (!Strings.isBlank(block)) {
+      lines.addAll(Arrays.asList(block.split("\\n")));
     }
-    return this;
   }
 
-  public Address setCompany(String company) {
-    if (isValidMessage(company)) {
-      this.company = company;
+  public List<String> getLines() {
+    if (lines.isEmpty()) {
+      fillLines();
     }
-    return this;
+    return lines;
   }
 
-  public Address setDistrict(String district) {
-    if (isValidMessage(district)) {
-      this.district = district;
-    }
-    return this;
+  public List<String> getLinesNonEmpty() {
+    return getLines().stream()
+        .filter(s -> !s.isBlank())
+        .toList();
   }
 
-  private boolean isValidMessage(String message) {
-    return null != message && !message.trim().isEmpty();
+  public List<String> getLinesNoNameNonEmpty() {
+    return getLinesNonEmpty().stream()
+        .skip(1)
+        .toList();
   }
 
   @Override
@@ -113,18 +79,11 @@ public class Address implements Comparable<Address> {
     }
 
     Address address = (Address) o;
-    if (id != null && id.equals(address.id)) {
-      return true;
-    }
-    return Objects.equals(apartment, address.apartment) &&
-        Objects.equals(company, address.company) &&
-        Objects.equals(district, address.district) &&
-        Objects.equals(location, address.location) &&
-        Objects.equals(number, address.number) &&
-        Objects.equals(postalCode, address.postalCode) &&
-        Objects.equals(recipient, address.recipient) &&
-        Objects.equals(street, address.street);
+    return id != null
+        && id.equals(address.id);
   }
+
+  // TODO create domain-equals
 
   @Override
   public int hashCode() {
@@ -133,11 +92,11 @@ public class Address implements Comparable<Address> {
 
   @Override
   public String toString() {
-    return recipient;
+    return name;
   }
 
   @Override
   public int compareTo(Address o) {
-    return Collator.getInstance().compare(recipient, o.recipient);
+    return Collator.getInstance().compare(name, o.name);
   }
 }

@@ -22,10 +22,14 @@ public class LatexGeneratorApprovalTest {
 
   @BeforeClass
   public static void prepare() {
-    sender = new CompanyBuilder().build();
+    sender = new CompanyBuilder()
+        .withAddress(new AddressBuilder()
+            .withName("Bob's Address")
+            .withBlock("Bob Bubbles\n\nstreet number\npostalCode location"))
+        .build();
     receiverAddress = new AddressBuilder()
-        .withDistrict("")
-        .withApartment("")
+        .withName("Receiver's Address")
+        .withBlock("Receiver\nStreet 7\n\nPC Somewhere©")
         .build();
     date = LocalDate.of(YEAR, MONTH, DAY);
   }

@@ -6,11 +6,8 @@ import de.heinerion.invoice.models.Address;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-@SuppressWarnings("serial")
 public final class AddressModel extends AbstractTableModel {
-  enum ColumnId {
-    RECIPIENT, COMPANY, DISTRICT, STREET, NUMBER, APARTMENT, POSTCODE, LOCATION
-  }
+  private enum ColumnId {NAME, BLOCK}
 
   private final transient List<Address> addresses;
 
@@ -35,14 +32,8 @@ public final class AddressModel extends AbstractTableModel {
 
   private String getColumnNameById(ColumnId columnId) {
     return Translator.translate(switch (columnId) {
-      case APARTMENT -> "address.apartment";
-      case COMPANY -> "address.company";
-      case DISTRICT -> "address.district";
-      case LOCATION -> "address.location";
-      case NUMBER -> "address.number";
-      case POSTCODE -> "address.postcode";
-      case RECIPIENT -> "address.recipient";
-      case STREET -> "address.street";
+      case NAME -> "address.name";
+      case BLOCK -> "address.block";
     });
   }
 
@@ -59,14 +50,8 @@ public final class AddressModel extends AbstractTableModel {
 
   private String getValueById(Address address, ColumnId columnId) {
     return switch (columnId) {
-      case APARTMENT -> address.getApartment().orElse("");
-      case COMPANY -> address.getCompany().orElse("");
-      case DISTRICT -> address.getDistrict().orElse("");
-      case LOCATION -> address.getLocation();
-      case NUMBER -> address.getNumber();
-      case POSTCODE -> address.getPostalCode();
-      case RECIPIENT -> address.getRecipient();
-      case STREET -> address.getStreet();
+      case NAME -> address.getName();
+      case BLOCK -> String.join(" / ", address.getLines());
     };
   }
 
@@ -85,14 +70,8 @@ public final class AddressModel extends AbstractTableModel {
 
   private void setValueById(Address address, ColumnId columnId, String value) {
     switch (columnId) {
-      case APARTMENT -> address.setApartment(value);
-      case COMPANY -> address.setCompany(value);
-      case DISTRICT -> address.setDistrict(value);
-      case LOCATION -> address.setLocation(value);
-      case NUMBER -> address.setNumber(value);
-      case POSTCODE -> address.setPostalCode(value);
-      case RECIPIENT -> address.setRecipient(value);
-      case STREET -> address.setStreet(value);
+      case NAME -> address.setName(value);
+      case BLOCK -> address.setBlock(value);
     }
   }
 }

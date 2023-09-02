@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693260173424-1
+      author: Heiner Specht
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: name
+                  type: varchar(255)
+            tableName: address
+  - changeSet:
+      id: 1693260173424-2
+      author: Heiner Specht
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: block
+                  type: varchar(255)
+            tableName: address

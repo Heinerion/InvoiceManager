@@ -63,7 +63,7 @@ public class SessionPreparer {
 
   public void prepare() {
     Session session = Session.getInstance();
-    session.setActiveAddress(getActiveAddress().orElseGet(() -> new AddressBuilder().withRecipient("").build()));
+    session.setActiveAddress(getActiveAddress().orElseGet(() -> new AddressBuilder().withName("Receiver").build()));
 
     session.setActiveCompany(getActiveCompany().orElseGet(() -> new CompanyBuilder().build()));
 

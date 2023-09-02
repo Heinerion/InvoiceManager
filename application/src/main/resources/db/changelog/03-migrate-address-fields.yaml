@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693260173424-11
+      author: Heiner Specht
+      changes:
+        - sqlFile:
+            path: sql/03-migrate-address-fields.sql
+            relativeToChangelogFile: true
+

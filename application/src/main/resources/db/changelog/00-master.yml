@@ -2,3 +2,12 @@ databaseChangeLog:
   - include:
       file: 01-initial.yaml
       relativeToChangelogFile: true
+  - include:
+      file: 02-add-new-address-fields.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 03-migrate-address-fields.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 04-drop-specific-address-fields.yaml
+      relativeToChangelogFile: true

@@ -20,7 +20,7 @@ public class PrintOperationsTest {
 
     Letter letter = new Letter()
         .setSubject("Subject")
-        .setReceiver(new Address().setRecipient("Recipient"))
+        .setReceiver(new Address().setName("Recipient"))
         .setDate(LocalDate.of(2022, 8, 30));
 
     new PrintOperations(printer, pathUtil).createDocumentLater(letter);
@@ -38,7 +38,7 @@ public class PrintOperationsTest {
     Invoice invoice = new Invoice()
         .setNumber(1)
         .setCompany(new Company().setDescriptiveName("descriptiveName"))
-        .setReceiver(new Address().setRecipient("Recipient"))
+        .setReceiver(new Address().setName("Recipient"))
         .setDate(LocalDate.of(2022, 8, 30));
 
     new PrintOperations(printer, pathUtil).createDocumentLater(invoice);

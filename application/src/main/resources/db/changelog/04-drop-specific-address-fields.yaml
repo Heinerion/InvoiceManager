@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1693260173424-3
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: apartment
+            tableName: address
+  - changeSet:
+      id: 1693260173424-4
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: company
+            tableName: address
+  - changeSet:
+      id: 1693260173424-5
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: district
+            tableName: address
+  - changeSet:
+      id: 1693260173424-6
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: location
+            tableName: address
+  - changeSet:
+      id: 1693260173424-7
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: number
+            tableName: address
+  - changeSet:
+      id: 1693260173424-8
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: postal_code
+            tableName: address
+  - changeSet:
+      id: 1693260173424-9
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: recipient
+            tableName: address
+  - changeSet:
+      id: 1693260173424-10
+      author: Heiner Specht
+      changes:
+        - dropColumn:
+            columnName: street
+            tableName: address
+
