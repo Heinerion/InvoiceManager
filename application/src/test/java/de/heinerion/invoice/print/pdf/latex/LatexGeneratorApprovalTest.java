@@ -2,7 +2,6 @@ package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.testsupport.builder.*;
-import de.heinerion.invoice.view.formatter.FormatterMock;
 import org.approvaltests.Approvals;
 import org.junit.*;
 
@@ -44,7 +43,7 @@ public class LatexGeneratorApprovalTest {
   }
 
   protected LatexGenerator getLatexGenerator() {
-    return new LatexGeneratorFreeMarkerImpl(new FormatterMock());
+    return new LatexGeneratorFreeMarkerImpl();
   }
 
   @Test

@@ -2,7 +2,6 @@ package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.models.*;
-import de.heinerion.invoice.view.formatter.Formatter;
 import freemarker.template.*;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +14,6 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
 
   static {
     initConfig();
-  }
-
-  private final Formatter formatter;
-
-  LatexGeneratorFreeMarkerImpl(Formatter formatter) {
-    this.formatter = formatter;
   }
 
   private static void initConfig() {
@@ -44,7 +37,7 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
       Map<String, Object> root = new HashMap<>();
       root.put(variant.rootElement, conveyable);
       root.put("labels", createLabels(variant));
-      root.put("address", formatter.formatAddress(conveyable.getReceiver()));
+      root.put("address", conveyable.getReceiver().getLinesNonEmpty());
 
       Template temp = cfg.getTemplate(variant.template);
       StringWriter writer = new StringWriter();
@@ -78,9 +71,9 @@ class LatexGeneratorFreeMarkerImpl implements LatexGenerator {
   private enum Variant {
     LETTER, INVOICE;
 
-    String rootElement;
-    String template;
-    String title;
+    final String rootElement;
+    final String template;
+    final String title;
 
     Variant() {
       String key = this.name().toLowerCase();

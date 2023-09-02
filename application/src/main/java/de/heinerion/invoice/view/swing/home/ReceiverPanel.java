@@ -1,6 +1,5 @@
 package de.heinerion.invoice.view.swing.home;
 
-import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.receiver.*;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +13,10 @@ public class ReceiverPanel implements Refreshable {
   private Refreshable addressPanel;
   private Refreshable companyChooserPanel;
 
-  private final Formatter formatter;
   private final PrintButtonPanel printButtonPanel;
   private final SidePanelFactory sidePanelFactory;
 
-  ReceiverPanel(Formatter formatter, PrintButtonPanel printButtonPanel, SidePanelFactory sidePanelFactory) {
-    this.formatter = formatter;
+  ReceiverPanel(PrintButtonPanel printButtonPanel, SidePanelFactory sidePanelFactory) {
     this.printButtonPanel = printButtonPanel;
     this.sidePanelFactory = sidePanelFactory;
     createWidgets();
@@ -28,7 +25,7 @@ public class ReceiverPanel implements Refreshable {
 
   private void createWidgets() {
     panel = new FancyPanel();
-    addressPanel = sidePanelFactory.createAddressPanel(formatter);
+    addressPanel = sidePanelFactory.createAddressPanel();
     companyChooserPanel = sidePanelFactory.createCompanyChooserPanel();
   }
 
@@ -50,7 +47,7 @@ public class ReceiverPanel implements Refreshable {
     return panel;
   }
 
-  // TODO Mit Address-Listener funktionalität ersetzen...
+  // TODO replace with address listener functionality
   @Override
   public void refresh() {
     companyChooserPanel.refresh();

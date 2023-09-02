@@ -2,7 +2,6 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.repositories.*;
-import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.home.Refreshable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public class SidePanelFactory {
     return new CalculatorSidePanel(session).getPanel();
   }
 
-  public Refreshable createAddressPanel(Formatter formatter) {
-    return new AddressPanel(formatter, addressRepository, session);
+  public Refreshable createAddressPanel() {
+    return new AddressPanel(addressRepository, session);
   }
 
   public Refreshable createCompanyChooserPanel() {

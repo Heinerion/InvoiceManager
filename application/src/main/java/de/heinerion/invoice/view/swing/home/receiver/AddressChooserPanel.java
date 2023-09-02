@@ -5,7 +5,6 @@ import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.listener.CompanyListener;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.repositories.AddressRepository;
-import de.heinerion.invoice.view.formatter.Formatter;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
 import de.heinerion.invoice.view.swing.home.ComponentSize;
 import lombok.extern.flogger.Flogger;
@@ -40,7 +39,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
 
-  AddressChooserPanel(Formatter formatter, AddressRepository addressRepository, Session session) {
+  AddressChooserPanel(AddressRepository addressRepository, Session session) {
     this.addressRepository = addressRepository;
     this.session = session;
 
@@ -49,7 +48,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     init();
 
     addAddressChooser();
-    addAddressField(formatter);
+    addAddressField();
     addButtons();
   }
 
@@ -126,14 +125,14 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     addressBox.addActionListener(e -> useGivenAddress());
   }
 
-  private void addAddressField(Formatter formatter) {
+  private void addAddressField() {
     PositionCoordinates position;
     position = PositionCoordinates.builder()
         .withPosY(SECOND)
         .withHeight(SIZE1)
         .withWidth(SIZE1)
         .build();
-    addressForm = new AddressForm(formatter);
+    addressForm = new AddressForm();
     JTextArea addressArea = create(new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS), position);
     ComponentSize.ADDRESS_AREA.applyTo(addressArea);
     addressArea.setBackground(Color.WHITE);
