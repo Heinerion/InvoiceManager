@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 @Embeddable
 @NoArgsConstructor
 public class DvIban {
-  private static final Pattern IBAN_PATTERN = Pattern.compile("[A-Z]{2}[0-9]{2} ([0-9]{4} ){4}[0-9]{2}");
+  private static final Pattern IBAN_PATTERN = Pattern.compile("[A-Z]{2}\\d{2} ?(\\d{4} ?){4}\\d{2}");
 
   private String iban;
   @Transient
