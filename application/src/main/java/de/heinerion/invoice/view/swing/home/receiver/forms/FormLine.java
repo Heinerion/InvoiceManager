@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.contract.Contract;
+import de.heinerion.util.*;
 import lombok.AllArgsConstructor;
 
 import javax.swing.*;
@@ -9,6 +10,8 @@ import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.util.function.*;
+
+import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.*;
 
 @AllArgsConstructor
 public class FormLine<T, A> {
@@ -102,11 +105,23 @@ public class FormLine<T, A> {
     return hintComponent;
   }
 
-  public static <T, A> FormLine<T, A> of(String name, Class<A> valueType, BiConsumer<T, A> setter, Predicate<A> valid, JComponent component) {
+  public static <T, A> FormLine<T, A> of(String name, BiConsumer<T, A> setter, Class<A> valueType, Predicate<A> valid, JComponent component) {
     FormLine<T, A> line = new FormLine<>(name, valid, component, ComponentFactory.determineGetter(component, valueType), setter);
     ensureAllFieldsAreSet(line);
     line.addChangeListener(line.component);
     return line;
+  }
+
+  public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter) {
+    return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent());
+  }
+
+  public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter, int columns) {
+    return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent(columns));
+  }
+
+  public static <X> FormLine<X, Double> ofDouble(String name, BiConsumer<X, Double> setter) {
+    return FormLine.of(name, setter, Double.class, Doubles::isGreaterZero, createDoubleComponent());
   }
 
   @Override

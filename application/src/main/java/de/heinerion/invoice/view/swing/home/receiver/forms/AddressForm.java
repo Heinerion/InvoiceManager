@@ -1,17 +1,14 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.models.Address;
-import de.heinerion.util.Strings;
 
 import java.util.*;
-
-import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.createStringComponent;
 
 public class AddressForm extends AbstractForm<Address> {
 
   private final List<FormLine<Address, ?>> properties = Arrays.asList(
-      FormLine.of("name", String.class, Address::setName, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("block", String.class, Address::setBlock, Strings::isNotBlank, createStringComponent(200))
+      FormLine.ofString("name", Address::setName),
+      FormLine.ofString("block", Address::setBlock, 200)
   );
 
   @Override

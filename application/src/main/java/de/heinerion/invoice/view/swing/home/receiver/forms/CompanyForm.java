@@ -1,23 +1,19 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.invoice.models.Company;
-import de.heinerion.util.*;
 
 import java.util.*;
-
-import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.*;
 
 public class CompanyForm extends AbstractForm<Company> {
 
   private final List<FormLine<Company, ?>> properties = Arrays.asList(
-      FormLine.of("descriptiveName", String.class, Company::setDescriptiveName, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("officialName", String.class, Company::setOfficialName, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("signer", String.class, Company::setSigner, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("taxNumber", String.class, Company::setTaxNumber, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("phoneNumber", String.class, Company::setPhoneNumber, Strings::isNotBlank, createStringComponent()),
-      FormLine.of("valueAddedTax", Double.class, Company::setValueAddedTax, Doubles::isGreaterZero, createDoubleComponent()),
-      FormLine.of("wagesPerHour", Double.class, Company::setWagesPerHour, Doubles::isGreaterZero, createDoubleComponent())
-
+      FormLine.ofString("descriptiveName", Company::setDescriptiveName),
+      FormLine.ofString("officialName", Company::setOfficialName),
+      FormLine.ofString("signer", Company::setSigner),
+      FormLine.ofString("taxNumber", Company::setTaxNumber),
+      FormLine.ofString("phoneNumber", Company::setPhoneNumber),
+      FormLine.ofDouble("valueAddedTax", Company::setValueAddedTax),
+      FormLine.ofDouble("wagesPerHour", Company::setWagesPerHour)
   );
 
   @Override
