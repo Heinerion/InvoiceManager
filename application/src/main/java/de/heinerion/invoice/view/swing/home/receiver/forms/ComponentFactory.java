@@ -12,27 +12,22 @@ final class ComponentFactory {
     // avoid instantiation
   }
 
-  public static <Y> JComponent determineComponent(Class<Y> attribute) {
-    if (attribute.equals(String.class)) {
-      JTextField field = new JTextField();
-      field.setColumns(20);
-      return field;
-    }
+  public static JTextField createStringComponent() {
+    return createStringComponent(20);
+  }
 
-    if (attribute.equals(DvIban.class)) {
-      JTextField field = new JTextField();
-      field.setColumns(27);
-      return field;
-    }
+  public static JTextField createStringComponent(int columns) {
+    // TODO if > threshold ? TextArea width = 20, height ) col / 20
+    JTextField field = new JTextField();
+    field.setColumns(columns);
+    return field;
+  }
 
-    if (attribute.equals(Double.class)) {
-      return new JSpinner(new SpinnerNumberModel(0.0,
-          0.0,
-          1000.0,
-          1));
-    }
-
-    throw new ContractBrokenException("a component has been found for %s".formatted(attribute));
+  public static JSpinner createDoubleComponent() {
+    return new JSpinner(new SpinnerNumberModel(0.0,
+        0.0,
+        1000.0,
+        1));
   }
 
   public static <Y> Function<JComponent, Y> determineGetter(JComponent component, Class<Y> valueType) {

@@ -102,8 +102,7 @@ public class FormLine<T, A> {
     return hintComponent;
   }
 
-  public static <T, A> FormLine<T, A> of(String name, Class<A> valueType, BiConsumer<T, A> setter, Predicate<A> valid) {
-    JComponent component = ComponentFactory.determineComponent(valueType);
+  public static <T, A> FormLine<T, A> of(String name, Class<A> valueType, BiConsumer<T, A> setter, Predicate<A> valid, JComponent component) {
     FormLine<T, A> line = new FormLine<>(name, valid, component, ComponentFactory.determineGetter(component, valueType), setter);
     ensureAllFieldsAreSet(line);
     line.addChangeListener(line.component);

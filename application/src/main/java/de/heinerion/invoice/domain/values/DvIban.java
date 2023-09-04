@@ -10,6 +10,12 @@ import java.util.regex.Pattern;
 @Embeddable
 @NoArgsConstructor
 public class DvIban {
+  /**
+   * Maximum length of a valid IBAN with proper spacing between number groups.
+   * <p>
+   * 5 groups * 5 (4 symbols + 1 space) + 2 digits at the end = 27
+   */
+  public static final int MAX_LEN = 27;
   private static final Pattern IBAN_PATTERN = Pattern.compile("[A-Z]{2}\\d{2} ?(\\d{4} ?){4}\\d{2}");
 
   private String iban;
