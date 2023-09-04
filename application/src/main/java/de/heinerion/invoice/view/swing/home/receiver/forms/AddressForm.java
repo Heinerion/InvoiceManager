@@ -8,8 +8,8 @@ import java.util.*;
 public class AddressForm extends AbstractForm<Address> {
 
   private final List<FormLine<Address, ?>> properties = Arrays.asList(
-      FormLine.of(Address.class, String.class).name("name").setter(Address::setName).valid(Strings::isNotBlank).build(),
-      FormLine.of(Address.class, String.class).name("block").setter(Address::setBlock).valid(Strings::isNotBlank).build()
+      FormLine.of("name", String.class, Address::setName, Strings::isNotBlank),
+      FormLine.of("block", String.class, Address::setBlock, Strings::isNotBlank)
   );
 
   @Override

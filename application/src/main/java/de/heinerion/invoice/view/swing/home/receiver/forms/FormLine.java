@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
-import de.heinerion.contract.*;
-import de.heinerion.invoice.domain.values.DvIban;
+import de.heinerion.contract.Contract;
+import lombok.AllArgsConstructor;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -10,38 +10,31 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.util.function.*;
 
+@AllArgsConstructor
 public class FormLine<T, A> {
   private String name;
-  private boolean valid;
-  private Predicate<A> predicate;
+  private Predicate<A> valid;
 
   private JComponent component;
   private Function<JComponent, A> getter;
   private BiConsumer<T, A> setter;
   private final JLabel hintComponent = new JLabel();
 
-  private FormLine() {
-  }
-
   public String getName() {
     return name;
   }
 
   public boolean isValid() {
-    return valid;
+    return getter != null
+        && component != null
+        && valid.test(getter.apply(component));
   }
 
   public void applyValue(T entity) {
     setter.accept(entity, getValue());
   }
 
-  public void setComponent(JComponent component) {
-    this.component = component;
-    addChangeListener(component);
-  }
-
   private void onChange() {
-    checkValidity();
     showValidity();
   }
 
@@ -96,10 +89,6 @@ public class FormLine<T, A> {
     }
   }
 
-  private void checkValidity() {
-    valid = predicate.test(getValue());
-  }
-
   private A getValue() {
     return getter.apply(getComponent());
   }
@@ -113,33 +102,12 @@ public class FormLine<T, A> {
     return hintComponent;
   }
 
-  public static <X, Y> Builder<X, Y> of(Class<X> type, Class<Y> attribute) {
-    return new Builder<X, Y>()
-        .type(attribute)
-        .component(determineComponent(attribute));
-  }
-
-  private static <Y> JComponent determineComponent(Class<Y> attribute) {
-    if (attribute.equals(String.class)) {
-      JTextField field = new JTextField();
-      field.setColumns(20);
-      return field;
-    }
-
-    if (attribute.equals(DvIban.class)) {
-      JTextField field = new JTextField();
-      field.setColumns(27);
-      return field;
-    }
-
-    if (attribute.equals(Double.class)) {
-      return new JSpinner(new SpinnerNumberModel(0.0,
-          0.0,
-          1000.0,
-          1));
-    }
-
-    throw new ContractBrokenException("a component has been found for %s".formatted(attribute));
+  public static <T, A> FormLine<T, A> of(String name, Class<A> valueType, BiConsumer<T, A> setter, Predicate<A> valid) {
+    JComponent component = ComponentFactory.determineComponent(valueType);
+    FormLine<T, A> line = new FormLine<>(name, valid, component, ComponentFactory.determineGetter(component, valueType), setter);
+    ensureAllFieldsAreSet(line);
+    line.addChangeListener(line.component);
+    return line;
   }
 
   @Override
@@ -149,71 +117,13 @@ public class FormLine<T, A> {
         '}';
   }
 
-  public static class Builder<X, Y> {
-    private final FormLine<X, Y> line;
-    private Class<Y> valueType;
-
-    Builder() {
-      line = new FormLine<>();
-    }
-
-    public Builder<X, Y> type(Class<Y> type) {
-      this.valueType = type;
-      return this;
-    }
-
-    public Builder<X, Y> name(String name) {
-      line.name = name;
-      return this;
-    }
-
-    public Builder<X, Y> setter(BiConsumer<X, Y> setter) {
-      line.setter = setter;
-      return this;
-    }
-
-    public Builder<X, Y> valid(Predicate<Y> condition) {
-      line.predicate = condition;
-      return this;
-    }
-
-    public Builder<X, Y> component(JComponent component) {
-      line.setComponent(component);
-      line.getter = determineGetter(component);
-      return this;
-    }
-
-    private Function<JComponent, Y> determineGetter(JComponent component) {
-      if (valueType.isAssignableFrom(DvIban.class)
-          && component instanceof JTextField jTextField) {
-        return c -> (Y) DvIban.of(jTextField.getText());
-      }
-
-      if (component instanceof JTextField jTextField) {
-        return c -> (Y) jTextField.getText();
-      }
-
-      if (component instanceof JSpinner spinner) {
-        return c -> (Y) spinner.getValue();
-      }
-
-      throw new ContractBrokenException("the getter for %s of type %s has been determined"
-          .formatted(line.name, valueType));
-    }
-
-    public FormLine<X, Y> build() {
-      ensureAllFieldsAreSet();
-      return line;
-    }
-
-    private void ensureAllFieldsAreSet() {
-      String format = "%s of the form line %s";
-      Contract.requireNotNull(line.name, format.formatted("name", "?"));
-      Contract.requireNotNull(line.setter, format.formatted("setter", line.name));
-      Contract.requireNotNull(line.predicate, format.formatted("predicate", line.name));
-      Contract.requireNotNull(line.component, format.formatted("component", line.name));
-      Contract.requireNotNull(line.getter, format.formatted("getter", line.name));
-    }
+  private static void ensureAllFieldsAreSet(FormLine<?, ?> line) {
+    String format = "%s of the form line %s";
+    Contract.requireNotNull(line.name, format.formatted("name", "?"));
+    Contract.requireNotNull(line.setter, format.formatted("setter", line.name));
+    Contract.requireNotNull(line.valid, format.formatted("valid", line.name));
+    Contract.requireNotNull(line.component, format.formatted("component", line.name));
+    Contract.requireNotNull(line.getter, format.formatted("getter", line.name));
   }
 
   private record SimpleDocumentListener(Runnable r) implements DocumentListener {
