@@ -42,7 +42,7 @@ public class FormLine<T, A> {
   }
 
   private void addChangeListener(JComponent component) {
-    if (component instanceof JTextField tf) {
+    if (component instanceof JTextComponent tf) {
       tf.getDocument().addDocumentListener(new SimpleDocumentListener(this::onChange));
     } else if (component instanceof JSpinner spinner) {
       spinner.addChangeListener(e -> onChange());
