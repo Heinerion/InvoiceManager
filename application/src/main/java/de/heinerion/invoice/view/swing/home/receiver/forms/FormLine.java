@@ -37,32 +37,19 @@ public class FormLine<T, A> {
 
   public void setComponent(JComponent component) {
     this.component = component;
-    addChangeListener(component, () -> {
-      checkValidity();
-      showValidity();
-    });
+    addChangeListener(component);
   }
 
-  private void addChangeListener(JComponent component, Runnable r) {
+  private void onChange() {
+    checkValidity();
+    showValidity();
+  }
+
+  private void addChangeListener(JComponent component) {
     if (component instanceof JTextField tf) {
-      tf.getDocument().addDocumentListener(new DocumentListener() {
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-          r.run();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-          r.run();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-          r.run();
-        }
-      });
+      tf.getDocument().addDocumentListener(new SimpleDocumentListener(this::onChange));
     } else if (component instanceof JSpinner spinner) {
-      spinner.addChangeListener(e -> r.run());
+      spinner.addChangeListener(e -> onChange());
     }
   }
 
@@ -80,12 +67,15 @@ public class FormLine<T, A> {
     if (component instanceof JSpinner spinner) {
       // this makes me sorry for using Nimbus L&F
       setSpinnerColor(spinner, color);
-    } else {
-      component.setBackground(color);
+      return;
     }
+
+    component.setBackground(color);
   }
 
   /**
+   * Sets the background color of a JSpinner
+   *
    * @see <a href="https://stackoverflow.com/a/35140636">https://stackoverflow.com/a/35140636</a>
    */
   private void setSpinnerColor(JSpinner spinner, Color color) {
@@ -224,6 +214,22 @@ public class FormLine<T, A> {
       Contract.requireNotNull(line.component, format.formatted("component", line.name));
       Contract.requireNotNull(line.getter, format.formatted("getter", line.name));
     }
+  }
 
+  private record SimpleDocumentListener(Runnable r) implements DocumentListener {
+    @Override
+    public void insertUpdate(DocumentEvent e) {
+      r.run();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
+      r.run();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent e) {
+      r.run();
+    }
   }
 }
