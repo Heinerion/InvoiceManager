@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 
-# Check if we actually have commits to push
-commits=$(git log @{u}..)
-if [ -z "$commits" ]; then
-    exit 0
-fi
+set -Eeuo pipefail
 
-"${GIT_WORK_TREE}"/build.sh
+main() {
+  check_for_new_commits
+  build
+}
+
+check_for_new_commits() {
+  # Check if we actually have commits to push
+  local commits
+  commits=$(git log @{u}..)
+  if [ -z "$commits" ]; then
+      exit 0
+  fi
+}
+
+build() {
+  "${PWD}/build.sh"
+}
+
+main "${@}"

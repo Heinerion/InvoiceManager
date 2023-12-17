@@ -1,7 +1,15 @@
 #!/usr/bin/env bash
 
+##
+# central build file for local builds, git hooks and github actions
+##
+
+[[ -t 1 ]] || export TERM=dumb
 readonly BOLD=$(tput bold)
+readonly RED=$(tput setaf 1)
 readonly NORMAL=$(tput sgr0)
+
+readonly EXIT_CODE_ERROR=2
 
 main() {
   buildGradle
@@ -9,23 +17,29 @@ main() {
 
 buildGradle() {
   label "build gradle"
+  local status
   cd application || error "could not cd into application directory"
-  ./gradlew clean build check --warning-mode all --configure-on-demand --daemon --parallel
+  ./gradlew clean build check --warning-mode fail --daemon --parallel
+  status=$?
   cd ../
+
+  if (( status != 0 )); then
+    exit "${status}"
+  fi
 }
 
 label() {
-  # \e[K = move cursor to line start
-  printf "\e[K%s# %s%s\n" "${BOLD}" "${1}" "${NORMAL}"
+  printf "%s# %s%s\n" "${BOLD}" "${1}" "${NORMAL}"
   printf " %s...\r" "${*}"
 }
 
 info() {
-  printf "\e[K> %s\n" "${*}"
+  printf "> %s\n" "${*}"
 }
 
 error () {
-  printf "\e[K\033[0;31m%s\n\033[0m" "$*" >&2;
+  printf "%s%s\n%s" "${RED}" "$*" "${NORMAL}" >&2;
+  exit "${EXIT_CODE_ERROR}"
 }
 
 main "${@}"
