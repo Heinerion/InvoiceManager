@@ -21,7 +21,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
-        run: ./application/gradlew build
+        run: cd ./application && ./gradlew build check --warning-mode all --configure-on-demand
 
   build-on-windows:
     runs-on: windows-latest
@@ -36,7 +36,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
-        run: ./application/gradlew build
+        run: cd ./application && ./gradlew build check --warning-mode all --configure-on-demand
 
   build-on-macos:
     runs-on: macos-latest
@@ -51,4 +51,4 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
-        run: ./application/gradlew build
+        run: cd ./application && ./gradlew build check --warning-mode all --configure-on-demand
