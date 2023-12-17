@@ -3,9 +3,9 @@ package de.heinerion.invoice.view.swing.home.receiver;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.*;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.*;
 import de.heinerion.invoice.view.swing.menu.Menu;
+import lombok.Getter;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
@@ -13,8 +13,8 @@ import javax.swing.*;
 @Flogger
 public class CompanyCreateDialog extends EntityCreationDialog<Company> {
   private final Session session;
-  private ApplicationFrame applicationFrame;
 
+  @Getter
   private final JButton button;
 
   private final AccountRepository accountRepository;
@@ -40,15 +40,6 @@ public class CompanyCreateDialog extends EntityCreationDialog<Company> {
   @Override
   protected String getDialogTitle() {
     return Menu.translate("companies.create");
-  }
-
-  /**
-   * Return a provided button to open this dialog
-   *
-   * @return {@link JButton} to open this Dialog
-   */
-  public JButton getButton() {
-    return button;
   }
 
   @Override
