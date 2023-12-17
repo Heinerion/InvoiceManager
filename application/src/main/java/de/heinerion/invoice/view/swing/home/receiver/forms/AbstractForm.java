@@ -113,11 +113,7 @@ public abstract class AbstractForm<T> implements Form<T> {
 
   private boolean isValid() {
     return getProperties().stream()
-        .filter(p -> !p.isValid())
-        .map(FormLine::getName)
-        .peek(name -> log.atFine().log("%s is not valid", name))
-        .findAny()
-        .isEmpty();
+        .anyMatch(p -> !p.isValid());
   }
 
   public void setEditable(boolean isEditable) {
