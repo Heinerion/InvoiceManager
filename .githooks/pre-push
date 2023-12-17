@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Check if we actually have commits to push
+commits=$(git log @{u}..)
+if [ -z "$commits" ]; then
+    exit 0
+fi
+
+"${GIT_WORK_TREE}"/build.sh
