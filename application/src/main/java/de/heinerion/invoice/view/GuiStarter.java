@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view;
 
 import de.heinerion.invoice.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class GuiStarter {
 
   public void showInterface() {
     prepareApplicationFrame(applicationFrame.getFrame());
-    applicationFrame.refresh();
+    LookAndFeelUtil.setLookAndFeel(applicationFrame);
   }
 
   private void prepareApplicationFrame(JFrame frame) {

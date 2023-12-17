@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.plaf.synth.SynthFormattedTextFieldUI;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.util.function.*;
@@ -60,36 +59,7 @@ public class FormLine<T, A> {
   }
 
   private void setBackground(Color color) {
-    if (component instanceof JSpinner spinner) {
-      // this makes me sorry for using Nimbus L&F
-      setSpinnerColor(spinner, color);
-      return;
-    }
-
     component.setBackground(color);
-  }
-
-  /**
-   * Sets the background color of a JSpinner
-   *
-   * @see <a href="https://stackoverflow.com/a/35140636">https://stackoverflow.com/a/35140636</a>
-   */
-  private void setSpinnerColor(JSpinner spinner, Color color) {
-    final JComponent editor = spinner.getEditor();
-    int c = editor.getComponentCount();
-    for (int i = 0; i < c; i++) {
-      final Component comp = editor.getComponent(i);
-      if (comp instanceof JTextComponent jTextComponent) {
-        jTextComponent.setUI(new SynthFormattedTextFieldUI() {
-          @Override
-          protected void paint(javax.swing.plaf.synth.SynthContext context, Graphics g) {
-            g.setColor(color);
-            g.fillRect(3, 3, getComponent().getWidth() - 3, getComponent().getHeight() - 6);
-            super.paint(context, g);
-          }
-        });
-      }
-    }
   }
 
   private A getValue() {

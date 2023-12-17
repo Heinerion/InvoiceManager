@@ -2,7 +2,7 @@ package de.heinerion.invoice;
 
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.GuiStarter;
-import de.heinerion.invoice.view.swing.*;
+import de.heinerion.invoice.view.swing.ErrorDialog;
 import lombok.extern.flogger.Flogger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -25,7 +25,6 @@ public class InvoiceManager implements CommandLineRunner {
   }
 
   public void run(String... args) {
-    LookAndFeelUtil.setNimbus();
     invoke(args);
   }
 

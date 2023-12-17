@@ -1,5 +1,7 @@
 package de.heinerion.invoice.view.swing;
 
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -46,8 +48,6 @@ public class BGPanel extends JPanel {
 
     Border panelBorder = createPanelBorder();
     setBorder(panelBorder);
-
-    determineColorSettings();
   }
 
   public static BGPanel createWithColoredSides(PanelSides sideA, PanelSides sideB) {
@@ -86,7 +86,7 @@ public class BGPanel extends JPanel {
 
   private void determineColorSettings() {
     borderColor = (new JPanel()).getBackground();
-    backgroundColor = Color.WHITE;
+    backgroundColor = LookAndFeelUtil.adjustColorByTheme(borderColor);
     colors = new Color[]{backgroundColor, borderColor};
   }
 
@@ -113,6 +113,7 @@ public class BGPanel extends JPanel {
 
     PositionCoordinates position = determineCoordinates();
 
+    determineColorSettings();
     initColors(position);
     initPaint(position);
 

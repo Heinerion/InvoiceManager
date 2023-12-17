@@ -7,6 +7,7 @@ import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.repositories.AddressRepository;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
 import de.heinerion.invoice.view.swing.home.ComponentSize;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
    * ComboBox for addresses
    */
   private JComboBox<Address> addressBox = new JComboBox<>();
+  private JTextArea addressArea;
 
   AddressChooserPanel(AddressRepository addressRepository, Session session) {
     this.addressRepository = addressRepository;
@@ -157,7 +159,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
   }
 
   private void addAddressField() {
-    JTextArea addressArea = createAddressArea();
+    addressArea = createAddressArea();
     addressForm = new AddressForm(addressArea);
 
     var position = PositionCoordinates.builder()
@@ -177,11 +179,23 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
   }
 
   private static JTextArea createAddressArea() {
-    var addressArea = new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS);
-    addressArea.setBackground(Color.WHITE);
+    var area = new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS);
+    area.setBackground(determineAreaBackgroundColor());
     // set opacity (although it should already be set to true)
-    addressArea.setOpaque(true);
-    return addressArea;
+    area.setOpaque(true);
+    return area;
+  }
+
+  @Override
+  public void updateUI() {
+    if (addressArea != null) {
+      addressArea.setBackground(determineAreaBackgroundColor());
+    }
+    super.updateUI();
+  }
+
+  private static Color determineAreaBackgroundColor() {
+    return LookAndFeelUtil.adjustColorByTheme(new JPanel().getBackground());
   }
 
   private void clearAddress() {

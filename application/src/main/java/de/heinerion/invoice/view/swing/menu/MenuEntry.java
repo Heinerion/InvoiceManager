@@ -13,7 +13,19 @@ public abstract class MenuEntry {
   /**
    * confirm button
    */
-  private final JButton btnOk = new JButton(Translator.translate("controls.confirm"));
+  private final JButton btnOk = createButtonOk();
+
+  private static JButton createButtonOk() {
+    JButton ok = new JButton(Translator.translate("controls.confirm"));
+    styleComponent(ok);
+    return ok;
+  }
+
+  protected static <X extends JComponent> void styleComponent(X component) {
+    component.setOpaque(false);
+    component.setForeground(new JPanel().getForeground());
+  }
+
   /**
    * source frame
    */
@@ -26,6 +38,7 @@ public abstract class MenuEntry {
    * shows an always on top modal menu and sets the origin frame busy.
    */
   void showDialog() {
+    styleComponent(getBtnOk());
     dialog = new JDialog(busyFrame.frame());
     showDialog(dialog);
   }
