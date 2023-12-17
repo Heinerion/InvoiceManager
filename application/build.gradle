@@ -69,7 +69,7 @@ version = '1.0.0'
 description = 'InvoiceManager'
 java.sourceCompatibility = JavaVersion.VERSION_16
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -78,7 +78,7 @@ configurations {
 }
 
 // some problems with hibernate envers: https://github.com/liquibase/liquibase-hibernate/issues/260
-task liquibaseDiffChangeLog(type: JavaExec) {
+tasks.register('liquibaseDiffChangeLog', JavaExec) {
     group = "liquibase"
 
     classpath sourceSets.main.runtimeClasspath
@@ -90,7 +90,7 @@ task liquibaseDiffChangeLog(type: JavaExec) {
     args "diffChangeLog"
 }
 
-task liquibaseinit(type: JavaExec) {
+tasks.register('liquibaseinit', JavaExec) {
     group = "liquibase"
 
     classpath sourceSets.main.runtimeClasspath
