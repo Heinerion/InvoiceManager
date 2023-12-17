@@ -12,6 +12,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -25,6 +26,14 @@ dependencies {
     implementation 'com.google.flogger:flogger:0.7.4'
     implementation 'com.google.flogger:flogger-system-backend:0.7.4'
     implementation 'org.springframework.boot:spring-boot-starter'
+
+    // detects system dark / light setting
+    // https://github.com/Dansoftowner/jSystemThemeDetector
+    implementation 'com.github.Dansoftowner:jSystemThemeDetector:3.6'
+
+    // Theming
+    // https://www.formdev.com/flatlaf/
+    implementation 'com.formdev:flatlaf:3.2'
 
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
     implementation 'org.freemarker:freemarker:2.3.31'
