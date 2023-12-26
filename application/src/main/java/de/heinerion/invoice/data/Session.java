@@ -4,6 +4,7 @@ import de.heinerion.invoice.listener.*;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.ApplicationFrame;
+import lombok.*;
 import lombok.extern.flogger.Flogger;
 
 import java.time.LocalDate;
@@ -13,27 +14,29 @@ import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.REV
 
 @Flogger
 public final class Session {
+  @Getter
   private final String version = ConfigurationService.get(REVISION);
 
   private final Set<CompanyListener> companyListeners = new HashSet<>();
   private final Set<ConveyableListener> conveyableListeners = new HashSet<>();
   private final Set<DateListener> dateListeners = new HashSet<>();
   private Company activeCompany;
+  @Getter
   private Address activeAddress;
+  @Getter
   private Conveyable activeConveyable;
-
+  @Getter
   private LocalDate date = LocalDate.now();
+  @Getter
   private boolean debugMode = false;
+  @Getter
+  @Setter
   private ApplicationFrame applicationFrame;
 
   /**
    * Hides the default public Constructor
    */
   private Session() {
-  }
-
-  public boolean isDebugMode() {
-    return debugMode;
   }
 
   public void isDebugMode(boolean isDebugActivated) {
@@ -50,10 +53,6 @@ public final class Session {
 
   public void addDateListener(DateListener listener) {
     dateListeners.add(listener);
-  }
-
-  public Address getActiveAddress() {
-    return activeAddress;
   }
 
   public void setActiveAddress(Address theActiveAddress) {
@@ -77,17 +76,9 @@ public final class Session {
     notifyCompany();
   }
 
-  public Conveyable getActiveConveyable() {
-    return activeConveyable;
-  }
-
   public void setActiveConveyable(Conveyable theActiveConveyable) {
     activeConveyable = theActiveConveyable;
     notifyConveyable();
-  }
-
-  public LocalDate getDate() {
-    return date;
   }
 
   public void setDate(LocalDate aDate) {
@@ -95,10 +86,6 @@ public final class Session {
         ? LocalDate.now()
         : aDate;
     notifyDate();
-  }
-
-  public String getVersion() {
-    return version;
   }
 
   public void notifyCompany() {
@@ -114,14 +101,6 @@ public final class Session {
   private void notifyDate() {
     log.atFine().log("notifyDate");
     dateListeners.forEach(DateListener::notifyDate);
-  }
-
-  public void setApplicationFrame(ApplicationFrame frame) {
-    applicationFrame = frame;
-  }
-
-  public ApplicationFrame getApplicationFrame() {
-    return applicationFrame;
   }
 
   public static Session getInstance() {
