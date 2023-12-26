@@ -1,5 +1,6 @@
 package de.heinerion.invoice;
 
+import de.heinerion.contract.Contract;
 import lombok.extern.flogger.Flogger;
 
 import java.text.*;
@@ -13,26 +14,35 @@ public final class NumberParser {
   }
 
   public static OptionalDouble parseDouble(String input) {
+    Contract.requireNotNull(input, "input");
     String cleaned = input.strip().replace(" ", "");
 
-    if (cleaned.isBlank() || !cleaned.matches("[\\d.,]*\\d")) {
-      return OptionalDouble.empty();
-    }
+    return cleaned.isBlank() || !cleaned.matches("[\\d.,]*\\d")
+        ? OptionalDouble.empty()
+        : OptionalDouble.of( safelyParseDouble(cleaned));
+  }
 
+  private static double safelyParseDouble(String cleaned) {
     try {
-      return OptionalDouble.of(parseByLocale(
-          cleaned,
-          cleaned.lastIndexOf(',') > cleaned.lastIndexOf('.')
-              ? Locale.GERMANY
-              : Locale.US));
+      return parseGermanOrUsDouble(cleaned);
     } catch (ParseException exe) {
       log.at(Level.WARNING).withCause(exe).log();
       throw new ParsingException(exe);
     }
   }
 
-  private static double parseByLocale(String input, Locale locale)
-      throws ParseException {
+  private static double parseGermanOrUsDouble(String doubleLiteral) throws ParseException {
+    Locale locale = determineLocale(doubleLiteral);
+    return parseByLocale(doubleLiteral, locale);
+  }
+
+  private static Locale determineLocale(String doubleLiteral) {
+    return doubleLiteral.lastIndexOf(',') > doubleLiteral.lastIndexOf('.')
+        ? Locale.GERMANY
+        : Locale.US;
+  }
+
+  private static double parseByLocale(String input, Locale locale) throws ParseException {
     return Optional
         .of(NumberFormat.getInstance(locale).parse(input))
         .map(Number::doubleValue)
