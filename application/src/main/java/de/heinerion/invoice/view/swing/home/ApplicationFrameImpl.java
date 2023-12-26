@@ -80,8 +80,7 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
 
   @Override
   public void notifyCompany() {
-    refreshTitle();
-    contentTabPane.refreshContents();
+    refresh();
   }
 
   @Override
