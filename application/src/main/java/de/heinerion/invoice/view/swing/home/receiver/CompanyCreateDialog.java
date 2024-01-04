@@ -45,13 +45,20 @@ public class CompanyCreateDialog extends EntityCreationDialog<Company> {
 
   @Override
   public void showDialog() {
-    new AccountCreateDialog(session, accountRepository, acc -> {
-      setAccount(acc);
-      new AddressCreateDialog(session, addressRepository, addr -> {
-        setAddress(addr);
-        super.showDialog();
-      }).showDialog();
-    }).showDialog();
+    new AccountCreateDialog(session, accountRepository, this::takeAccountAskAddress)
+        .showDialog();
+  }
+
+  private void takeAccountAskAddress(Account acc) {
+    setAccount(acc);
+
+    new AddressCreateDialog(session, addressRepository, this::takeAddressAskCompany)
+        .showDialog();
+  }
+
+  private void takeAddressAskCompany(Address addr) {
+    setAddress(addr);
+    super.showDialog();
   }
 
   private void setAddress(Address address) {
