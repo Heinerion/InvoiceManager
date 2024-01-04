@@ -80,7 +80,8 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
 
   @Override
   public void notifyCompany() {
-    refresh();
+    refreshTitle();
+    contentTabPane.refreshContents();
   }
 
   @Override
@@ -99,6 +100,7 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
    */
   private void refreshBoxes() {
     // TODO refresh boxes seems quite costly
+    // reason: the receiver panel updates the company chooser, which in turn re-selects the company which triggers another round of updates...
     receiverPanel.refresh();
 
     contentTabPane.refreshContents();
