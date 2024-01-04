@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.3'
+    id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
 }
@@ -22,7 +22,7 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
     implementation 'org.javassist:javassist:3.29.0-GA'
     implementation 'org.freemarker:freemarker:2.3.31'
-    implementation 'com.thoughtworks.xstream:xstream:1.4.19'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.20'
     implementation 'com.google.flogger:flogger:0.7.4'
     implementation 'com.google.flogger:flogger-system-backend:0.7.4'
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -39,9 +39,9 @@ dependencies {
     implementation 'org.freemarker:freemarker:2.3.31'
 
     // Database
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.14'
     implementation 'org.liquibase:liquibase-core:4.17.2'
-    implementation 'org.liquibase.ext:liquibase-hibernate5:4.17.2'
+    implementation 'org.liquibase.ext:liquibase-hibernate5:4.22.0'
     runtimeOnly 'org.postgresql:postgresql:42.5.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
@@ -49,7 +49,7 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.14'
 
     // https://mvnrepository.com/artifact/org.easymock/easymock
     testImplementation 'org.easymock:easymock:4.3'
