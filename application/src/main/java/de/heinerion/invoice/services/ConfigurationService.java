@@ -101,7 +101,8 @@ public class ConfigurationService {
     FOLDER_SYSTEM("folder.system"),
     FOLDER_TEMPLATES("folder.templates"),
     FOLDER_TEX_TEMPLATES("folder.texTemplates"),
-    REVISION("git.commit.id.describe-short");
+    REVISION("git.commit.id.describe-short"),
+    LATEX_COMMAND("latex.command");
 
     final String key;
 
