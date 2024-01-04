@@ -3,7 +3,7 @@ package de.heinerion.invoice.util;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
-import lombok.NonNull;
+import lombok.*;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,9 @@ import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 
 @Flogger
 @Service
+@RequiredArgsConstructor
 public class PathUtilNG {
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   private String getSystemFolderName() {
     return ConfigurationService.get(FOLDER_SYSTEM);
@@ -105,9 +106,7 @@ public class PathUtilNG {
    * This is accomplished by replacing the {@link #getBasePath() base path} with the {@link #getSystemPath() system
    * path}.
    *
-   * @param target
-   *     {@link Path} to be moved
-   *
+   * @param target {@link Path} to be moved
    * @return new {@link Path}, which is ensured to exist as directory.
    */
   @NonNull

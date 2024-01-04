@@ -22,7 +22,7 @@ import java.util.*;
  */
 @Service
 class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateListener {
-  private final Session session = Session.getInstance();
+  private final Session session;
   private final JFrame frame;
 
   private final Refreshable receiverPanel;
@@ -30,7 +30,8 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   private final ContentTabPane contentTabPane;
   private final MenuFactory menuFactory;
 
-  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, MenuFactory menuFactory) {
+  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, MenuFactory menuFactory, Session session) {
+    this.session = session;
     this.menuFactory = menuFactory;
     contentTabPane = tabPane;
     this.receiverPanel = receiverPanel;

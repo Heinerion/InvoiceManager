@@ -23,7 +23,7 @@ import static java.awt.BorderLayout.*;
 @Service
 @Order(2)
 class InvoiceTabContent extends TabContent {
-  private final Session session = Session.getInstance();
+  private final Session session;
   private final List<Item> contentPositions = new ArrayList<>();
   private final JTable tabPositions;
   private final JComboBox<InvoiceTemplate> templateBox = new JComboBox<>();
@@ -33,10 +33,11 @@ class InvoiceTabContent extends TabContent {
 
   private Collection<InvoiceTemplate> templates = new ArrayList<>();
 
-  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ProductRepository productRepository, TemplateItemRepository templateItemRepository) {
+  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ProductRepository productRepository, TemplateItemRepository templateItemRepository, Session session) {
     super(Translator.translate("invoice.title"));
     this.templateRepository = templateRepository;
     this.templateItemRepository = templateItemRepository;
+    this.session = session;
 
     model = new InvoiceTableModel(contentPositions, templateRepository, productRepository);
     model.addTableModelListener(e -> session.setActiveConveyable(getContent()));

@@ -18,7 +18,7 @@ public class MenuFactory {
   private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
   private final PathUtilNG pathUtil;
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   public JMenuBar createMenuBar(JFrame frame) {
     return new MenuBar(frame, session, pathUtil, addressRepository, invoiceRepository, letterRepository, companyRepository, printOperations);

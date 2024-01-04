@@ -1,10 +1,10 @@
 package de.heinerion.invoice.util;
 
+import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.File;
 
@@ -30,7 +30,7 @@ public class PathUtilTest {
   public void setUp() {
     baseDir = combine(java.lang.System.getProperty("user.home"), property(FOLDER_DATA));
     company = new CompanyBuilder().withDescriptiveName("descriptive").build();
-    pathUtil = new PathUtilNG();
+    pathUtil = new PathUtilNG(Session.getInstance());
   }
 
   @Test

@@ -14,7 +14,7 @@ public class SidePanelFactory {
   private final AccountRepository accountRepository;
   private final AddressRepository addressRepository;
   private final CompanyRepository companyRepository;
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   public JPanel createCalculatorSidePanel() {
     return new CalculatorSidePanel(session).getPanel();

@@ -15,7 +15,7 @@ import java.awt.event.*;
 public class PrintAction implements ActionListener {
   private final CompanyRepository companyRepository;
   private final PrintOperations printOperations;
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   private Conveyable letter;
 

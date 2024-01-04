@@ -17,7 +17,7 @@ import static java.awt.BorderLayout.*;
 @Service
 @Order(1)
 class LetterTabContent extends TabContent {
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   private JTextField subjectFld;
   private JPanel subjectPnl;
@@ -25,8 +25,9 @@ class LetterTabContent extends TabContent {
   private JTextArea contentArea;
   private JScrollPane contentScroll;
 
-  LetterTabContent() {
+  LetterTabContent(Session session) {
     super(Translator.translate("letter.title"));
+    this.session = session;
 
     createWidgets();
     addWidgets();

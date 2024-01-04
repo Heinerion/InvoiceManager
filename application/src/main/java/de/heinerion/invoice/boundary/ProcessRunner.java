@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class ProcessRunner {
   private final PathUtilNG pathUtil;
-  private final Session session = Session.getInstance();
+  private final Session session;
 
   String quote(String string) {
     return "\"" + string + "\"";

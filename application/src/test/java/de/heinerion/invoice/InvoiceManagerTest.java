@@ -37,7 +37,7 @@ public class InvoiceManagerTest {
 
   @Before
   public void setUp() {
-    manager = new InvoiceManager(guiStarter);
+    manager = new InvoiceManager(Session.getInstance(), guiStarter);
 
     mockStatic(LookAndFeelUtil.class);
 
@@ -74,7 +74,7 @@ public class InvoiceManagerTest {
     PowerMockito.doCallRealMethod().when(LookAndFeelUtil.class);
     LookAndFeelUtil.setNimbus();
 
-    new InvoiceManager(guiStarter).run();
+    new InvoiceManager(Session.getInstance(), guiStarter).run();
 
     ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
     verify(LookAndFeelUtil.class);

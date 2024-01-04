@@ -15,16 +15,17 @@ import java.awt.event.ActionEvent;
 @Flogger
 @Service
 public class PrintButtonPanel implements PanelHolder {
-  private final Session session = Session.getInstance();
+  private final Session session;
   private final SidePanel sidePanel;
   private final InvoiceRepository invoiceRepository;
   private final LetterRepository letterRepository;
   private final ItemRepository itemRepository;
 
-  PrintButtonPanel(PrintAction printAction, InvoiceRepository invoiceRepository, LetterRepository letterRepository, ItemRepository itemRepository) {
+  PrintButtonPanel(PrintAction printAction, InvoiceRepository invoiceRepository, LetterRepository letterRepository, ItemRepository itemRepository, Session session) {
     this.invoiceRepository = invoiceRepository;
     this.letterRepository = letterRepository;
     this.itemRepository = itemRepository;
+    this.session = session;
     this.sidePanel = new SidePanel();
     sidePanel.add(createPrintButton(printAction));
   }

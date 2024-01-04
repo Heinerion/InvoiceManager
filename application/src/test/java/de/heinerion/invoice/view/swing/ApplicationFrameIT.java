@@ -2,26 +2,19 @@ package de.heinerion.invoice.view.swing;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.boundary.TestContext;
-import de.heinerion.invoice.models.Address;
-import de.heinerion.invoice.models.Company;
+import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.services.ConfigurationService;
-import de.heinerion.invoice.testsupport.builder.AddressBuilder;
-import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
-import de.heinerion.invoice.testsupport.builder.InvoiceBuilder;
-import de.heinerion.invoice.testsupport.builder.SessionPreparer;
+import de.heinerion.invoice.testsupport.builder.*;
 import de.heinerion.invoice.util.PathUtilNG;
 import org.fest.swing.fixture.FrameFixture;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.swing.*;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationFrameIT {
@@ -74,7 +67,7 @@ public class ApplicationFrameIT {
 
     expectedMessages.add("pdflatex \"path\"");
 
-    PathUtilNG pathUtil = new PathUtilNG();
+    PathUtilNG pathUtil = new PathUtilNG(Session.getInstance());
     String baseDir = pathUtil.getBasePath().toString();
     String folder = Translator.translate("invoice.title");
     expectedMessages.add("moveFile(\"" + baseDir + "/System/" + folder + "/descriptiveName/1  01.05.2017.tex\", \"path\")");

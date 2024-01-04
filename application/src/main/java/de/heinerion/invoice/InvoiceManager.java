@@ -3,6 +3,7 @@ package de.heinerion.invoice;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.GuiStarter;
 import de.heinerion.invoice.view.swing.ErrorDialog;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -15,15 +16,12 @@ import java.awt.*;
  */
 @Flogger
 @Service
+@RequiredArgsConstructor
 @Profile("Prod")
 public class InvoiceManager implements CommandLineRunner {
-  private final Session session = Session.getInstance();
+  private final Session session;
   private final GuiStarter starter;
-
-  InvoiceManager(GuiStarter swingStarter) {
-    this.starter = swingStarter;
-  }
-
+  
   public void run(String... args) {
     invoke(args);
   }
