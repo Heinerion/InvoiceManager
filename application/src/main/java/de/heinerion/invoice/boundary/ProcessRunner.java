@@ -34,6 +34,7 @@ public class ProcessRunner {
     pb.inheritIO();
     Path logFile = createLogFile(program);
     pb.redirectOutput(logFile.toFile());
+    pb.redirectError(logFile.toFile());
     log.atInfo().log("writing output to %s", logFile);
 
     try {
@@ -63,6 +64,7 @@ public class ProcessRunner {
     var logFile = pathUtil.getLogPath(program).resolve(timestamp + ".log");
     try {
       Files.createFile(logFile);
+      log.atFine().log("create logfile at %s", logFile);
     } catch (IOException e) {
       throw new RuntimeException(logFile + " could not be created", e);
     }
