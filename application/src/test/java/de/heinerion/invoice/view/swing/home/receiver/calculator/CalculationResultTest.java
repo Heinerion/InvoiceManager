@@ -1,14 +1,14 @@
 package de.heinerion.invoice.view.swing.home.receiver.calculator;
 
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 public class CalculationResultTest {
 
   @Test
-  public void addTaxes() {
+  void addTaxes() {
     CalculationResult result = CalculationResult.addTaxes(Money.of(100), 15);
 
     assertEquals("Net", Money.of(100), result.getNet());
@@ -17,7 +17,7 @@ public class CalculationResultTest {
   }
 
   @Test
-  public void addTaxes_smallAmount() {
+  void addTaxes_smallAmount() {
     CalculationResult result = CalculationResult.addTaxes(Money.of(1), 10.7);
 
     assertEquals("Net", Money.of(1), result.getNet());
@@ -26,7 +26,7 @@ public class CalculationResultTest {
   }
 
   @Test
-  public void subtractTaxes() {
+  void subtractTaxes() {
     CalculationResult result = CalculationResult.subtractTaxes(Money.of(115), 15);
 
     assertEquals("Net", Money.of(100), result.getNet());

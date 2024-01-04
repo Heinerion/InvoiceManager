@@ -3,7 +3,7 @@ package de.heinerion.invoice.print.pdf.latex;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.testsupport.builder.*;
 import org.approvaltests.Approvals;
-import org.junit.*;
+import org.junit.jupiter.api.*;
 
 import java.time.*;
 
@@ -19,7 +19,7 @@ public class LatexGeneratorApprovalTest {
   private static Letter letter;
   private static Invoice invoice;
 
-  @BeforeClass
+  @BeforeAll
   public static void prepare() {
     sender = new CompanyBuilder()
         .withAddress(new AddressBuilder()
@@ -33,7 +33,7 @@ public class LatexGeneratorApprovalTest {
     date = LocalDate.of(YEAR, MONTH, DAY);
   }
 
-  @Before
+  @BeforeEach
   public final void setUp() {
     letter = new Letter(date, sender, receiverAddress);
     letter.setSubject("Test");
@@ -47,14 +47,14 @@ public class LatexGeneratorApprovalTest {
   }
 
   @Test
-  public final void generateEmptyLetter() {
+  void generateEmptyLetter() {
     final String result = getLatexGenerator().generateSourceContent(letter);
 
     Approvals.verify(result);
   }
 
   @Test
-  public final void generateNonEmptyLetter() {
+  void generateNonEmptyLetter() {
     String content = "Hello new World";
     letter.addMessageLine(content);
     letter.addMessageLine(content);
@@ -66,14 +66,14 @@ public class LatexGeneratorApprovalTest {
   }
 
   @Test
-  public final void generateInvoice() {
+  void generateInvoice() {
     final String result = getLatexGenerator().generateSourceContent(invoice);
 
     Approvals.verify(result);
   }
 
   @Test
-  public final void generateInvoice_items() {
+  void generateInvoice_items() {
     invoice.addItem(Item.of(invoice.getItems().size(), "Artikel 2", "Stück", 3.44, 3));
     final String result = getLatexGenerator().generateSourceContent(invoice);
 
@@ -81,7 +81,7 @@ public class LatexGeneratorApprovalTest {
   }
 
   @Test
-  public final void generateInvoice_text() {
+  void generateInvoice_text() {
     invoice.addItem(Item.of(invoice.getItems().size(), "Message"));
 
     final String result = getLatexGenerator().generateSourceContent(invoice);

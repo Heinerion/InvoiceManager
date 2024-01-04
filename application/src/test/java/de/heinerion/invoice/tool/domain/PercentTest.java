@@ -1,17 +1,15 @@
 package de.heinerion.invoice.tool.domain;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.math.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PercentTest {
 
   @Test
-  public void compareTo() {
+  void compareTo() {
     Percent one = new Percent(1);
     Percent ten = new Percent(10);
     Percent dec = new Percent(BigDecimal.valueOf(10.7d));
@@ -29,6 +27,6 @@ public class PercentTest {
 
     assertEquals(one, new Percent(1));
     assertEquals(ten, new Percent(10));
-    assertEquals(dec, new Percent(new BigDecimal(BigInteger.valueOf(107),1)));
+    assertEquals(dec, new Percent(new BigDecimal(BigInteger.valueOf(107), 1)));
   }
 }

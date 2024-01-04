@@ -1,12 +1,13 @@
 package de.heinerion.invoice.tool.domain;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InvoiceItemTest {
   @Test
-  public void getPrice_returnsPriceOfProductMultipliedByCount() {
+  void getPrice_returnsPriceOfProductMultipliedByCount() {
     Product pen = new Product("pen", new Percent(19));
     pen.setUnit("pc");
     pen.setPricePerUnit(Euro.of(1, 50));

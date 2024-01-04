@@ -3,18 +3,19 @@ package de.heinerion.invoice.print;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.util.PathUtilNG;
 import org.easymock.EasyMock;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class PrintOperationsTest {
 
   @Test
-  public void createDocumentLater_letter() {
+  void createDocumentLater_letter() {
     TestPrinter printer = new TestPrinter();
     PathUtilNG pathUtil = mockPathUtil();
 
@@ -31,7 +32,7 @@ public class PrintOperationsTest {
   }
 
   @Test
-  public void createDocumentLater_invoice() {
+  void createDocumentLater_invoice() {
     TestPrinter printer = new TestPrinter();
     PathUtilNG pathUtil = mockPathUtil();
 
@@ -65,7 +66,7 @@ public class PrintOperationsTest {
     return pathUtil;
   }
 
-  private final class TestPrinter implements Printer {
+  private static final class TestPrinter implements Printer {
     private Conveyable conveyable;
     private Path parentFolder;
     private String title;

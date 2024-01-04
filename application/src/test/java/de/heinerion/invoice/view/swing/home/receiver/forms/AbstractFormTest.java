@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import lombok.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.function.*;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AbstractFormTest {
 
   @Test
-  public void getValue() {
+  void getValue() {
     Form<TestItem> form = new GenericForm<>(
         TestItem::new,
         Arrays.asList(

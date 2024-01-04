@@ -1,18 +1,18 @@
 package de.heinerion.invoice.tool.domain;
 
-import org.junit.Before;
-import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.junit.jupiter.api.*;
 
-import static org.junit.Assert.assertEquals;
+import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class InvoiceTest {
 
   private Invoice invoice;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     Company company = new Company("Big Business");
     company.setAddress("company drive 1");
@@ -25,7 +25,7 @@ public class InvoiceTest {
   }
 
   @Test
-  public void getSums_singleItem() {
+  void getSums_singleItem() {
     Product product = new Product("name", new Percent(19));
     product.setPricePerUnit(Euro.of(5));
     InvoiceItem item = new InvoiceItem(product);
@@ -36,7 +36,7 @@ public class InvoiceTest {
   }
 
   @Test
-  public void getSums_multipleItems() {
+  void getSums_multipleItems() {
     Product productA = new Product("A", new Percent(19));
     productA.setPricePerUnit(Euro.of(5));
     Product productB = new Product("B", new Percent(19));

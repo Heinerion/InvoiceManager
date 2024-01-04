@@ -1,18 +1,19 @@
 package de.heinerion.invoice.boundary;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranslatorTest {
 
   @Test
-  public void translate() {
+  void translate() {
     assertEquals("foo", Translator.translate("bar"));
   }
 
   @Test
-  public void translate_returnsUnknownKeys() {
+  void translate_returnsUnknownKeys() {
     String baz = Translator.translate("baz");
     assertEquals("'baz'", baz);
   }
