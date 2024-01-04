@@ -21,7 +21,7 @@ import java.util.*;
  * ApplicationFrameImpl.java heiner 27.03.2012
  */
 @Service
-class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateListener {
+class ApplicationFrameImpl implements ApplicationFrame, ActiveCompanyChangedListener, DateListener {
   private final Session session;
   private final JFrame frame;
 
@@ -62,7 +62,7 @@ class ApplicationFrameImpl implements ApplicationFrame, CompanyListener, DateLis
   }
 
   private void setupInteractions() {
-    session.addCompanyListener(this);
+    session.addActiveCompanyListener(this);
     session.addDateListener(this);
     session.setApplicationFrame(this);
 

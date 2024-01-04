@@ -1,6 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.data.Session;
+import de.heinerion.invoice.listener.AvailableCompaniesChangedListener;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.home.*;
@@ -10,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-class CompanyChooserPanel implements Refreshable {
+class CompanyChooserPanel implements Refreshable, AvailableCompaniesChangedListener {
   private final Session session;
   private final JPanel sidePanel;
   private final CompanyRepository companyRepository;
@@ -18,6 +19,7 @@ class CompanyChooserPanel implements Refreshable {
 
   CompanyChooserPanel(CompanyCreateDialog companyCreateDialog, Session session, CompanyRepository companyRepository) {
     this.session = session;
+    session.addAvailableCompaniesListener(this);
     this.sidePanel = new JPanel();
     this.companyRepository = companyRepository;
     ComponentSize.COMPANY_PANEL.applyTo(sidePanel);
@@ -67,6 +69,11 @@ class CompanyChooserPanel implements Refreshable {
   @Override
   public JPanel getPanel() {
     return sidePanel;
+  }
+
+  @Override
+  public void notifyAvailableCompaniesChanged() {
+    refresh();
   }
 
   @RequiredArgsConstructor

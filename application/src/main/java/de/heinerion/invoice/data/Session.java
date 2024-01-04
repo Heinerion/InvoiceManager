@@ -19,7 +19,8 @@ public class Session {
   @Getter
   private final String version = ConfigurationService.get(REVISION);
 
-  private final Set<CompanyListener> companyListeners = new HashSet<>();
+  private final Set<ActiveCompanyChangedListener> activeCompanyChangedListeners = new HashSet<>();
+  private final Set<AvailableCompaniesChangedListener> availableCompaniesChangedListeners = new HashSet<>();
   private final Set<ConveyableListener> conveyableListeners = new HashSet<>();
   private final Set<DateListener> dateListeners = new HashSet<>();
   private Company activeCompany;
@@ -42,8 +43,12 @@ public class Session {
     debugMode = isDebugActivated;
   }
 
-  public void addCompanyListener(CompanyListener listener) {
-    companyListeners.add(listener);
+  public void addActiveCompanyListener(ActiveCompanyChangedListener listener) {
+    activeCompanyChangedListeners.add(listener);
+  }
+
+  public void addAvailableCompaniesListener(AvailableCompaniesChangedListener listener) {
+    availableCompaniesChangedListeners.add(listener);
   }
 
   public void addConveyableListener(ConveyableListener listener) {
@@ -72,7 +77,7 @@ public class Session {
 
   public void setActiveCompany(Company aCompany) {
     activeCompany = aCompany;
-    notifyCompany();
+    notifyActiveCompany();
   }
 
   public void setActiveConveyable(Conveyable theActiveConveyable) {
@@ -87,9 +92,14 @@ public class Session {
     notifyDate();
   }
 
-  public void notifyCompany() {
-    log.atFine().log("notifyCompany %s", getActiveCompany().map(String::valueOf).orElse("-none-"));
-    companyListeners.forEach(CompanyListener::notifyCompany);
+  public void notifyActiveCompany() {
+    log.atFine().log("notifyActiveCompany %s", getActiveCompany().map(String::valueOf).orElse("-none-"));
+    activeCompanyChangedListeners.forEach(ActiveCompanyChangedListener::notifyCompany);
+  }
+
+  public void notifyAvailableCompanies() {
+    log.atFine().log("notifyAvailableCompanies changed");
+    availableCompaniesChangedListeners.forEach(AvailableCompaniesChangedListener::notifyAvailableCompaniesChanged);
   }
 
   private void notifyConveyable() {

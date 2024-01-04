@@ -23,7 +23,7 @@ public class CompanyCreateDialog extends EntityCreationDialog<Company> {
   private Address address;
 
   public CompanyCreateDialog(Session session, CompanyRepository companyRepository, AccountRepository accountRepository, AddressRepository addressRepository) {
-    super(session, companyRepository, ignored -> session.notifyCompany());
+    super(session, companyRepository, ignored -> session.notifyAvailableCompanies());
     this.session = session;
     this.accountRepository = accountRepository;
     this.addressRepository = addressRepository;

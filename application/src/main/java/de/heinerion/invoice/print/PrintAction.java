@@ -33,7 +33,7 @@ public class PrintAction implements ActionListener {
       Company company = letter.getCompany();
 
       company.increaseInvoiceNumber();
-      session.notifyCompany();
+      session.notifyActiveCompany();
       log.atFine().log("raise invoice number of %s to %d.",
           company.getDescriptiveName(), company.getInvoiceNumber());
       companyRepository.save(company);

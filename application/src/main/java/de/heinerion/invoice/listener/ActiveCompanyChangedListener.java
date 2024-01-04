@@ -1,5 +1,5 @@
 package de.heinerion.invoice.listener;
 
-public interface CompanyListener {
+public interface ActiveCompanyChangedListener {
   void notifyCompany();
 }

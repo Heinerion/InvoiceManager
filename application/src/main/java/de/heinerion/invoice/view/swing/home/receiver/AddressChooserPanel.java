@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.listener.CompanyListener;
+import de.heinerion.invoice.listener.ActiveCompanyChangedListener;
 import de.heinerion.invoice.models.Address;
 import de.heinerion.invoice.repositories.AddressRepository;
 import de.heinerion.invoice.view.swing.PositionCoordinates;
@@ -21,7 +21,7 @@ import java.util.Optional;
  * address
  */
 @Flogger
-class AddressChooserPanel extends JPanel implements CompanyListener {
+class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener {
   private final transient Session session;
 
   private static final int ADDRESS_FIELD_ROWS = 4;
@@ -49,7 +49,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
     this.addressRepository = addressRepository;
     this.session = session;
 
-    session.addCompanyListener(this);
+    session.addActiveCompanyListener(this);
 
     init();
 
@@ -109,9 +109,7 @@ class AddressChooserPanel extends JPanel implements CompanyListener {
   /**
    * Loads a custom image using the class loader
    *
-   * @param path
-   *     path to the image, relative to src/main/resources
-   *
+   * @param path path to the image, relative to src/main/resources
    * @return {@link  ImageIcon} for the given path or <br> {@link Optional#empty}, if no image could be found
    */
   private static Optional<ImageIcon> loadImage(String path) {
