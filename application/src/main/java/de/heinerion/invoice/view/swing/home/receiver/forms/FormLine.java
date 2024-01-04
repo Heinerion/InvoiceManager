@@ -62,7 +62,7 @@ public class FormLine<T, A> {
     component.setBackground(color);
   }
 
-  private A getValue() {
+  protected A getValue() {
     return getter.apply(getComponent());
   }
 
