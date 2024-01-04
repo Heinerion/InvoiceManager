@@ -142,34 +142,36 @@ public abstract class EntityCreationDialog<T> {
   }
 
   private void saveEntity(JDialog dialog) {
-    T entity = isNullValueSelected()
-        ? persistFormEntity()
-        : getEntityFromDropDown();
+    Optional<T> entity = getEntityFromDropDown()
+        .or(this::persistFormEntity);
 
     closeDialog(dialog);
 
-    if (entity != null) {
-      log.atFine().log("chose %s", entity);
-      callback.accept(entity);
-    }
+    log.atFine().log("chose %s", entity.map(String::valueOf).orElse("nothing"));
+    entity.ifPresent(callback);
   }
 
-  private T persistFormEntity() {
-    T entity = getEntityFromForm();
-    if (entity == null) {
-      return null;
-    }
+  private Optional<T> persistFormEntity() {
+    return getEntityFromForm()
+        .map(this::save);
+  }
+
+  private T save(T entity) {
     log.atFine().log("save entity %s", entity);
     return entityRepository.save(entity);
   }
 
-  private T getEntityFromDropDown() {
-    return entityDropDown
+  private Optional<T> getEntityFromDropDown() {
+    if (isNullValueSelected()) {
+      return Optional.empty();
+    }
+
+    return Optional.ofNullable(entityDropDown
         .getItemAt(entityDropDown.getSelectedIndex())
-        .getEntity();
+        .getEntity());
   }
 
-  protected T getEntityFromForm() {
+  protected Optional<T> getEntityFromForm() {
     return form.getValue();
   }
 

@@ -19,7 +19,7 @@ public class AbstractFormTest {
             new ConstantFormLine<>(TestItem::setAmount, 1)
         ));
 
-    TestItem item = form.getValue();
+    TestItem item = form.getValue().orElse(null);
 
     assertNotNull(item);
     assertEquals(1, item.getAmount());

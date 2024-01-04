@@ -6,6 +6,7 @@ import lombok.extern.flogger.Flogger;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.*;
 
 @Flogger
 public abstract class AbstractForm<T> implements Form<T> {
@@ -20,15 +21,15 @@ public abstract class AbstractForm<T> implements Form<T> {
   protected abstract T createInstance();
 
   @Override
-  public final T getValue() {
+  public final Optional<T> getValue() {
     if (isValid()) {
       T result = createInstance();
       fillInstance(result);
-      return result;
+      return Optional.of(result);
     }
 
     log.atFine().log("some property is not valid");
-    return null;
+    return Optional.empty();
   }
 
   private void fillInstance(T instance) {

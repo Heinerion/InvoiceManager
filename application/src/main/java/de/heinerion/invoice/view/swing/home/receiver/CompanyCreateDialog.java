@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;
+import java.util.Optional;
 
 @Flogger
 public class CompanyCreateDialog extends EntityCreationDialog<Company> {
@@ -62,10 +63,10 @@ public class CompanyCreateDialog extends EntityCreationDialog<Company> {
   }
 
   @Override
-  protected Company getEntityFromForm() {
-    Company company = super.getEntityFromForm();
-    company.setAccount(chosenAccount);
-    company.setAddress(address);
-    return company;
+  protected Optional<Company> getEntityFromForm() {
+    return super.getEntityFromForm()
+        .map(company -> company
+            .setAccount(chosenAccount)
+            .setAddress(address));
   }
 }
