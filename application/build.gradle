@@ -102,6 +102,7 @@ static def buildTimestamp() {
 }
 
 test {
+    useJUnitPlatform()
     testLogging { exceptionFormat = 'full' }
     systemProperty 'spring.profiles.active', 'test'
 }
