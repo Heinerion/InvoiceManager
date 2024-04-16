@@ -1,0 +1,33 @@
+configurations {
+    liquibase
+}
+
+// some problems with hibernate envers: https://github.com/liquibase/liquibase-hibernate/issues/260
+tasks.register('liquibaseDiffChangeLog', JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.liquibase
+    mainClass = "liquibase.integration.commandline.Main"
+
+    args "--defaultsFile=src/main/resources/liquibase-cli.properties"
+    args "--changeLogFile=src/main/resources/db/changelog/${buildTimestamp()}.yaml"
+    args "diffChangeLog"
+}
+
+tasks.register('liquibaseinit', JavaExec) {
+    group = "liquibase"
+
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.liquibase
+    mainClass = "liquibase.integration.commandline.Main"
+
+    args "--defaultsFile=src/main/resources/liquibase-cli.properties"
+    args "initProject"
+}
+
+static def buildTimestamp() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMdd-HH-mm-ss')
+    return formattedDate
+}

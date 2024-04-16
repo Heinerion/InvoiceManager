@@ -1,0 +1,28 @@
+dependencies {
+    // Lombok
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Spring Boot Starter Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.14'
+
+    // Database
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation 'com.h2database:h2:2.2.224'
+
+    // https://mvnrepository.com/artifact/org.easymock/easymock
+    testImplementation 'org.easymock:easymock:5.2.0'
+
+    // Approval Tests
+    testImplementation 'com.approvaltests:approvaltests:18.6.0'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging { exceptionFormat = 'full' }
+    systemProperty 'spring.profiles.active', 'test'
+}
