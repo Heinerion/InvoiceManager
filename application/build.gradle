@@ -47,9 +47,19 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
+    //
+    // Test Dependencies
+    //
+
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // Spring Boot Starter Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.14'
+
+    // Database
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation 'com.h2database:h2:2.2.224'
 
     // https://mvnrepository.com/artifact/org.easymock/easymock
     testImplementation 'org.easymock:easymock:4.3'
