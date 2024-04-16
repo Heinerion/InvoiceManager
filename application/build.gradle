@@ -90,7 +90,7 @@ tasks.register('liquibaseDiffChangeLog', JavaExec) {
 
     classpath sourceSets.main.runtimeClasspath
     classpath configurations.liquibase
-    main = "liquibase.integration.commandline.Main"
+    mainClass = "liquibase.integration.commandline.Main"
 
     args "--defaultsFile=src/main/resources/liquibase-cli.properties"
     args "--changeLogFile=src/main/resources/db/changelog/${buildTimestamp()}.yaml"
@@ -102,7 +102,7 @@ tasks.register('liquibaseinit', JavaExec) {
 
     classpath sourceSets.main.runtimeClasspath
     classpath configurations.liquibase
-    main = "liquibase.integration.commandline.Main"
+    mainClass = "liquibase.integration.commandline.Main"
 
     args "--defaultsFile=src/main/resources/liquibase-cli.properties"
     args "initProject"
