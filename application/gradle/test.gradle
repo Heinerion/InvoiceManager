@@ -21,7 +21,7 @@ dependencies {
 
 
     // Approval Tests
-    testImplementation 'com.approvaltests:approvaltests:18.7.1'
+    testImplementation 'com.approvaltests:approvaltests:23.1.0'
 }
 
 test {
