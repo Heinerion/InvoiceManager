@@ -9,7 +9,7 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.0'
     implementation 'org.javassist:javassist:3.29.0-GA'
-    implementation 'org.freemarker:freemarker:2.3.31'
+    implementation 'org.freemarker:freemarker:2.3.32'
     implementation 'com.thoughtworks.xstream:xstream:1.4.20'
     implementation 'com.google.flogger:flogger:0.7.4'
     implementation 'com.google.flogger:flogger-system-backend:0.7.4'
@@ -24,7 +24,7 @@ dependencies {
     implementation 'com.formdev:flatlaf:3.2'
 
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
-    implementation 'org.freemarker:freemarker:2.3.31'
+    implementation 'org.freemarker:freemarker:2.3.32'
 
     // Database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.14'
