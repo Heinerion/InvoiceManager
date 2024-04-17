@@ -20,7 +20,7 @@ dependencies {
 
     // Theming
     // https://www.formdev.com/flatlaf/
-    implementation 'com.formdev:flatlaf:3.2'
+    implementation 'com.formdev:flatlaf:3.4.1'
 
     // https://mvnrepository.com/artifact/org.freemarker/freemarker
     implementation 'org.freemarker:freemarker:2.3.32'
