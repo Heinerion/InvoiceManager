@@ -10,7 +10,7 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
     implementation 'org.javassist:javassist:3.29.0-GA'
     implementation 'com.thoughtworks.xstream:xstream:1.4.20'
-    implementation 'com.google.flogger:flogger:0.7.4'
+    implementation 'com.google.flogger:flogger:0.8'
     implementation 'com.google.flogger:flogger-system-backend:0.8'
     implementation 'org.springframework.boot:spring-boot-starter'
 
