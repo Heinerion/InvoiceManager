@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:14
+    image: postgres:16
     # restart: always
     environment:
       POSTGRES_USER: INVOICE_MANAGER
