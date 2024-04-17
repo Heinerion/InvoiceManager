@@ -116,8 +116,8 @@ class CalculatorPanel {
   }
 
   private void setupInteractions() {
-    btnPlus.addActionListener(e -> setFieldValues(CalculationResult.addTaxes(getAmount(), getTaxes())));
-    btnMinus.addActionListener(e -> setFieldValues(CalculationResult.subtractTaxes(getAmount(), getTaxes())));
+    btnPlus.addActionListener(e -> setFieldValues(CalculationResult.ofNet(getAmount(), getTaxes())));
+    btnMinus.addActionListener(e -> setFieldValues(CalculationResult.ofGross(getAmount(), getTaxes())));
   }
 
   private Money getAmount() {
@@ -132,9 +132,9 @@ class CalculatorPanel {
 
   private void setFieldValues(CalculationResult values) {
     if (values != null) {
-      fldNet.setText(values.getNet().getValueFormatted());
-      fldVat.setText(values.getVat().getValueFormatted());
-      fldGross.setText(values.getGross().getValueFormatted());
+      fldNet.setText(values.net().getValueFormatted());
+      fldVat.setText(values.vat().getValueFormatted());
+      fldGross.setText(values.gross().getValueFormatted());
     }
   }
 
