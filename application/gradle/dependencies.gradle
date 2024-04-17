@@ -16,7 +16,7 @@ dependencies {
 
     // detects system dark / light setting
     // https://github.com/Dansoftowner/jSystemThemeDetector
-    implementation 'com.github.Dansoftowner:jSystemThemeDetector:3.6'
+    implementation 'com.github.Dansoftowner:jSystemThemeDetector:3.9.1'
 
     // Theming
     // https://www.formdev.com/flatlaf/
