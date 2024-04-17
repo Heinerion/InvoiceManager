@@ -25,7 +25,7 @@ public class ProcessRunner {
     return "\"" + string + "\"";
   }
 
-  public void startProcess(String errorLogMessage, String... command) {
+  public boolean startProcess(String errorLogMessage, String... command) {
     String program = command[0];
 
     ProcessBuilder pb = new ProcessBuilder(command);
@@ -44,15 +44,18 @@ public class ProcessRunner {
         log.atWarning().log("process '%s' did not complete in time", program);
         throw new RuntimeException("process '%s' did not complete in time".formatted(program));
       }
+      return completedInTime;
     } catch (IOException e) {
       log.atSevere().withCause(e).log(errorLogMessage);
 
       String message = "command could not be executed.\n" + "Is " + program + " installed?";
       showExceptionMessage(e, message);
+      return false;
     } catch (InterruptedException e) {
       log.atSevere().withCause(e).log(errorLogMessage);
 
       Thread.currentThread().interrupt();
+      return false;
     }
   }
 

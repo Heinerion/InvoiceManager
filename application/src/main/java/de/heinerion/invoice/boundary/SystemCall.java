@@ -15,7 +15,7 @@ import java.util.*;
 class SystemCall {
   private final ProcessRunner processRunner;
 
-  void pdfLatex(Path tex) {
+  boolean pdfLatex(Path tex) {
     String command = ConfigurationService.get(ConfigurationService.PropertyKey.LATEX_COMMAND);
     List<String> arguments = new ArrayList<>(List.of(command.split(" ")));
 
@@ -24,6 +24,6 @@ class SystemCall {
     log.atFine().log("command '%s'", Strings.join(arguments, ' '));
 
     String errorLogMessage = Boundary.translate("error.pdflatex");
-    processRunner.startProcess(errorLogMessage, arguments.toArray(String[]::new));
+    return processRunner.startProcess(errorLogMessage, arguments.toArray(String[]::new));
   }
 }
