@@ -1,7 +1,7 @@
 dependencies {
     // Lombok
-    testCompileOnly 'org.projectlombok:lombok:1.18.24'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     // JUnit 5
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
