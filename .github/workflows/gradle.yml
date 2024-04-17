@@ -23,4 +23,4 @@ jobs:
       - name: Running build script
         uses: coactions/setup-xvfb@v1
         with:
-            run: bash ${GITHUB_WORKSPACE}/build.sh
+            run: bash ./build.sh
