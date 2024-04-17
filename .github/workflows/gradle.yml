@@ -21,4 +21,6 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Running build script
-        run: bash ${GITHUB_WORKSPACE}/build.sh
+        uses: coactions/setup-xvfb@v1
+        with:
+            run: bash ${GITHUB_WORKSPACE}/build.sh
