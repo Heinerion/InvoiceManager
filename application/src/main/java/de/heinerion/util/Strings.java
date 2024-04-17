@@ -9,23 +9,12 @@ public class Strings {
    * Copied from Log4j org.apache.logging.log4j.util.Strings#isBlank(java.lang.String)
    * </p>
    *
-   * @param s
-   *     the String to check, may be {@code null}
-   *
+   * @param s the String to check, may be {@code null}
    * @return {@code true} if the String is {@code null}, empty, or all characters are {@link
-   *     Character#isWhitespace(char)}
+   * Character#isWhitespace(char)}
    */
   public static boolean isBlank(final String s) {
-    if (s == null || s.isEmpty()) {
-      return true;
-    }
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
-      if (!Character.isWhitespace(c)) {
-        return false;
-      }
-    }
-    return true;
+    return s == null || s.isBlank();
   }
 
   /**
@@ -35,9 +24,7 @@ public class Strings {
    * Copied from Log4j org.apache.logging.log4j.util.Strings#isNotBlank(java.lang.String)
    * </p>
    *
-   * @param s
-   *     the String to check, may be {@code null}
-   *
+   * @param s the String to check, may be {@code null}
    * @return {@code true} if the String is non-{@code null} and has content after being trimmed.
    */
   public static boolean isNotBlank(final String s) {
