@@ -30,18 +30,17 @@ class LatexPrinterTest {
   private final Path targetDir = Path.of("target");
   private static final Path system = Path.of("system");
 
-  @BeforeEach
-  void setUp() {
-    when(pathUtil.getWorkingDirectory())
-        .thenReturn(workDir);
-    when(host.exists(any(Path.class)))
-        .thenReturn(true);
-    when(pathUtil.switchToSystem(any(Path.class)))
-        .thenAnswer(i -> system);
+  private void setUpHappyPath() {
+    when(pathUtil.getWorkingDirectory()).thenReturn(workDir);
+    when(host.exists(any(Path.class))).thenReturn(true);
+    when(host.pdfLatex(any(Path.class))).thenReturn(true);
+    when(pathUtil.switchToSystem(any(Path.class))).thenAnswer(i -> system);
   }
 
   @Test
   void writeFile_checksForExistence() {
+    setUpHappyPath();
+
     LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
@@ -58,6 +57,8 @@ class LatexPrinterTest {
 
   @Test
   void writeFile_createsTexSource() {
+    setUpHappyPath();
+
     LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
@@ -71,7 +72,25 @@ class LatexPrinterTest {
   }
 
   @Test
+  void writeFile_returnsIfPdfLatexDoesNotExist() {
+    when(pathUtil.getWorkingDirectory()).thenReturn(workDir);
+    when(host.pdfLatex(any(Path.class))).thenReturn(false);
+
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    printer.writeFile(mock(Conveyable.class), targetDir, "title");
+
+    ArgumentCaptor<Path> argument = ArgumentCaptor.forClass(Path.class);
+    verify(host).pdfLatex(argument.capture());
+
+    // as pdfLatex returns `false`, no files should be moved around or be deleted
+    verify(host, times(0)).moveFile(any(Path.class), any(Path.class));
+    verify(host, times(0)).deleteFile(any(Path.class));
+  }
+
+  @Test
   void writeFile_attemptsPdfLatex() {
+    setUpHappyPath();
+
     LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
@@ -83,6 +102,8 @@ class LatexPrinterTest {
 
   @Test
   void writeFile_movesArtifacts() {
+    setUpHappyPath();
+
     LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
@@ -107,6 +128,8 @@ class LatexPrinterTest {
 
   @Test
   void writeFile_deletesAuxFiles() {
+    setUpHappyPath();
+
     LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 

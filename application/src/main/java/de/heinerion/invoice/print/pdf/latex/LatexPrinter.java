@@ -31,7 +31,11 @@ public class LatexPrinter implements Printer {
     String content = latexGenerator.generateSourceContent(conveyable);
     hostSystem.writeToFile(sourceFile, content);
 
-    hostSystem.pdfLatex(sourceFile);
+    if (!hostSystem.pdfLatex(sourceFile)) {
+      log.atWarning().log("Could not generate latex file");
+      // TODO: still move the .tex file to "system"?
+      return;
+    }
 
     Path target = targetFolder.toAbsolutePath();
     moveSource(workingDirectory, pathUtil.switchToSystem(target), title + TEX);
