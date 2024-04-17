@@ -41,6 +41,6 @@ public class InvoiceItem {
 
   @Override
   public String toString() {
-    return String.format("%s %d %s", product.toString(), count, getNetPrice());
+    return "%s %d %s".formatted(product.toString(), count, getNetPrice());
   }
 }

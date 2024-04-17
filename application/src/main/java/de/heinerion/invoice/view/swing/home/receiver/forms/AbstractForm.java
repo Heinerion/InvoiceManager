@@ -93,11 +93,11 @@ public abstract class AbstractForm<T> implements Form<T> {
   }
 
   private String translateHint(String attribute) {
-    return translate(String.format("%s.%s.hint", getTitle(), attribute));
+    return translate("%s.%s.hint".formatted(getTitle(), attribute));
   }
 
   private String translateProperty(String attribute) {
-    return translate(String.format("%s.%s", getTitle(), attribute));
+    return translate("%s.%s".formatted(getTitle(), attribute));
   }
 
   private String translate(String key) {

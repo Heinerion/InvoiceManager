@@ -49,7 +49,7 @@ public class PathUtilNG {
       return Files.createDirectories(path);
     } catch (IOException e) {
       throw new RuntimeException(
-          String.format("%s is no directory and could not be created", path), e);
+          "%s is no directory and could not be created".formatted(path), e);
     }
   }
 
@@ -95,7 +95,7 @@ public class PathUtilNG {
       return Files.createFile(path);
     } catch (IOException e) {
       throw new RuntimeException(
-          String.format("%s is no directory and could not be created", path), e);
+          "%s is no directory and could not be created".formatted(path), e);
     }
   }
 

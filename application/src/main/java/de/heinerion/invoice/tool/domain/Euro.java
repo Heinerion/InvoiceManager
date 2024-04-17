@@ -77,6 +77,6 @@ public class Euro {
 
   @Override
   public String toString() {
-    return String.format("%d,%02d €", euros, cents);
+    return "%d,%02d €".formatted(euros, cents);
   }
 }

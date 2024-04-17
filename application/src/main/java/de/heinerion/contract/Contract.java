@@ -43,7 +43,7 @@ public class Contract {
    */
   public static void requireNotNull(Object variable, String variableName) {
     if (variable == null)
-      throw new ContractBrokenException(String.format("%s is not null", variableName));
+      throw new ContractBrokenException("%s is not null".formatted(variableName));
   }
 
   /**
@@ -60,7 +60,7 @@ public class Contract {
    */
   public static void requireNotNull(Object variable, String variableName, String context) {
     if (variable == null)
-      throw new ContractBrokenException(String.format("%s is not null. (%s)", variableName, context));
+      throw new ContractBrokenException("%s is not null. (%s)".formatted(variableName, context));
   }
 
   /**

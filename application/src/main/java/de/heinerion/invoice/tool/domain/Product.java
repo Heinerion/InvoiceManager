@@ -46,6 +46,6 @@ public class Product {
 
   @Override
   public String toString() {
-    return String.format("%s %s", name, getPricePerUnit());
+    return "%s %s".formatted(name, getPricePerUnit());
   }
 }
