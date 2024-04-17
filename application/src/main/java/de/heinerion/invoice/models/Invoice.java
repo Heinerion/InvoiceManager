@@ -2,9 +2,9 @@ package de.heinerion.invoice.models;
 
 import de.heinerion.contract.Contract;
 import de.heinerion.invoice.Translator;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 

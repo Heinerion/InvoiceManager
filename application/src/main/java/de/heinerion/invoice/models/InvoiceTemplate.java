@@ -1,8 +1,8 @@
 package de.heinerion.invoice.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.text.Collator;
 import java.util.*;
 import java.util.stream.Collectors;

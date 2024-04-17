@@ -1,8 +1,8 @@
 package de.heinerion.invoice.domain.values;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
