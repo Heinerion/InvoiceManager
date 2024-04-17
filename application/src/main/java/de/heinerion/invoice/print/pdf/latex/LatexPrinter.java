@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Path;
 
 @Flogger
 @Service("Latex")
@@ -44,37 +43,20 @@ public class LatexPrinter implements Printer {
   }
 
   private void moveSource(Path sourceFolder, Path targetFolder, String fileName) {
-    Contract.require(Files.exists(sourceFolder), "Source folder exists: %s".formatted(sourceFolder));
-    Contract.require(Files.exists(targetFolder), "Target folder exists: %s".formatted(targetFolder));
+    Contract.require(hostSystem.exists(sourceFolder), "Source folder exists: %s".formatted(sourceFolder));
+    Contract.require(hostSystem.exists(targetFolder), "Target folder exists: %s".formatted(targetFolder));
 
     Path target = targetFolder.resolve(fileName);
     Path source = sourceFolder.resolve(fileName);
 
-    move(source, target);
-  }
-
-  private void move(Path source, Path target) {
-    Contract.require(Files.exists(source), "Source file exists: %s".formatted(source));
-
-    try {
-      log.atInfo().log("Move from %s to %s", source, target);
-      Files.move(source, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-    } catch (IOException ioe) {
-      log.atWarning()
-          .withCause(ioe)
-          .log("File could not be moved to %s.", target);
-    }
+    hostSystem.moveFile(source, target);
   }
 
   private void removeTempFiles(Path directory, String title) {
     String[] endings = {".aux", ".log", ".out"};
     for (String ending : endings) {
       Path filename = directory.resolve(title + ending);
-      try {
-        Files.delete(filename);
-      } catch (IOException e) {
-        log.atWarning().log("%s could not be removed", filename);
-      }
+      hostSystem.deleteFile(filename);
     }
   }
 }

@@ -14,8 +14,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.h2database/h2
     testImplementation 'com.h2database:h2:2.2.224'
 
-    // https://mvnrepository.com/artifact/org.easymock/easymock
+    // Mocking
     testImplementation 'org.easymock:easymock:5.2.0'
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
+
 
     // Approval Tests
     testImplementation 'com.approvaltests:approvaltests:18.6.0'
