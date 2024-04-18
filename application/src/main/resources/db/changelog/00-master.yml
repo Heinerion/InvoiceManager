@@ -11,3 +11,9 @@ databaseChangeLog:
   - include:
       file: 04-drop-specific-address-fields.yaml
       relativeToChangelogFile: true
+  - include:
+      file: 05-migrate-to-hibernate-6.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 06-migrate-sequences.yaml
+      relativeToChangelogFile: true

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1713466587230-11
+      author: Heiner Specht
+      changes:
+        - sqlFile:
+            path: sql/06-migrate-sequences.sql
+            relativeToChangelogFile: true

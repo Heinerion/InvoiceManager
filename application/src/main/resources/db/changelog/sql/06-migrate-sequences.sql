@@ -1,0 +1,9 @@
+SELECT setval('account_seq', (SELECT MAX(id) FROM account));
+SELECT setval('address_seq', (SELECT MAX(id) FROM address));
+SELECT setval('company_seq', (SELECT MAX(id) FROM company));
+SELECT setval('invoice_seq', (SELECT MAX(id) FROM invoice));
+SELECT setval('item_seq', (SELECT MAX(id) FROM item));
+SELECT setval('letter_seq', (SELECT MAX(id) FROM letter));
+SELECT setval('product_seq', (SELECT MAX(id) FROM product));
+SELECT setval('template_seq', (SELECT MAX(id) FROM template));
+SELECT setval('template_item_seq', (SELECT MAX(id) FROM template_item));
