@@ -7,8 +7,12 @@ import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
+
+import static java.util.Optional.*;
 
 /**
  * @author heiner
@@ -25,7 +29,6 @@ class InvoiceDateMenuEntry extends MenuEntry {
   private JLabel lblMM;
   private JLabel lblDD;
   private JButton btnToday;
-  private LocalDate date;
 
   private JLabel header;
 
@@ -95,17 +98,12 @@ class InvoiceDateMenuEntry extends MenuEntry {
     return new JSpinner(new SpinnerNumberModel(preselected, min, max, stepSize));
   }
 
-  // TODO refactor this to return an Optional LocalDate
-  private boolean isValidDate() {
-    boolean correct = true;
-
+  private Optional<LocalDate> toValidDate() {
     try {
-      date = DateUtil.parse(fldDD.getValue() + "." + fldMM.getValue() + "." + fldYY.getValue());
+      return of(DateUtil.parse("%s.%s.%s".formatted(fldDD.getValue(), fldMM.getValue(), fldYY.getValue())));
     } catch (final DateTimeParseException e) {
-      correct = false;
+      return empty();
     }
-
-    return correct;
   }
 
   @Override
@@ -120,23 +118,28 @@ class InvoiceDateMenuEntry extends MenuEntry {
 
   @Override
   protected void setupInteractions(JDialog dialog) {
-    getBtnOk().addActionListener(
-        ignored -> {
-          if (isValidDate()) {
-            session.setDate(date);
-            getCloser().windowClosing(null);
-          } else {
-            JOptionPane.showMessageDialog(dialog.getRootPane(),
-                Translator.translate("error.dateFormat"), Translator.translate("error.title"),
-                JOptionPane.INFORMATION_MESSAGE);
-          }
-        });
+    getBtnOk().addActionListener(ignored -> toValidDate().ifPresentOrElse(
+        this::updateSessionDate,
+        () -> displayError(dialog)));
+    btnToday.addActionListener(this::setToday);
+  }
 
-    btnToday.addActionListener(e -> {
-      final LocalDate now = LocalDate.now();
-      fldDD.setValue(now.getDayOfMonth());
-      fldMM.setValue(now.getMonthValue());
-      fldYY.setValue(now.getYear());
-    });
+  private static void displayError(JDialog dialog) {
+    JOptionPane.showMessageDialog(dialog.getRootPane(),
+        Translator.translate("error.dateFormat"),
+        Translator.translate("error.title"),
+        JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private void updateSessionDate(LocalDate date) {
+    session.setDate(date);
+    getCloser().windowClosing(null);
+  }
+
+  private void setToday(ActionEvent e) {
+    final LocalDate now = LocalDate.now();
+    fldDD.setValue(now.getDayOfMonth());
+    fldMM.setValue(now.getMonthValue());
+    fldYY.setValue(now.getYear());
   }
 }
