@@ -13,19 +13,6 @@ import java.util.Collections;
 @Flogger
 @RequiredArgsConstructor
 public class HostSystem {
-  private final SystemCall systemCall;
-
-  public boolean pdfLatex(Path tex) {
-    log.atInfo().log("create pdf from latex sources");
-    if (systemCall.pdfLatex(tex)) {
-      // twice, for page numbering
-      log.atInfo().log("recreate pdf to update references and page numbering");
-      return systemCall.pdfLatex(tex);
-    } else {
-      log.atInfo().log("pdfLatex not installed");
-      return false;
-    }
-  }
 
   public void writeToFile(Path path, String content) {
     try {

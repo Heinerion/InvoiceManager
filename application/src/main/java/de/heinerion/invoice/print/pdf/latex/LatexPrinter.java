@@ -1,7 +1,7 @@
 package de.heinerion.invoice.print.pdf.latex;
 
 import de.heinerion.contract.Contract;
-import de.heinerion.invoice.boundary.HostSystem;
+import de.heinerion.invoice.boundary.*;
 import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.print.Printer;
 import de.heinerion.invoice.util.PathUtilNG;
@@ -21,6 +21,7 @@ public class LatexPrinter implements Printer {
   private final HostSystem hostSystem;
   private final LatexGenerator latexGenerator;
   private final PathUtilNG pathUtil;
+  private final SystemCall systemCall;
 
   @Override
   public void writeFile(Conveyable conveyable, Path targetFolder, String title) {
@@ -31,7 +32,7 @@ public class LatexPrinter implements Printer {
     String content = latexGenerator.generateSourceContent(conveyable);
     hostSystem.writeToFile(sourceFile, content);
 
-    if (!hostSystem.pdfLatex(sourceFile)) {
+    if (!systemCall.pdfLatex(sourceFile)) {
       log.atWarning().log("Could not generate latex file");
       // TODO: still move the .tex file to "system"?
       return;

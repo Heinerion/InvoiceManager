@@ -12,14 +12,26 @@ import java.util.*;
 @Flogger
 @Service
 @RequiredArgsConstructor
-class SystemCall {
+public class SystemCall {
   private final ProcessRunner processRunner;
 
-  boolean pdfLatex(Path tex) {
+  public boolean pdfLatex(Path tex) {
+    log.atInfo().log("create pdf from latex sources");
+    if (callPdfLatex(tex)) {
+      // twice, for page numbering
+      log.atInfo().log("recreate pdf to update references and page numbering");
+      return callPdfLatex(tex);
+    } else {
+      log.atInfo().log("pdfLatex not installed");
+      return false;
+    }
+  }
+
+  boolean callPdfLatex(Path tex) {
     String command = ConfigurationService.get(ConfigurationService.PropertyKey.LATEX_COMMAND);
     List<String> arguments = new ArrayList<>(List.of(command.split(" ")));
 
-    String fileArgument = processRunner.quote(tex.toAbsolutePath().toString());
+    String fileArgument = ProcessRunner.quote(tex.toAbsolutePath().toString());
     arguments.add(fileArgument);
     log.atFine().log("command '%s'", Strings.join(arguments, ' '));
 

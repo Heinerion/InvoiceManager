@@ -1,6 +1,6 @@
 package de.heinerion.invoice.print.pdf.latex;
 
-import de.heinerion.invoice.boundary.HostSystem;
+import de.heinerion.invoice.boundary.*;
 import de.heinerion.invoice.models.Conveyable;
 import de.heinerion.invoice.util.PathUtilNG;
 import org.junit.jupiter.api.*;
@@ -24,6 +24,8 @@ class LatexPrinterTest {
   private HostSystem host;
   @Mock
   private PathUtilNG pathUtil;
+  @Mock
+  private SystemCall systemCall;
 
   private final LatexGenerator generator = conveyable -> CONTENT;
   private final Path workDir = Path.of("work");
@@ -33,7 +35,7 @@ class LatexPrinterTest {
   private void setUpHappyPath() {
     when(pathUtil.getWorkingDirectory()).thenReturn(workDir);
     when(host.exists(any(Path.class))).thenReturn(true);
-    when(host.pdfLatex(any(Path.class))).thenReturn(true);
+    when(systemCall.pdfLatex(any(Path.class))).thenReturn(true);
     when(pathUtil.switchToSystem(any(Path.class))).thenAnswer(i -> system);
   }
 
@@ -41,7 +43,7 @@ class LatexPrinterTest {
   void writeFile_checksForExistence() {
     setUpHappyPath();
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> existsArgs = ArgumentCaptor.forClass(Path.class);
@@ -59,7 +61,7 @@ class LatexPrinterTest {
   void writeFile_createsTexSource() {
     setUpHappyPath();
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> path = ArgumentCaptor.forClass(Path.class);
@@ -74,13 +76,13 @@ class LatexPrinterTest {
   @Test
   void writeFile_returnsIfPdfLatexDoesNotExist() {
     when(pathUtil.getWorkingDirectory()).thenReturn(workDir);
-    when(host.pdfLatex(any(Path.class))).thenReturn(false);
+    when(systemCall.pdfLatex(any(Path.class))).thenReturn(false);
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> argument = ArgumentCaptor.forClass(Path.class);
-    verify(host).pdfLatex(argument.capture());
+    verify(systemCall).pdfLatex(argument.capture());
 
     // as pdfLatex returns `false`, no files should be moved around or be deleted
     verify(host, times(0)).moveFile(any(Path.class), any(Path.class));
@@ -91,11 +93,11 @@ class LatexPrinterTest {
   void writeFile_attemptsPdfLatex() {
     setUpHappyPath();
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> argument = ArgumentCaptor.forClass(Path.class);
-    verify(host).pdfLatex(argument.capture());
+    verify(systemCall).pdfLatex(argument.capture());
 
     assertEquals(workDir.resolve("title.tex"), argument.getValue());
   }
@@ -104,7 +106,7 @@ class LatexPrinterTest {
   void writeFile_movesArtifacts() {
     setUpHappyPath();
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> source = ArgumentCaptor.forClass(Path.class);
@@ -130,7 +132,7 @@ class LatexPrinterTest {
   void writeFile_deletesAuxFiles() {
     setUpHappyPath();
 
-    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil);
+    LatexPrinter printer = new LatexPrinter(host, generator, pathUtil, systemCall);
     printer.writeFile(mock(Conveyable.class), targetDir, "title");
 
     ArgumentCaptor<Path> deleteArgs = ArgumentCaptor.forClass(Path.class);
