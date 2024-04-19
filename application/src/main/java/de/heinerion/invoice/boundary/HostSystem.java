@@ -62,6 +62,18 @@ public class HostSystem {
     }
   }
 
+  public boolean createFile(Path path) {
+    try {
+      Files.createFile(path);
+      return true;
+    } catch (IOException e) {
+      log.atWarning()
+          .withCause(e)
+          .log("file '%s' could not be created", path);
+      return false;
+    }
+  }
+
   public void deleteFile(Path filename) {
     try {
       Files.delete(filename);

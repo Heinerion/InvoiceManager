@@ -2,6 +2,7 @@ package de.heinerion.invoice.boundary;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -50,5 +51,13 @@ class HostSystemTest {
 
     assertEquals(rootPath, captor.getValue());
     assertFalse(result);
+  }
+
+  @Test
+  void createFile(@TempDir Path dir) {
+    HostSystem host = new HostSystem(system);
+    Path path = dir.resolve("anything");
+    assertTrue(host.createFile(path), "File created");
+    assertFalse(host.createFile(path), "The file was already created");
   }
 }
