@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Path;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -20,15 +20,20 @@ import java.util.concurrent.TimeUnit;
 public class ProcessRunner {
   private final PathUtilNG pathUtil;
   private final Session session;
+  private final HostSystem hostSystem;
 
-  String quote(String string) {
+  public static String quote(String string) {
     return "\"" + string + "\"";
   }
 
   public boolean startProcess(String errorLogMessage, String... command) {
+    ProcessBuilder builder = new ProcessBuilder(command);
+    return startProcess(builder, errorLogMessage, command);
+  }
+
+  boolean startProcess(ProcessBuilder pb, String errorLogMessage, String... command) {
     String program = command[0];
 
-    ProcessBuilder pb = new ProcessBuilder(command);
     pb.directory(pathUtil.getWorkingDirectory().toFile());
     // map process IO to stdin / stdout
     pb.inheritIO();
@@ -65,11 +70,10 @@ public class ProcessRunner {
         .format(DateTimeFormatter.ofPattern("uuuu-MM-dd HHmmssSSS"));
 
     var logFile = pathUtil.getLogPath(program).resolve(timestamp + ".log");
-    try {
-      Files.createFile(logFile);
+    if (hostSystem.createFile(logFile)) {
       log.atFine().log("create logfile at %s", logFile);
-    } catch (IOException e) {
-      throw new RuntimeException(logFile + " could not be created", e);
+    } else {
+      throw new RuntimeException(logFile + " could not be created");
     }
 
     return logFile;
