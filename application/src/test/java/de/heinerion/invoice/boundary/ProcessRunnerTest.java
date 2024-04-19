@@ -9,6 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +24,7 @@ class ProcessRunnerTest {
 
   private final static Path workingDirectory = Path.of("workingDirectory");
   private final static Path logs = Path.of("logs");
+  public static final Duration MAX_WAIT = Duration.of(5, ChronoUnit.SECONDS);
 
   @Mock
   private PathUtilNG pathUtil;
@@ -53,19 +56,19 @@ class ProcessRunnerTest {
     mockHappyPath();
 
     ProcessRunner runner = new ProcessRunner(pathUtil, session, hostSystem);
-    boolean returnCode = runner.startProcess(builder, null, "prog");
+    boolean returnCode = runner.startProcess(builder, null, MAX_WAIT, "prog");
 
     verify(builder).start();
     assertTrue(returnCode);
   }
-
 
   @Test
   void startProcess_happyPath_processWaitTime() throws IOException, InterruptedException {
     mockHappyPath();
 
     ProcessRunner runner = new ProcessRunner(pathUtil, session, hostSystem);
-    runner.startProcess(builder, null, "prog");
+    Duration wait = Duration.of(10, ChronoUnit.SECONDS);
+    runner.startProcess(builder, null, wait, "prog");
 
     verify(process).waitFor(10, TimeUnit.SECONDS);
   }
@@ -75,7 +78,7 @@ class ProcessRunnerTest {
     mockHappyPath();
 
     ProcessRunner runner = new ProcessRunner(pathUtil, session, hostSystem);
-    runner.startProcess(builder, null, "prog");
+    runner.startProcess(builder, null, MAX_WAIT, "prog");
 
     verify(builder).directory(workingDirectory.toFile());
   }
@@ -85,7 +88,7 @@ class ProcessRunnerTest {
     mockHappyPath();
 
     ProcessRunner runner = new ProcessRunner(pathUtil, session, hostSystem);
-    runner.startProcess(builder, null, "prog");
+    runner.startProcess(builder, null, MAX_WAIT, "prog");
 
     var files = ArgumentCaptor.forClass(File.class);
     verify(builder).redirectOutput(files.capture());
