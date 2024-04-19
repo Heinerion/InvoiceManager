@@ -5,7 +5,7 @@ import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AbstractForm;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.flogger.Flogger;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -16,53 +16,51 @@ import java.util.*;
 import java.util.function.Consumer;
 
 @Flogger
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class EntityCreationDialog<T> {
-  private final Consumer<T> callback;
   private final Session session;
-  private BusyFrame originFrame;
+  private final JpaRepository<T, ?> entityRepository;
+  private final Consumer<T> callback;
+
   /**
    * window adapter, responsible for closing
    */
   private final DisposeAdapter closer = new DisposeAdapter();
-  private JDialog dialog;
 
+  private BusyFrame originFrame;
+  private JDialog dialog;
   private JButton btnSave;
   private JButton btnCancel;
   private JPanel formPanel;
   private AbstractForm<T> form;
   private JComboBox<EntityWrapper<T>> entityDropDown;
 
-  private final JpaRepository<T, ?> entityRepository;
-
-  protected EntityCreationDialog(Session session, JpaRepository<T, ?> entityRepository, Consumer<T> callback) {
-    this.entityRepository = entityRepository;
-    this.callback = callback;
-    this.session = session;
-  }
-
   /**
    * shows an always on top modal menu and sets the origin frame busy.
    */
   public void showDialog() {
+    createBusyFrame();
+    createDialog();
+  }
+
+  private void createBusyFrame() {
     ApplicationFrame applicationFrame = session.getApplicationFrame();
     originFrame = new BusyFrame(applicationFrame.getFrame());
     originFrame.setBusy(true);
-
-    dialog = new JDialog(originFrame.frame(), true);
-    showDialog(dialog);
   }
 
-  private void showDialog(JDialog modalDialog) {
-    modalDialog.setAlwaysOnTop(true);
-    modalDialog.addWindowListener(closer);
+  private void createDialog() {
+    dialog = new JDialog(originFrame.frame(), true);
+    dialog.setAlwaysOnTop(true);
+    dialog.addWindowListener(closer);
     createWidgets();
-    addWidgets(modalDialog);
-    setupInteractions(modalDialog);
-    modalDialog.setTitle(getDialogTitle());
-    modalDialog.pack();
+    addWidgets(dialog);
+    setupInteractions(dialog);
+    dialog.setTitle(getDialogTitle());
+    dialog.pack();
 
-    modalDialog.setLocationRelativeTo(originFrame.frame());
-    modalDialog.setVisible(true);
+    dialog.setLocationRelativeTo(originFrame.frame());
+    dialog.setVisible(true);
   }
 
   protected abstract String getDialogTitle();
@@ -105,19 +103,12 @@ public abstract class EntityCreationDialog<T> {
     return entityDropDown.getSelectedIndex() == 0;
   }
 
-  @RequiredArgsConstructor
-  private static class EntityWrapper<T> {
-    private final T entity;
-
-    public T getEntity() {
-      return entity;
-    }
-
+  private record EntityWrapper<T>(T entity) {
     @Override
     public String toString() {
-      return entity == null
-          ? "-"
-          : String.valueOf(entity);
+      return Optional.ofNullable(entity)
+          .map(String::valueOf)
+          .orElse("-");
     }
   }
 
@@ -168,7 +159,7 @@ public abstract class EntityCreationDialog<T> {
 
     return Optional.ofNullable(entityDropDown
         .getItemAt(entityDropDown.getSelectedIndex())
-        .getEntity());
+        .entity());
   }
 
   protected Optional<T> getEntityFromForm() {
