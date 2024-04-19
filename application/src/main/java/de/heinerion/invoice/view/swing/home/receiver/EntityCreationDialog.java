@@ -2,7 +2,7 @@ package de.heinerion.invoice.view.swing.home.receiver;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import de.heinerion.invoice.view.swing.home.receiver.forms.AbstractForm;
 import de.heinerion.invoice.view.swing.menu.BusyFrame;
 import lombok.RequiredArgsConstructor;

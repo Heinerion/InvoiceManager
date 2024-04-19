@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.laf;
 
 import com.jthemedetecor.OsThemeDetector;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import lombok.extern.flogger.Flogger;
 
 import javax.swing.*;

@@ -1,6 +1,6 @@
 package de.heinerion.invoice.view;
 
-import de.heinerion.invoice.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;

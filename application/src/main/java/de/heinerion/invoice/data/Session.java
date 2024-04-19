@@ -3,7 +3,7 @@ package de.heinerion.invoice.data;
 import de.heinerion.invoice.listener.*;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.services.ConfigurationService;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
+import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import lombok.*;
 import lombok.extern.flogger.Flogger;
 import org.springframework.context.annotation.*;

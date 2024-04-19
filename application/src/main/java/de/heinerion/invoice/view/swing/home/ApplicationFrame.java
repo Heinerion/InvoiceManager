@@ -6,9 +6,9 @@ import de.heinerion.invoice.listener.*;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.view.DateUtil;
-import de.heinerion.invoice.view.swing.ApplicationFrame;
 import de.heinerion.invoice.view.swing.menu.MenuFactory;
 import de.heinerion.invoice.view.swing.tab.ContentTabPane;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
@@ -17,12 +17,10 @@ import java.awt.event.*;
 import java.util.List;
 import java.util.*;
 
-/**
- * ApplicationFrameImpl.java heiner 27.03.2012
- */
 @Service
-class ApplicationFrameImpl implements ApplicationFrame, ActiveCompanyChangedListener, DateListener {
+public class ApplicationFrame implements ActiveCompanyChangedListener, DateListener {
   private final Session session;
+  @Getter
   private final JFrame frame;
 
   private final Refreshable receiverPanel;
@@ -30,7 +28,7 @@ class ApplicationFrameImpl implements ApplicationFrame, ActiveCompanyChangedList
   private final ContentTabPane contentTabPane;
   private final MenuFactory menuFactory;
 
-  ApplicationFrameImpl(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, MenuFactory menuFactory, Session session) {
+  ApplicationFrame(GlassPane glassPane, ContentTabPane tabPane, ReceiverPanel receiverPanel, MenuFactory menuFactory, Session session) {
     this.session = session;
     this.menuFactory = menuFactory;
     contentTabPane = tabPane;
@@ -46,11 +44,6 @@ class ApplicationFrameImpl implements ApplicationFrame, ActiveCompanyChangedList
     refreshTitle();
 
     frame.pack();
-  }
-
-  @Override
-  public JFrame getFrame() {
-    return frame;
   }
 
   private void addWidgets() {
@@ -82,29 +75,16 @@ class ApplicationFrameImpl implements ApplicationFrame, ActiveCompanyChangedList
   @Override
   public void notifyCompany() {
     refreshTitle();
+    refreshContentTabs();
+  }
+
+  private void refreshContentTabs() {
     contentTabPane.refreshContents();
   }
 
   @Override
   public void notifyDate() {
     refreshTitle();
-  }
-
-  @Override
-  public void refresh() {
-    refreshTitle();
-    refreshBoxes();
-  }
-
-  /**
-   * refresh combo boxes
-   */
-  private void refreshBoxes() {
-    // TODO refresh boxes seems quite costly
-    // reason: the receiver panel updates the company chooser, which in turn re-selects the company which triggers another round of updates...
-    receiverPanel.refresh();
-
-    contentTabPane.refreshContents();
   }
 
   /**
