@@ -1,8 +1,6 @@
 package de.heinerion.invoice.services;
 
-import de.heinerion.invoice.InvoiceManager;
 import lombok.extern.flogger.Flogger;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import java.io.*;
@@ -18,17 +16,6 @@ public class ConfigurationService {
    * Hides the default public Constructor
    */
   private ConfigurationService() {
-  }
-
-  public static <T> T getBean(Class<T> requiredType) {
-    return getContext()
-        .orElseGet(() -> context = createContext())
-        .getBean(requiredType);
-  }
-
-  private static AbstractApplicationContext createContext() {
-    log.atInfo().log("create new application context");
-    return new AnnotationConfigApplicationContext(InvoiceManager.class);
   }
 
   public static String get(PropertyKey key) {

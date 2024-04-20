@@ -6,7 +6,7 @@ import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.view.swing.home.ApplicationFrame;
 import lombok.*;
 import lombok.extern.flogger.Flogger;
-import org.springframework.context.annotation.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -14,7 +14,8 @@ import java.util.*;
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.REVISION;
 
 @Flogger
-@Configuration
+@Service
+@RequiredArgsConstructor
 public class Session {
   @Getter
   private final String version = ConfigurationService.get(REVISION);
@@ -23,6 +24,7 @@ public class Session {
   private final Set<AvailableCompaniesChangedListener> availableCompaniesChangedListeners = new HashSet<>();
   private final Set<ConveyableListener> conveyableListeners = new HashSet<>();
   private final Set<DateListener> dateListeners = new HashSet<>();
+
   private Company activeCompany;
   @Getter
   private Address activeAddress;
@@ -35,9 +37,6 @@ public class Session {
   @Getter
   @Setter
   private ApplicationFrame applicationFrame;
-
-  Session() {
-  }
 
   public void isDebugMode(boolean isDebugActivated) {
     debugMode = isDebugActivated;
@@ -110,14 +109,5 @@ public class Session {
   private void notifyDate() {
     log.atFine().log("notifyDate");
     dateListeners.forEach(DateListener::notifyDate);
-  }
-
-  @Bean
-  public static Session getInstance() {
-    return InstanceHolder.INSTANCE;
-  }
-
-  private static class InstanceHolder {
-    private static final Session INSTANCE = new Session();
   }
 }

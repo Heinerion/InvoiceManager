@@ -5,12 +5,17 @@ import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.services.ConfigurationService;
 import de.heinerion.invoice.testsupport.builder.CompanyBuilder;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 
 import static de.heinerion.invoice.services.ConfigurationService.PropertyKey.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@ExtendWith(MockitoExtension.class)
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PathUtilTest {
   private static String baseDir;
 
@@ -26,11 +31,14 @@ public class PathUtilTest {
 
   private static PathUtilNG pathUtil;
 
+  @Mock
+  private Session session;
+
   @BeforeEach
   public void setUp() {
     baseDir = combine(java.lang.System.getProperty("user.home"), property(FOLDER_DATA));
     company = new CompanyBuilder().withDescriptiveName("descriptive").build();
-    pathUtil = new PathUtilNG(Session.getInstance());
+    pathUtil = new PathUtilNG(session);
   }
 
   @Test
