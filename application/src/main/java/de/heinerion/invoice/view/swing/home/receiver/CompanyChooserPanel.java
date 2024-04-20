@@ -5,7 +5,6 @@ import de.heinerion.invoice.listener.AvailableCompaniesChangedListener;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.home.*;
-import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +56,7 @@ class CompanyChooserPanel implements Refreshable, AvailableCompaniesChangedListe
 
   private void notifySession() {
     getSelectedCompany()
-        .map(CompanyWrapper::getCompany)
+        .map(CompanyWrapper::company)
         .flatMap(c -> companyRepository.findById(c.getId()))
         .ifPresent(session::setActiveCompany);
   }
@@ -76,14 +75,7 @@ class CompanyChooserPanel implements Refreshable, AvailableCompaniesChangedListe
     refresh();
   }
 
-  @RequiredArgsConstructor
-  private static class CompanyWrapper {
-    private final Company company;
-
-    public Company getCompany() {
-      return company;
-    }
-
+  private record CompanyWrapper(Company company) {
     @Override
     public String toString() {
       return company.getOfficialName();
