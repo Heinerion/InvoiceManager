@@ -10,7 +10,7 @@ final class SidePanel extends JPanel {
   }
 
   @Override
-  public final Component add(Component comp) {
+  public Component add(Component comp) {
     final Component result = super.add(comp);
 
     setMaximumSize(comp.getPreferredSize());

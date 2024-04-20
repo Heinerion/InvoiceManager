@@ -45,21 +45,4 @@ public class Product {
   public String toString() {
     return getName();
   }
-
-  public static Product of(String name, String unit, double pricePerUnit) {
-    return new Product()
-        .setName(name)
-        .setUnit(unit)
-        .setPricePerUnit(pricePerUnit);
-  }
-
-  public static Product of(String message) {
-    return new Product()
-        .setName(message);
-  }
-
-  public static Product empty() {
-    return new Product();
-  }
-
 }

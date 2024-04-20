@@ -65,12 +65,4 @@ public class ErrorDialog {
     jLabel.setFont(jLabel.getFont().deriveFont(Font.BOLD));
     return jLabel;
   }
-
-  public void catchAll(Runnable intf) {
-    try {
-      intf.run();
-    } catch (RuntimeException e) {
-      show(e);
-    }
-  }
 }

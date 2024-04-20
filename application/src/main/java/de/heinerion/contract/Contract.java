@@ -38,7 +38,6 @@ public class Contract {
    *
    * @param variable     shall not be {@code null}
    * @param variableName name of the given variable, to be used in the exception message if violated
-   *
    * @throws ContractBrokenException if the contract is violated
    */
   public static void requireNotNull(Object variable, String variableName) {
@@ -55,7 +54,6 @@ public class Contract {
    * @param variable     shall not be {@code null}
    * @param variableName name of the given variable, to be used in the exception message by violation
    * @param context      context of this contract, which will be appended to the exception, if violated
-   *
    * @throws ContractBrokenException if the contract is violated
    */
   public static void requireNotNull(Object variable, String variableName, String context) {
@@ -71,23 +69,6 @@ public class Contract {
    *
    * @param variable     shall not be {@code null}
    * @param variableName name of the given variable, to be used in the exception message by violation
-   * @param context      context of this contract, which will be appended to the exception, if violated
-   *
-   * @throws ContractBrokenException if the contract is violated
-   */
-  public static void ensureNotNull(Object variable, String variableName, String context) {
-    requireNotNull(variable, variableName, context);
-  }
-
-  /**
-   * Ensures the given {@link Object} is not null after processing
-   * <p>
-   * Shall be used at the end or well inside of methods, meant as a guard of post-conditions
-   * </p>
-   *
-   * @param variable     shall not be {@code null}
-   * @param variableName name of the given variable, to be used in the exception message by violation
-   *
    * @throws ContractBrokenException if the contract is violated
    */
   public static void ensureNotNull(Object variable, String variableName) {
@@ -102,26 +83,10 @@ public class Contract {
    *
    * @param condition    shall not result in {@code false}
    * @param errorMessage message to express the contract
-   *
    * @throws ContractBrokenException if the contract is violated
    */
   public static void require(boolean condition, String errorMessage) {
     if (!condition)
       throw new ContractBrokenException(errorMessage);
-  }
-
-  /**
-   * Requires the given condition to be met.
-   * <p>
-   * Shall be used at the end or well inside of methods, meant as a guard of post-conditions
-   * </p>
-   *
-   * @param condition    shall not result in {@code false}
-   * @param errorMessage message to express the contract
-   *
-   * @throws ContractBrokenException if the contract is violated
-   */
-  public static void ensure(boolean condition, String errorMessage) {
-    require(condition, errorMessage);
   }
 }

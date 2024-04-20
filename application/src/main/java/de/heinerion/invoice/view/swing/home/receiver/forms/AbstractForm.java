@@ -40,7 +40,6 @@ public abstract class AbstractForm<T> implements Form<T> {
     }
   }
 
-  @Override
   public final JPanel getPanel() {
 
     JPanel container = new JPanel(new BorderLayout());

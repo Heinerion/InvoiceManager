@@ -1,6 +1,5 @@
 package de.heinerion.invoice.models;
 
-import de.heinerion.contract.Contract;
 import de.heinerion.invoice.Translator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -62,31 +61,6 @@ public class Invoice implements Conveyable {
         .sorted(Comparator.nullsLast(Comparator.comparing(Item::getPosition, Integer::compareTo)))
         .toList();
   }
-
-  public Invoice setItems(List<Item> items) {
-    Contract.requireNotNull(items, "items");
-    this.items = updateItemPositions(items);
-    return this;
-  }
-
-  private Set<Item> updateItemPositions(List<Item> items) {
-    Contract.requireNotNull(items, "items");
-    Set<Item> set = new HashSet<>();
-    for (Item item : items) {
-      // Items could've been reordered
-      set.add(updatePosition(item, items.indexOf(item)));
-    }
-    return set;
-  }
-
-  private Item updatePosition(Item item, int newPosition) {
-    Contract.requireNotNull(item, "item");
-    return Objects.equals(item.getPosition(), newPosition)
-        ? item
-        : item.setPosition(newPosition);
-  }
-
-  // TODO removeItem?
 
   @Override
   public boolean isPrintable() {

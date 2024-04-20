@@ -1,15 +1,12 @@
 package de.heinerion.invoice.services;
 
 import lombok.extern.flogger.Flogger;
-import org.springframework.context.support.AbstractApplicationContext;
 
 import java.io.*;
 import java.util.*;
 
 @Flogger
 public class ConfigurationService {
-  private static AbstractApplicationContext context;
-
   private static Properties config;
 
   /**
@@ -20,10 +17,6 @@ public class ConfigurationService {
 
   public static String get(PropertyKey key) {
     return getConfig().getProperty(Objects.requireNonNull(key).key);
-  }
-
-  private static Optional<AbstractApplicationContext> getContext() {
-    return Optional.ofNullable(context);
   }
 
   private static Properties getConfig() {
@@ -39,8 +32,6 @@ public class ConfigurationService {
   private static void loadConfigurations() {
     loadPropertiesFile("configuration.properties");
     loadPropertiesFile("git.properties");
-
-    getContext().ifPresent(AbstractApplicationContext::registerShutdownHook);
   }
 
   private static void loadPropertiesFile(String propFileName) {
@@ -65,12 +56,7 @@ public class ConfigurationService {
     }
   }
 
-  private static void close() {
-    getContext().ifPresent(AbstractApplicationContext::close);
-  }
-
   public static void exitApplication() {
-    close();
     log.atInfo().log("successfully shut down.");
   }
 

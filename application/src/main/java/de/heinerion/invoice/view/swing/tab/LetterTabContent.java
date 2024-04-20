@@ -8,7 +8,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
 import java.awt.*;
 import java.util.Arrays;
 
@@ -81,11 +80,11 @@ class LetterTabContent extends TabContent {
   }
 
   private void setupInteraction() {
-    subjectFld.addCaretListener(this::setConveyableOnSession);
-    contentArea.addCaretListener(this::setConveyableOnSession);
+    subjectFld.addCaretListener(e -> setConveyableOnSession());
+    contentArea.addCaretListener(e -> setConveyableOnSession());
   }
 
-  private void setConveyableOnSession(CaretEvent e) {
+  private void setConveyableOnSession() {
     session.setActiveConveyable(getContent());
   }
 

@@ -7,7 +7,6 @@ import de.heinerion.invoice.view.swing.BGPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Optional;
@@ -121,7 +120,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
     getBtnOk().addActionListener(ignored -> toValidDate().ifPresentOrElse(
         this::updateSessionDate,
         () -> displayError(dialog)));
-    btnToday.addActionListener(this::setToday);
+    btnToday.addActionListener(e -> setToday());
   }
 
   private static void displayError(JDialog dialog) {
@@ -136,7 +135,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
     getCloser().windowClosing(null);
   }
 
-  private void setToday(ActionEvent e) {
+  private void setToday() {
     final LocalDate now = LocalDate.now();
     fldDD.setValue(now.getDayOfMonth());
     fldMM.setValue(now.getMonthValue());
