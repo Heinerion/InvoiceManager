@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 final class ComponentFactory {
 
-  private static final int TEXT_AREA_THRESHOLD = 40;
+  public static final int TEXT_AREA_THRESHOLD = 40;
 
   private ComponentFactory() {
     // avoid instantiation
