@@ -83,6 +83,26 @@ public class FormLine<T, A> {
     return component;
   }
 
+  /**
+   * Creates a {@link FormLine} for any values.
+   * <p>
+   * Please consider using specialized Factories (please consult the @see section)
+   * </p>
+   *
+   * @param name      the name of this line
+   * @param setter    {@link BiConsumer} to update the Entity with this lines value
+   * @param valueType {@link Class} of the domain value, represented by this line
+   * @param valid     {@link Predicate} to determine, if the given value will be accepted
+   * @param component {@link JComponent} to be used internally, to edit the line's content
+   * @param <T>       the type of the Entity to be updated with the setter
+   * @param <A>       the type of the domain value
+   *
+   * @return a {@link FormLine} for any properties
+   *
+   * @see #ofString(String, BiConsumer)
+   * @see #ofString(String, BiConsumer, int)
+   * @see #ofDouble(String, BiConsumer)
+   */
   public static <T, A> FormLine<T, A> of(String name, BiConsumer<T, A> setter, Class<A> valueType, Predicate<A> valid, JComponent component) {
     String format = "%s of the form line %s";
     Contract.requireNotNull(name, format.formatted("name", "?"));
@@ -103,14 +123,65 @@ public class FormLine<T, A> {
     return line;
   }
 
+  /**
+   * Creates a {@link FormLine} for String values.
+   * <p>
+   * String values are validated via {@link Strings#isNotBlank(String)}.
+   * <br>
+   * The {@link JComponent} to use, is determined by the {@link ComponentFactory}
+   * </p>
+   *
+   * @param name   the name of this line
+   * @param setter {@link BiConsumer} to update the Entity with this lines value
+   * @param <X>    the type of the Entity to be updated with the setter
+   *
+   * @return a {@link FormLine} for String properties
+   *
+   * @see ComponentFactory#createStringComponent()
+   */
   public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter) {
     return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent());
   }
 
+  /**
+   * Creates a {@link FormLine} for String values.
+   * <p>
+   * String values are validated via {@link Strings#isNotBlank(String)}.
+   * <br>
+   * The {@link JComponent} to use, is determined by the {@link ComponentFactory} and the required columns / String
+   * length
+   * </p>
+   *
+   * @param name    the name of this line
+   * @param setter  {@link BiConsumer} to update the Entity with this lines value
+   * @param columns expected number of characters to be entered in this field (e.g. column size of the persistence
+   *                mapping)
+   * @param <X>     the type of the Entity to be updated with the setter
+   *
+   * @return a {@link FormLine} for String properties
+   *
+   * @see ComponentFactory#createStringComponent(int)
+   */
   public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter, int columns) {
     return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent(columns));
   }
 
+  /**
+   * Creates a {@link FormLine} for Double values.
+   * <p>
+   * Double values are validated via {@link Doubles#isGreaterZero(double)}.
+   * <br>
+   * The {@link JComponent} to use, is determined by the {@link ComponentFactory}
+   * </p>
+   *
+   * @param name   the name of this line
+   * @param setter {@link BiConsumer} to update the Entity with this lines value
+   * @param <X>    the type of the Entity to be updated with the setter
+   *
+   * @return a {@link FormLine} for Double properties
+   *
+   * @see ComponentFactory#createDoubleComponent()
+   */
   public static <X> FormLine<X, Double> ofDouble(String name, BiConsumer<X, Double> setter) {
     return FormLine.of(name, setter, Double.class, Doubles::isGreaterZero, createDoubleComponent());
   }
