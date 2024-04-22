@@ -5,6 +5,7 @@ import de.heinerion.invoice.print.PrintOperations;
 import de.heinerion.invoice.repositories.*;
 import de.heinerion.invoice.util.PathUtilNG;
 import de.heinerion.invoice.view.swing.home.ComponentPainter;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import de.heinerion.invoice.view.swing.menu.info.InfoMenuEntry;
 
 import javax.swing.*;
@@ -23,8 +24,9 @@ class MenuBar extends JMenuBar {
   private final transient LetterRepository letterRepository;
   private final transient CompanyRepository companyRepository;
   private final transient PrintOperations printOperations;
+  private final LookAndFeelUtil lookAndFeelUtil;
 
-  MenuBar(JFrame origin, Session session, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations) {
+  MenuBar(JFrame origin, Session session, PathUtilNG pathUtil, AddressRepository addressRepository, InvoiceRepository invoiceRepository, LetterRepository letterRepository, CompanyRepository companyRepository, PrintOperations printOperations, LookAndFeelUtil lookAndFeelUtil) {
     this.origin = origin;
     this.session = session;
     this.pathUtil = pathUtil;
@@ -33,6 +35,7 @@ class MenuBar extends JMenuBar {
     this.letterRepository = letterRepository;
     this.companyRepository = companyRepository;
     this.printOperations = printOperations;
+    this.lookAndFeelUtil = lookAndFeelUtil;
     this.setOpaque(false);
     this.setBorderPainted(false);
     createWidgets();
@@ -44,8 +47,8 @@ class MenuBar extends JMenuBar {
         createItem(new AddressBookMenuEntry(addressRepository, session)),
         createItem(new InvoicesMenuEntry(invoiceRepository, printOperations, session)),
         createItem(new LettersMenuEntry(letterRepository, printOperations, session)),
-        createItem(new InvoiceNumbersMenuEntry(session, companyRepository)),
-        createItem(new InvoiceDateMenuEntry(session)),
+        createItem(new InvoiceNumbersMenuEntry(session, companyRepository, lookAndFeelUtil)),
+        createItem(new InvoiceDateMenuEntry(session, lookAndFeelUtil)),
         createItem(new InfoMenuEntry(pathUtil, companyRepository, session))
     );
   }

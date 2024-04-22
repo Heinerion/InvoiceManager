@@ -17,6 +17,8 @@ public class BGPanel extends JPanel {
   @Serial
   private static final long serialVersionUID = 1L;
 
+  private final LookAndFeelUtil lookAndFeelUtil;
+
   private boolean drawTop;
   private boolean drawBottom;
   private boolean drawRight;
@@ -43,19 +45,20 @@ public class BGPanel extends JPanel {
   private transient GradientPaint topPaint;
   private transient GradientPaint bottomPaint;
 
-  private BGPanel(Collection<PanelSides> sides) {
+  private BGPanel(LookAndFeelUtil lookAndFeelUtil, Collection<PanelSides> sides) {
+    this.lookAndFeelUtil = lookAndFeelUtil;
     determineSidesToDraw(sides);
 
     Border panelBorder = createPanelBorder();
     setBorder(panelBorder);
   }
 
-  public static BGPanel createWithColoredSides(PanelSides sideA, PanelSides sideB) {
-    return new BGPanel(Arrays.asList(sideA, sideB));
+  public static BGPanel createWithColoredSides(LookAndFeelUtil lookAndFeelUtil, PanelSides sideA, PanelSides sideB) {
+    return new BGPanel(lookAndFeelUtil, Arrays.asList(sideA, sideB));
   }
 
-  public static BGPanel createWithAllSidesColored() {
-    return new BGPanel(Arrays.asList(TOP, RIGHT, BOTTOM, LEFT));
+  public static BGPanel createWithAllSidesColored(LookAndFeelUtil lookAndFeelUtil) {
+    return new BGPanel(lookAndFeelUtil, Arrays.asList(TOP, RIGHT, BOTTOM, LEFT));
   }
 
   private void determineSidesToDraw(Collection<PanelSides> panelSides) {
@@ -86,7 +89,7 @@ public class BGPanel extends JPanel {
 
   private void determineColorSettings() {
     borderColor = (new JPanel()).getBackground();
-    backgroundColor = LookAndFeelUtil.adjustColorByTheme(borderColor);
+    backgroundColor = lookAndFeelUtil.adjustColorByTheme(borderColor);
     colors = new Color[]{backgroundColor, borderColor};
   }
 

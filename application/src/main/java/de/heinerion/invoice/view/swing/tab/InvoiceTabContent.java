@@ -6,6 +6,7 @@ import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.repositories.*;
 import de.heinerion.invoice.view.swing.TabContent;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import de.heinerion.util.Strings;
 import lombok.extern.flogger.Flogger;
 import org.springframework.core.annotation.Order;
@@ -33,8 +34,8 @@ class InvoiceTabContent extends TabContent {
 
   private Collection<InvoiceTemplate> templates = new ArrayList<>();
 
-  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ProductRepository productRepository, TemplateItemRepository templateItemRepository, Session session) {
-    super(Translator.translate("invoice.title"));
+  InvoiceTabContent(InvoiceTemplateRepository templateRepository, ProductRepository productRepository, TemplateItemRepository templateItemRepository, Session session, LookAndFeelUtil lookAndFeelUtil) {
+    super(lookAndFeelUtil, Translator.translate("invoice.title"));
     this.templateRepository = templateRepository;
     this.templateItemRepository = templateItemRepository;
     this.session = session;

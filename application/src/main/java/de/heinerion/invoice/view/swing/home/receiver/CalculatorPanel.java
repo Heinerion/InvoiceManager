@@ -7,6 +7,7 @@ import de.heinerion.invoice.view.swing.BGPanel;
 import de.heinerion.invoice.view.swing.home.ComponentSize;
 import de.heinerion.invoice.view.swing.home.receiver.calculator.CalculationResult;
 import de.heinerion.invoice.view.swing.home.receiver.money.Money;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,10 +29,10 @@ class CalculatorPanel {
   private JButton btnPlus;
   private JButton btnMinus;
 
-  CalculatorPanel(Session session) {
+  CalculatorPanel(Session session, LookAndFeelUtil lookAndFeelUtil) {
     this.session = session;
 
-    panel = BGPanel.createWithAllSidesColored();
+    panel = BGPanel.createWithAllSidesColored(lookAndFeelUtil);
 
     initLayout();
     createWidgets();

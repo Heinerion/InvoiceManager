@@ -2,7 +2,9 @@ package de.heinerion.invoice.view.swing.laf;
 
 import com.jthemedetecor.OsThemeDetector;
 import de.heinerion.invoice.view.swing.home.ApplicationFrame;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
+import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -11,21 +13,20 @@ import java.awt.*;
 import java.util.Optional;
 
 @Flogger
+@Service
+@RequiredArgsConstructor
 public final class LookAndFeelUtil {
   private static boolean darkMode;
 
   private static final ThemeFactory themeFactory = new ThemeFactory();
 
-  private LookAndFeelUtil() {
-  }
-
-  public static void setLookAndFeel(ApplicationFrame applicationFrame) {
+  public void setLookAndFeel(ApplicationFrame applicationFrame) {
     OsThemeDetector detector = OsThemeDetector.getDetector();
     setLookAndFeel(detector.isDark(), applicationFrame);
     detector.registerListener(isDark -> SwingUtilities.invokeLater(() -> setLookAndFeel(isDark, applicationFrame)));
   }
 
-  private static void setLookAndFeel(boolean isDark, ApplicationFrame applicationFrame) {
+  private void setLookAndFeel(boolean isDark, ApplicationFrame applicationFrame) {
     log.atFine().log("switch to %s mode", isDark ? "dark" : "light");
     darkMode = isDark;
     setLook(isDark
@@ -36,17 +37,17 @@ public final class LookAndFeelUtil {
     applicationFrame.getFrame().pack();
   }
 
-  private static boolean isDarkMode() {
+  private boolean isDarkMode() {
     return darkMode;
   }
 
-  public static Color adjustColorByTheme(Color color) {
+  public Color adjustColorByTheme(Color color) {
     return isDarkMode()
         ? color.darker()
         : color.brighter();
   }
 
-  private static void setLook(String look) {
+  private void setLook(String look) {
     try {
       UIManager.setLookAndFeel(look);
     } catch (ClassNotFoundException | InstantiationException
@@ -59,7 +60,7 @@ public final class LookAndFeelUtil {
     }
   }
 
-  public static void setLook(BasicLookAndFeel lookAndFeel) {
+  public void setLook(BasicLookAndFeel lookAndFeel) {
     try {
       UIManager.setLookAndFeel(lookAndFeel);
     } catch (UnsupportedLookAndFeelException e) {
@@ -68,20 +69,20 @@ public final class LookAndFeelUtil {
     }
   }
 
-  private static String deriveClassname(BasicLookAndFeel lookAndFeel) {
+  private String deriveClassname(BasicLookAndFeel lookAndFeel) {
     return Optional.ofNullable(lookAndFeel)
         .map(Object::getClass)
         .map(Class::getName)
         .orElse("unknown");
   }
 
-  private static void logUnsupportedLookAndFeelException(UnsupportedLookAndFeelException e, String name) {
+  private void logUnsupportedLookAndFeelException(UnsupportedLookAndFeelException e, String name) {
     log.atSevere()
         .withCause(e)
         .log("Look and Feel not set.Class name is %s", name);
   }
 
-  public static void setLookByName(String name) {
+  public void setLookByName(String name) {
     for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
       if (name.equals(info.getName())) {
         setLook(info.getClassName());
@@ -90,11 +91,11 @@ public final class LookAndFeelUtil {
     }
   }
 
-  public static void setNimbus() {
+  public void setNimbus() {
     setLookByName("Nimbus");
   }
 
-  private static void setSystem() {
+  private void setSystem() {
     setLook(UIManager.getSystemLookAndFeelClassName());
   }
 }

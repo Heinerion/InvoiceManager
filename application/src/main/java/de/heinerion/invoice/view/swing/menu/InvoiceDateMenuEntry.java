@@ -4,6 +4,8 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.view.DateUtil;
 import de.heinerion.invoice.view.swing.BGPanel;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,13 +15,12 @@ import java.util.Optional;
 
 import static java.util.Optional.*;
 
-/**
- * @author heiner
- */
+@RequiredArgsConstructor
 class InvoiceDateMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceDate");
 
   private final Session session;
+  private final LookAndFeelUtil lookAndFeelUtil;
 
   private JSpinner fldYY;
   private JSpinner fldMM;
@@ -30,10 +31,6 @@ class InvoiceDateMenuEntry extends MenuEntry {
   private JButton btnToday;
 
   private JLabel header;
-
-  InvoiceDateMenuEntry(Session session) {
-    this.session = session;
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -55,7 +52,7 @@ class InvoiceDateMenuEntry extends MenuEntry {
   }
 
   private JPanel createDatePanel() {
-    final JPanel pnlDatum = BGPanel.createWithAllSidesColored();
+    final JPanel pnlDatum = BGPanel.createWithAllSidesColored(lookAndFeelUtil);
 
     int rows = 2;
     int cols = 3;

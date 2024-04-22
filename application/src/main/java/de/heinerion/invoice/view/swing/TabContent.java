@@ -2,6 +2,7 @@ package de.heinerion.invoice.view.swing;
 
 import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.models.Conveyable;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 
 import javax.swing.*;
 
@@ -11,8 +12,8 @@ public abstract class TabContent {
 
   private final JPanel panel;
 
-  protected TabContent(String aTitle) {
-    panel = BGPanel.createWithColoredSides(PanelSides.LEFT, PanelSides.RIGHT);
+  protected TabContent(LookAndFeelUtil lookAndFeelUtil, String aTitle) {
+    panel = BGPanel.createWithColoredSides(lookAndFeelUtil, PanelSides.LEFT, PanelSides.RIGHT);
 
     this.title = aTitle;
 

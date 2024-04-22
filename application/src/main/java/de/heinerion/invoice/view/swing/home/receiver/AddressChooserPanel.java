@@ -23,6 +23,7 @@ import java.util.Optional;
 @Flogger
 class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener {
   private final transient Session session;
+  private final LookAndFeelUtil lookAndFeelUtil;
 
   private static final int ADDRESS_FIELD_ROWS = 4;
   private static final int ADDRESS_FIELD_COLS = 1;
@@ -45,9 +46,10 @@ class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener
   private JComboBox<Address> addressBox = new JComboBox<>();
   private JTextArea addressArea;
 
-  AddressChooserPanel(AddressRepository addressRepository, Session session) {
+  AddressChooserPanel(AddressRepository addressRepository, Session session, LookAndFeelUtil lookAndFeelUtil) {
     this.addressRepository = addressRepository;
     this.session = session;
+    this.lookAndFeelUtil = lookAndFeelUtil;
 
     session.addActiveCompanyListener(this);
 
@@ -110,6 +112,7 @@ class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener
    * Loads a custom image using the class loader
    *
    * @param path path to the image, relative to src/main/resources
+   *
    * @return {@link  ImageIcon} for the given path or <br> {@link Optional#empty}, if no image could be found
    */
   private static Optional<ImageIcon> loadImage(String path) {
@@ -176,7 +179,7 @@ class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener
     scrollPane.setBorder(BorderFactory.createEtchedBorder());
   }
 
-  private static JTextArea createAddressArea() {
+  private JTextArea createAddressArea() {
     var area = new JTextArea(ADDRESS_FIELD_ROWS, ADDRESS_FIELD_COLS);
     area.setBackground(determineAreaBackgroundColor());
     // set opacity (although it should already be set to true)
@@ -192,8 +195,8 @@ class AddressChooserPanel extends JPanel implements ActiveCompanyChangedListener
     super.updateUI();
   }
 
-  private static Color determineAreaBackgroundColor() {
-    return LookAndFeelUtil.adjustColorByTheme(new JPanel().getBackground());
+  private Color determineAreaBackgroundColor() {
+    return lookAndFeelUtil.adjustColorByTheme(new JPanel().getBackground());
   }
 
   private void clearAddress() {

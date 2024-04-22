@@ -13,10 +13,11 @@ import javax.swing.*;
 @RequiredArgsConstructor
 public class GuiStarter {
   private final ApplicationFrame applicationFrame;
+  private final LookAndFeelUtil lookAndFeel;
 
   public void showInterface() {
     prepareApplicationFrame(applicationFrame.getFrame());
-    LookAndFeelUtil.setLookAndFeel(applicationFrame);
+    lookAndFeel.setLookAndFeel(applicationFrame);
   }
 
   private void prepareApplicationFrame(JFrame frame) {

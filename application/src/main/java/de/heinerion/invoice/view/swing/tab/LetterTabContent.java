@@ -4,6 +4,7 @@ import de.heinerion.invoice.Translator;
 import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.*;
 import de.heinerion.invoice.view.swing.TabContent;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,8 @@ class LetterTabContent extends TabContent {
   private JTextArea contentArea;
   private JScrollPane contentScroll;
 
-  LetterTabContent(Session session) {
-    super(Translator.translate("letter.title"));
+  LetterTabContent(Session session, LookAndFeelUtil lookAndFeelUtil) {
+    super(lookAndFeelUtil, Translator.translate("letter.title"));
     this.session = session;
 
     createWidgets();

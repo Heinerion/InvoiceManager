@@ -4,30 +4,26 @@ import de.heinerion.invoice.data.Session;
 import de.heinerion.invoice.models.Company;
 import de.heinerion.invoice.repositories.CompanyRepository;
 import de.heinerion.invoice.view.swing.BGPanel;
+import de.heinerion.invoice.view.swing.laf.LookAndFeelUtil;
+import lombok.RequiredArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 
-/**
- * @author heiner
- */
+@RequiredArgsConstructor
 class InvoiceNumbersMenuEntry extends MenuEntry {
   private static final String NAME = Menu.translate("invoiceNumbers");
 
   private final Session session;
   private final CompanyRepository companyRepository;
+  private final LookAndFeelUtil lookAndFeelUtil;
 
   private JPanel pnlNumbers;
 
   private Map<Company, JSpinner> numbers;
 
   private JLabel header;
-
-  public InvoiceNumbersMenuEntry(Session session, CompanyRepository companyRepository) {
-    this.session = session;
-    this.companyRepository = companyRepository;
-  }
 
   @Override
   protected void addWidgets(JDialog dialog) {
@@ -66,7 +62,7 @@ class InvoiceNumbersMenuEntry extends MenuEntry {
     header = new JLabel(Menu.translate("invoiceNumbers.lastIssuedNumber"),
         SwingConstants.CENTER);
 
-    pnlNumbers = BGPanel.createWithAllSidesColored();
+    pnlNumbers = BGPanel.createWithAllSidesColored(lookAndFeelUtil);
     pnlNumbers.setLayout(new GridLayout(0, 2));
   }
 
