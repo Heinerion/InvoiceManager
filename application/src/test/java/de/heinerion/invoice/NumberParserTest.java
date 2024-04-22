@@ -1,13 +1,12 @@
 package de.heinerion.invoice;
 
-
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.OptionalDouble;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class NumberParserTest {
   @Test
   void parseDouble_onlyLetters() {
@@ -46,4 +45,18 @@ public class NumberParserTest {
     assertEquals(OptionalDouble.of(12_000.00), NumberParser.parseDouble("12.000,00"));
   }
 
+  @Test
+  void parseDouble_noNumber() {
+    assertEquals(OptionalDouble.empty(), NumberParser.parseDouble(""));
+    assertEquals(OptionalDouble.empty(), NumberParser.parseDouble(".,."));
+    assertEquals(OptionalDouble.empty(), NumberParser.parseDouble("double"));
+    assertEquals(OptionalDouble.empty(), NumberParser.parseDouble("d1"));
+    assertEquals(OptionalDouble.empty(), NumberParser.parseDouble("1d"));
+  }
+
+  @Test
+  void parseDouble_brokenFormat() {
+    assertEquals(OptionalDouble.of(1.0), NumberParser.parseDouble("1,.,.,2"));
+    assertEquals(OptionalDouble.of(1.0), NumberParser.parseDouble("1.,.,.2"));
+  }
 }

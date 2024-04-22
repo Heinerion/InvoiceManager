@@ -19,7 +19,7 @@ public final class NumberParser {
 
     return cleaned.isBlank() || !cleaned.matches("[\\d.,]*\\d")
         ? OptionalDouble.empty()
-        : OptionalDouble.of( safelyParseDouble(cleaned));
+        : OptionalDouble.of(safelyParseDouble(cleaned));
   }
 
   private static double safelyParseDouble(String cleaned) {
