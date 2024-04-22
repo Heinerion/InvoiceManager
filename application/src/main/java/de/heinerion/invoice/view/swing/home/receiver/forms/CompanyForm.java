@@ -6,7 +6,7 @@ import java.util.*;
 
 public class CompanyForm extends AbstractForm<Company> {
 
-  private final List<FormLine<Company, ?>> properties = Arrays.asList(
+  private final List<FormLine<Company, ?, ?>> properties = Arrays.asList(
       FormLine.ofString("descriptiveName", Company::setDescriptiveName),
       FormLine.ofString("officialName", Company::setOfficialName),
       FormLine.ofString("signer", Company::setSigner),
@@ -17,7 +17,7 @@ public class CompanyForm extends AbstractForm<Company> {
   );
 
   @Override
-  protected List<FormLine<Company, ?>> getProperties() {
+  protected List<FormLine<Company, ?, ?>> getProperties() {
     return properties;
   }
 

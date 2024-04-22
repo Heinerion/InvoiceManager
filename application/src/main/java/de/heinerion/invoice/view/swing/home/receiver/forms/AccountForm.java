@@ -5,13 +5,13 @@ import de.heinerion.invoice.models.Account;
 
 import java.util.*;
 
-import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.createStringComponent;
+import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.createConverterComponent;
 
 public class AccountForm extends AbstractForm<Account> {
 
-  private final List<FormLine<Account, ?>> properties = Arrays.asList(
+  private final List<FormLine<Account, ?, ?>> properties = Arrays.asList(
       FormLine.ofString("name", Account::setName),
-      FormLine.of("iban", Account::setIban, DvIban.class, DvIban::isValid, createStringComponent(DvIban.MAX_LEN)),
+      FormLine.of("iban", Account::setIban, DvIban::isValid, createConverterComponent(DvIban.MAX_LEN, DvIban::of)),
       FormLine.ofString("bic", Account::setBic)
   );
 
@@ -21,7 +21,7 @@ public class AccountForm extends AbstractForm<Account> {
   }
 
   @Override
-  public List<FormLine<Account, ?>> getProperties() {
+  public List<FormLine<Account, ?, ?>> getProperties() {
     return properties;
   }
 

@@ -14,7 +14,7 @@ public abstract class AbstractForm<T> implements Form<T> {
   private GridBagConstraints constraints;
   private int lineNumber;
 
-  protected abstract List<FormLine<T, ?>> getProperties();
+  protected abstract List<FormLine<T, ?, ?>> getProperties();
 
   protected abstract String getTitle();
 
@@ -34,7 +34,7 @@ public abstract class AbstractForm<T> implements Form<T> {
 
   private void fillInstance(T instance) {
     Contract.requireNotNull(instance, "instance");
-    for (FormLine<T, ?> property : getProperties()) {
+    for (FormLine<T, ?, ?> property : getProperties()) {
       log.atFiner().log("set %s on %s", property, instance);
       property.applyValue(instance);
     }
@@ -66,7 +66,7 @@ public abstract class AbstractForm<T> implements Form<T> {
     getProperties().forEach(this::addProperty);
   }
 
-  private void addProperty(FormLine<T, ?> property) {
+  private void addProperty(FormLine<T, ?, ?> property) {
     log.atFiner().log("add property %s", property);
     JLabel hintComponent = property.getHintComponent();
     String propertyName = property.getName();

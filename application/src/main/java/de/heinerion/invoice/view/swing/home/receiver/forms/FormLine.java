@@ -28,14 +28,15 @@ import static de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFacto
  *
  * @param <T> the domain entities type, to set the domain value on
  * @param <A> the domain type of the value represented by this {@link FormLine}
+ * @param <C> the type of the used {@link JComponent}
  */
 @RequiredArgsConstructor
-public class FormLine<T, A> {
+public class FormLine<T, A, C extends JComponent> {
   @Getter
   private final String name;
   private final Predicate<A> valid;
-  private final JComponent component;
-  private final Function<JComponent, A> getter;
+  private final C component;
+  private final Function<C, A> getter;
   private final BiConsumer<T, A> setter;
   @Getter
   private final JLabel hintComponent = new JLabel();
@@ -78,8 +79,8 @@ public class FormLine<T, A> {
     return getter.apply(getComponent());
   }
 
-  public JComponent getComponent() {
-    Contract.ensureNotNull(component, "component of %ss".formatted(name));
+  public C getComponent() {
+    Contract.ensureNotNull(component, "component of %s".formatted(name));
     return component;
   }
 
@@ -94,31 +95,57 @@ public class FormLine<T, A> {
    * @param valueType {@link Class} of the domain value, represented by this line
    * @param valid     {@link Predicate} to determine, if the given value will be accepted
    * @param component {@link JComponent} to be used internally, to edit the line's content
+   * @param getter    {@link Function} to retrieve the domain value from the component
    * @param <T>       the type of the Entity to be updated with the setter
    * @param <A>       the type of the domain value
    *
    * @return a {@link FormLine} for any properties
    *
+   * @see #of(String, BiConsumer, Predicate, ComponentFactory.Component)
    * @see #ofString(String, BiConsumer)
    * @see #ofString(String, BiConsumer, int)
    * @see #ofDouble(String, BiConsumer)
    */
-  public static <T, A> FormLine<T, A> of(String name, BiConsumer<T, A> setter, Class<A> valueType, Predicate<A> valid, JComponent component) {
+  public static <T, A, C extends JComponent> FormLine<T, A, C> of(String name, BiConsumer<T, A> setter, Class<A> valueType, Predicate<A> valid, C component, Function<C, A> getter) {
     String format = "%s of the form line %s";
     Contract.requireNotNull(name, format.formatted("name", "?"));
     Contract.requireNotNull(setter, format.formatted("setter", name));
     Contract.requireNotNull(valueType, format.formatted("type", name));
     Contract.requireNotNull(valid, format.formatted("valid", name));
     Contract.requireNotNull(component, format.formatted("component", name));
-
-    Function<JComponent, A> getter = determineGetter(component, valueType);
     Contract.requireNotNull(getter, format.formatted("getter", name));
 
     return createLine(name, setter, valid, component, getter);
   }
 
-  private static <T, A> FormLine<T, A> createLine(String name, BiConsumer<T, A> setter, Predicate<A> valid, JComponent component, Function<JComponent, A> getter) {
-    FormLine<T, A> line = new FormLine<>(name, valid, component, getter, setter);
+  /**
+   * Creates a {@link FormLine} for any values.
+   * <p>
+   * Please consider using specialized Factories (please consult the @see section)
+   * </p>
+   *
+   * @param name      the name of this line
+   * @param setter    {@link BiConsumer} to update the Entity with this lines value
+   * @param valid     {@link Predicate} to determine, if the given value will be accepted
+   * @param component {@link de.heinerion.invoice.view.swing.home.receiver.forms.ComponentFactory.Component} to be used
+   *                  internally, to edit the line's content and retrieve its value
+   * @param <T>       the type of the Entity to be updated with the setter
+   * @param <A>       the type of the domain value
+   *
+   * @return a {@link FormLine} for any properties
+   *
+   * @see #of(String, BiConsumer, Class, Predicate, JComponent, Function)
+   * @see #ofString(String, BiConsumer)
+   * @see #ofString(String, BiConsumer, int)
+   * @see #ofDouble(String, BiConsumer)
+   */
+  public static <T, A, C extends JComponent> FormLine<T, A, C> of(String name, BiConsumer<T, A> setter, Predicate<A> valid, ComponentFactory.Component<A, C> component) {
+    Contract.requireNotNull(component, "component of the form line %s".formatted(name));
+    return createLine(name, setter, valid, component.component(), component.getter());
+  }
+
+  private static <T, A, C extends JComponent> FormLine<T, A, C> createLine(String name, BiConsumer<T, A> setter, Predicate<A> valid, C component, Function<C, A> getter) {
+    FormLine<T, A, C> line = new FormLine<>(name, valid, component, getter, setter);
     line.addChangeListener(line.component);
     return line;
   }
@@ -139,8 +166,8 @@ public class FormLine<T, A> {
    *
    * @see ComponentFactory#createStringComponent()
    */
-  public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter) {
-    return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent());
+  public static <X> FormLine<X, String, ? extends JComponent> ofString(String name, BiConsumer<X, String> setter) {
+    return FormLine.of(name, setter, Strings::isNotBlank, createStringComponent());
   }
 
   /**
@@ -162,8 +189,8 @@ public class FormLine<T, A> {
    *
    * @see ComponentFactory#createStringComponent(int)
    */
-  public static <X> FormLine<X, String> ofString(String name, BiConsumer<X, String> setter, int columns) {
-    return FormLine.of(name, setter, String.class, Strings::isNotBlank, createStringComponent(columns));
+  public static <X> FormLine<X, String, ? extends JComponent> ofString(String name, BiConsumer<X, String> setter, int columns) {
+    return FormLine.of(name, setter, Strings::isNotBlank, createStringComponent(columns));
   }
 
   /**
@@ -182,8 +209,8 @@ public class FormLine<T, A> {
    *
    * @see ComponentFactory#createDoubleComponent()
    */
-  public static <X> FormLine<X, Double> ofDouble(String name, BiConsumer<X, Double> setter) {
-    return FormLine.of(name, setter, Double.class, Doubles::isGreaterZero, createDoubleComponent());
+  public static <X> FormLine<X, Double, ? extends JComponent> ofDouble(String name, BiConsumer<X, Double> setter) {
+    return FormLine.of(name, setter, Doubles::isGreaterZero, createDoubleComponent());
   }
 
   @Override

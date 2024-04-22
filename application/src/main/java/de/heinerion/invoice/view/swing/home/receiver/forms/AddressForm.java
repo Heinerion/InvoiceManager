@@ -6,13 +6,13 @@ import java.util.*;
 
 public class AddressForm extends AbstractForm<Address> {
 
-  private final List<FormLine<Address, ?>> properties = Arrays.asList(
+  private final List<FormLine<Address, ?, ?>> properties = Arrays.asList(
       FormLine.ofString("name", Address::setName),
       FormLine.ofString("block", Address::setBlock, 200)
   );
 
   @Override
-  protected List<FormLine<Address, ?>> getProperties() {
+  protected List<FormLine<Address, ?, ?>> getProperties() {
     return properties;
   }
 

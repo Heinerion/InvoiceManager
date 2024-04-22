@@ -3,6 +3,7 @@ package de.heinerion.invoice.view.swing.home.receiver.forms;
 import lombok.*;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.function.*;
 
@@ -30,10 +31,10 @@ public class AbstractFormTest {
   private static class GenericForm<T> extends AbstractForm<T> {
 
     private final Supplier<T> generator;
-    private final List<FormLine<T, ?>> properties;
+    private final List<FormLine<T, ?, ?>> properties;
 
     @Override
-    protected List<FormLine<T, ?>> getProperties() {
+    protected List<FormLine<T, ?, ?>> getProperties() {
       return properties;
     }
 
@@ -54,7 +55,7 @@ public class AbstractFormTest {
     private int amount;
   }
 
-  private static class ConstantFormLine<T, A> extends FormLine<T, A> {
+  private static class ConstantFormLine<T, A, C extends JComponent> extends FormLine<T, A, C> {
 
     private final A value;
 

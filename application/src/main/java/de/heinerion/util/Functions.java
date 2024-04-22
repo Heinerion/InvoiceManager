@@ -16,4 +16,9 @@ public class Functions {
   public static <T> boolean alwaysFalse(T ignored) {
     return false;
   }
+
+  /** @return null in every case */
+  public static <C, V> V noValue(C ignored) {
+    return null;
+  }
 }
