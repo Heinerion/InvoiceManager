@@ -19,13 +19,22 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.11.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
 
-
     // Approval Tests
     testImplementation 'com.approvaltests:approvaltests:23.1.0'
+
+    // Mutation Testing
+    testImplementation 'org.pitest:pitest-junit5-plugin:1.2.1'
 }
 
 test {
     useJUnitPlatform()
     testLogging { exceptionFormat = 'full' }
     systemProperty 'spring.profiles.active', 'test'
+}
+
+// Warning: a run can easily take 4 minutes and heat up the machine
+pitest {
+    outputFormats = ['XML', 'HTML']
+    exportLineCoverage = true
+    timestampedReports = false
 }
