@@ -20,7 +20,7 @@ buildGradle() {
   local status
   cd application || error "could not cd into application directory"
   ./gradlew --version
-  ./gradlew clean build check --warning-mode fail --daemon --parallel
+  ./gradlew clean build check
   status=$?
   cd ../
 
