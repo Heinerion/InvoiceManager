@@ -1,7 +1,7 @@
 package de.heinerion.invoice.view.swing.home.receiver.forms;
 
 import de.heinerion.contract.Contract;
-import de.heinerion.util.*;
+import de.heinerion.util.Strings;
 import lombok.*;
 
 import javax.swing.*;
@@ -196,7 +196,7 @@ public class FormLine<T, A, C extends JComponent> {
   /**
    * Creates a {@link FormLine} for Double values.
    * <p>
-   * Double values are validated via {@link Doubles#isGreaterZero(double)}.
+   * Double values are received as valid, if grater than zero.
    * <br>
    * The {@link JComponent} to use, is determined by the {@link ComponentFactory}
    * </p>
@@ -210,7 +210,7 @@ public class FormLine<T, A, C extends JComponent> {
    * @see ComponentFactory#createDoubleComponent()
    */
   public static <X> FormLine<X, Double, ? extends JComponent> ofDouble(String name, BiConsumer<X, Double> setter) {
-    return FormLine.of(name, setter, Doubles::isGreaterZero, createDoubleComponent());
+    return FormLine.of(name, setter, s -> s > 0D, createDoubleComponent());
   }
 
   @Override
