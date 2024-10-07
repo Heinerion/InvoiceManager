@@ -20,7 +20,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.11.0'
 
     // Approval Tests
-    testImplementation 'com.approvaltests:approvaltests:23.1.0'
+    testImplementation 'com.approvaltests:approvaltests:24.8.0'
 
     // Mutation Testing
     testImplementation 'org.pitest:pitest-junit5-plugin:1.2.1'
